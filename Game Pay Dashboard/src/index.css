@@ -1,0 +1,243 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;400;500;600;700;800;900&display=swap');
+
+@font-face {
+  font-family: 'helvetica neue';
+  src: url('./fonts/HelveticaNeue.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'futura';
+  src: url('./fonts/FuturaMaxiCGBoldRegular.otf') format('truetype');
+}
+
+h1 {
+  margin: 0;
+}
+
+html,
+body,
+.app,
+#root {
+  height: 100%;
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+
+.content {
+  /* height: 100%; */
+  height: auto;
+  width: 100%;
+}
+
+.places-container {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 300px;
+}
+
+.map-container {
+  width: 100%;
+  height: 100vh;
+}
+
+.combobox-input {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.app {
+  display: flex;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+a,
+a:link,
+a:visited,
+a:focus,
+a:hover,
+a:active {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+span {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* button */
+
+.my-button {
+  transition: .5s;
+  cursor: pointer;
+  background: linear-gradient(to top, #48ca17, #639a3c);
+  background-color: #48ca17;
+  color: #fff;
+  font-family: Trebuchet MS;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  text-decoration: none;
+  padding: 10px 3rem;
+  border: 0px solid #000;
+  border-radius: 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 10px 0px #2D2D2D;
+}
+
+.my-button:hover {
+  transition: .5s;
+  background: #068817;
+  background-color: #368a23;
+}
+
+.my-button:active {
+  transition: .5s;
+  transform: scale(0.95);
+}
+
+
+/* IMG OVERLAY */
+.hover-image-container {
+  position: relative;
+}
+
+.img_overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 96%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: rgba(88, 88, 88, 0.85);
+  pointer-events: none;
+}
+
+.logo_overlay {
+  border-radius: 50%;
+}
+
+.cover_overlay {
+  border-radius: 10px;
+}
+
+.hover-text {
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.hover-image-container:hover .img_overlay {
+  opacity: 1;
+}
+
+
+.container_full {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+/* BTN DELETE */
+.btn_delete {
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: red;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  background: #e62222;
+}
+
+.btn_delete,
+.btn_delete span {
+  transition: 200ms;
+}
+
+.btn_delete .text {
+  transform: translateX(40px);
+  color: white;
+  font-weight: 500;
+}
+
+.btn_delete .icon {
+  position: absolute;
+  border-left: 1px solid #c41b1b;
+  transform: translateX(110px);
+  height: 40px;
+  width: 40px;
+  padding-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn_delete svg {
+  width: 15px;
+  fill: #eee;
+}
+
+.btn_delete:hover {
+  background: #ff3636;
+}
+
+.btn_delete:hover .text {
+  color: transparent;
+}
+
+.btn_delete:hover .icon {
+  width: 150px;
+  border-left: none;
+  transform: translateX(-3px);
+}
+
+.btn_delete:focus {
+  outline: none;
+}
+
+.btn_delete:active .icon svg {
+  transform: scale(0.8);
+}

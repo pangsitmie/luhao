@@ -1,0 +1,41 @@
+.back {
+  display: none;
+}
+
+.backShow {
+  display: flex !important;
+  position: fixed;
+  top: 55px;
+  margin: 0.5rem;
+  padding: .5%;
+  width: 3rem;
+  height: 3rem;
+  z-index: 1;
+  background-color: rgba($color: #000000, $alpha: .2);
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+
+  >a {
+    text-decoration: none;
+    display: flex;
+    font-size: 3rem;
+    color: white;
+    justify-content: center;
+    align-items: center;
+
+
+    >img {
+      width: 80%;
+      height: 80%;
+    }
+  }
+}
+
+@media only screen and (min-width: 735px) {
+  .backShow {
+    margin: 1.5rem;
+  }
+}

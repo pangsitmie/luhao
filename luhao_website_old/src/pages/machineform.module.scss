@@ -1,0 +1,421 @@
+* {
+  box-sizing: border-box;
+}
+.formborder{
+  padding-bottom: 15px;
+  border-width:9px;
+  border: 3px solid rgb(0, 0, 0);
+  background-color:lightblue;
+  text-align: center;
+  border-radius: 20px;
+}
+body {
+  font-family: Helvetica Neue, Helvetica;
+  background: #f7f7f7;
+}
+.page{
+  margin: 0 auto;
+  width: 2.5rem;
+  background-color: lightblue;
+  border: solid 2px;
+  border-radius: 100px;
+}
+.title{
+  background-color: lightblue;
+  text-align: left;
+  padding-left: 1rem;
+  width: 12rem;
+  font-size: 2.5rem;
+  border: solid;
+  border-left: 0px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.inputValue{
+  text-align: left;
+  padding-left: 30%;
+  font-size: 25px;
+  font-weight: bold;
+}
+.inputMain{
+  font-size: 20px;
+  border-style: inset;
+  border-width: 3px;
+  width: 50%;
+}
+
+.button {
+  margin-right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  text-align: center;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #278001}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.button:disabled{
+  background-color: #838a83;
+  cursor: not-allowed;
+}
+
+.submit{
+  padding: 10px 20px;
+  margin: 10px 40px;
+  border: 1px solid #DBDBDB;
+  background: -webkit-linear-gradient(top, #FFFFFF, #E6EDE4);
+  background: -moz-linear-gradient(top, #FFFFFF, #E6EDE4);
+  background: -ms-linear-gradient(top, #FFFFFF, #E6EDE4);
+  background: -o-linear-gradient(top, #FFFFFF, #E6EDE4);
+  background-color: #E6EDE4;
+  box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px #9C0000;
+  -webkit-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px #9C0000;
+  -moz-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px #9C0000;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  text-shadow: #FF7A7A 1px 1px 0px;
+  color: #DE4949;
+  font-size: 14px;
+  font-family: Arial;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+.submit:hover {
+  background: none;
+}
+.submit:active {
+  background-color: #E6EDE4;
+  box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px #9C0000;
+  -webkit-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px #9C0000;
+  -moz-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px #9C0000;
+  transform: translateY(4px);
+}
+
+.formWidth{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 3px solid rgb(0, 0, 0);
+  background-color: lightblue;
+}
+
+.formBG{
+  text-align: left;
+  margin: 0  auto;
+  padding-left: 20px;
+  width:70%;
+  background-color: rgb(253, 253, 253);
+  background: -webkit-linear-gradient(top, #FFFFFF, #E6EDE4);
+  background: -moz-linear-gradient(top, #FFFFFF, #E6EDE4);
+  background: -ms-linear-gradient(top, #FFFFFF, #E6EDE4);
+  background: -o-linear-gradient(top, #FFFFFF, #E6EDE4);
+  box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px rgb(1, 41, 54);
+  -webkit-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px rgb(1, 41, 54);
+  -moz-box-shadow: 0px 7px 2px -5px #1A1A1A, inset 0px 0px 10px rgb(1, 41, 54);
+  .quantity{
+      width: 25%;
+      font-size: 30px;
+      text-align: center;
+  }
+}
+.inputcs{
+  resize:none;
+  width: 45%;
+  font-size: 15px;
+  height: 100px;
+  padding-top: 5px;
+}
+h3 {
+  font-size: 30px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+h4{
+  font-size: 20px;
+}
+
+form { 
+  text-align: left;
+  padding: 0 10px;
+}
+
+form input {
+  font-size: 15px;
+  padding: 5px 10px;
+  margin: 10px 0;
+}
+
+.radioset input{
+  font-size: 30px;
+  margin: 0 auto;
+}
+.crane{
+  display: inline;
+}
+
+.inputdiv {
+  width: 25%;
+}
+
+.pricediv {
+  width: 25%;
+  >div{
+    >input{
+      margin:0px;
+      height: 1.2rem;
+      border: solid 0px;
+      padding:0;
+      width: 20%;
+      background-color: white;
+      font-size: 1rem;
+    }
+  }  
+}
+
+.matorremark {
+  float: right;
+  padding-right: 20px;
+  vertical-align:top;
+  height: 6rem;
+  >textarea{
+    vertical-align:top; 
+    height: inherit;
+    resize:none;
+    font-size: 18px;
+  }
+}
+.lineremark, .gearremark, .powerremark, .socketremark, .part2remark{
+  float: right;
+  padding-right: 20px;
+  vertical-align:top;
+  height: 2.8rem;
+  >textarea{
+    vertical-align:top; 
+    height: inherit;
+    resize:none;
+    font-size: 18px;
+  }
+}
+
+.powerremark, .part2remark{
+  float: right;
+  padding-right: 20px;
+  vertical-align:top;
+  height: 4.2rem;
+  >textarea{
+    vertical-align:top; 
+    height: inherit;
+    resize:none;
+    font-size: 18px;
+  }
+}
+
+.part1remark , .clawremark ,.freightremark , .installremark{
+  float: right;
+  padding-right: 20px;
+  vertical-align:top;
+  height: 10rem;
+  >textarea{
+    vertical-align:top; 
+    height: inherit;
+    resize:none;
+    font-size: 18px;
+  }
+}
+
+.count{
+  >div{
+    >input{
+      float: right;
+      height: 1.4rem;
+      margin: 0;
+      margin-right: 10px;
+      border: solid 0px;
+      border-bottom: solid 1px;
+    }
+    >span{
+      float: right;
+      height: 1.4rem;
+    }
+  }
+}
+
+.formButton {
+  margin-right: 10px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  padding: 5px 10px;
+  border: 1px solid #b9350e;
+  border-radius: 8px;
+  background: #ff5617;
+  background: -moz-linear-gradient(top, #ff5617, #b9350e);
+  background: linear-gradient(to bottom, #ff5617, #b9350e);
+  -moz-box-shadow: #ff4f16 0px 0px 20px 0px;
+  box-shadow: #ff4f16 0px 0px 20px 0px;
+  text-shadow: #742109 3px 2px 1px;
+  font: normal normal bold 15px arial;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.formButton:hover{
+  border: 1px solid #e74212;
+  background: #ff671c;
+  background: -moz-linear-gradient(top, #ff671c, #de4011);
+  background: linear-gradient(to bottom, #ff671c, #de4011);
+  color: #ffffff;
+  text-decoration: none;
+}
+.formButton:active {
+  background: #b9350e;
+  background: -moz-linear-gradient(top, #b9350e, #b9350e);
+  background: linear-gradient(to bottom, #b9350e, #b9350e);
+}
+.formButton:disabled, .disabled {
+    box-shadow: #a18981 0px 0px 20px 0px;
+    border: 1px solid #8a817e;
+    background: #8a817e;
+    cursor: not-allowed;
+}
+
+.close { 
+  margin-right: 10px;
+  color: #000000; 
+  float: right; 
+  font-size: 28px; 
+  font-weight: bold; 
+  border-radius: 10px;
+} 
+
+.close:hover, 
+.close:focus { 
+color: #aaaaaa; 
+text-decoration: none; 
+cursor: pointer; 
+} 
+
+.hideclass { 
+display: none; /* Hidden by default */ 
+position: fixed; /* Stay in place */ 
+z-index: 1; /* Sit on top */ 
+padding-top: 60px; /* Location of the box */ 
+left: 0; 
+top: 0; 
+width: 100%; /* Full width */ 
+height: 100%; /* Full height */ 
+overflow: auto; /* Enable scroll if needed */ 
+background-color: rgb(0,0,0); /* Fallback color */ 
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */ 
+} 
+.hidecontent { 
+text-align: center;
+background-color: #fefefe; 
+margin: auto; 
+padding: 20px; 
+border: 1px solid #888; 
+width: 100%; 
+} 
+
+.listborder{
+  border-width:9px;
+  border: 3px solid rgb(0, 0, 0);
+  text-align: center;
+  border-radius: 0px;
+  >div{
+    >div{
+      >p{
+        text-align: left;
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+.freight{
+padding-left: 50px;
+}
+
+.sum{
+border: 0px solid;
+background-color: white;
+text-align: right;
+color: red;
+font-size: 2.5rem;
+font-weight: bold;
+width: 10rem;
+}
+.aligneddiv{
+text-align: left;
+border-top: 2px solid;
+}
+.aligned{
+padding-left: 10px;
+text-align: left;
+display: inline-block;
+font-size: 0.8rem;
+width: 5rem;
+}
+.conaligned{
+padding-left: 10px;
+text-align: left;
+font-size: 0.8rem;
+border-left: 1.5px solid;
+border-right: 1.5px solid;
+display: inline-block;
+width: 15rem;
+}
+.exaligned{
+padding-left: 10px;
+text-align: left;
+border-left: 1.5px solid;
+font-size: 0.8rem;
+display: inline-block;
+width: 15rem;
+}
+.countaligned{
+font-size: 0.8rem;
+text-align: center;
+display: inline-block;
+width: 5rem;
+}
+.remarkaligned{
+font-size: 0.8rem;
+padding-left: 10px;
+width: 15rem;
+overflow: auto;
+display: inline-block;
+}
+.pricealigned{
+font-size: 0.8rem;
+text-align: center;
+border-left: 1.5px solid black;
+border-right: 1.5px solid black;
+display: inline-block;
+width: 5rem;
+color:red;
+}
+
+@media print{
+* {
+  -webkit-print-color-adjust: exact !important;
+}
+.noBreak {
+  break-inside: avoid;
+}
+}
+@page {
+margin-top: 3cm;
+size: 400mm 500mm;
+}

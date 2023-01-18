@@ -1,0 +1,47 @@
+body.active-modal {
+    overflow-y: hidden;
+}
+
+
+.btn-modal {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    border-radius: 10px !important;
+    padding: .5rem 1.5rem !important;
+    cursor: pointer !important;
+    min-width: 100px !important;
+}
+
+.confirm-modal,
+.confirm-overlay {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
+}
+
+.confirm-overlay {
+    background: rgba(49, 49, 49, 0.9);
+}
+
+.confirm-modal-content {
+    position: relative;
+    transform: translate(10%, 50%);
+    line-height: 2;
+    background: #141B2D;
+    padding: 14px 15px;
+    border-radius: 10px;
+    max-width: 500px;
+    min-width: 300px;
+    z-index: 2;
+}
+
+.close-modal {
+    margin: 1rem;
+}
+
+.modal_input_textfield {
+    color: #111111;
+}

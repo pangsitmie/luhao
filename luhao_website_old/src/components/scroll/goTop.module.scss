@@ -1,0 +1,23 @@
+.scollBtn {
+  position: fixed;
+  display: none;
+  left: 3%;
+  bottom: 5%;
+  font-size: 1.5rem;
+  height: 3rem;
+  width: 3rem;
+  cursor: pointer;
+  border-radius: 100%;
+  z-index: 3;
+}
+
+.scollBtnShow {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  >img {
+    width: 80%;
+    color: white;
+  }
+}

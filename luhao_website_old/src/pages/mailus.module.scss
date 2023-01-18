@@ -1,0 +1,267 @@
+
+*{margin: 0;padding: 0;}
+
+.mailus{    
+    >div{
+        margin:0px auto;
+        width: 65%;
+        background: rgb(206, 228, 110);
+        >div:nth-child(1){
+            text-align: center;
+            >h1{
+                font-weight: bold; 
+                color: blue;
+            }
+            >p{
+                color: red;
+                font-size: 5px;
+            }
+        }
+
+        >div:nth-child(2){
+            >div{
+                text-align: center;
+                >div{
+                    >label{
+                        >div{
+                            font-weight: bold; 
+                            margin: 0px auto;
+                            width: 40%;
+                            height: 15px;
+                            >span{
+                                color: red;
+                            }
+                        }
+                    }
+
+                    >input{
+                        margin: 0px auto;
+                        width: 40%;
+                        height: 40px;
+                    }
+
+                    >div{
+                        margin: 0px auto;
+                        width: 40%;
+                        height: 5px;
+                    }
+                }
+            }
+        }
+
+        >div:nth-child(3){
+            >div{
+                text-align: center;
+                >div{
+                    >label{
+                        >div{
+                            font-weight: bold; 
+                            margin: 0px auto;
+                            width: 40%;
+                            height: 15px;
+                            >span{
+                                color: red;
+                            }
+                        }
+                    }
+
+                    >input{
+                        margin: 0px auto;
+                        width: 40%;
+                        height: 40px;
+                    }
+
+                    >div{
+                        margin: 0px auto;
+                        width: 40%;
+                        height: 5px;
+                    }
+                }
+            }
+        }
+
+        >div:nth-child(4){
+            >div{
+                text-align: center;
+                >div{
+                    >label{
+                        >div{
+                            font-weight: bold; 
+                            margin: 0px auto;
+                            width: 40%;
+                            height: 15px;
+                            >span{
+                                color: red;
+                            }
+                        }
+                    }
+
+                    >input{
+                        margin: 0px auto;
+                        width: 40%;
+                        height: 40px;
+                    }
+
+                    >div{
+                        margin: 0px auto;
+                        width: 40%;
+                        height: 5px;
+                    }
+                }
+            }
+        }
+
+        >div:nth-child(5){
+            >div{
+                text-align: center;
+                >div{
+                    >label{
+                        >div{
+                            font-weight: bold; 
+                            margin: 0px auto;
+                            width: 40%;
+                            height: 15px;
+                            >span{
+                                color: red;
+                            }
+                        }
+                    }
+
+                    >textarea{
+                        margin: 0px auto;
+                        width: 40%;
+                        // height: 240px;
+                    }
+
+                    >div{
+                        margin: 0px auto;
+                        width: 40%;
+                        height: 5px;
+                    }
+                }
+            }
+        }
+
+        >div:nth-child(6){
+            >label{
+                text-align: center;
+            }
+        }
+
+        >div:nth-child(7){
+            text-align: center;
+            >table{
+                >tbody{
+                    >tr{
+                        >td{
+                            >input{
+                                margin: 0px auto;
+                                width: 40%;
+                                height: 40px;
+                            }
+                            >div{
+                                margin: 0px auto;
+                                width: 40%;
+                                height: 40px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and(max-width:768px) {
+    .mailus{    
+        >div{
+            margin:0px auto;
+            width: 98%;
+            background: rgb(206, 228, 110);
+            >div:nth-child(1){
+                text-align: center;
+            }
+            >div:nth-child(2){
+                >div{
+                    text-align: center;
+                    >div{
+                        >label{
+                            >div{
+                                width: 80%;
+                            }
+                        }
+    
+                        >input{
+                            width: 80%;
+                        }
+    
+                        >div{
+                            width: 80%;
+                        }
+                    }
+                }
+            }
+            >div:nth-child(3){
+                >div{
+                    text-align: center;
+                    >div{
+                        >label{
+                            >div{
+                                width: 80%;
+                            }
+                        }
+    
+                        >input{
+                            width: 80%;
+                        }
+    
+                        >div{
+                            width: 80%;
+                        }
+                    }
+                }
+            }
+            >div:nth-child(4){
+                >div{
+                    text-align: center;
+                    >div{
+                        >label{
+                            >div{
+                                width: 80%;
+                            }
+                        }
+    
+                        >input{
+                            width: 80%;
+                        }
+    
+                        >div{
+                            width: 80%;
+                        }
+                    }
+                }
+            }
+            >div:nth-child(5){
+                >div{
+                    text-align: center;
+                    >div{
+                        >label{
+                            >div{
+                                width: 80%;
+                            }
+                        }
+    
+                        >textarea{
+                            width: 80%;
+                        }
+    
+                        >div{
+                            width: 80%;
+                        }
+                    }
+                }
+            }
+    
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<defs>
+	<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+		<feFlood  style="flood-color:white;flood-opacity:1" result="back"/>
+		<feBlend  in="SourceGraphic" in2="back" mode="normal"/>
+	</filter>
+</defs>
+<mask maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24" id="SVGID_1_">
+	<g filter="url(#Adobe_OpacityMaskFilter)">
+		<path d="M5,12.645h4v7.73h6v-7.73h4l-7-9.02L5,12.645z"/>
+	</g>
+</mask>
+<circle mask="url(#SVGID_1_)" fill="#87CEEB" cx="12" cy="12" r="12"/>
+</svg>
