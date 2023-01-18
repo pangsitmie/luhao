@@ -1,0 +1,176 @@
+.service_container {
+    margin: 15rem 0rem;
+}
+
+.service-title {
+    font-size: 4.2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.service-desc {
+    font-size: 1.2rem;
+    margin-bottom: 5rem;
+}
+
+.service-block-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.portfolio__item {
+    padding: 0rem;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    transition: var(--transition);
+    min-height: 15rem;
+    background-size: 30rem;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.service_content {
+    border: 1px solid var(--color-white);
+    border-radius: 25px;
+    position: relative;
+    bottom: -9rem;
+    align-content: center;
+    text-align: center;
+    background: var(--color-bg);
+    min-height: 9rem;
+    cursor: pointer;
+}
+
+
+
+/*  GLOW EFFECT JUST CHANGE THE border radius */
+.service_content:before {
+    content: '';
+    background: linear-gradient(45deg, #260A2B, #ff7300, #ff01d5, #01198d, #7a00ff, #ff00c8, #260A2B);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 25px;
+}
+
+.service_content:active {
+    color: #000
+}
+
+.service_content:active:after {
+    background: transparent;
+}
+
+.service_content:hover:before {
+    opacity: 1;
+}
+
+.service_content:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg);
+    border-color: var(--color-white);
+    left: 0;
+    top: 0;
+    border-radius: 15rem;
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.service_content:hover .portfolio__item {
+    color: var(--color-white);
+}
+
+
+.portfolio__item h3 {
+    font-size: 1.3rem;
+    padding: 1rem 0 1.5rem 0;
+    background: -webkit-linear-gradient(#eee, #8B287B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+
+.portfolio__item a {
+    color: var(--color-white);
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.flowchart_container {
+    margin-top: 20rem;
+    display: flex;
+    justify-content: center;
+    padding: 5rem;
+}
+
+.flowchart_image {
+    align-content: center;
+    width: 70%;
+}
+
+
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {
+    .header__container {
+        width: var(--container-width-md);
+    }
+
+    section {
+        margin-top: 6rem;
+    }
+}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .service_container h1 {
+        font-size: 2.5rem;
+    }
+
+    .service-block-container {
+        grid-template-columns: 1fr;
+        gap: 6rem;
+    }
+
+    .service_content {
+        margin-bottom: 3rem;
+    }
+
+    .flowchart_container {
+        margin-top: 12rem;
+        display: flex;
+        justify-content: center;
+        padding: 0rem;
+    }
+
+    .flowchart_image {
+        width: 90%;
+    }
+}

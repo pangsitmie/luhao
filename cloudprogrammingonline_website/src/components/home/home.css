@@ -1,0 +1,18 @@
+.background_cloud {
+    position: absolute;
+    width: 130rem;
+    height: 90rem;
+    left: -10rem;
+    top: -20rem;
+    z-index: -1;
+}
+
+.purple_gradient {
+    position: absolute;
+    width: 100%;
+    top: -10rem;
+    left: 0;
+    right: 0;
+    z-index: -2;
+
+}

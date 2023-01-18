@@ -1,0 +1,512 @@
+.galaxy_hero_content {
+    padding-top: 10rem;
+}
+
+.gradient_right {
+    position: absolute;
+    margin: auto;
+    width: 100%;
+    height: auto;
+    top: 150rem;
+    left: 0;
+    right: 0;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.galaxy_tag {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: -1.5rem;
+    color: #cecbcb;
+}
+
+.galaxy_title {
+    font-size: 8rem;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(90deg, #7DD9EC, #6B8FEF 40%, red);
+    /* background: linear-gradient(to right, linear-gradient(to right, #7DD9EC, #6B8FEF), linear-gradient(to right, #B074DD, #EE4258)); */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.galaxy_hero_img {
+    padding-top: 2rem;
+    width: 100%;
+    margin: auto;
+}
+
+
+/* flowchart */
+.galaxy_flowchart {
+    margin-top: 15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.galaxy_flowchart_img {
+    align-content: center;
+    width: 80%;
+}
+
+/* IOT */
+.iot_content {
+    padding: 10rem 0;
+}
+
+.iot_content h1 {
+    font-size: 7.2rem;
+    font-weight: bold;
+    background: linear-gradient(2deg, #590461, #fed2ff);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.iot_content h2 {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #cecbcb;
+    padding-left: 3rem;
+}
+
+.iot_content h3 {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #cecbcb;
+}
+
+
+
+.galaxy_col2_5050 {
+    margin-top: 15rem;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 2%;
+}
+
+.iot_desc1 {
+    line-height: 2.8rem;
+    font-size: 1.8rem;
+    color: #cecbcb;
+    font-weight: bold;
+    padding: 0 3rem;
+
+}
+
+.col_img_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col_img_container2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.polly_white_img {
+    margin-left: -5rem;
+    width: 25vh;
+}
+
+
+/* CONTENT2 */
+.machine_desc_container {
+    margin: auto;
+}
+
+.machine_title {
+    font-size: 7rem;
+    font-weight: bold;
+    line-height: 8rem;
+    color: #FFF;
+    padding-right: 10rem;
+}
+
+.machine_desc {
+    margin-top: 5rem;
+    line-height: 2.8rem;
+    font-size: 1.8rem;
+    color: #cecbcb;
+    font-weight: bold;
+    padding-right: 10rem;
+}
+
+.galaxy_col2_4060 {
+    display: grid;
+    grid-template-columns: 60% 65%;
+}
+
+.machine_img {
+    margin-left: -5rem;
+    width: 130%;
+}
+
+/* GALAXY GAME CONTAINER */
+.galaxy_game_container {
+    margin-bottom: 10rem;
+}
+
+.galaxy_game_container h2 {
+    font-size: 7rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+}
+
+.galaxy_game_container p {
+    font-size: 1.8rem;
+    color: #cecbcb;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 1rem;
+    padding: 0 5rem;
+}
+
+.galaxy_col3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.galaxy_game_img_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5rem;
+    padding: 2rem;
+}
+
+.galaxy_game_img_container img {
+    width: 55%;
+    height: 85%;
+}
+
+
+/* CONTENT4 */
+.galaxy_content4_container {
+    padding-top: 2rem;
+}
+
+.galaxy_col2 {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
+}
+
+.galaxy_social {
+    padding: 2rem;
+    background: linear-gradient(90deg, #3b72e9, #0b52e9);
+    border-radius: 2rem;
+}
+
+.galaxy_social img {
+    width: 100%;
+}
+
+.galaxy_social h2 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.galaxy_social p {
+    margin: 5rem 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #cecbcb;
+}
+
+.galaxy_video {
+    padding: 2rem;
+    background: #151414;
+    border-radius: 2rem;
+}
+
+.galaxy_video h2 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.galaxy_video p {
+    margin: 5rem 1rem 2rem 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #cecbcb;
+
+}
+
+/* GALAXY CONTENT5 */
+.galaxy_content5_container {
+    padding: 4rem 0;
+}
+
+.galaxy_experience {
+    padding: 2rem;
+    background: linear-gradient(0deg, #141414, #4F14A0);
+    border-radius: 2rem;
+}
+
+.galaxy_experience h2 {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+}
+
+.galaxy_experience img {
+    width: 100%;
+    padding: 10% 30%;
+}
+
+.btn_galaxy_stroke {
+    margin: 0 1rem;
+}
+
+.galaxy_exp_btn_container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.galaxy_exp_btn_container a {
+    color: white;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+/* galaxy contact */
+.galaxy_contact {
+    padding: 2rem;
+    background: linear-gradient(0deg, #012229, #6B8FEF);
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+.galaxy_contact h2 {
+    padding-right: 30%;
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-left: 1rem;
+}
+
+
+.galaxy_contact img {
+    width: 100%;
+    padding: 10% 30%;
+}
+
+
+.galaxy_contact_btn_container {
+    display: flex;
+    justify-content: left;
+}
+
+/* CONTENT TAGLINE */
+.galaxy_tagline_container {
+    margin-top: 4rem;
+    padding: 1rem;
+    position: relative;
+    border-radius: 2rem;
+    background: linear-gradient(to right, #6B8FEF, #5d2688, #EE4258);
+    padding: 3px;
+}
+
+.module {
+    background: var(--color-bg);
+    border-radius: 2rem;
+    color: white;
+    padding: 1rem;
+}
+
+.module h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 3rem;
+    padding: 2rem;
+}
+
+
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .gradient_right {
+        width: 150%;
+        height: auto;
+        top: 165rem;
+        z-index: -2;
+        overflow: hidden;
+    }
+
+    .galaxy_hero_content {
+        margin-bottom: 0;
+    }
+
+    .galaxy_tag {
+        font-size: 1.5rem;
+    }
+
+    .galaxy_title {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-top: 0rem;
+    }
+
+    .galaxy_hero_img {
+        margin-top: 2rem;
+        width: 100%;
+    }
+
+    /* FLOW CHART */
+    .galaxy_flowchart {
+        margin: 15rem 0;
+    }
+
+    .galaxy_flowchart_img {
+        width: 100%;
+    }
+
+
+    /* IOT */
+    .iot_content {
+        padding: 0 0 10rem 0;
+    }
+
+    .iot_content h1 {
+        font-size: 4rem;
+    }
+
+    .iot_content h2 {
+        font-size: 2.4rem;
+        padding: 0;
+    }
+
+
+
+    .galaxy_col2_5050 {
+        display: inline;
+    }
+
+    .col_img_container {
+        padding: 8rem;
+    }
+
+    .polly_white_img {
+        margin: 0;
+        padding: 0;
+    }
+
+
+    .iot_desc1 {
+        font-size: 1.2rem;
+        line-height: normal;
+        padding: 0;
+    }
+
+    /* MACHINE */
+    .galaxy_col2_4060 {
+        display: inline;
+    }
+
+    .machine_title {
+        font-size: 4rem;
+        line-height: normal;
+        padding: 0;
+    }
+
+    .machine_desc {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        line-height: normal;
+        padding: 0;
+    }
+
+    .machine_img {
+        margin: 0;
+    }
+
+    /* GALAXY GAME CONTAINER */
+    .galaxy_game_container h2 {
+        font-size: 4rem;
+    }
+
+    .galaxy_game_container p {
+        padding: 0;
+        font-size: 1.5rem;
+        line-height: normal;
+    }
+
+    .galaxy_game_img_container {
+        padding: 0;
+    }
+
+    /* galaxy content4 */
+    .galaxy_col2 {
+        display: inline;
+    }
+
+    .galaxy_social {
+        margin-left: 0;
+        margin-bottom: 3rem;
+    }
+
+    .module {
+        padding: 0;
+    }
+
+    .module h2 {
+        font-size: 1.5rem;
+        line-height: 2.7rem;
+    }
+
+    .galaxy_experience {
+        margin-bottom: 3rem;
+    }
+
+    .galaxy_exp_btn_container {
+        margin: 0;
+        padding: 0;
+    }
+
+    .galaxy_exp_btn_container a {
+        font-size: 1rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .galaxy_social h2 {
+        font-size: 2.2rem;
+    }
+
+    .galaxy_video h2 {
+        font-size: 2.2rem;
+    }
+
+    .galaxy_experience h2 {
+        font-size: 2.2rem;
+    }
+
+    .galaxy_contact h2 {
+        font-size: 2.2rem;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .galaxy_contact_btn_container {
+        justify-content: center;
+    }
+
+}

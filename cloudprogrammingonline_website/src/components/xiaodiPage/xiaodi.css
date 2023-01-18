@@ -1,0 +1,270 @@
+.xiaodi_blob {
+    position: absolute;
+    z-index: -1;
+    margin: auto;
+    left: 0;
+    right: 0;
+    padding: 10rem;
+    top: -20rem;
+    width: 90%;
+    height: auto;
+}
+
+.xiaodi_hero-title {
+    font-size: 7.1rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#000000, #ED8E29);
+    text-align: center;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.xiaodi_description {
+    font-size: 1.5rem;
+    margin: 2rem 2rem 5rem 2rem;
+    letter-spacing: .05rem;
+    padding: 0 5rem;
+    text-align: center;
+    color: #573100;
+}
+
+.xiaodi_button_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.xiaodi_button_container a {
+    color: var(--color-bg);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.xiaodi_btn {
+    margin: 1rem;
+}
+
+
+/* DIV1 */
+.xiaodi_order_container {
+    padding-top: 15rem;
+    padding-bottom: 10rem;
+}
+
+.carousel_title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#FDE18A, #ED8E29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+
+.carousel_desc {
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+.carousel_container {
+    padding-top: 10rem;
+    display: grid;
+    grid-template-columns: 50% 40%;
+    gap: 10%;
+}
+
+.carousel_container_3 {
+    padding-top: 10rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5rem;
+}
+
+.carousel_desc_item2 {
+    margin-bottom: 7rem;
+}
+
+.carousel_desc_item h3,
+.carousel_desc_item2 h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#FDE18A, #ED8E29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: .7rem;
+
+}
+
+.carousel_desc_item p,
+.carousel_desc_item2 p {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+/* carousel slick*/
+.carousel_img {
+    display: block;
+}
+
+.carousel_img_2 {
+    display: block;
+    width: 55vh;
+}
+
+.slick-slide {
+    box-sizing: border-box;
+    margin: auto;
+}
+
+.slick-slide img {
+    height: 90vh;
+    margin: auto;
+    left: auto;
+    right: auto;
+}
+
+.slick-dots li button:before {
+    color: gray !important;
+}
+
+.slick-dots li.slick-active button:before {
+    color: orange !important;
+}
+
+
+
+
+/* RESTO */
+.resto_container {
+    padding-top: 10rem;
+}
+
+.resto_content {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    align-items: center;
+    gap: 10%;
+}
+
+.resto_img {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+.resto_content_desc p {
+    font-size: 1.5rem;
+}
+
+
+.delivery_container {
+    padding-top: 15rem;
+    padding-bottom: 15rem;
+}
+
+.delivery_title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#FDE18A, #ED8E29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+.delivery_desc {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 3rem;
+    margin-bottom: 7rem;
+}
+
+.homie_img_container {
+    display: flex;
+}
+
+.homie_img {
+    width: 70%;
+    margin: auto;
+}
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .xiaodi_blob {
+        visibility: hidden;
+    }
+
+    .xiaodi_header_container {
+        padding: 20rem 0 10rem 0;
+    }
+
+    .xiaodi_hero-title {
+        font-size: 4rem;
+        padding: 0;
+    }
+
+    .xiaodi_description {
+        font-size: 1.2rem;
+        padding: 0;
+        color: #cecece;
+    }
+
+    .carousel_desc {
+        font-size: 1.5rem;
+        padding: 1rem 0rem;
+    }
+
+
+    .carousel_container {
+        padding: 2rem;
+        display: block;
+    }
+
+    .carousel_img {
+        padding-bottom: 10rem;
+    }
+
+    .slick-slide img {
+        height: 45vh;
+    }
+
+    /* carousel 2 */
+    .carousel_container_3 {
+        padding: 2rem;
+        display: block;
+    }
+
+    .carousel_img_2 {
+        display: block;
+        width: 100%;
+        margin: 5rem 0;
+    }
+
+    .carousel_desc_item2 {
+        margin-bottom: 2rem;
+    }
+
+    /* resto content */
+    .resto_content {
+        display: inline-block;
+    }
+
+    .resto_img {
+        margin: 2rem 0;
+    }
+
+    .resto_content_desc p {
+        font-size: 1.3rem;
+    }
+
+    .delivery_desc {
+        font-size: 1.3rem;
+    }
+}

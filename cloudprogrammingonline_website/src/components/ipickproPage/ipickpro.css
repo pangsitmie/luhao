@@ -1,0 +1,205 @@
+.hero_ipickpro {
+    padding-top: 13rem;
+    min-height: 80vh;
+    margin-top: auto;
+}
+
+.center_gradient {
+    position: absolute;
+    margin: auto;
+    width: 100%;
+    height: 200%;
+    top: 0rem;
+    left: 0;
+    right: 0;
+    z-index: -2;
+}
+
+.hero_img {
+    position: absolute;
+    margin: auto;
+    height: 90%;
+    width: auto;
+    top: 0rem;
+    right: 15rem;
+    z-index: -2;
+}
+
+.hero_ipickpro h1 {
+    font-size: 7rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.ipick_video {
+    margin-top: 10rem;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10%;
+}
+
+/* FEATURE 1 */
+.ipick_feature1 {
+    margin-top: 10rem;
+    background: linear-gradient(180deg, #213043, #72057e);
+    border-radius: 1.5rem;
+    padding: 2rem;
+}
+
+.ipick_feature1 h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    background: -webkit-linear-gradient(90deg, #6C4EDB, #DE85F2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.ipick_feature1 p {
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 1rem 8rem 2rem;
+}
+
+.ipick_feature1 img {
+    width: 100%;
+}
+
+/* IPICK FEATURE2 */
+.ipick_feature2 {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.ipick_feature_card {
+    border-radius: 1.5rem;
+    padding: 2rem;
+}
+
+.ipick_card1 {
+    background: linear-gradient(90deg, #29132A, #2E2737);
+}
+
+.ipick_card2 {
+    background: linear-gradient(90deg, #2E2737, #213043);
+}
+
+.ipick_card3 {
+    background: linear-gradient(90deg, #213043, #064B3F);
+}
+
+.ipick_feature_card h2 {
+    font-size: 2.5rem;
+    font-weight: bo;
+    background: -webkit-linear-gradient(90deg, #6C4EDB, #DE85F2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 3rem;
+}
+
+.ipick_feature_card p {
+    font-size: 1.2rem;
+}
+
+.ipick_feature_card_img_container {
+    padding: 3rem 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ipick_feature_card img {
+    width: 90%;
+}
+
+
+/* IPICK ADVANTAGE */
+.ipick_advantage {
+    margin-top: 10rem;
+}
+
+.ipick_advantage h2 {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 5rem;
+}
+
+.ipick_advantage_col {
+    display: grid;
+    grid-template-columns: 40% 40%;
+    gap: 20%;
+}
+
+.ipick_advantage_item {
+    margin-bottom: 5rem;
+}
+
+.ipick_advantage_item h3 {
+    font-size: 2.2rem;
+    margin-bottom: .5rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(90deg, #6C4EDB, #DE85F2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.ipick_advantage_item p {
+    font-size: 1.4rem;
+    margin-bottom: 3rem;
+}
+
+.ipick_advantage_img_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ipick_advantage_img_container img {
+    width: 100%;
+}
+
+.btn_maintenance {
+    margin: 2rem 0 0 0 !important;
+
+}
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .hero_ipickpro h1 {
+        font-size: 7rem;
+        line-height: 100%;
+    }
+
+    .ipick_hero_btn_container {
+        margin: 5rem 0;
+    }
+
+    /* VIDEO */
+    .ipick_video {
+        display: block;
+    }
+
+    .App {
+        margin-bottom: 3rem;
+    }
+
+    /* feature 1 */
+    .ipick_feature1 {
+        padding: 1rem;
+    }
+
+    .ipick_feature1 p {
+        padding: 0rem;
+        margin-bottom: 1rem;
+    }
+
+    /* feature 2 */
+    .ipick_feature2 {
+        display: block;
+    }
+}
