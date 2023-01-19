@@ -8,6 +8,7 @@ import Area from "./pages/area/Area";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 
+import GRADIENT_BLUR_TOP from "src/assets/gradient_blur_top.png";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <img src={GRADIENT_BLUR_TOP} className={"gradient_blur_top"} />
         <Header />
         <Routes>
           <Route exact path="/" element={<Main />} />

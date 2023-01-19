@@ -60,6 +60,9 @@ export const tokens = (mode) => ({
         800: "#2a2d64",
         900: "#151632",
       },
+      background: {
+        100: "#0A090A",
+      }
     }
     : {
       grey: {
@@ -117,6 +120,9 @@ export const tokens = (mode) => ({
         800: "#c3c6fd",
         900: "#e1e2fe",
       },
+      background: {
+        100: "#fcfcfc",
+      }
     }),
 });
 
@@ -141,7 +147,7 @@ export const themeSettings = (mode) => {
             light: colors.grey[100],
           },
           background: {
-            default: "#1E1E1E",
+            default: colors.background[100],
           },
         }
         : {
@@ -158,7 +164,7 @@ export const themeSettings = (mode) => {
             light: colors.grey[100],
           },
           background: {
-            default: "#fcfcfc",
+            default: colors.background[100],
           },
         }),
     },

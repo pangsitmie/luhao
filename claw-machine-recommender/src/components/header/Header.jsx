@@ -29,24 +29,24 @@ const Header = () => {
             <div>
             </div>
 
-            <Box display="flex">
+            <Box display="flex" alignItems={"center"}>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.3rem", fontWeight: "600", color: colors.grey[100] }}>
+                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
                             Products
                         </Typography>
                     </a>
                 </Box>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.3rem", fontWeight: "600", color: colors.grey[100] }}>
+                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
                             Stores
                         </Typography>
                     </a>
                 </Box>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.3rem", fontWeight: "600", color: colors.grey[100] }}>
+                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
                             About
                         </Typography>
                     </a>
@@ -55,7 +55,7 @@ const Header = () => {
             </Box>
 
             {/* ICONS */}
-            <Box display="flex" >
+            <Box display="flex">
                 <IconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === "dark" ? (
                         <LightModeOutlinedIcon />

@@ -1,0 +1,113 @@
+.hero_content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 15rem 5rem;
+}
+
+.hero_content_item {
+    padding: 10rem 0;
+}
+
+.hero_content_col2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero_content_col2 img {
+    width: 100%;
+}
+
+.hero_content_col3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* FIND YOUR FAV BRANDS */
+.text-container {
+    position: relative;
+    /* make the container relative so the absolute elements inside will be positioned relative to it */
+}
+
+.text-container> :first-child {
+    position: absolute;
+    /* position the first text absolute */
+    left: 0;
+    right: 45%;
+    /* align the text to the left */
+    top: 0;
+    /* align the text to the top */
+}
+
+.text-container> :last-child {
+    position: absolute;
+    /* position the second text absolute */
+    left: 0;
+    right: 0;
+    /* increase the distance between the two texts */
+    top: 6rem;
+}
+
+
+/* BRANDS CAROUSEL */
+.container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.curved-overlay-top {
+    position: absolute;
+    border-radius: 0 0 50% 50%;
+    bottom: 95%;
+    left: -50%;
+    width: 200%;
+    height: 500px;
+
+}
+
+.curved {
+    display: flex;
+    align-items: center;
+    padding: 8rem 5rem;
+    background-image: url('src/assets/arcade_bg1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.curved_content {
+    display: flex;
+    padding: 2rem;
+    flex-direction: column;
+    width: 60%;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 2px solid white;
+    color: white;
+}
+
+
+
+.curved-overlay {
+    position: absolute;
+    border-radius: 50% 50% 0 0;
+    left: -50%;
+    width: 200%;
+    height: 500px;
+    top: 95%;
+}
+
+.gradient_blur_location {
+    position: absolute;
+    top: 20rem;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+    z-index: -100000;
+    height: 70%;
+}
