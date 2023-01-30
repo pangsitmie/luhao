@@ -1,7 +1,9 @@
-import { Box, Typography, useTheme } from '@mui/material'
 import React from 'react'
-import './main.css'
+
+import { Box, Typography, useTheme } from '@mui/material'
 import { ColorModeContext, tokens } from "../../theme";
+
+import './main.css'
 import SLOT_MACHINE1 from 'src/assets/slot_machine1.png'
 import Carousel from 'src/components/carousel/Carousel';
 
@@ -17,11 +19,11 @@ const Main = () => {
         <section>
             <Box className="hero">
                 <Box height={"50vh"} display={"flex"} alignItems={"center"} justifyContent={"space-evenly"}>
-                    <Typography variant="h2" sx={{ textAlign: "center", fontSize: "4.5rem", fontWeight: "600", color: colors.grey[100] }}>
-                        FIND THE BEST
+                    <Typography variant="h2" sx={{ textAlign: "center", fontSize: "3rem", fontWeight: "600", color: colors.grey[100] }}>
+                        FIND YOUR FAVORITE
                     </Typography>
-                    <Typography variant="h2" sx={{ textAlign: "center", fontSize: "4.5rem", fontWeight: "600", color: colors.grey[100] }}>
-                        CLAW MACHINES
+                    <Typography variant="h2" sx={{ textAlign: "center", fontSize: "3rem", fontWeight: "600", color: colors.grey[100] }}>
+                        CLAW MACHINE STORE
                     </Typography>
                 </Box>
 
@@ -31,18 +33,18 @@ const Main = () => {
                     <Box>
                         <Box className={"hero_content_item"} m={" 0 -20px 0 20px "}>
                             <Typography variant="h2" sx={{ fontSize: "40px", fontWeight: "600", color: colors.grey[100], mb: "1rem" }}>
-                                Hello World
+                                台中娃娃機聯盟
                             </Typography>
-                            <Typography variant="h2" sx={{ fontSize: "18px", fontWeight: "500", color: colors.grey[100], lineHeight: "1.4" }}>
-                                This unique collection includes 20 of the best digital artist in the NFT space. Each team member is an original 1:1
+                            <Typography variant="h2" sx={{ fontSize: "18px", fontWeight: "500", color: colors.grey[100], lineHeight: "1.6" }}>
+                                目標:E化娃娃機聚落，在地圖上蒐集優質店家的各種資訊，讓大家得知哪裡可以遊玩夾娃娃機。
                             </Typography>
                         </Box>
                         <Box className={"hero_content_item"} m={"50px -120px -100px 150px"}>
                             <Typography variant="h2" sx={{ fontSize: "40px", fontWeight: "600", color: colors.grey[100], mb: "1rem" }}>
-                                Hello World
+                                台中聯盟聚落例如
                             </Typography>
                             <Typography variant="h2" sx={{ fontSize: "18px", fontWeight: "500", color: colors.grey[100], lineHeight: "1.4" }}>
-                                This unique collection includes 20 of the best digital artist in the NFT space. Each team member is an original 1:1
+                                一中、逢甲、東海、廟東、彰化商圈。
                             </Typography>
                         </Box>
                     </Box>
@@ -52,10 +54,10 @@ const Main = () => {
                     <Box className={"hero_content_col3"}>
                         <Box className={"hero_content_item"}>
                             <Typography variant="h2" sx={{ fontSize: "40px", fontWeight: "600", color: colors.grey[100], mb: "1rem" }}>
-                                Hello World
+                                如何快速探索喜愛店家
                             </Typography>
                             <Typography variant="h2" sx={{ fontSize: "18px", fontWeight: "500", color: colors.grey[100], lineHeight: "1.4" }}>
-                                This unique collection includes 20 of the best digital artist in the NFT space. Each team member is an original 1:1
+                                點選在地圖上標記的娃娃機聚落以及特殊商店，使用各種流行的社群軟體並匯集各會會員宣傳資訊。
                             </Typography>
                         </Box>
                     </Box>

@@ -1,0 +1,16 @@
+.taiwan_map {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    top: 30%;
+    left: 40%;
+}
+
+.taichung_button {
+    position: absolute;
+    width: 100%;
+    top: 55.2%;
+    left: 47.3%;
+    width: 12.3%;
+    cursor: pointer;
+}

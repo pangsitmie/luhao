@@ -31,9 +31,9 @@ const Header = () => {
 
             <Box display="flex" alignItems={"center"}>
                 <Box margin={"0 2rem"} className="header_item">
-                    <a href="">
+                    <a href="/map">
                         <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
-                            Products
+                            Map
                         </Typography>
                     </a>
                 </Box>
