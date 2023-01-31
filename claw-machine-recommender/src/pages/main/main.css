@@ -1,8 +1,32 @@
+.hero {
+    background-image: url('src/assets/retro_bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .hero_content {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 15rem 5rem;
+    z-index: -1;
 }
+
+
+
+.tagline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tagline img {
+    width: 80%;
+}
+
+
+
+
 
 .hero_content_item {
     padding: 10rem 0;
@@ -25,28 +49,25 @@
 }
 
 /* FIND YOUR FAV BRANDS */
-.text-container {
-    position: relative;
-    /* make the container relative so the absolute elements inside will be positioned relative to it */
+.tagline2_left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
-.text-container> :first-child {
-    position: absolute;
-    /* position the first text absolute */
-    left: 0;
-    right: 45%;
-    /* align the text to the left */
-    top: 0;
-    /* align the text to the top */
+.tagline2_right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.text-container> :last-child {
-    position: absolute;
-    /* position the second text absolute */
-    left: 0;
-    right: 0;
-    /* increase the distance between the two texts */
-    top: 6rem;
+.tagline2_left img {
+    width: 400px;
+}
+
+.tagline2_right img {
+    width: 900px;
 }
 
 

@@ -37,8 +37,8 @@ const Carousel = () => {
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
-                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: colors.grey[100], lineHeight: "1.4", mb: "1rem" }}>
-                                    Taichung City
+                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
+                                    臺中市
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
@@ -84,8 +84,8 @@ const Carousel = () => {
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
-                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: colors.grey[100], lineHeight: "1.4", mb: "1rem" }}>
-                                    Taipei City
+                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
+                                    臺北市
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
@@ -131,8 +131,8 @@ const Carousel = () => {
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
-                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: colors.grey[100], lineHeight: "1.4", mb: "1rem" }}>
-                                    Tainan City
+                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
+                                    臺南市
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>

@@ -1,36 +1,51 @@
 import React from 'react'
 import { Box, Typography, useTheme, Button } from '@mui/material'
-import { ColorModeContext, tokens } from "../../theme";
-import LocationDialog from 'src/components/dialog/LocationDialog';
-import { Link } from 'react-router-dom';
+import { tokens } from "../../theme";
 
 import TAIWAN_MAP from "src/assets/taiwan_map.png";
-import TAICHUNG_MAP from "src/assets/taichung_map.png";
+
 
 import "./map.css";
+import PinpointBtn from 'src/components/pinpoint/PinpointBtn';
 const Map = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const handleCityClick = (city) => {
-        return (
-            <Link
-                to={"/city"}
-                state={{
-                    data: city,
-                }}
-            >
-                <img src={TAICHUNG_MAP} className={"taichung_button"} />
-            </Link>
-        );
-    };
+
 
 
     return (
         <Box>
             <Box height={"100vh"} >
                 <img src={TAIWAN_MAP} className={"taiwan_map"} />
-                {handleCityClick("taichung")}
+
+                {/* button that handles click event */}
+                <PinpointBtn
+                    props={{
+                        title: "臺中",
+                        city: "taichung",
+                        top: "51%",
+                        left: "20%"
+                    }}
+                />
+
+                <PinpointBtn
+                    props={{
+                        title: "彰化",
+                        city: "changhua",
+                        top: "56%",
+                        left: "15%"
+                    }}
+                />
+
+                <PinpointBtn
+                    props={{
+                        title: "雲林",
+                        city: "yunlin",
+                        top: "65%",
+                        left: "12%"
+                    }}
+                />
             </Box>
         </Box>
     )

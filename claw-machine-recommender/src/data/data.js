@@ -51,6 +51,20 @@ export const taichung = [
             lng: 120.7146718
         }
     },
-
 ]
 
+export const changhua = [
+    {
+        title: 'Changhua County',
+        description: 'Changhua County is a county in Taiwan',
+        location: '台灣, 彰化縣, 彰化市',
+        totalStores: 50,
+        transaction: 60000,
+        city: '彰化縣',
+        district: '彰化市',
+        coordinates: {
+            lat: 24.0209545,
+            lng: 120.4793477
+        }
+    },
+]

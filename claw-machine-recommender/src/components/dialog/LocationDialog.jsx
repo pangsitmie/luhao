@@ -23,8 +23,8 @@ const LocationDialog = ({ props, top, left, closePopup }) => {
     console.log(props.title);
     return (
         <Box
-            className={"location_dialog"}
-            p={"2rem"}
+            className={"location_dialog "}
+            p={"1.5rem"}
             borderRadius={"25px"}
             width={"400px"}
             style={{
@@ -33,19 +33,18 @@ const LocationDialog = ({ props, top, left, closePopup }) => {
                 top: top,
                 left: left,
             }}>
-            <CloseIcon className='close_icon' onClick={closePopup} />
-            <Box display={"flex"} p={"1rem 0"}>
+            <Box display={"flex"} p={"0rem 0"}>
                 <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
                     <img src={MARKER_ICON} alt="" />
                 </Box>
-                <Box pl={"2rem"}>
-                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.2rem", fontWeight: "bold", color: "#fff", marginBottom: "5px" }}>
+                <Box pl={"1.5rem"}>
+                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.1rem", fontWeight: "bold", color: "#fff", marginBottom: "5px" }}>
                         {props.title}
                     </Typography>
-                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "14px", fontWeight: "500", color: "#fff", marginBottom: "10px" }}>
+                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "13px", fontWeight: "500", color: "#fff", marginBottom: "5px" }}>
                         {props.description}
                     </Typography>
-                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "14px", fontWeight: "500", color: "#fff" }}>
+                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "13px", fontWeight: "500", color: "#fff" }}>
                         {props.location}
                     </Typography>
                 </Box>
@@ -88,6 +87,12 @@ const LocationDialog = ({ props, top, left, closePopup }) => {
                         </Typography>
                     </Box>
                 </Box>
+            </Box>
+
+            <Box display={"flex"} justifyContent={"center"} alignItems={"center"} mt={"1rem"}>
+                <button className='btn_transparent'>
+                    View Stores
+                </button>
             </Box>
 
         </Box>

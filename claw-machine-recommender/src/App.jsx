@@ -19,7 +19,7 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <img src={GRADIENT_BLUR_TOP} className={"gradient_blur_top"} />
+        {/* <img src={GRADIENT_BLUR_TOP} className={"gradient_blur_top"} /> */}
         <Header />
         <Routes>
           <Route exact path="/" element={<Main />} />

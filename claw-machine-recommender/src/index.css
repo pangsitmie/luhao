@@ -62,10 +62,11 @@ section {
 
 
 .btn_transparent {
-  width: 200px;
+  width: 100%;
   background-color: transparent;
   border-radius: 10em;
   padding: 1em 2em;
+  color: #fff;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   border: 1px solid #ffffff;
@@ -80,4 +81,58 @@ section {
 .btn_transparent:active {
   transform: translateY(2px) translateX(1px);
   box-shadow: 0 0 0 0 #181818;
+}
+
+
+/* RENDER ANIMATION */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 10s;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 10s;
+}
+
+
+/* BUTTON 3D */
+.button_3d {
+  transition: all 0.5s;
+  font-size: 17px;
+  padding: 1ch 2ch;
+  background-color: #FBBB38;
+  color: #000;
+  font-family: Roboto, sans-serif;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 2px 2px 0px hsl(0, 0%, 90%),
+    4px 4px 0px hsl(0, 0%, 80%),
+    6px 6px 0px hsl(0, 0%, 70%),
+    8px 8px 0px hsl(0, 0%, 60%),
+    10px 10px 0px hsl(0, 0%, 50%),
+    12px 12px 0px hsl(0, 0%, 40%),
+    14px 14px 0px hsl(0, 0%, 30%),
+    16px 16px 0px hsl(0, 0%, 20%),
+    18px 18px 0px hsl(0, 0%, 10%);
+}
+
+.button_3d:hover {
+  background-color: hsl(0, 0%, 50%);
+  color: #fff;
+  box-shadow: none;
+}
+
+/* HEADER */
+.header_logo {
+  width: 80px;
+  height: 80px;
 }

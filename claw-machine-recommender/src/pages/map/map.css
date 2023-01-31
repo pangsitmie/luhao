@@ -3,7 +3,8 @@
     width: auto;
     height: 100%;
     top: 30%;
-    left: 40%;
+    left: 35%;
+    z-index: -10000;
 }
 
 .taichung_button {

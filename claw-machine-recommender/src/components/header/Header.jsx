@@ -9,6 +9,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LogoutIcon from '@mui/icons-material/Logout';
 
+import LOGO from "src/assets/logo.png";
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -25,9 +26,8 @@ const Header = () => {
     }
 
     return (
-        <Box display="flex" justifyContent="space-between" p={4}>
-            <div>
-            </div>
+        <Box display="flex" justifyContent="center" p={4}>
+
 
             <Box display="flex" alignItems={"center"}>
                 <Box margin={"0 2rem"} className="header_item">
@@ -37,6 +37,19 @@ const Header = () => {
                         </Typography>
                     </a>
                 </Box>
+                <Box margin={"0 2rem"} className="header_item">
+                    <a href="">
+                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
+                            Brands
+                        </Typography>
+                    </a>
+                </Box>
+                <div>
+                    <a href="/">
+                        <img src={LOGO} alt="" className="header_logo" />
+                    </a>
+                </div>
+
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="">
                         <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
@@ -55,15 +68,7 @@ const Header = () => {
             </Box>
 
             {/* ICONS */}
-            <Box display="flex">
-                <IconButton onClick={colorMode.toggleColorMode}>
-                    {theme.palette.mode === "dark" ? (
-                        <LightModeOutlinedIcon />
-                    ) : (
-                        <DarkModeOutlinedIcon />
-                    )}
-                </IconButton>
-            </Box>
+
         </Box>
     );
 };

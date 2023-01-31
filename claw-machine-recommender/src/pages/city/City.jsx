@@ -5,7 +5,8 @@ import { ColorModeContext, tokens } from "../../theme";
 
 import { useLocation } from 'react-router-dom';
 
-import { taichung } from "src/data/data";
+import { taichung, changhua } from "src/data/data";
+import { CSSTransition } from 'react-transition-group';
 
 
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
@@ -15,19 +16,33 @@ const containerStyle = {
     height: '100vh'
 };
 
-const center = {
-    lat: 24.1761475,
-    lng: 120.6447767
-};
-const marker = {
-    lat: 24.1761475,
-    lng: 120.6447767
-}
-console.log(taichung[0].coordinates);
+
+
 
 const City = () => {
     const location = useLocation();
     const state = location.state;
+    console.log(state);
+
+    let data;
+
+    switch (state.data) {
+        case 'taichung':
+            data = taichung;
+            break;
+        case 'changhua':
+            data = changhua;
+            break;
+        default:
+        // handle default case
+    }
+
+    console.log(data);
+
+    const center = {
+        lat: data[0].coordinates.lat,
+        lng: data[0].coordinates.lng
+    };
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -35,7 +50,7 @@ const City = () => {
     // ============= MAP =============
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyBER-4oyLUNArTZ1OvpZ9e8e6Z0TA8QaRc"
+        googleMapsApiKey: "AIzaSyBER-4oyLUNArTZ1OvpZ9e8e6Z0TA8QaRc",
     })
 
     const [map, setMap] = React.useState(null)
@@ -112,7 +127,7 @@ const City = () => {
                     onClick={() => setPopupVisibility(false)}
                 >
                     { /* Child components, such as markers, info windows, etc. */}
-                    {taichung.map((item) => (
+                    {data.map((item) => (
                         <MarkerF
                             key={item.title}
                             position={item.coordinates}
@@ -124,12 +139,20 @@ const City = () => {
                     ))}
 
                     {isPopupVisible && (
-                        <LocationDialog
-                            props={selectedMarker}
-                            closePopup={() => setPopupVisibility(false)}
-                            top={dialogPosition.top}
-                            left={dialogPosition.left}
-                        />
+                        <CSSTransition
+                            in={isPopupVisible}
+                            timeout={10000}
+                            classNames="fade"
+                            unmountOnExit
+                        >
+                            <LocationDialog
+                                props={selectedMarker}
+                                closePopup={() => setPopupVisibility(false)}
+                                top={dialogPosition.top}
+                                left={dialogPosition.left}
+                                visible={isPopupVisible}
+                            />
+                        </CSSTransition>
                     )}
                 </GoogleMap>
             ) : <></>}
