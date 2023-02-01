@@ -636,3 +636,20 @@ query GetDashboardInit {
   }
 }
 `
+
+
+// ========================= STATISTIC =========================
+export const GetBrandStatistic = gql`
+query GetBrandStatistic($args: [BrandArgs!]!, $startAt: Int, $endAt: Int) {
+  getBrand(args: $args) {
+    managerGetStores {
+      id
+      name
+    }
+    getStatisticsTotal(startAt: $startAt, endAt: $endAt) {
+      coinTotal
+      giftTotal
+    }
+  }
+}
+`

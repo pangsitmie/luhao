@@ -243,165 +243,411 @@ export const citiesData = [
 
 export const mockLineData = [
   {
-    id: "japan",
+    id: "總收入",
     color: tokens("dark").greenAccent[500],
     data: [
       {
-        x: "plane",
+        x: "06:00",
         y: 101,
       },
       {
-        x: "helicopter",
+        x: "07:00",
         y: 75,
       },
       {
-        x: "boat",
+        x: "08:00",
         y: 36,
       },
       {
-        x: "train",
+        x: "09:00",
         y: 216,
       },
       {
-        x: "subway",
+        x: "10:00",
         y: 35,
       },
       {
-        x: "bus",
+        x: "11:00",
         y: 236,
       },
       {
-        x: "car",
+        x: "12:00",
         y: 88,
       },
       {
-        x: "moto",
+        x: "13:00",
         y: 232,
       },
       {
-        x: "bicycle",
+        x: "14:00",
         y: 281,
       },
       {
-        x: "horse",
+        x: "15:00",
         y: 1,
       },
       {
-        x: "skateboard",
+        x: "16:00",
         y: 35,
       },
       {
-        x: "others",
+        x: "17:00",
         y: 14,
+      },
+      {
+        x: "18:00",
+        y: 1,
+      },
+      {
+        x: "19:00",
+        y: 1,
+      },
+      {
+        x: "20:00",
+        y: 1,
+      },
+      {
+        x: "21:00",
+        y: 1,
+      },
+      {
+        x: "22:00",
+        y: 1,
+      },
+      {
+        x: "23:00",
+        y: 1,
+      },
+      {
+        x: "24:00",
+        y: 1,
+      },
+      {
+        x: "01:00",
+        y: 1,
+      },
+      {
+        x: "02:00",
+        y: 1,
+      },
+      {
+        x: "03:00",
+        y: 1,
+      },
+      {
+        x: "04:00",
+        y: 1,
+      },
+      {
+        x: "05:00",
+        y: 1,
       },
     ],
   },
   {
-    id: "france",
+    id: "免費幣",
     color: tokens("dark").blueAccent[300],
     data: [
       {
-        x: "plane",
-        y: 212,
+        x: "06:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "helicopter",
-        y: 190,
+        x: "07:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "boat",
-        y: 270,
+        x: "08:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "train",
-        y: 9,
+        x: "09:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "subway",
-        y: 75,
+        x: "10:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "bus",
-        y: 175,
+        x: "11:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "car",
-        y: 33,
+        x: "12:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "moto",
-        y: 189,
+        x: "13:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "bicycle",
-        y: 97,
+        x: "14:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "horse",
-        y: 87,
+        x: "15:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "skateboard",
-        y: 299,
+        x: "16:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "others",
-        y: 251,
+        x: "17:00",
+        y: Math.floor(Math.random() * 1001),
       },
+      {
+        x: "18:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "19:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "20:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "21:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "22:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "23:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "24:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "01:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "02:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "03:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "04:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "05:00",
+        y: Math.floor(Math.random() * 1001)
+      }
     ],
   },
   {
-    id: "us",
+    id: "總出貨",
     color: tokens("dark").redAccent[200],
     data: [
       {
-        x: "plane",
-        y: 191,
+        x: "06:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "helicopter",
-        y: 136,
+        x: "07:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "boat",
-        y: 91,
+        x: "08:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "train",
-        y: 190,
+        x: "09:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "subway",
-        y: 211,
+        x: "10:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "bus",
-        y: 152,
+        x: "11:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "car",
-        y: 189,
+        x: "12:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "moto",
-        y: 152,
+        x: "13:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "bicycle",
-        y: 8,
+        x: "14:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "horse",
-        y: 197,
+        x: "15:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "skateboard",
-        y: 107,
+        x: "16:00",
+        y: Math.floor(Math.random() * 1001),
       },
       {
-        x: "others",
-        y: 170,
+        x: "17:00",
+        y: Math.floor(Math.random() * 1001),
       },
+      {
+        x: "18:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "19:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "20:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "21:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "22:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "23:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "24:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "01:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "02:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "03:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "04:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "05:00",
+        y: Math.floor(Math.random() * 1001)
+      }
+    ],
+  },
+  {
+    id: "總支出",
+    color: tokens("dark").redAccent[500],
+    data: [
+      {
+        x: "06:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "07:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "08:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "09:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "10:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "11:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "12:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "13:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "14:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "15:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "16:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "17:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "18:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "19:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "20:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "21:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "22:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "23:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "24:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "01:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "02:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "03:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "04:00",
+        y: Math.floor(Math.random() * 1001),
+      },
+      {
+        x: "05:00",
+        y: Math.floor(Math.random() * 1001)
+      }
     ],
   },
 ];

@@ -19,8 +19,6 @@ import StoreIcon from '@mui/icons-material/Store';
 
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-// import GeographyChart from "../../components/GeographyChart";
-// import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 
@@ -97,32 +95,43 @@ const Dashboard = () => {
                 {/* ROW 1 */}
                 <Box
                     gridColumn="span 3"
-                    backgroundColor={colors.primary[400]}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
                     borderRadius={"12px"}
+                    sx={{
+                        background: "linear-gradient(135deg, #f7ba2c, #E0A62C)",
+                        backgroundColor: "rgba(255, 255, 255, 0.074)",
+                        webkitBackdropFilter: "blur(20px)",
+                        backdropFilter: "blur(20px)",
+                    }}
                 >
                     <StatBox
                         title={allMember.length}
                         subtitle="用戶總數"
-                        progress="1"
                         increase="+100%"
                         icon={
                             <PersonAddIcon
-                                sx={{ color: colors.grey[100], fontSize: "26px" }}
+                                sx={{ color: colors.grey[100], fontSize: "45px" }}
                             />
                         }
                     />
                 </Box>
 
+
+
                 <Box
                     gridColumn="span 3"
-                    backgroundColor={colors.primary[400]}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
                     borderRadius={"12px"}
+                    sx={{
+                        background: "linear-gradient(135deg, #3917d2, #5233de)",
+                        backgroundColor: "rgba(255, 255, 255, 0.074)",
+                        webkitBackdropFilter: "blur(20px)",
+                        backdropFilter: "blur(20px)",
+                    }}
                 >
                     <StatBox
                         title={allBrands.length}
@@ -131,49 +140,59 @@ const Dashboard = () => {
                         increase="+100%"
                         icon={
                             <LocalOfferIcon
-                                sx={{ color: colors.grey[100], fontSize: "26px" }}
+                                sx={{ color: colors.grey[100], fontSize: "45px" }}
                             />
                         }
                     />
                 </Box>
+
+
                 <Box
                     gridColumn="span 3"
-                    backgroundColor={colors.primary[400]}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
                     borderRadius={"12px"}
+                    sx={{
+                        background: "linear-gradient(135deg, #4281B7, #4697E7)",
+                        backgroundColor: "rgba(255, 255, 255, 0.074)",
+                        webkitBackdropFilter: "blur(20px)",
+                        backdropFilter: "blur(20px)",
+                    }}
                 >
                     <StatBox
                         title={allStores.length}
                         subtitle="商店總數"
-                        progress="1"
-                        increase="+100%"
+                        increase="+50%"
                         icon={
                             <StoreIcon
-                                sx={{ color: colors.grey[100], fontSize: "26px" }}
+                                sx={{ color: colors.grey[100], fontSize: "45px" }}
                             />
                         }
                     />
                 </Box>
 
-
                 <Box
                     gridColumn="span 3"
-                    backgroundColor={colors.primary[400]}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
                     borderRadius={"12px"}
+                    sx={{
+                        background: "linear-gradient(135deg, #ea5753, #f13c77)",
+                        backgroundColor: "rgba(255, 255, 255, 0.074)",
+                        webkitBackdropFilter: "blur(20px)",
+                        backdropFilter: "blur(20px)",
+                    }}
                 >
                     <StatBox
                         title="0"
                         subtitle="Traffic Received"
                         progress="0"
-                        increase="+0%"
+                        increase="+50%"
                         icon={
                             <TrafficIcon
-                                sx={{ color: colors.grey[100], fontSize: "26px" }}
+                                sx={{ color: colors.grey[100], fontSize: "45px" }}
                             />
                         }
                     />
@@ -183,8 +202,13 @@ const Dashboard = () => {
                 <Box
                     gridColumn="span 8"
                     gridRow="span 2"
-                    backgroundColor={colors.primary[400]}
                     borderRadius={"12px"}
+                    sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.074)",
+                        border: "1px solid rgba(255, 255, 255, 0.222)",
+                        webkitBackdropFilter: "blur(20px)",
+                        backdropFilter: "blur(20px)",
+                    }}
                 >
                     <Box
                         mt="25px"
@@ -224,9 +248,14 @@ const Dashboard = () => {
                 <Box
                     gridColumn="span 4"
                     gridRow="span 2"
-                    backgroundColor={colors.primary[400]}
                     overflow="auto"
                     borderRadius={"12px"}
+                    sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.074)",
+                        border: "1px solid rgba(255, 255, 255, 0.222)",
+                        webkitBackdropFilter: "blur(20px)",
+                        backdropFilter: "blur(20px)",
+                    }}
                 >
                     <Box
                         display="flex"

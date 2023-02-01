@@ -50,7 +50,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         type: "linear",
         min: "auto",
         max: "auto",
-        stacked: true,
+        stacked: false,
         reverse: false,
       }}
       yFormat=" >-.2f"
@@ -60,7 +60,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
       axisBottom={{
         orient: "bottom",
         tickSize: 0,
-        tickPadding: 5,
+        tickPadding: 8,
         tickRotation: 0,
         legend: isDashboard ? undefined : "transportation", // added
         legendOffset: 36,

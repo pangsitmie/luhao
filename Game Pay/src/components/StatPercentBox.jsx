@@ -2,20 +2,31 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import ProgressCircle from "./ProgressCircle";
 
-const StatBox = ({ title, subtitle, icon, progress, increase }) => {
+const StatPercentBox = ({ title, subtitle, progress, }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Box width="100%" m="15px 20px">
-      <Box display="flex" justifyContent="space-between" >
+    <Box width="100%" m="20px">
+      <Box display="flex" justifyContent="space-between" alignItems={"center"} >
         <Box>
+          <Typography
+            variant="h2"
+            fontWeight="bold"
+            m={0}
+            sx={{ color: "#fff" }}
+          >
+            {title}
+          </Typography>
+          <Typography variant="h5" fontSize={"14px"} sx={{ color: colors.grey[100] }}>
+            {subtitle}
+          </Typography>
         </Box>
         <Box>
-          {icon}
+          <ProgressCircle progress={progress} />
         </Box>
       </Box>
-      <Box>
+      {/* <Box>
         <Typography
           variant="h3"
           fontWeight="bold"
@@ -24,8 +35,8 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
         >
           {title}
         </Typography>
-      </Box>
-      <Box display="flex" justifyContent="space-between" mt="5px">
+      </Box> */}
+      {/* <Box display="flex" justifyContent="space-between" mt="5px">
         <Typography variant="h5" fontSize={"14px"} sx={{ color: colors.grey[100] }}>
           {subtitle}
         </Typography>
@@ -36,9 +47,9 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
         >
           {increase}
         </Typography>
-      </Box>
+      </Box> */}
     </Box>
   );
 };
 
-export default StatBox;
+export default StatPercentBox;

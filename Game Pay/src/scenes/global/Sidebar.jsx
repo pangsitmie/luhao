@@ -200,6 +200,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="統計"
+              to="/statistic"
+              icon={<BarChartIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
             {/* <Item
               title="優惠管理"
@@ -224,20 +231,8 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="統計"
-              to="/statistics"
-              icon={<BarChartIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="帳目"
-              to="/account"
-              icon={<AccountCircleIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
+
+
             <Typography
               variant="h6"
               color={colors.grey[300]}

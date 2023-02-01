@@ -22,6 +22,9 @@ import BrandCoinManagement from "./scenes/CoinManagement_Brand/BrandCoinManageme
 import AdsManagement from "./scenes/adsManagement/AdsManagement";
 import VersionManagement from "./scenes/version/VersionManagement";
 import Promotion from "./scenes/promotion/Promotion";
+import Statistics from "./scenes/statistics/Statistics";
+import StatisticManagement from "./scenes/statistics/StatisticManagement";
+import FinanceStatistic from "./scenes/statistics/FinanceStatistic";
 
 
 const StoreManagement = lazy(() => import('./scenes/storeManagement/StoreManagement'));
@@ -73,6 +76,10 @@ function App() {
                   <Route path="/system-notification" element={<SystemNotificationManagement />} />
                   <Route path="/system-coins" element={<SystemCoinManagement />} />
                   <Route path="/brand-coins" element={<BrandCoinManagement />} />
+                  <Route path="/statistic" element={<Statistics />} />
+                  <Route path="/statistic-management" element={<StatisticManagement />} />
+                  <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
+
                   <Route path="/promotion" element={<Promotion />} />
                   {/* SYSTEM */}
                   <Route path="/version" element={<VersionManagement />} />
