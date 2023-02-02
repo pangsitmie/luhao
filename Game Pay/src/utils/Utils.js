@@ -5,17 +5,7 @@ import {
     default_logo_360x360_filename
 } from "../data/strings";
 
-// export function replaceNullWithEmptyString(obj) {
-//     const newObj = {};
-//     for (let prop in obj) {
-//         if (obj[prop] === null) {
-//             newObj[prop] = '';
-//         } else {
-//             newObj[prop] = obj[prop];
-//         }
-//     }
-//     return newObj;
-// }
+
 export function replaceNullWithEmptyString(obj) {
     const newObj = Object.assign({}, obj);
     Object.keys(newObj).forEach(key => {

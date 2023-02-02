@@ -653,3 +653,14 @@ query GetBrandStatistic($args: [BrandArgs!]!, $startAt: Int, $endAt: Int) {
   }
 }
 `
+
+export const GetStoreStatistic = gql`
+query GetStore($args: [StoreArgs!]!, $startAt: Int, $endAt: Int) {
+  getStore(args: $args) {
+    getStatisticsTotal(startAt: $startAt, endAt: $endAt) {
+      coinTotal
+      giftTotal
+    }
+  }
+}
+`

@@ -89,19 +89,18 @@ const Statistics = () => {
     if (error) return <Error />;
     // ========================== RETURN ==========================
     return (
-        // here
-        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+        <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>統計</h1>
             </Box>
 
             {/* here */}
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+            <Box className={"flex_media"}
+                display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}>
@@ -113,12 +112,10 @@ const Statistics = () => {
                 <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
-                    minWidth: "120px",
+                    minWidth: "150px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
                     padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',
@@ -138,32 +135,22 @@ const Statistics = () => {
             <Box
                 backgroundColor={colors.primary[400]}
                 borderRadius="10px"
-                height={"50%"}
+                height={"100%"}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
-                    justifyContent="center"
+                    justifyContent="space-between"
                     borderBottom={`0px solid ${colors.primary[500]}`}
                     colors={colors.grey[100]}
-                    p="15px"
+                    p="15px 0 10px 0"
                 >
-                    <Box width={"90%"}>
-                        {/* pagination */}
-                        <Pagination
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange}
-                        />
-                    </Box>
+                    <Pagination
+                        limit={limit}
+                        offset={offset}
+                        onPageChange={handlePageChange}
+                    />
 
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
-                    </Box>
                 </Box>
                 <Box
                     display="flex"
@@ -171,14 +158,14 @@ const Statistics = () => {
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
                     background={colors.grey[300]}
-                    p="10px"
+                    p="15px 0"
                 >
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌名稱</Typography>
+                    <Box display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500" ml="15px">品牌名稱</Typography>
                     </Box>
 
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">統計資料</Typography>
+                    <Box display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500" mr="25px">統計資料</Typography>
                     </Box>
                 </Box>
 
@@ -197,18 +184,21 @@ const Statistics = () => {
                             justifyContent="space-between"
                             alignItems="center"
                             borderBottom={`3px solid ${colors.primary[500]}`}
-                            p="10px"
+                            p="10px 0"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>
 
-
-
+                            <Box display="flex" alignItems={"center"} justifyContent={"center"} m={"0 15px"}>
+                                <Typography color={colors.grey[100]} variant="h5" fontWeight="500">
+                                    {brand.name}
+                                </Typography>
+                            </Box>
                             <Box
-                                width={"20%"}
                                 height={"100%"}
                                 display={"flex"}
-                                alignItems={"center"} justifyContent={"center"}
+                                alignItems={"center"}
+                                justifyContent={"space-evenly"}
                                 borderRadius="4px"
+                                m={"0 15px"}
                             >
                                 <Link
                                     to={"/statistic-management"}

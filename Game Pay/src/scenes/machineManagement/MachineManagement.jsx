@@ -165,7 +165,7 @@ const MachineManagement = () => {
     if (error) return <Error />;
 
     return (
-        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+        <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"15%"}>
                 <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
                 <Typography variant="h5" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>

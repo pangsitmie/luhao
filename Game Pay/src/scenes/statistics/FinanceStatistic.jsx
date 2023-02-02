@@ -15,6 +15,11 @@ const FinanceStatistic = () => {
     const state = location.state;
     console.log(state.data);
 
+    const [active, setActive] = useState('day');
+
+    const handleClick = (selected) => {
+        setActive(selected);
+    };
 
     return (
         <Box m="20px">
@@ -68,7 +73,16 @@ const FinanceStatistic = () => {
                             display={"flex"}
                             border={"1px solid #fff"}
                             borderRadius={"6px"}>
-                            <Button>
+                            <Button
+                                sx={{
+                                    borderRadius: "0px",
+                                    backgroundColor: active === 'day' ? "rgba(255, 255, 255, 0.074)" : "transparent",
+                                    border: active === 'day' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    webkitBackdropFilter: active === 'day' ? "blur(20px)" : "none",
+                                    backdropFilter: active === 'day' ? "blur(20px)" : "none",
+                                }}
+                                onClick={() => handleClick('day')}
+                            >
                                 <Typography variant="h6" fontWeight="400" color={colors.grey[100]}>
                                     天
                                 </Typography>
@@ -76,16 +90,27 @@ const FinanceStatistic = () => {
                             <Button
                                 sx={{
                                     borderRadius: "0px",
-                                    backgroundColor: "rgba(255, 255, 255, 0.074)",
-                                    border: "1px solid rgba(255, 255, 255, 0.222)",
-                                    webkitBackdropFilter: "blur(20px)",
-                                    backdropFilter: "blur(20px)",
-                                }}>
+                                    backgroundColor: active === 'week' ? "rgba(255, 255, 255, 0.074)" : "transparent",
+                                    border: active === 'week' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    webkitBackdropFilter: active === 'week' ? "blur(20px)" : "none",
+                                    backdropFilter: active === 'week' ? "blur(20px)" : "none",
+                                }}
+                                onClick={() => handleClick('week')}
+                            >
                                 <Typography variant="h6" fontWeight="400" color={colors.grey[100]}>
                                     周
                                 </Typography>
                             </Button>
-                            <Button>
+                            <Button
+                                sx={{
+                                    borderRadius: "0px",
+                                    backgroundColor: active === 'month' ? "rgba(255, 255, 255, 0.074)" : "transparent",
+                                    border: active === 'month' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    webkitBackdropFilter: active === 'month' ? "blur(20px)" : "none",
+                                    backdropFilter: active === 'month' ? "blur(20px)" : "none",
+                                }}
+                                onClick={() => handleClick('month')}
+                            >
                                 <Typography variant="h6" fontWeight="400" color={colors.grey[100]}>
                                     月
                                 </Typography>

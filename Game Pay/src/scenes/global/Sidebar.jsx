@@ -48,6 +48,7 @@ const Sidebar = () => {
 
   return (
     <Box
+      height={"100%"}
       sx={{
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
@@ -99,18 +100,18 @@ const Sidebar = () => {
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
-                  width="80px"
-                  height="80px"
+                  width="65px"
+                  height="65px"
                   src={LOGO}
                   style={{ borderRadius: "50%" }}
                 />
               </Box>
               <Box textAlign="center">
                 <Typography
-                  variant="h3"
+                  variant="h4"
                   color={colors.grey[100]}
                   fontWeight="bold"
-                  sx={{ m: "1rem 0 1rem 0" }}
+                  sx={{ m: ".7rem 0 1rem 0" }}
                 >
                   ADMIN
                 </Typography>

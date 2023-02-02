@@ -100,7 +100,7 @@ const BrandManagement = () => {
     // ========================== RETURN ==========================
     return (
         // here
-        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+        <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>品牌管理</h1>
             </Box>

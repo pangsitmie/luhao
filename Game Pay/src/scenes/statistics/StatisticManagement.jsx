@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useQuery, gql } from '@apollo/client'
+import { useQuery, gql, useLazyQuery } from '@apollo/client'
 import { format } from 'date-fns';
 
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
-import { GetBrandStatistic } from '../../graphQL/Queries'
+import { GetBrandStatistic, GetStoreStatistic } from '../../graphQL/Queries'
 
 
 import Loader from '../../components/loader/Loader';
@@ -18,9 +18,14 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import GroupIcon from '@mui/icons-material/Group';
 
 import StatBox from "../../components/StatBox";
 import StatPercentBox from '../../components/StatPercentBox';
+import Header from '../../components/Header';
+import { display } from '@mui/system';
+import StatBoxSplit from '../../components/StatBoxSplit';
+
 
 const StatisticManagement = () => {
     const location = useLocation();
@@ -35,7 +40,12 @@ const StatisticManagement = () => {
     const startValueRef = useRef('');
     const endValueRef = useRef('');
 
+    //title state is first initialize as brand name and updated when store name is selected
+    const [title, setTitle] = useState(state.data.name);
+
     const [brandStatistic, setBrandStatistic] = useState({});
+    const [displayStatistic, setDisplayStatistic] = useState({});
+
     const [storeList, setStoreList] = useState([]);
 
     const [storeListFilter, setStoreListFilter] = useState('');
@@ -49,34 +59,55 @@ const StatisticManagement = () => {
             ],
         }
     });
-
     useEffect(() => {
         if (data) {
+            // set the data to brandStatistic first
             setBrandStatistic(data.getBrand[0].getStatisticsTotal);
-            setStoreList(data.getBrand[0].managerGetStores);
-            console.log(brandStatistic);
+            setDisplayStatistic(data.getBrand[0].getStatisticsTotal);
+            setStoreList([{ id: -1, name: '無' }, ...data.getBrand[0].managerGetStores]);
+
         }
     }, [data]);
 
+    const [ApolloGetStoreStatistic, { loading: loadingStore, error: errorStore, data: dataStore }] = useLazyQuery(GetStoreStatistic);
     const handleStoreListChange = (e) => {
         const targetId = e.target.value;
 
+        if (targetId === -1) {
+            setTitle(state.data.name);
+
+            setDisplayStatistic(brandStatistic);
+            setStoreListFilter(targetId);
+            return;
+        }
+
         //find the brand id from brand list
         const store = storeList.find(store => store.id === targetId);
-
         if (store) {
+            setTitle(store.name);
+
             setStoreListFilter(targetId);
+            ApolloGetStoreStatistic({
+                variables: {
+                    args: [
+                        {
+                            id: targetId,
+                        }
+                    ],
+                }
+            }).then((res) => {
+                setDisplayStatistic(res.data.getStore[0].getStatisticsTotal);
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     };
-
-
-
 
     if (loading) return <Loader />;
     if (error) return <Error />;
 
     return (
-        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+        <Box p={2} position="flex" flexDirection={"column"}>
             <Box
                 display="flex"
                 justifyContent="space-between"
@@ -84,7 +115,7 @@ const StatisticManagement = () => {
                 height={"10%"}
                 mb={"1rem"}
             >
-                <h1 className='userManagement_title'>{state.data.name} - 統計</h1>
+                <Header title={title} subtitle="統計資料" />
 
             </Box>
             <Box
@@ -92,46 +123,29 @@ const StatisticManagement = () => {
                 alignItems={"center"}
                 justifyContent={"space-between"}
                 mb={"2rem"}
+                className={"flex_media"}
             >
-                <Box display={"flex"}>
+                <Box display={"flex"} className={"flex_media"}>
                     <Box
+                        backgroundColor={colors.primary[400]}
                         display="flex"
-                        mr={"1rem"}
                         borderRadius="10px"
                         height={"52px"}
-                        sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            border: "1px solid rgba(255, 255, 255, 0.222)",
-                            webkitBackdropFilter: "blur(20px)",
-                            backdropFilter: "blur(20px)",
-                        }}>
+                    >
                         <InputBase sx={{ ml: 2, pr: 2, flex: 1, width: "200px" }} placeholder="開始時間" inputRef={startValueRef} />
                     </Box>
+
                     <Box
-                        display={"flex"}
-                        alignItems={"center"}
-                        justifyContent={"center"}>
-                        <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500" }}>
-                            ~
-                        </Typography>
-                    </Box>
-                    <Box
+                        backgroundColor={colors.primary[400]}
                         display="flex"
-                        ml={"1rem"}
                         borderRadius="10px"
                         height={"52px"}
-                        sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            border: "1px solid rgba(255, 255, 255, 0.222)",
-                            webkitBackdropFilter: "blur(20px)",
-                            backdropFilter: "blur(20px)",
-                        }}>
+                    >
                         <InputBase sx={{ ml: 2, pr: 2, flex: 1, width: "200px" }} placeholder="結束時間" inputRef={endValueRef} />
                     </Box>
 
                     <Button sx={{
                         backgroundColor: colors.primary[300],
-                        ml: "1rem",
                         color: colors.grey[100],
                         minWidth: "150px",
                         height: "52px",
@@ -149,30 +163,32 @@ const StatisticManagement = () => {
                     </Button>
                 </Box>
 
-                <FormControl sx={{ minWidth: 150, }}>
+                <FormControl sx={{ minWidth: "150px" }}>
                     <InputLabel id="demo-simple-select-label" >店家過濾</InputLabel>
                     <Select
-                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
+                        required
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={storeListFilter}
                         label="storeListFilter"
                         onChange={handleStoreListChange}
-                        required
+                        sx={{
+                            borderRadius: "10px",
+                            background: colors.primary[400],
+                            height: "100%",
+                            width: "100%"
+                        }}
                     >
                         {storeList.map((item, i) => (
                             <MenuItem
                                 value={item.id}
                                 key={`${i}`}
                             >
-                                {item.id} - {item.name}
+                                {item.name}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
-
-
-
             </Box>
 
 
@@ -182,11 +198,10 @@ const StatisticManagement = () => {
                 borderRadius={"12px"}
                 sx={{
                     backgroundColor: "rgba(255, 255, 255, 0.074)",
-                    border: "1px solid rgba(255, 255, 255, 0.222)",
+                    border: "1px solid " + colors.grey[500],
                     webkitBackdropFilter: "blur(20px)",
                     backdropFilter: "blur(20px)",
                 }}>
-
 
                 <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
                     <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
@@ -195,7 +210,7 @@ const StatisticManagement = () => {
                     <Link
                         to={"/statistic-management/finance"}
                         state={{
-                            data: brandStatistic,
+                            data: displayStatistic,
                         }}
                     >
                         <IconButton>
@@ -214,41 +229,27 @@ const StatisticManagement = () => {
                 >
                     {/* ROW 1 */}
                     <Box
-                        gridColumn="span 3"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
-                        // sx={{
-                        //     backgroundColor: "rgba(255, 255, 255, 0.074)",
-                        //     border: "1px solid rgba(255, 255, 255, 0.222)",
-                        //     webkitBackdropFilter: "blur(20px)",
-                        //     backdropFilter: "blur(20px)",
-                        // }}
+                        className='span3'
                         sx={{
-                            background: "linear-gradient(135deg, #0b3866, #4436BD)",
+                            background: "linear-gradient(135deg, #386641, #6a994e)",
                             backgroundColor: "rgba(255, 255, 255, 0.074)",
                             webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(brandStatistic.coinTotal)}
+                            title={currencyFormatter(displayStatistic.coinTotal * 10)}
                             subtitle="總收入"
                             icon={
                                 <SavingsIcon
-                                    sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
                                 />
                             }
                         />
                     </Box>
 
                     <Box
-                        gridColumn="span 3"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
+                        className='span3'
                         sx={{
                             background: "linear-gradient(135deg, #921185, #A13796)",
                             backgroundColor: "rgba(255, 255, 255, 0.074)",
@@ -257,22 +258,18 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(10000)}
+                            title={currencyFormatter(5)}
                             subtitle="免費幣"
                             icon={
                                 <MonetizationOnIcon
-                                    sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
                                 />
                             }
                         />
                     </Box>
 
                     <Box
-                        gridColumn="span 3"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
+                        className='span3'
                         sx={{
                             background: "linear-gradient(135deg, #4281B7, #4697E7)",
                             backgroundColor: "rgba(255, 255, 255, 0.074)",
@@ -281,35 +278,31 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={numberFormatter(brandStatistic.giftTotal)}
+                            title={numberFormatter(displayStatistic.giftTotal)}
                             subtitle="總出貨"
                             icon={
                                 <InventoryIcon
-                                    sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
                                 />
                             }
                         />
                     </Box>
 
                     <Box
-                        gridColumn="span 3"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
+                        className='span3'
                         sx={{
-                            background: "linear-gradient(135deg, #DD9325, #E0A62C)",
+                            background: "linear-gradient(135deg, #F78C1C, #f7ba2c)",
                             backgroundColor: "rgba(255, 255, 255, 0.074)",
                             webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(10000)}
+                            title={currencyFormatter(5)}
                             subtitle="總支出"
                             icon={
                                 <ReceiptIcon
-                                    sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
                                 />
                             }
                         />
@@ -318,43 +311,35 @@ const StatisticManagement = () => {
 
                     {/* ROW 2 */}
                     <Box
-                        // formula: revenue / expense
-                        gridColumn="span 6"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
+                        // formula: (revenue-expense) / revenue
+                        className='span6'
                         sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            border: "1px solid rgba(255, 255, 255, 0.222)",
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
                             webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
                         <StatPercentBox
-                            title={"50%"}
-                            subtitle="營收比"
-                            progress=".5"
+                            title={((200 / (displayStatistic.coinTotal * 10) * 100).toFixed(2) + "%")}
+                            subtitle="支出比"
+                            progress={(200 / (displayStatistic.coinTotal * 10)).toFixed(2)}
                         />
                     </Box>
                     <Box
-                        // formula: revenue / (gift*10)
-                        gridColumn="span 6"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
+                        // formula: (gift*10) / revenue
+                        className='span6'
                         sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            border: "1px solid rgba(255, 255, 255, 0.222)",
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
                             webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
                         <StatPercentBox
-                            title={"30%"}
+                            title={((displayStatistic.giftTotal / (displayStatistic.coinTotal) * 100).toFixed(2) + "%")}
                             subtitle="出貨比"
-                            progress=".3"
+                            progress={((displayStatistic.giftTotal / (displayStatistic.coinTotal)).toFixed(2))}
                         />
                     </Box>
 
@@ -369,7 +354,7 @@ const StatisticManagement = () => {
                 borderRadius={"12px"}
                 sx={{
                     backgroundColor: "rgba(255, 255, 255, 0.074)",
-                    border: "1px solid rgba(255, 255, 255, 0.222)",
+                    border: "1px solid " + colors.grey[500],
                     webkitBackdropFilter: "blur(20px)",
                     backdropFilter: "blur(20px)",
                 }}>
@@ -381,7 +366,7 @@ const StatisticManagement = () => {
                     <Link
                         to={"/statistic-management/finance"}
                         state={{
-                            data: brandStatistic,
+                            data: displayStatistic,
                         }}
                     >
                         <IconButton>
@@ -399,72 +384,63 @@ const StatisticManagement = () => {
                 >
                     {/* ROW 1 */}
                     <Box
-                        gridColumn="span 4"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
+                        className='span4'
                         sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            border: "1px solid rgba(255, 255, 255, 0.222)",
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
                             webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
-                        <StatBox
-                            title={currencyFormatter(10000)}
-                            subtitle="總收入"
+                        <StatBoxSplit
+                            title={"客人数量"}
+                            subtitle1="新客人"
+                            val1={numberFormatter(1000)}
+                            subtitle2="舊客人"
+                            val2={numberFormatter(500)}
                             icon={
-                                <SavingsIcon
-                                    sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                <GroupIcon
+                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
                                 />
                             }
                         />
                     </Box>
 
                     <Box
-                        gridColumn="span 4"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
+                        className='span4'
                         sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            border: "1px solid rgba(255, 255, 255, 0.222)",
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
                             webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
                         <StatBox
                             title={currencyFormatter(10000)}
-                            subtitle="免費幣"
+                            subtitle="總免費幣發送"
                             icon={
                                 <MonetizationOnIcon
-                                    sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                    sx={{ color: colors.redAccent[300], fontSize: "45px" }}
                                 />
                             }
                         />
                     </Box>
 
                     <Box
-                        gridColumn="span 4"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={"12px"}
+                        className='span4'
                         sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            border: "1px solid rgba(255, 255, 255, 0.222)",
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
                             webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
                         <StatBox
-                            title={10000}
-                            subtitle="總出貨"
+                            title={currencyFormatter(10000)}
+                            subtitle="總免費幣使用"
                             icon={
-                                <InventoryIcon
-                                    sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                <MonetizationOnIcon
+                                    sx={{ color: colors.greenAccent[300], fontSize: "45px" }}
                                 />
                             }
                         />

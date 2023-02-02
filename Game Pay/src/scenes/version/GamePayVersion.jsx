@@ -67,8 +67,10 @@ const GamePayVersion = () => {
 
     return (
         <Box pr={2}>
-            <div className="container">
-                <div className="box ">
+            <Box className="container"
+            >
+                <Box className="box"
+                    border={"1px solid #111"}>
                     <Typography variant="h3" sx={{ mt: "5px", fontSize: "1.5rem", fontWeight: "500", color: colors.grey[200] }}>
                         Game Pay Version
                     </Typography>
@@ -139,8 +141,8 @@ const GamePayVersion = () => {
                     <div>
 
                     </div>
-                </div>
-            </div>
+                </Box>
+            </Box>
         </Box>
     )
 }

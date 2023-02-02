@@ -97,7 +97,7 @@ const BillboardManagement = () => {
     if (error) return <Error />;
 
     return (
-        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+        <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>{state.data.name} - 告示牌管理</h1>
             </Box>

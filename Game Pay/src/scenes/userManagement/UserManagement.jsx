@@ -81,7 +81,7 @@ const UserManagement = () => {
     if (error) return <Error />;
 
     return (
-        <Box p={2} position="flex" height={"100%"} overflow={"hidden"} flexDirection={"column"}>
+        <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>使用者管理</h1>
             </Box>

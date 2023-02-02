@@ -51,31 +51,29 @@ function App() {
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {/* <Routes>
-            <Route path="/" element={<Login />} />
-          </Routes> */}
           <div className="app">
             <Sidebar isSidebar={isSidebar} />
             <main className="content">
               <Topbar setIsSidebar={setIsSidebar} />
               <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
-
-                  {/* <Route path="/" element={<UserManagement />} /> */}
                   <Route exact path="/" element={<Dashboard />} />
+
+                  {/* MANAGEMENT */}
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/user-management" element={<UserManagement />} />
                   <Route path="/brand-management" element={<BrandManagement />} />
-
-                  <Route path="/store-management" element={<StoreManagement />} />
-
-                  {/* <Route path="/store-management" element={<StoreManagement />} /> */}
-                  <Route path="/ads-management" element={<AdsManagement />} />
-                  <Route path="/machine-management" element={<MachineManagement />} />
                   <Route path="/billboard-management" element={<BillboardManagement />} />
+                  <Route path="/store-management" element={<StoreManagement />} />
+                  <Route path="/machine-management" element={<MachineManagement />} />
+                  <Route path="/ads-management" element={<AdsManagement />} />
+
+                  {/* NOTIFICATION */}
                   <Route path="/system-notification" element={<SystemNotificationManagement />} />
                   <Route path="/system-coins" element={<SystemCoinManagement />} />
                   <Route path="/brand-coins" element={<BrandCoinManagement />} />
+
+                  {/* STATISTIC */}
                   <Route path="/statistic" element={<Statistics />} />
                   <Route path="/statistic-management" element={<StatisticManagement />} />
                   <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
@@ -86,7 +84,6 @@ function App() {
 
                 </Routes>
               </Suspense>
-
             </main>
           </div>
         </ThemeProvider>

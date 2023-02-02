@@ -44,23 +44,11 @@ const Dashboard = () => {
     const { loading, error, data } = useQuery(GetDashboardInit);
     useEffect(() => {
         if (data) {
-            console.log(data);
             setAllMember(data.getAllMember);
             setAllBrands(data.managerGetBrands);
             setAllStores(data.managerGetStores);
         }
     }, [data]);
-
-    useEffect(() => {
-        console.log(allMember.length);
-        console.log(allBrands.length);
-        console.log(allStores.length);
-    }, [allMember, allBrands, allStores]);
-
-
-
-
-
 
 
     return (
@@ -94,13 +82,9 @@ const Dashboard = () => {
             >
                 {/* ROW 1 */}
                 <Box
-                    gridColumn="span 3"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    borderRadius={"12px"}
+                    className='span3'
                     sx={{
-                        background: "linear-gradient(135deg, #f7ba2c, #E0A62C)",
+                        background: "linear-gradient(135deg, #F78C1C, #f7ba2c)",
                         backgroundColor: "rgba(255, 255, 255, 0.074)",
                         webkitBackdropFilter: "blur(20px)",
                         backdropFilter: "blur(20px)",
@@ -121,11 +105,7 @@ const Dashboard = () => {
 
 
                 <Box
-                    gridColumn="span 3"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    borderRadius={"12px"}
+                    className='span3'
                     sx={{
                         background: "linear-gradient(135deg, #3917d2, #5233de)",
                         backgroundColor: "rgba(255, 255, 255, 0.074)",
@@ -148,11 +128,7 @@ const Dashboard = () => {
 
 
                 <Box
-                    gridColumn="span 3"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    borderRadius={"12px"}
+                    className='span3'
                     sx={{
                         background: "linear-gradient(135deg, #4281B7, #4697E7)",
                         backgroundColor: "rgba(255, 255, 255, 0.074)",
@@ -173,13 +149,9 @@ const Dashboard = () => {
                 </Box>
 
                 <Box
-                    gridColumn="span 3"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    borderRadius={"12px"}
+                    className='span3'
                     sx={{
-                        background: "linear-gradient(135deg, #ea5753, #f13c77)",
+                        background: "linear-gradient(135deg, #f13c77, #ea5753)",
                         backgroundColor: "rgba(255, 255, 255, 0.074)",
                         webkitBackdropFilter: "blur(20px)",
                         backdropFilter: "blur(20px)",
@@ -200,7 +172,7 @@ const Dashboard = () => {
 
                 {/* ROW 2 */}
                 <Box
-                    gridColumn="span 8"
+                    gridColumn="span 12"
                     gridRow="span 2"
                     borderRadius={"12px"}
                     sx={{
@@ -245,34 +217,6 @@ const Dashboard = () => {
                         <LineChart isDashboard={true} />
                     </Box>
                 </Box>
-                <Box
-                    gridColumn="span 4"
-                    gridRow="span 2"
-                    overflow="auto"
-                    borderRadius={"12px"}
-                    sx={{
-                        backgroundColor: "rgba(255, 255, 255, 0.074)",
-                        border: "1px solid rgba(255, 255, 255, 0.222)",
-                        webkitBackdropFilter: "blur(20px)",
-                        backdropFilter: "blur(20px)",
-                    }}
-                >
-                    <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        borderBottom={`4px solid ${colors.primary[500]}`}
-                        colors={colors.grey[100]}
-                        p="15px"
-                    >
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                            Recent Transactions
-                        </Typography>
-                    </Box>
-
-                </Box>
-
-
             </Box>
         </Box>
     )

@@ -16,7 +16,7 @@ const Pagination = ({ limit, offset, onPageChange }) => {
     }
 
     return (
-        <Box width={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"} pl={"11%"}>
+        <Box width={"100%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
             <Button
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}
