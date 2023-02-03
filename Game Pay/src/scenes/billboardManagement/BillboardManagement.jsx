@@ -103,15 +103,23 @@ const BillboardManagement = () => {
             </Box>
 
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    height={"52px"}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="機台名稱" inputRef={brandRef} />
+                    height={"52px"}
+                    maxWidth={120}>
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="開始時間" inputRef={brandRef} />
+                </Box>
+                <Box
+                    display="flex"
+                    backgroundColor={colors.primary[400]}
+                    borderRadius="10px"
+                    height={"52px"}
+                    maxWidth={120}>
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="結束時間" inputRef={brandRef} />
                 </Box>
 
                 {/* SEARCH BTN */}
@@ -120,10 +128,7 @@ const BillboardManagement = () => {
                     color: colors.grey[100],
                     minWidth: "120px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',

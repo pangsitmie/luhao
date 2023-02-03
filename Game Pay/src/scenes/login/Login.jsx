@@ -94,7 +94,7 @@ const Login = () => {
         <Box className='login_page' backgroundColor={colors.primary[400]} >
             <div className="container">
                 <div className="box">
-                    <span className="title">GAME PAY <br />LOGIN</span>
+                    <span className="title">GAME PAY</span>
                     <div>
                         <Formik
                             onSubmit={handleFormSubmit}

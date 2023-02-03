@@ -53,13 +53,8 @@ const SystemNotificationManagement = () => {
     const [notifications, setNotifications] = useState([]);
     useEffect(() => {
         if (data) {
-            console.log(data);
             setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
             setNotifications(data.managerGetAllNotificationSchedules); //datas for display
-        }
-        else {
-            console.log(error);
-            console.log(loading);
         }
     }, [data]);
 
@@ -97,18 +92,27 @@ const SystemNotificationManagement = () => {
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>系統通知</h1>
             </Box>
+
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
-                {/* name Search */}
+            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+                {/* Search box */}
                 <Box
                     display="flex"
-                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    height={"52px"}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
+                    height={"52px"}
+                    maxWidth={130}>
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="開始時間" inputRef={searchValueRef} />
                 </Box>
-                <FormControl sx={{ minWidth: 150, mr: "1rem" }} >
+                <Box
+                    display="flex"
+                    backgroundColor={colors.primary[400]}
+                    borderRadius="10px"
+                    height={"52px"}
+                    maxWidth={130}>
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="結束時間" inputRef={searchValueRef} />
+                </Box>
+                <FormControl sx={{ width: 100 }} >
                     <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -123,32 +127,14 @@ const SystemNotificationManagement = () => {
                         <MenuItem value={"停用"}>停用</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 150 }} >
-                    <InputLabel id="demo-simple-select-label" >審核</InputLabel>
-                    <Select
-                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={review}
-                        label="Review"
-                        onChange={handleReviewChange}
-                    >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"通過"}>通過</MenuItem>
-                        <MenuItem value={"待審核"}>待審核</MenuItem>
-                        <MenuItem value={"封鎖"}>封鎖</MenuItem>
-                    </Select>
-                </FormControl>
+
                 {/* SEARCH BTN */}
                 <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
                     minWidth: "120px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',

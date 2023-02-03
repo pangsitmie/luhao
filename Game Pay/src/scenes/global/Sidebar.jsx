@@ -1,28 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
+
+// ICONS
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import StoreIcon from '@mui/icons-material/Store';
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import FilterFramesIcon from '@mui/icons-material/FilterFrames';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
+import BusinessIcon from '@mui/icons-material/Business';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import UpdateIcon from '@mui/icons-material/Update';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import LOGO from "../../assets/logo512.png";
-const Item = ({ title, to, icon, selected, setSelected }) => {
+
+
+
+
+const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -31,7 +34,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      // onClick={() => setSelected(title)}
+      onClick={onClick ? onClick : () => setSelected(title)}
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -46,6 +50,22 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.clear();
+    navigate('/login');
+  }
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 950px)");
+    const handleMatchMediaChange = (e) => {
+      setIsCollapsed(e.matches);
+    };
+    handleMatchMediaChange(mq);
+  }, []);
+
+
   return (
     <Box
       height={"100%"}
@@ -57,7 +77,7 @@ const Sidebar = () => {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
+          padding: "5px 25px 5px 20px !important",
         },
         "& .pro-inner-item:hover": {
           color: "#868dfb !important",
@@ -157,10 +177,24 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "25px 0 5px 20px" }}
+            >
+              廣告
+            </Typography>
             <Item
-              title="廣告管理"
-              to="/ads-management"
+              title="系統廣告"
+              to="/system-ads"
               icon={<AnnouncementIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="商業合作"
+              to="/partner"
+              icon={<BusinessIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -232,8 +266,16 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
-
+            <Item
+              title="登出"
+              icon={<LogoutIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              onClick={logout}
+            />
+            {/* <IconButton onClick={logout}>
+              <LogoutIcon />
+            </IconButton> */}
             <Typography
               variant="h6"
               color={colors.grey[300]}

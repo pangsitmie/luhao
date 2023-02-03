@@ -56,21 +56,6 @@ const Dashboard = () => {
             {/* HEADER */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="DASHBOARD" subtitle="Welcome back" />
-
-                {/* <Box>
-                    <Button
-                        sx={{
-                            backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                        }}
-                    >
-                        <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-                        Download Reports
-                    </Button>
-                </Box> */}
             </Box>
 
             {/* GRID & CHARTS */}
@@ -84,7 +69,7 @@ const Dashboard = () => {
                 <Box
                     className='span3'
                     sx={{
-                        background: "linear-gradient(135deg, #F78C1C, #f7ba2c)",
+                        background: "linear-gradient(135deg, #ED472D, #FC8F2D)",
                         backgroundColor: "rgba(255, 255, 255, 0.074)",
                         webkitBackdropFilter: "blur(20px)",
                         backdropFilter: "blur(20px)",

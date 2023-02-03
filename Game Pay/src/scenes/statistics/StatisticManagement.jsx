@@ -4,7 +4,7 @@ import { useQuery, gql, useLazyQuery } from '@apollo/client'
 import { format } from 'date-fns';
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
 import { GetBrandStatistic, GetStoreStatistic } from '../../graphQL/Queries'
@@ -37,11 +37,22 @@ const StatisticManagement = () => {
     const colorMode = useContext(ColorModeContext);
 
     // ======================== STATES ========================
-    const startValueRef = useRef('');
-    const endValueRef = useRef('');
 
     //title state is first initialize as brand name and updated when store name is selected
-    const [title, setTitle] = useState(state.data.name);
+    const [selectedItem, setSelectedItem] = useState({
+        id: state.data.id,
+        name: state.data.name
+    });
+
+    const [startAtDate, setStartAtDate] = useState('');
+    function handleStartAtDateChange(event) {
+        setStartAtDate(event.target.value);
+    }
+
+    const [endAtDate, setEndAtDate] = useState('');
+    function handleEndAtDateChange(event) {
+        setEndAtDate(event.target.value);
+    }
 
     const [brandStatistic, setBrandStatistic] = useState({});
     const [displayStatistic, setDisplayStatistic] = useState({});
@@ -69,12 +80,20 @@ const StatisticManagement = () => {
         }
     }, [data]);
 
+
+    const [ApolloGetBrandStatistic, { loading: loadingBrand, error: errorBrand, data: dataBrand }] = useLazyQuery(GetBrandStatistic);
+
+
+
     const [ApolloGetStoreStatistic, { loading: loadingStore, error: errorStore, data: dataStore }] = useLazyQuery(GetStoreStatistic);
     const handleStoreListChange = (e) => {
         const targetId = e.target.value;
 
         if (targetId === -1) {
-            setTitle(state.data.name);
+            setSelectedItem({
+                id: state.data.id,
+                name: state.data.name
+            });
 
             setDisplayStatistic(brandStatistic);
             setStoreListFilter(targetId);
@@ -84,24 +103,109 @@ const StatisticManagement = () => {
         //find the brand id from brand list
         const store = storeList.find(store => store.id === targetId);
         if (store) {
-            setTitle(store.name);
+            setSelectedItem(
+                {
+                    id: store.id,
+                    name: store.name
+                }
+            );
 
             setStoreListFilter(targetId);
-            ApolloGetStoreStatistic({
-                variables: {
-                    args: [
-                        {
-                            id: targetId,
-                        }
-                    ],
-                }
-            }).then((res) => {
+
+            const startAtDateObj = new Date(startAtDate);
+            const endAtDateObj = new Date(endAtDate);
+
+            let startAtUnix = startAtDateObj.getTime() / 1000;
+            let endAtUnix = endAtDateObj.getTime() / 1000;
+            let nowUnix = Math.floor(Date.now() / 1000);
+
+            const variables = {
+                args: [
+                    {
+                        id: targetId,
+                    }
+                ],
+            };
+            //check if startAtUnix is filled
+            //insert startAtUnix to variables
+            if (!isNaN(startAtUnix)) {
+                variables.startAt = startAtUnix;
+            }
+            //insert endAtUnix to variables if it is selected
+
+            if (!isNaN(endAtUnix)) {
+                variables.endAt = endAtUnix;
+            }
+
+            if (endAtUnix < startAtUnix) {
+                alert("End date must be greater than start date");
+                return;
+            }
+
+            ApolloGetStoreStatistic({ variables }).then((res) => {
                 setDisplayStatistic(res.data.getStore[0].getStatisticsTotal);
             }).catch((err) => {
                 console.log(err);
             });
         }
     };
+
+    // ========================== FUNCTIONS ==========================
+    const submitSearch = () => {
+        console.log("SEARCH" + selectedItem.id + selectedItem.name);
+        console.log(selectedItem === state.data.name);
+
+        const startAtDateObj = new Date(startAtDate);
+        const endAtDateObj = new Date(endAtDate);
+
+        let startAtUnix = startAtDateObj.getTime() / 1000;
+        let endAtUnix = endAtDateObj.getTime() / 1000;
+        let nowUnix = Math.floor(Date.now() / 1000);
+
+        const variables = {
+            args: [
+                {
+                    id: selectedItem.id,
+                }
+            ],
+        };
+        //check if startAtUnix is filled
+        if (!isNaN(startAtUnix)) {
+            variables.startAt = startAtUnix;
+        }
+        //insert endAtUnix to variables if it is selected
+
+        if (!isNaN(endAtUnix)) {
+            variables.endAt = endAtUnix;
+        }
+        if (endAtUnix < startAtUnix) {
+            alert("End date must be greater than start date");
+            return;
+        }
+        console.log(selectedItem);
+        console.log(variables);
+
+
+        // we want to search brand statistic with corespondinc time frame
+        if (selectedItem.name === state.data.name) {
+            ApolloGetBrandStatistic({ variables }).then((res) => {
+                console.log(res);
+                setDisplayStatistic(res.data.getBrand[0].getStatisticsTotal);
+            }).catch((err) => {
+                console.log(err);
+            });
+            return;
+        }
+        else {
+            ApolloGetStoreStatistic({ variables }).then((res) => {
+                setDisplayStatistic(res.data.getStore[0].getStatisticsTotal);
+            }).catch((err) => {
+                console.log(err);
+            });
+            return;
+        }
+    };
+
 
     if (loading) return <Loader />;
     if (error) return <Error />;
@@ -115,39 +219,46 @@ const StatisticManagement = () => {
                 height={"10%"}
                 mb={"1rem"}
             >
-                <Header title={title} subtitle="統計資料" />
-
+                <Header title={selectedItem.name} subtitle="統計資料" />
             </Box>
+
             <Box
-                display="flex"
                 alignItems={"center"}
                 justifyContent={"space-between"}
-                mb={"2rem"}
                 className={"flex_media"}
+                mb={"1rem"}
             >
-                <Box display={"flex"} className={"flex_media"}>
-                    <Box
-                        backgroundColor={colors.primary[400]}
-                        display="flex"
-                        borderRadius="10px"
-                        height={"52px"}
-                    >
-                        <InputBase sx={{ ml: 2, pr: 2, flex: 1, width: "200px" }} placeholder="開始時間" inputRef={startValueRef} />
-                    </Box>
+                <Box className={"flex_media"} >
+                    <TextField
+                        id="datetime-local"
+                        label="開始時間點"
+                        type="datetime-local"
+                        // defaultValue="2017-05-24T10:30"
+                        value={startAtDate}
+                        onChange={handleStartAtDateChange}
+                        sx={{ width: "160px" }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
 
-                    <Box
-                        backgroundColor={colors.primary[400]}
-                        display="flex"
-                        borderRadius="10px"
-                        height={"52px"}
-                    >
-                        <InputBase sx={{ ml: 2, pr: 2, flex: 1, width: "200px" }} placeholder="結束時間" inputRef={endValueRef} />
-                    </Box>
+                    <TextField
+                        id="datetime-local"
+                        label="過期時間"
+                        type="datetime-local"
+                        // defaultValue="2017-05-24T10:30"
+                        value={endAtDate}
+                        onChange={handleEndAtDateChange}
+                        sx={{ width: "160px" }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
 
                     <Button sx={{
                         backgroundColor: colors.primary[300],
                         color: colors.grey[100],
-                        minWidth: "150px",
+                        minWidth: "90px",
                         height: "52px",
                         borderRadius: "10px",
                         padding: "0px",
@@ -156,7 +267,7 @@ const StatisticManagement = () => {
                             border: '1px solid white',
                         }
                     }}
-                        onClick={() => { }}>
+                        onClick={submitSearch}>
                         <Typography color={"white"} variant="h5" fontWeight="500">
                             查詢
                         </Typography>
@@ -298,7 +409,7 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(5)}
+                            title={currencyFormatter(100)}
                             subtitle="總支出"
                             icon={
                                 <ReceiptIcon
@@ -321,13 +432,16 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatPercentBox
-                            title={((200 / (displayStatistic.coinTotal * 10) * 100).toFixed(2) + "%")}
+                            // we still dont have expenses and free coin data
+                            title={((100 / (displayStatistic.coinTotal * 10) * 100).toFixed(2) + "%")}
                             subtitle="支出比"
-                            progress={(200 / (displayStatistic.coinTotal * 10)).toFixed(2)}
+                            progress={(100 / (displayStatistic.coinTotal * 10)).toFixed(2)}
                         />
                     </Box>
                     <Box
                         // formula: (gift*10) / revenue
+                        // we still dont have expenses and free coin data
+
                         className='span6'
                         sx={{
                             backgroundColor: colors.primary[400],

@@ -103,32 +103,25 @@ const BrandCoinManagement = () => {
                 <h1 className='userManagement_title'>品牌專屬幣發送</h1>
             </Box>
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    height={"52px"}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
+                    height={"52px"}
+                    maxWidth={130}>
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="開始時間" inputRef={searchValueRef} />
                 </Box>
-                <FormControl sx={{ minWidth: 150, mr: "1rem" }} >
-                    <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
-                    <Select
-                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={status}
-                        label="Status"
-                        onChange={handleStatusChange}
-                    >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"正常"}>正常</MenuItem>
-                        <MenuItem value={"停用"}>停用</MenuItem>
-                    </Select>
-                </FormControl>
-                <FormControl sx={{ minWidth: 150 }} >
+                <Box
+                    display="flex"
+                    backgroundColor={colors.primary[400]}
+                    borderRadius="10px"
+                    height={"52px"}
+                    maxWidth={130}>
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="結束時間" inputRef={searchValueRef} />
+                </Box>
+                <FormControl sx={{ minWidth: 100 }} >
                     <InputLabel id="demo-simple-select-label" >審核</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -150,10 +143,7 @@ const BrandCoinManagement = () => {
                     color: colors.grey[100],
                     minWidth: "120px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',
@@ -175,7 +165,6 @@ const BrandCoinManagement = () => {
                 >
                     <CreateBrandCoinModal />
                 </Box>
-
             </Box>
 
             {/* TABLE DIV */}
@@ -219,8 +208,6 @@ const BrandCoinManagement = () => {
                     maxHeight={"100px"}
 
                 >
-
-
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">標題</Typography>
                     </Box>

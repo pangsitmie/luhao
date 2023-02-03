@@ -38,7 +38,6 @@ export default function SystemNotificationListModal({ props }) {
   });
 
   useEffect(() => {
-    console.log(props);
     const expireAtDate = props.expireAt === null ? "無" : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss');
 
     setInitialValues({
@@ -56,7 +55,6 @@ export default function SystemNotificationListModal({ props }) {
   const [ApolloRemoveNotification, { loading, error, data }] = useLazyQuery(DeleteNotification);
   useEffect(() => {
     if (data) {
-      console.log(data);
       window.location.reload();
     }
     else {
@@ -73,9 +71,6 @@ export default function SystemNotificationListModal({ props }) {
           ids: props.id
         }
       })
-      console.log("deleted");
-    } else {
-      console.log("not deleted");
     }
   };
 

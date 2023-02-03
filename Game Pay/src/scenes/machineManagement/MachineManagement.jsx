@@ -46,8 +46,6 @@ const MachineManagement = () => {
         setCurrentPage(offset / limit + 1);
     }
 
-    const [searchFilter, setSearchFilter] = useState('');
-    const [cityFilter, setCityFilter] = useState('');
 
     const [initMachineDatas, setInitMachineDatas] = useState([]);
     const [machineDatas, setMachineDatas] = useState([]);
@@ -172,14 +170,14 @@ const MachineManagement = () => {
             </Box>
 
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    height={"52px"}>
+                    height={"52px"}
+                    maxWidth={150}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="機台名稱" inputRef={searchRef} />
                 </Box>
 
@@ -189,10 +187,7 @@ const MachineManagement = () => {
                     color: colors.grey[100],
                     minWidth: "120px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',
@@ -209,7 +204,7 @@ const MachineManagement = () => {
                     display="flex"
                     borderRadius="10px"
                     marginLeft={"auto"}
-                    padding={"0"}
+                    gap={"1rem"}
                 >
 
                     <Button sx={{
@@ -217,10 +212,7 @@ const MachineManagement = () => {
                         color: colors.grey[100],
                         minWidth: "120px",
                         height: "52px",
-                        marginLeft: "1rem",
                         borderRadius: "10px",
-                        padding: "0px",
-                        marginRight: "2rem",
                         ':hover': {
                             bgcolor: colors.primary[300],
                             border: '1px solid white',

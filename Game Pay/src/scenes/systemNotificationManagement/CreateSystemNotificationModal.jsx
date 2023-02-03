@@ -82,7 +82,6 @@ export default function CreateSystemNotificationModal() {
     if (!isNaN(expireAtUnix)) {
       variables.notification.expireAt = expireAtUnix;
     }
-    // console.log(variables);
     if (expireAtUnix < triggerAtUnix) {
       alert("End date must be greater than start date");
       return;
@@ -97,11 +96,7 @@ export default function CreateSystemNotificationModal() {
   const [ApolloCreateNotification, { loading, error, data }] = useMutation(CreateSystemNotification);
   useEffect(() => {
     if (data) {
-      console.log(data);
       window.location.reload();
-    }
-    else {
-      console.log(error)
     }
   }, [data]);
 

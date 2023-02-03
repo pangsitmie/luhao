@@ -68,31 +68,6 @@ const AdsManagement = () => {
     }, [data]);
 
 
-    // ========================== FUNCTIONS ==========================
-    const submitSearch = () => {
-        // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
-
-        //CALL SEARCH FUNCTION
-        let value = searchValueRef.current.value;
-        if (value.length > 2) {
-            let search = arraySearch(ads, value);
-            setAds(search)
-        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setAds(initAds)
-        }
-    };
-
-    //SEARCH FUNCTION
-    const arraySearch = (array, keyword, filter) => {
-        const searchTerm = keyword
-
-        return array.filter(value => {
-            return value.name.match(new RegExp(searchTerm, 'g')) ||
-                value.principal.name.match(new RegExp(searchTerm, 'g'))
-        })
-    }
-
     if (loading) return <Loader />;
     if (error) return <Error />;
 
@@ -100,20 +75,13 @@ const AdsManagement = () => {
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>廣告管理</h1>
+                <h1 className='userManagement_title'>系統廣告</h1>
             </Box>
+
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
-                <Box
-                    display="flex"
-                    mr={"1rem"}
-                    backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
-                    height={"52px"}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
-                </Box>
-                <FormControl sx={{ minWidth: 150, mr: "1rem" }} >
+                <FormControl sx={{ width: 140 }} >
                     <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -128,7 +96,7 @@ const AdsManagement = () => {
                         <MenuItem value={"停用"}>停用</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 150 }} >
+                <FormControl sx={{ width: 140 }} >
                     <InputLabel id="demo-simple-select-label" >審核</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -150,16 +118,13 @@ const AdsManagement = () => {
                     color: colors.grey[100],
                     minWidth: "120px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',
                     }
                 }}
-                    onClick={submitSearch}>
+                    onClick={() => { }}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
                     <Typography color={"white"} variant="h5" fontWeight="500">
                         查詢

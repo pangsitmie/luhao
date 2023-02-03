@@ -1,7 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
-import { useQuery } from '@apollo/client'
+import React, { useEffect, useState, useRef } from 'react'
+import { Link } from 'react-router-dom';
+
 // QUERIES
+import { useQuery } from '@apollo/client'
 import { GetAllBrands } from '../../graphQL/Queries'
+
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -10,8 +13,9 @@ import { tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import BrandListModal from './BrandListModal';
+
+// COMPONENETS
 import CreateBrandModal from './CreateBrandModal';
-import { Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
@@ -92,9 +96,6 @@ const BrandManagement = () => {
         })
     }
 
-
-
-
     if (loading) return <Loader />;
     if (error) return <Error />;
     // ========================== RETURN ==========================
@@ -105,19 +106,18 @@ const BrandManagement = () => {
                 <h1 className='userManagement_title'>品牌管理</h1>
             </Box>
 
-            {/* here */}
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    height={"52px"}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, width: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
+                    height={"52px"}
+                    maxWidth={120}>
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
                 </Box>
-                <FormControl sx={{ minWidth: 150, mr: "1rem" }} >
+                <FormControl sx={{ width: 100 }} >
                     <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -132,7 +132,7 @@ const BrandManagement = () => {
                         <MenuItem value={"停用"}>停用</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 150 }} >
+                <FormControl sx={{ minWidth: 100 }} >
                     <InputLabel id="demo-simple-select-label" >審核</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -148,16 +148,14 @@ const BrandManagement = () => {
                         <MenuItem value={"封鎖"}>封鎖</MenuItem>
                     </Select>
                 </FormControl>
+
                 {/* SEARCH BTN */}
                 <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
                     minWidth: "120px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',
@@ -174,7 +172,6 @@ const BrandManagement = () => {
                     borderRadius="10px"
                     marginLeft={"auto"}
                     height={"52px"}
-                    padding={"0"}
                 >
                     <CreateBrandModal />
                 </Box>

@@ -1,18 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useQuery } from '@apollo/client'
+import { Link } from 'react-router-dom';
 
 // QUERIES
+import { useQuery } from '@apollo/client'
 import { GetAllStores } from '../../graphQL/Queries'
+
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
+
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+
+// COMPONENETS
 import { citiesData } from "../../data/mockData";
 import StoreListModal from './StoreListModal';
 import CreateStoreModal from './CreateStoreModal'
-import { Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
@@ -79,11 +83,12 @@ const StoreManagement = () => {
 
     // STORE SEARCH FUNCTION
     const storeArraySearch = (array, keyword) => {
+        console.log(array, keyword);
+        console.log()
         const searchTerm = keyword
 
         return array.filter(value => {
-            return value.name.match(new RegExp(searchTerm, 'g')) ||
-                value.principal.name.match(new RegExp(searchTerm, 'g'))
+            return value.name.match(new RegExp(searchTerm, 'g'))
         })
     }
 
@@ -108,63 +113,46 @@ const StoreManagement = () => {
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>店面管理</h1>
             </Box>
+
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    height={"52px"}>
+                    height={"52px"}
+                    maxWidth={120}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名" inputRef={brandRef} />
                 </Box>
                 <Box
                     display="flex"
-                    mr={2}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    alignItems={"center"}
-                    height={"52px"}>
-                    <InputBase sx={{ m: "0 1rem", height: "100%" }} placeholder="店面名 或 負責人" inputRef={searchRef} />
-                    <FormControl sx={{ minWidth: 150, padding: "5px" }} >
-                        <InputLabel id="demo-simple-select-label">查詢過濾</InputLabel>
-                        <Select
-                            sx={{ borderRadius: "10px", background: colors.primary[400], maxHeight: "40px" }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={searchFilter}
-                            label="searchFilter"
-                            onChange={handleSearchChange}
-                        >
-                            <MenuItem value={"店面名"}>店面名</MenuItem>
-                            <MenuItem value={"負責人"}>負責人</MenuItem>
-                            <MenuItem value={"負責人手機號"}>負責人手機號</MenuItem>
-                        </Select>
-                    </FormControl>
+                    height={"52px"}
+                    maxWidth={140}>
+                    <InputBase sx={{ m: "0 1rem", height: "100%" }} placeholder="店面名" inputRef={searchRef} />
                 </Box>
-                <Box>
-                    <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                        <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
-                        <Select
-                            sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={cityFilter}
-                            label="cityFilter"
-                            onChange={handleCityChange}
-                        >
-                            {citiesData.map((city, i) => (
-                                <MenuItem
-                                    value={city.name}
-                                    key={`${city.id}-${i}`}
-                                >
-                                    {city.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Box>
+                <FormControl sx={{ width: 120 }}>
+                    <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
+                    <Select
+                        sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={cityFilter}
+                        label="cityFilter"
+                        onChange={handleCityChange}
+                    >
+                        {citiesData.map((city, i) => (
+                            <MenuItem
+                                value={city.name}
+                                key={`${city.id}-${i}`}
+                            >
+                                {city.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
                 {/* SEARCH BTN */}
                 <Button sx={{
@@ -172,10 +160,7 @@ const StoreManagement = () => {
                     color: colors.grey[100],
                     minWidth: "120px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',

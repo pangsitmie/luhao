@@ -25,6 +25,8 @@ import Promotion from "./scenes/promotion/Promotion";
 import Statistics from "./scenes/statistics/Statistics";
 import StatisticManagement from "./scenes/statistics/StatisticManagement";
 import FinanceStatistic from "./scenes/statistics/FinanceStatistic";
+import PartnerAdsManagement from "./scenes/partnerAds/PartnerAdsManagement";
+import PartnerManagement from "./scenes/partner/PartnerManagement";
 
 
 const StoreManagement = lazy(() => import('./scenes/storeManagement/StoreManagement'));
@@ -66,7 +68,9 @@ function App() {
                   <Route path="/billboard-management" element={<BillboardManagement />} />
                   <Route path="/store-management" element={<StoreManagement />} />
                   <Route path="/machine-management" element={<MachineManagement />} />
-                  <Route path="/ads-management" element={<AdsManagement />} />
+                  <Route path="/system-ads" element={<AdsManagement />} />
+                  <Route path="/partner" element={<PartnerManagement />} />
+                  <Route path="/partner-ads" element={<PartnerAdsManagement />} />
 
                   {/* NOTIFICATION */}
                   <Route path="/system-notification" element={<SystemNotificationManagement />} />

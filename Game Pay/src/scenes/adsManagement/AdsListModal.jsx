@@ -77,13 +77,9 @@ export default function AdsListModal({ props }) {
             setStartAtDate(startAtDateTimeLocal);
 
             if (nonNullData.endAt !== "") {
-                console.log(nonNullData.endAt);
                 const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
                 setEndAtDate(endAtDateTimeLocal);
-                // console.log(endAtDate);
             }
-
-            console.log(nonNullData.url + ", " + endAtDate);
 
             if (nonNullData.image !== null || (nonNullData.image !== "null" || nonNullData.image !== "")) {
                 setImageFileName(nonNullData.image);
