@@ -5,13 +5,16 @@ import App from "./App";
 import LoginProvider from "./LoginProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-// import Calendar from "./scenes/calendar/calendar";
-
 //APOLLO
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, useQuery, gql } from '@apollo/client';
 
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+
+
+//REDUX
+import store from './redux/store'
+import { Provider } from 'react-redux'
 
 let originalQuery;
 let originalVariables;
@@ -35,6 +38,19 @@ let originalVariables;
 // ===================== end  =====================
 
 
+// REDUX STORE
+
+
+// import store from './redux/store';
+
+// STORE -> GLOBAL STATE
+
+// ACTION -> DESCRIBE WHAT YOU WANT TO DO
+
+// REDUCER -> DESCRIBE HOW YOUR ACTIONS TRANSFORM YOUR STATE INTO THE NEXT STATE
+
+
+// DISPATCH -> EXECUTE YOUR ACTION
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (!operation)
@@ -121,16 +137,18 @@ const client = new ApolloClient({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
-      <React.StrictMode>
-        <Routes>
-          <Route exact path="/*" element={<App />} />
-          <Route path="/login" element={<LoginProvider />} />
-        </Routes>
-      </React.StrictMode>
-    </BrowserRouter>
-  </ApolloProvider>
+  <Provider store={store}>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <React.StrictMode>
+          <Routes>
+            <Route exact path="/*" element={<App />} />
+            <Route path="/login" element={<LoginProvider />} />
+          </Routes>
+        </React.StrictMode>
+      </BrowserRouter>
+    </ApolloProvider>
+  </Provider>
 
 );
 

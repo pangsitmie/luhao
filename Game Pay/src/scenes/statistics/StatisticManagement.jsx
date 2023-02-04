@@ -41,7 +41,7 @@ const StatisticManagement = () => {
     //title state is first initialize as brand name and updated when store name is selected
     const [selectedItem, setSelectedItem] = useState({
         id: state.data.id,
-        name: state.data.name
+        entityName: state.data.name
     });
 
     const [startAtDate, setStartAtDate] = useState('');
@@ -92,7 +92,7 @@ const StatisticManagement = () => {
         if (targetId === -1) {
             setSelectedItem({
                 id: state.data.id,
-                name: state.data.name
+                entityName: state.data.name
             });
 
             setDisplayStatistic(brandStatistic);
@@ -106,7 +106,7 @@ const StatisticManagement = () => {
             setSelectedItem(
                 {
                     id: store.id,
-                    name: store.name
+                    entityName: store.name
                 }
             );
 

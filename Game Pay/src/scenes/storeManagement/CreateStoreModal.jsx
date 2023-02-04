@@ -194,7 +194,7 @@ export default function CreateStoreModal() {
         }
 
         console.log(variables);
-        // ApolloCreateStore({ variables });
+        ApolloCreateStore({ variables });
     };
 
     const toggleModal = () => {

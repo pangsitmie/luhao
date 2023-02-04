@@ -37,7 +37,7 @@ export default function BrandListModal({ props }) {
     id: -1,
     status: "",
     statusDesc: "",
-    name: "",
+    entityName: "",
     intro: "",
     principalName: "",
     principaPhone: "",
@@ -168,7 +168,7 @@ export default function BrandListModal({ props }) {
       setInitialValues({
         id: props.id,
         status: nonNullData.status.name,
-        name: nonNullData.name,
+        entityName: nonNullData.name,
         vatNumber: nonNullData.vatNumber,
         intro: nonNullData.intro,
         principalName: nonNullData.principal.name,

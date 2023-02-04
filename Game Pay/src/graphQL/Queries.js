@@ -7,11 +7,22 @@ query GetManagerAccessToken($refreshToken: String!) {
   getManagerAccessToken(refreshToken: $refreshToken)
 }
 `
-export const GetAccessToken = gql`
-query getAccessToken($refreshToken: String!) {
-  getAccessToken(refreshToken: $refreshToken)
+
+
+// BRAND ACCESS TOKEN
+export const GetBrandPrincipalWebAccessToken = gql`
+query getBrandPrincipalWebAccessToken($refreshToken: String!) {
+  getBrandPrincipalWebAccessToken(refreshToken: $refreshToken)
 }
 `
+
+// STORE ACCESS TOKEN
+export const GetStoreWebAccessToken = gql`
+query Query($refreshToken: String!) {
+  getStorePrincipalWebAccessToken(refreshToken: $refreshToken)
+}
+`
+
 
 // ========================= Member =========================
 export const GetAllMember = gql`

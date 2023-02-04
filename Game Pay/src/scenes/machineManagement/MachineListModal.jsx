@@ -45,7 +45,7 @@ export default function MachineListModal({ props }) {
     const [initialValues, setInitialValues] = useState({
         id: 0,
         UUID: "",
-        name: "",
+        entityName: "",
         code: "",
         price: 0,
         qrCode: "",
@@ -101,7 +101,7 @@ export default function MachineListModal({ props }) {
                 // ...nonNullData
                 id: nonNullData.id,
                 UUID: nonNullData.uuid,
-                name: nonNullData.name,
+                entityName: nonNullData.name,
                 code: nonNullData.code,
                 price: nonNullData.price,
                 qrCode: nonNullData.qrCode,

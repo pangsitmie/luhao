@@ -5,6 +5,18 @@ mutation ManagerLogin($account: String!, $password: String!) {
   managerLogin(account: $account, password: $password)
 }
 `
+
+export const BrandLogin = gql`
+mutation BrandPrincipalWebLogin($phone: PhoneInput!, $password: String!) {
+  brandPrincipalWebLogin(phone: $phone, password: $password)
+}
+`
+export const StoreLogin = gql`
+mutation StorePrincipalWebLogin($account: String!, $password: String!) {
+  storePrincipalWebLogin(account: $account, password: $password)
+}
+`
+
 export const SendVerificationCode = gql`
 mutation SendVerificationCode($phone: PhoneInput!, $type: EVerificationCodeType!) {
   sendVerificationCode(phone: $phone, type: $type) 

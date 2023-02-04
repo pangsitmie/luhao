@@ -84,7 +84,7 @@ export default function StoreListModal({ props }) {
         id: -1,
         brandId: -1,
         brandName: "",
-        name: "",
+        entityName: "",
         intro: "",
         //locations get from location state
         status: "",
@@ -137,7 +137,7 @@ export default function StoreListModal({ props }) {
             setInitialValues({
                 id: props.id,
                 status: nonNullData.status.name,
-                name: nonNullData.name,
+                entityName: nonNullData.name,
                 intro: nonNullData.intro,
                 brandId: nonNullData.brand.id,
                 brandName: nonNullData.brand.name,
