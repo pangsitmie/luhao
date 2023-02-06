@@ -4,11 +4,11 @@ import { Formik } from "formik";
 import * as yup from "yup";
 // import useMediaQuery from "@mui/material/useMediaQuery";
 import { useQuery, useLazyQuery } from '@apollo/client'
-import "../../components/Modal/modal.css";
-import { tokens } from "../../theme";
-import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "../../graphQL/Queries";
-import { replaceNullWithEmptyString } from "../../utils/Utils";
+import "src/components/Modal/modal.css";
+import { tokens } from "src/theme";
+import ConfirmModal from "src/components/Modal/ConfirmModal";
+import { GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "src/graphQL/Queries";
+import { replaceNullWithEmptyString } from "src/utils/Utils";
 import QRCode from "qrcode";
 
 
@@ -45,7 +45,7 @@ export default function MachineListModal({ props }) {
     const [initialValues, setInitialValues] = useState({
         id: 0,
         UUID: "",
-        entityName: "",
+        name: "",
         code: "",
         price: 0,
         qrCode: "",
@@ -101,7 +101,7 @@ export default function MachineListModal({ props }) {
                 // ...nonNullData
                 id: nonNullData.id,
                 UUID: nonNullData.uuid,
-                entityName: nonNullData.name,
+                name: nonNullData.name,
                 code: nonNullData.code,
                 price: nonNullData.price,
                 qrCode: nonNullData.qrCode,
@@ -115,12 +115,30 @@ export default function MachineListModal({ props }) {
             if (nonNullData.status.name !== "banned") {
                 setStatus(nonNullData.status.name)
             }
-            setCounterCheck(nonNullData.counterInfo.counterCheck)
 
-            if (Array.isArray(nonNullData.counterInfo.counters) && nonNullData.counterInfo.counters.length > 0) {
+            console.log("NON NULL DATA");
+            console.log(nonNullData);
+
+
+            setCounterCheck(nonNullData.counterInfo.counterCheck);
+
+
+            console.log("COUNTERS");
+            console.log(nonNullData.counterInfo.counters);
+            console.log(typeof nonNullData.counterInfo.counters);
+
+            console.log(Array.isArray(nonNullData.counterInfo.counters));
+
+
+            const countersArray = Object.values(nonNullData.counterInfo.counters);
+            console.log(countersArray);
+            console.log(Array.isArray(countersArray));
+
+            if (Array.isArray(countersArray) && countersArray.length > 0) {
+                // if (true) {
                 setCountersToggle(true);
 
-                nonNullData.counterInfo.counters.forEach(counter => {
+                countersArray.forEach(counter => {
                     const key = `${counter.counterType}`;
                     // console.log(key + "-" + counter.count);
                     setInitialValues(prevState => ({
@@ -129,6 +147,8 @@ export default function MachineListModal({ props }) {
                     }));
                 });
             }
+
+            // console.log(initialValues);
 
         }
     }, [data3]);
@@ -177,7 +197,7 @@ export default function MachineListModal({ props }) {
                 }
             ]
         }
-        // console.log(variables);
+        console.log(variables);
         ApolloUpdateMachine({ variables });
 
 
@@ -225,7 +245,6 @@ export default function MachineListModal({ props }) {
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
-
             <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
@@ -346,35 +365,38 @@ export default function MachineListModal({ props }) {
                                                 helperText={touched.UUID && errors.UUID}
                                                 sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
-                                            <TextField
-                                                fullWidth
-                                                disabled={true}
-                                                variant="filled"
-                                                type="text"
-                                                label="機台號碼"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.code}
-                                                name="code"
-                                                error={!!touched.code && !!errors.code}
-                                                helperText={touched.code && errors.code}
-                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                            />
+                                            <Box display={"flex"} justifyContent={"center"}>
 
-                                            <TextField
-                                                fullWidth
-                                                disabled={true}
-                                                variant="filled"
-                                                type="text"
-                                                label="QR Code Payload"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.qrCode}
-                                                name="qrCode"
-                                                error={!!touched.qrCode && !!errors.qrCode}
-                                                helperText={touched.qrCode && errors.qrCode}
-                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                            />
+                                                <TextField
+                                                    fullWidth
+                                                    disabled={true}
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="機台號碼"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.code}
+                                                    name="code"
+                                                    error={!!touched.code && !!errors.code}
+                                                    helperText={touched.code && errors.code}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
+
+                                                <TextField
+                                                    fullWidth
+                                                    disabled={true}
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="QR Code Payload"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.qrCode}
+                                                    name="qrCode"
+                                                    error={!!touched.qrCode && !!errors.qrCode}
+                                                    helperText={touched.qrCode && errors.qrCode}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
+                                            </Box>
                                             <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
@@ -400,27 +422,28 @@ export default function MachineListModal({ props }) {
                                                     name="desc"
                                                     error={!!touched.desc && !!errors.desc}
                                                     helperText={touched.desc && errors.desc}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
+                                                <FormControl
+                                                    fullWidth>
+                                                    <InputLabel id="demo-simple-select-label" >機械錶檢查</InputLabel>
+                                                    <Select
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={counterCheck}
+                                                        label="機械錶檢查"
+                                                        onChange={handleCounterCheckChange}
+                                                    >
+                                                        <MenuItem value={true}>是</MenuItem>
+                                                        <MenuItem value={false}>否</MenuItem>
+                                                    </Select>
+                                                </FormControl>
                                             </Box>
 
-                                            <FormControl
-                                                fullWidth>
-                                                <InputLabel id="demo-simple-select-label" >機械錶檢查</InputLabel>
-                                                <Select
-                                                    sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    value={counterCheck}
-                                                    label="機械錶檢查"
-                                                    onChange={handleCounterCheckChange}
-                                                >
-                                                    <MenuItem value={true}>是</MenuItem>
-                                                    <MenuItem value={false}>否</MenuItem>
-                                                </Select>
-                                            </FormControl>
 
-                                            <Typography variant="h4" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>機械錶</Typography>
+
+                                            <Typography variant="h5" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>機械錶</Typography>
                                             <Box>
                                                 <FormControlLabel
                                                     control={
@@ -467,6 +490,50 @@ export default function MachineListModal({ props }) {
                                                     />
                                                 </Box>
                                             </Box>
+
+                                            {/* <Typography variant="h5" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>商品</Typography>
+                                            <Box display={"flex"}>
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="number"
+                                                    label="商品名稱"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.coin}
+                                                    name="coin"
+                                                    error={!!touched.coin && !!errors.coin}
+                                                    helperText={touched.coin && errors.coin}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="number"
+                                                    label="價格"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.coin}
+                                                    name="coin"
+                                                    error={!!touched.coin && !!errors.coin}
+                                                    helperText={touched.coin && errors.coin}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="number"
+                                                    label="庫存量"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.gift}
+                                                    name="gift"
+                                                    error={!!touched.gift && !!errors.gift}
+                                                    helperText={touched.gift && errors.gift}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
+                                            </Box> */}
+
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
                                             <Box display="flex" justifyContent="center" >

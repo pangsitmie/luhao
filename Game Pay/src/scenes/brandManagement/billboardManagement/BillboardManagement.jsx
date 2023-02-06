@@ -5,19 +5,19 @@ import { format } from 'date-fns';
 
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { ColorModeContext, tokens } from "src/theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
-import { citiesData } from "../../data/mockData";
-import { GetBillboardList } from '../../graphQL/Queries';
+import { citiesData } from "src/data/mockData";
+import { GetBillboardList } from 'src/graphQL/Queries';
 import CreateBillboardModal from './CreateBillboardModal';
 import BillboardListModal from './BillboardListModal';
-import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
-import Refresh from '../../components/Refresh';
-import Pagination from '../../components/Pagination';
+import Loader from 'src/components/loader/Loader';
+import Error from 'src/components/error/Error';
+import Refresh from 'src/components/Refresh';
+import Pagination from 'src/components/Pagination';
 
 const BillboardManagement = () => {
     const location = useLocation();

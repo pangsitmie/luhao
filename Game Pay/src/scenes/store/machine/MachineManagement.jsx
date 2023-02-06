@@ -4,27 +4,29 @@ import { useQuery } from '@apollo/client'
 
 // THEME
 import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { ColorModeContext, tokens } from "src/theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateMachineModal from './CreateMachineModal';
 import MachineListModal from './MachineListModal';
-import { GetMachineList } from '../../graphQL/Queries';
-import Pagination from '../../components/Pagination';
-import Refresh from '../../components/Refresh';
+import { GetMachineList } from 'src/graphQL/Queries';
+import Pagination from 'src/components/Pagination';
+import Refresh from 'src/components/Refresh';
 
 // QRCODE
 import QRCode from 'qrcode'
 import jsPDF from 'jspdf';
-import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
+import Loader from 'src/components/loader/Loader';
+import Error from 'src/components/error/Error';
+import MachineCommodityListModal from './MachineCommodityItem';
 
 
 
 const MachineManagement = () => {
     const location = useLocation();
     const state = location.state;
+    // console.log("STORE ID: " + state.data.id);
     // console.log(state); // output: "the-page-id"
     // console.log("STATE" + state.data.id); // output: "the-page-id"
     // console.log("STATE" + state.data.name); // output: "the-page-id"
@@ -165,7 +167,7 @@ const MachineManagement = () => {
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"15%"}>
-                <h1 className='userManagement_title'>{state.data.name} - 機台管理</h1>
+                <h1 className='userManagement_title'>{state.data.name} - 機台</h1>
                 <Typography variant="h5" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
             </Box>
 
@@ -269,10 +271,6 @@ const MachineManagement = () => {
                     background={colors.grey[300]}
                     p="10px"
                 >
-
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">UUID</Typography>
-                    </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機台名稱</Typography>
                     </Box>
@@ -281,6 +279,9 @@ const MachineManagement = () => {
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">連接狀態</Typography>
+                    </Box>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">商品</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
@@ -303,7 +304,6 @@ const MachineManagement = () => {
                             borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{item.uuid}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.code}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
@@ -323,6 +323,13 @@ const MachineManagement = () => {
                                         )
                                     }
                                 })()}
+                            </Box>
+                            <Box
+                                width={"20%"}
+                                display={"flex"}
+                                alignItems={"center"} justifyContent={"center"}
+                                borderRadius="4px">
+                                <MachineCommodityListModal props={item} storeData={state.data} />
                             </Box>
                             <Box
                                 width={"20%"}

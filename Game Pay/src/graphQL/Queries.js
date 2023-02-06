@@ -334,6 +334,12 @@ query GetMachine($args: [MachineArgs!]!) {
       }
       counterCheck
     }
+    commodity {
+      id
+      name
+      price
+      stock
+    }
   }
 }
 `
@@ -672,6 +678,70 @@ query GetStore($args: [StoreArgs!]!, $startAt: Int, $endAt: Int) {
       coinTotal
       giftTotal
     }
+  }
+}
+`
+
+
+
+// ========================= COMMODITY =========================
+export const GetCommodityList = gql`
+query GetStore($args: [StoreArgs!]!) {
+  getStore(args: $args) {
+    commodities {
+      id
+      uuid
+      name
+      price
+      stock
+    }
+  }
+}
+`
+
+export const CreateCommodity = gql`
+query GetStore($args: [StoreArgs!]!, $price: Int!, $stock: Int, $name: String!) {
+  getStore(args: $args) {
+    createCommodity(price: $price, stock: $stock, name: $name)
+  }
+}
+`
+export const GetMachineCommodity = gql`
+query GetMachineCommodity($args: [MachineArgs!]!) {
+  getMachine(args: $args) {
+    id
+    commodity {
+      id
+      name
+      price
+      stock
+    }
+  }
+}
+`
+export const GetCommodity = gql`
+query GetCommodity($args: [CommodityArgs!]!) {
+  getCommodity(args: $args) {
+    name
+    price
+    stock
+    uuid
+    id
+  }
+}
+`
+export const ConnectCommodityToMachine = gql`
+query GetMachine($args: [MachineArgs!]!, $commodityId: ID!) {
+  getMachine(args: $args) {
+    updateCommodity(commodityId: $commodityId)
+  }
+}
+`
+
+export const UpdateCommodity = gql`
+query GetCommodity($args: [CommodityArgs!]!, $name: String, $price: Int, $stock: Int) {
+  getCommodity(args: $args) {
+    update(name: $name, price: $price, stock: $stock)
   }
 }
 `

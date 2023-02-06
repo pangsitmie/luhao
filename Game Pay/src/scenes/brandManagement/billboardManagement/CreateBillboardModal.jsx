@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import "../../components/Modal/modal.css";
-import { tokens } from "../../theme";
+import "src/components/Modal/modal.css";
+import { tokens } from "src/theme";
 import { useLazyQuery } from "@apollo/client";
-import { CreateBillboard } from "../../graphQL/Queries";
-import { default_billboard_image_600x600_filename } from "../../data/strings";
-import LogoUpload from "../../components/Upload/LogoUpload";
-import { getImgURL } from "../../utils/Utils";
+import { CreateBillboard } from "src/graphQL/Queries";
+import { default_billboard_image_600x600_filename } from "src/data/strings";
+import LogoUpload from "src/components/Upload/LogoUpload";
+import { getImgURL } from "src/utils/Utils";
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),

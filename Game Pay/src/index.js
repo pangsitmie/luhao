@@ -101,7 +101,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         client.query({ query: originalQuery, variables: originalVariables });
       }
       else {
-        alert(`Graphql error ${message}`)
+        alert(`Error: ${message}`)
       }
     })
   }

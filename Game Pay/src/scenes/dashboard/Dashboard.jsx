@@ -4,10 +4,9 @@ import { useQuery, useMutation, useLazyQuery, ApolloClient, ApolloCache } from '
 import App from '../../App';
 import "../../index.css";
 import { GetDashboardInit } from '../../graphQL/Queries'
-import Map from '../../components/Maps'
 // THEME
 import { ColorModeContext, tokens } from "../../theme";
-import { Box, Button, Typography, useTheme, IconButton } from "@mui/material";
+import { Box, Typography, useTheme, IconButton } from "@mui/material";
 import * as yup from "yup";
 
 

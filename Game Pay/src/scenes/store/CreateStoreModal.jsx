@@ -17,6 +17,7 @@ import { defaultCoverURL, default_cover_900x300_filename } from "../../data/stri
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
@@ -33,6 +34,10 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateStoreModal() {
+    const isNonMobile = useMediaQuery("(min-width:600px)");
+
+
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -234,8 +239,7 @@ export default function CreateStoreModal() {
                                     handleSubmit,
                                 }) => (
                                     <form onSubmit={handleSubmit}>
-                                        <Box color={"black"}>
-
+                                        <Box>
                                             <Box display={"flex"} m={"1rem 0"}>
                                                 <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
                                                     <Typography variant="h2" sx={{ textAlign: "left", fontSize: "2rem", fontWeight: "600", color: "white" }}>

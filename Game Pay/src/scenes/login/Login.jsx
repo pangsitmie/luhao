@@ -57,6 +57,19 @@ const Login = () => {
     const [isLoggedIn, setIsLogin] = useState(false);
     const [accessToken, setAccessToken] = useState('');
 
+    const getStyles = (entityName, currentEntity) => {
+        if (entityName === currentEntity) {
+            if (entityName === "company") {
+                return { backgroundColor: "rgba(255,255,255,.2)" };
+            } else if (entityName === "brand") {
+                return { backgroundColor: "rgba(255,255,255,.2)" };
+            } else if (entityName === "store") {
+                return { backgroundColor: "rgba(255,255,255,.2)" };
+            }
+        }
+        return {};
+    };
+
 
     // ========================== COMPANY LOGIN ==========================
     const [apolloManagerLogin, { loading: loadingManager, error: errorManager, data: dataManager }] = useMutation(ManagerLogin);
@@ -200,18 +213,18 @@ const Login = () => {
                     <Typography variant="h5" sx={{
                         color: (() => {
                             switch (entityName) {
-                                case "company":
-                                    return colors.primary[100];
-                                case "brand":
-                                    return colors.greenAccent[400];
-                                case "store":
-                                    return colors.blueAccent[400];
+                                // case "company":
+                                //     return colors.primary[100];
+                                // case "brand":
+                                //     return colors.greenAccent[400];
+                                // case "store":
+                                //     return colors.blueAccent[400];
                                 default:
                                     return colors.primary[100];
                             }
                         })(), fontWeight: "300"
                     }}>
-                        {entityName.toUpperCase()} LOGIN
+                        {entityName.toUpperCase()}
                     </Typography>
                     <span className="title">GAME PAY </span>
                     <div>
@@ -281,7 +294,7 @@ const Login = () => {
                                     </Box>
                                     <Box display="flex" justifyContent="center" >
                                         <button className='btn_right_arrow' type="submit">
-                                            Login
+                                            登入
                                             <div className="arrow-wrapper">
                                                 <div className="arrow"></div>
                                             </div>
@@ -291,15 +304,15 @@ const Login = () => {
                             )}
                         </Formik>
                     </div>
-                    <Box display={"flex"} justifyContent={"space-between"} p={"3rem 0 0 0"}>
+                    <Box display={"flex"} justifyContent={"space-between"} p={"1rem 0 0 0"}>
                         <span>
-                            <Button color="secondary" sx={{ color: colors.primary[100] }} onClick={() => dispatch(setCompany())}>公司登入</Button>
+                            <Button color="secondary" sx={getStyles("company", entityName)} onClick={() => dispatch(setCompany())}>公司登入</Button>
                         </span>
                         <span>
-                            <Button color="secondary" sx={{ color: colors.greenAccent[400] }} onClick={() => dispatch(setBrand())}>品牌登入</Button>
+                            <Button color="secondary" sx={getStyles("brand", entityName)} onClick={() => dispatch(setBrand())}>品牌登入</Button>
                         </span>
                         <span>
-                            <Button color="secondary" sx={{ color: colors.blueAccent[400] }} onClick={() => dispatch(setStore())}>店家登入</Button>
+                            <Button color="secondary" sx={getStyles("store", entityName)} onClick={() => dispatch(setStore())}>店家登入</Button>
                         </span>
                     </Box>
                 </div>
@@ -309,3 +322,4 @@ const Login = () => {
 };
 
 export default Login
+

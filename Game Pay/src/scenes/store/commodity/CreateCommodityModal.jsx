@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import "../../components/Modal/modal.css";
-import { tokens } from "../../theme";
+import "src/components/Modal/modal.css";
+import { tokens } from "src/theme";
 import { useLazyQuery } from "@apollo/client";
-import { CreateMachineFromGetStores } from "../../graphQL/Queries";
+import { CreateCommodity } from "src/graphQL/Queries";
 
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
     storeId: yup.string().required("店面id必填"),
-    name: yup.string().required("機台名稱必填"),
-    code: yup.string().required("機台碼必填"),
-    price: yup.string().required("機台單次花費金額必填"),
+    name: yup.string().required("商品名稱必填"),
+    price: yup.string().required("商品價格必填"),
+    stock: yup.string().required("商品庫存必填"),
     // description: yup.string().required("備註必填"),
 });
 
@@ -52,7 +52,7 @@ export default function CreateMachineModal({ props }) {
 
 
     // GQL
-    const [ApolloCreateMachineFromGetStores, { loading, error, data }] = useLazyQuery(CreateMachineFromGetStores);
+    const [ApolloCreateCommodity, { loading, error, data }] = useLazyQuery(CreateCommodity);
     useEffect(() => {
         if (data) {
             console.log(data.getStore);
@@ -68,26 +68,11 @@ export default function CreateMachineModal({ props }) {
                 }
             ],
             name: values.name,
-            code: values.code,
             price: parseInt(values.price),
-            counterCheck: counterCheck
+            stock: parseInt(values.stock)
         };
-        if (values.description !== "") {
-            variables.description = values.description;
-        }
-        if (countersToggle) {
-            variables.counters = [
-                {
-                    counterType: "coin",
-                    count: parseInt(values.counterCoin)
-                },
-                {
-                    counterType: "gift",
-                    count: parseInt(values.counterGift)
-                }
-            ]
-        }
-        ApolloCreateMachineFromGetStores({ variables });
+
+        ApolloCreateCommodity({ variables });
     };
 
     const toggleModal = () => {
@@ -165,20 +150,7 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="機台號碼"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.code}
-                                                name="code"
-                                                error={!!touched.code && !!errors.code}
-                                                helperText={touched.code && errors.code}
-                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                            />
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="機台名稱"
+                                                label="商品名稱"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -191,8 +163,8 @@ export default function CreateMachineModal({ props }) {
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
-                                                    type="text"
-                                                    label="價格 (枚數)"
+                                                    type="number"
+                                                    label="價格"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.price}
@@ -204,86 +176,17 @@ export default function CreateMachineModal({ props }) {
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
-                                                    type="text"
-                                                    label="備註"
+                                                    type="number"
+                                                    label="庫存量"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.description}
-                                                    name="description"
-                                                    error={!!touched.description && !!errors.description}
-                                                    helperText={touched.description && errors.description}
+                                                    value={values.stock}
+                                                    name="stock"
+                                                    error={!!touched.stock && !!errors.stock}
+                                                    helperText={touched.stock && errors.stock}
                                                     sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-
                                             </Box>
-
-
-
-                                            <FormControl
-                                                fullWidth>
-                                                <InputLabel id="demo-simple-select-label" >機械錶檢查</InputLabel>
-                                                <Select
-                                                    sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    value={counterCheck}
-                                                    label="機械錶檢查"
-                                                    onChange={handleCounterCheckChange}
-                                                >
-                                                    <MenuItem value={true}>是</MenuItem>
-                                                    <MenuItem value={false}>否</MenuItem>
-                                                </Select>
-                                            </FormControl>
-
-                                            <Typography variant="h4" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>機械錶</Typography>
-                                            <Box>
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            checked={countersToggle}
-                                                            onChange={handleCountersToggleChange}
-                                                            name="countersToggle"
-                                                            color="success"
-                                                        />
-                                                    }
-                                                    label="機械錶"
-                                                    style={{ color: colors.grey[100] }}
-                                                />
-
-                                            </Box>
-
-                                            <Box display={countersToggle ? "block" : "none"}>
-                                                <Box display={"flex"}>
-                                                    <TextField
-                                                        fullWidth
-                                                        variant="filled"
-                                                        type="number"
-                                                        label="入錶"
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        value={values.counterCoin}
-                                                        name="counterCoin"
-                                                        error={!!touched.counterCoin && !!errors.counterCoin}
-                                                        helperText={touched.counterCoin && errors.counterCoin}
-                                                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                    />
-                                                    <TextField
-                                                        fullWidth
-                                                        variant="filled"
-                                                        type="number"
-                                                        label="出錶"
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        value={values.counterGift}
-                                                        name="counterGift"
-                                                        error={!!touched.counterGift && !!errors.counterGift}
-                                                        helperText={touched.counterGift && errors.counterGift}
-                                                        sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                    />
-                                                </Box>
-                                            </Box>
-
-
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
 

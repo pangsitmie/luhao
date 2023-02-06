@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
-import { tokens } from "../../theme";
+import "src/components/Modal/modal.css";
+import IMG from "src/assets/user.png";
+import { tokens } from "src/theme";
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { GetBillboard, RemoveBillboard, UnbanBillboard, UpdateBillboard } from "../../graphQL/Queries";
-import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
+import { GetBillboard, RemoveBillboard, UnbanBillboard, UpdateBillboard } from "src/graphQL/Queries";
+import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "src/utils/Utils";
 import { format } from 'date-fns';
-import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { defaultLogoURL, default_billboard_image_600x600_filename } from "../../data/strings";
-import LogoUpload from "../../components/Upload/LogoUpload";
+import ConfirmModal from "src/components/Modal/ConfirmModal";
+import { defaultLogoURL, default_billboard_image_600x600_filename } from "src/data/strings";
+import LogoUpload from "src/components/Upload/LogoUpload";
 
 
 const checkoutSchema = yup.object().shape({

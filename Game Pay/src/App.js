@@ -11,22 +11,23 @@ import { ColorModeContext, useMode } from "./theme";
 
 
 // SCENES
-import UserManagement from "./scenes/userManagement/UserManagement";
-import BrandManagement from "./scenes/brandManagement/BrandManagement";
+import UserManagement from "src/scenes/userManagement/UserManagement";
+import BrandManagement from "src/scenes/brandManagement/BrandManagement";
 // import StoreManagement from "./scenes/storeManagement/StoreManagement";
-// import MachineManagement from "./scenes/machineManagement/MachineManagement";
-import SystemNotificationManagement from "./scenes/systemNotificationManagement/SystemNotificationManagement";
-import SystemCoinManagement from "./scenes/CoinManagement_System/SystemCoinManagement";
-import BillboardManagement from "./scenes/billboardManagement/BillboardManagement";
-import BrandCoinManagement from "./scenes/CoinManagement_Brand/BrandCoinManagement";
-import AdsManagement from "./scenes/adsManagement/AdsManagement";
-import VersionManagement from "./scenes/version/VersionManagement";
-import Promotion from "./scenes/promotion/Promotion";
-import Statistics from "./scenes/statistics/Statistics";
-import StatisticManagement from "./scenes/statistics/StatisticManagement";
-import FinanceStatistic from "./scenes/statistics/FinanceStatistic";
-import PartnerAdsManagement from "./scenes/partnerAds/PartnerAdsManagement";
-import PartnerManagement from "./scenes/partner/PartnerManagement";
+import CommodityManagement from "src/scenes/store/commodity/CommodityManagement";
+import MachineManagement from "src/scenes/store/machine/MachineManagement";
+import SystemNotificationManagement from "src/scenes/systemNotificationManagement/SystemNotificationManagement";
+import SystemCoinManagement from "src/scenes/CoinManagement_System/SystemCoinManagement";
+import BillboardManagement from "src/scenes/brandManagement/billboardManagement/BillboardManagement";
+import BrandCoinManagement from "src/scenes/CoinManagement_Brand/BrandCoinManagement";
+import AdsManagement from "src/scenes/adsManagement/AdsManagement";
+import VersionManagement from "src/scenes/version/VersionManagement";
+import Promotion from "src/scenes/promotion/Promotion";
+import Statistics from "src/scenes/statistics/Statistics";
+import StatisticManagement from "src/scenes/statistics/StatisticManagement";
+import FinanceStatistic from "src/scenes/statistics/FinanceStatistic";
+import PartnerAdsManagement from "src/scenes/partnerAds/PartnerAdsManagement";
+import PartnerManagement from "src/scenes/partner/PartnerManagement";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -34,8 +35,8 @@ import { setBrand, setCompany, setStore } from "./redux/entity";
 import NotFound from "./components/404/NotFound";
 
 
-const StoreManagement = lazy(() => import('./scenes/storeManagement/StoreManagement'));
-const MachineManagement = lazy(() => import('./scenes/machineManagement/MachineManagement'));
+const StoreManagement = lazy(() => import('./scenes/store/StoreManagement'));
+// const MachineManagement = lazy(() => import('./scenes/machineManagement/MachineManagement'));
 
 
 
@@ -85,6 +86,7 @@ function App() {
                       {/* MANAGEMENT */}
                       <Route path="/billboard-management" element={<BillboardManagement />} />
                       <Route path="/store-management" element={<StoreManagement />} />
+                      <Route path="/commodity-management" element={<CommodityManagement />} />
                       <Route path="/machine-management" element={<MachineManagement />} />
                       <Route path="/system-ads" element={<AdsManagement />} />
                       <Route path="/partner" element={<PartnerManagement />} />
