@@ -137,9 +137,6 @@ export default function BillboardListModal({ props }) {
                 setStatus(nonNullData.status.name)
             }
         }
-        else {
-            console.log("NO DATA ROM GET BRAND")
-        }
     }, [data3]);
 
     // UNBAN MUTATION

@@ -12,6 +12,8 @@ import { default_cover_900x300_filename, default_logo_360x360_filename } from ".
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -28,6 +30,9 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function BrandListModal({ props }) {
+  const { entityName } = useSelector((state) => state.entity);
+
+
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -37,7 +42,7 @@ export default function BrandListModal({ props }) {
     id: -1,
     status: "",
     statusDesc: "",
-    entityName: "",
+    name: "",
     intro: "",
     principalName: "",
     principaPhone: "",
@@ -168,7 +173,7 @@ export default function BrandListModal({ props }) {
       setInitialValues({
         id: props.id,
         status: nonNullData.status.name,
-        entityName: nonNullData.name,
+        name: nonNullData.name,
         vatNumber: nonNullData.vatNumber,
         intro: nonNullData.intro,
         principalName: nonNullData.principal.name,
@@ -455,17 +460,19 @@ export default function BrandListModal({ props }) {
                         </Typography>
                       </Button>
 
-                      {values.status === "banned" ? (
-                        <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
-                          backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
-                        }}>
-                          <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                            {unbanTitle}
-                          </Typography>
-                        </Button>
-                      ) : (
-                        <ConfirmModal props={{ type: "brand", id: props.id }} />
-                      )}
+                      {entityName === 'company' ? (
+                        values.status === "banned" ? (
+                          <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
+                            backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
+                          }}>
+                            <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                              {unbanTitle}
+                            </Typography>
+                          </Button>
+                        ) : (
+                          <ConfirmModal props={{ type: "brand", id: props.id }} />
+                        )
+                      ) : null}
 
 
 

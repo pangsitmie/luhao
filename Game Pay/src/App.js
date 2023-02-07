@@ -33,6 +33,8 @@ import PartnerManagement from "src/scenes/partner/PartnerManagement";
 import { useDispatch, useSelector } from "react-redux";
 import { setBrand, setCompany, setStore } from "./redux/entity";
 import NotFound from "./components/404/NotFound";
+import BrandDashboard from "./scenes/dashboard/BrandDashboard";
+import StoreDashboard from "./scenes/dashboard/StoreDashboard";
 
 
 const StoreManagement = lazy(() => import('./scenes/store/StoreManagement'));
@@ -71,8 +73,6 @@ function App() {
               <Topbar setIsSidebar={setIsSidebar} />
               <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
-                  <Route exact path="/" element={<Dashboard />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
 
                   <Route path="/404" element={<NotFound />} />
                   <Route path="*" element={<Navigate to="/404" />} />
@@ -80,6 +80,9 @@ function App() {
                   {/* SEPARATE URLS BASED ON REDUX ENTITY STATE */}
                   {entityName === "company" ? (
                     <>
+                      <Route exact path="/" element={<Dashboard />} />
+                      <Route path="/dashboard" element={<Dashboard />} />
+
                       <Route path="/user-management" element={<UserManagement />} />
                       <Route path="/brand-management" element={<BrandManagement />} />
 
@@ -108,9 +111,13 @@ function App() {
                     </>
                   ) : entityName === "brand" ? (
                     <>
+                      <Route exact path="/" element={<BrandDashboard />} />
+                      <Route path="/dashboard" element={<BrandDashboard />} />
+
                       <Route path="/brand-management" element={<BrandManagement />} />
                       <Route path="/billboard-management" element={<BillboardManagement />} />
                       <Route path="/store-management" element={<StoreManagement />} />
+                      <Route path="/commodity-management" element={<CommodityManagement />} />
                       <Route path="/machine-management" element={<MachineManagement />} />
                       <Route path="/brand-coins" element={<BrandCoinManagement />} />
 
@@ -121,7 +128,11 @@ function App() {
                     </>
                   ) : entityName === "store" ? (
                     <>
+                      <Route exact path="/" element={<StoreDashboard />} />
+                      <Route path="/dashboard" element={<StoreDashboard />} />
+
                       <Route path="/store-management" element={<StoreManagement />} />
+                      <Route path="/commodity-management" element={<CommodityManagement />} />
                       <Route path="/machine-management" element={<MachineManagement />} />
 
                       {/* STATISTIC */}

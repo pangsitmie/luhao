@@ -3,7 +3,6 @@ import { useQuery, useMutation, useLazyQuery, ApolloClient, ApolloCache } from '
 
 import App from '../../App';
 import "../../index.css";
-import { GetDashboardInit } from '../../graphQL/Queries'
 // THEME
 import { ColorModeContext, tokens } from "../../theme";
 import { Box, Typography, useTheme, IconButton } from "@mui/material";
@@ -22,7 +21,7 @@ import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 
 import { useDispatch, useSelector } from "react-redux";
-import { BRAND_GetBrandInfo } from 'src/graphQL/BrandPrincipalQueries';
+import { STORE_GetStoreInfo } from 'src/graphQL/StorePrincipalQueries';
 
 
 
@@ -32,24 +31,25 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-const Dashboard = () => {
+const StoreDashboard = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-    const [allMember, setAllMember] = useState([]);
-    const [allBrands, setAllBrands] = useState([]);
-    const [allStores, setAllStores] = useState([]);
+    // const [allMember, setAllMember] = useState([]);
+    // const [allBrands, setAllBrands] = useState([]);
+    // const [allStores, setAllStores] = useState([]);
 
+    const { entityName } = useSelector((state) => state.entity);
 
+    const [name, setName] = useState("");
 
-    const { loading, error, data } = useQuery(GetDashboardInit);
+    const { loading, error, data } = useQuery(STORE_GetStoreInfo);
     useEffect(() => {
         if (data) {
-            setAllMember(data.getAllMember);
-            setAllBrands(data.managerGetBrands);
-            setAllStores(data.managerGetStores);
+            console.log(data.getStorePrincipal.name);
+            setName(data.getStorePrincipal.name);
         }
     }, [data]);
 
@@ -60,7 +60,7 @@ const Dashboard = () => {
         <Box m="20px">
             {/* HEADER */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="DASHBOARD" subtitle={"Welcome Back"} />
+                <Header title="DASHBOARD" subtitle={"Welcome Back " + name} />
             </Box>
 
             {/* GRID & CHARTS */}
@@ -81,7 +81,7 @@ const Dashboard = () => {
                     }}
                 >
                     <StatBox
-                        title={allMember.length}
+                        title={"0"}
                         subtitle="用戶總數"
                         increase="+100%"
                         icon={
@@ -104,7 +104,7 @@ const Dashboard = () => {
                     }}
                 >
                     <StatBox
-                        title={allBrands.length}
+                        title={"0"}
                         subtitle="品牌總數"
                         progress="1"
                         increase="+100%"
@@ -127,7 +127,7 @@ const Dashboard = () => {
                     }}
                 >
                     <StatBox
-                        title={allStores.length}
+                        title={0}
                         subtitle="商店總數"
                         increase="+50%"
                         icon={
@@ -208,10 +208,11 @@ const Dashboard = () => {
                     </Box>
                 </Box>
             </Box>
+
         </Box>
     )
 }
 
-export default Dashboard
+export default StoreDashboard
 
 

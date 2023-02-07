@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 // QUERIES
 import { useQuery } from '@apollo/client'
 import { GetAllBrands } from '../../graphQL/Queries'
+import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries';
 
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
@@ -20,7 +21,7 @@ import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
-
+import { useDispatch, useSelector } from "react-redux";
 
 const BrandManagement = () => {
     //========================== THEME ==========================
@@ -49,6 +50,22 @@ const BrandManagement = () => {
     const filterRef = useRef('品牌名');
 
     //========================== GRAPHQL ==========================
+    const { entityName } = useSelector((state) => state.entity);
+
+    let BRAND_INIT_QUERY;
+    switch (entityName) {
+        case 'company':
+            BRAND_INIT_QUERY = GetAllBrands;
+            break;
+        case 'brand':
+            BRAND_INIT_QUERY = BRAND_GetAllBrands;
+            break;
+        default:
+            break;
+    }
+
+
+
 
     // PAGINATION
     const [limit, setLimit] = useState(5);
@@ -61,13 +78,23 @@ const BrandManagement = () => {
     const [initBrands, setInitBrands] = useState([]);
     const [brands, setBrands] = useState([]);
 
-    const { loading, error, data } = useQuery(GetAllBrands, {
+    const { loading, error, data } = useQuery(BRAND_INIT_QUERY, {
         variables: { limit, offset }
     });
     useEffect(() => {
         if (data) {
-            setInitBrands(data.managerGetBrands); //all brand datas
-            setBrands(data.managerGetBrands); //datas for display
+            switch (entityName) {
+                case 'company':
+                    setInitBrands(data.managerGetBrands); //all brand datas
+                    setBrands(data.managerGetBrands); //datas for display
+                    break;
+                case 'brand':
+                    setInitBrands(data.getBrandPrincipal.brands); //all brand datas
+                    setBrands(data.getBrandPrincipal.brands); //datas for display
+                    break;
+                default:
+                    break;
+            }
         }
     }, [data, offset]);
 
@@ -167,14 +194,18 @@ const BrandManagement = () => {
                         查詢
                     </Typography>
                 </Button>
-                <Box
-                    display="flex"
-                    borderRadius="10px"
-                    marginLeft={"auto"}
-                    height={"52px"}
-                >
-                    <CreateBrandModal />
-                </Box>
+
+                {entityName === 'company' ? (
+                    <Box
+                        display="flex"
+                        borderRadius="10px"
+                        marginLeft={"auto"}
+                        height={"52px"}
+                    >
+                        <CreateBrandModal />
+                    </Box>
+                ) : null}
+
             </Box>
 
             {/* here */}

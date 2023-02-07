@@ -27,6 +27,9 @@ import LOGO from "../../assets/logo512.png";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { setBrand, setCompany, setStore } from "../../redux/entity";
+import { BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
+import { useQuery } from "@apollo/client";
+import { STORE_GetStoreInfo } from "src/graphQL/StorePrincipalQueries";
 
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
@@ -51,7 +54,52 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
 const Sidebar = () => {
   // REDUX STORE
   const { entityName } = useSelector((state) => state.entity);
-  const dispatch = useDispatch();
+
+  const [name, setName] = useState("COMPANY");
+
+
+  let SIDEBAR_INIT_QUERY;
+  switch (entityName) {
+    case "company":
+      SIDEBAR_INIT_QUERY = null;
+    case "brand":
+      SIDEBAR_INIT_QUERY = BRAND_GetBrandInfo;
+      break;
+    case "store":
+      SIDEBAR_INIT_QUERY = STORE_GetStoreInfo;
+      break;
+    default:
+      break;
+  }
+
+  // const { loading, error, data } = useQuery(SIDEBAR_INIT_QUERY);
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log(data.getBrandPrincipal.name);
+  //     setName(data.getBrandPrincipal.name);
+  //   }
+  // }, [data]);
+
+  const { loading, error, data } = useQuery(SIDEBAR_INIT_QUERY);
+  useEffect(() => {
+    if (data) {
+      switch (entityName) {
+        case 'company':
+          break;
+        case 'brand':
+          console.log(data.getBrandPrincipal.name);
+          setName(data.getBrandPrincipal.name);
+          break;
+        case 'store':
+          console.log(data.getStorePrincipal.name);
+          setName(data.getStorePrincipal.name);
+          break;
+        default:
+          break;
+      }
+    }
+  }, [data]);
+
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -139,9 +187,17 @@ const Sidebar = () => {
                   variant="h4"
                   color={colors.grey[100]}
                   fontWeight="bold"
-                  sx={{ m: ".7rem 0 1rem 0" }}
+                  sx={{ m: "1rem 0 .4rem 0" }}
                 >
-                  {entityName.toUpperCase()} ADMIN
+                  {name}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  color={colors.grey[100]}
+                  fontWeight="bold"
+                  sx={{ m: "0 0 1rem 0" }}
+                >
+                  ADMIN
                 </Typography>
               </Box>
             </Box>
@@ -303,9 +359,9 @@ const Sidebar = () => {
                           管理
                         </Typography>
                         <Item
-                          title="告示管理"
-                          to="/billboard-management"
-                          icon={<FeedIcon />}
+                          title="品牌管理"
+                          to="/brand-management"
+                          icon={<LocalOfferIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
@@ -378,6 +434,13 @@ const Sidebar = () => {
                         >
                           管理
                         </Typography>
+                        <Item
+                          title="店面管理 "
+                          to="/store-management"
+                          icon={<StoreIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
                         <Item
                           title="幾臺管理 "
                           to="/machine-management"

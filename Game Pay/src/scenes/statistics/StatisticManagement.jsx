@@ -4,12 +4,12 @@ import { useQuery, gql, useLazyQuery } from '@apollo/client'
 import { format } from 'date-fns';
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
 import { GetBrandStatistic, GetStoreStatistic } from '../../graphQL/Queries'
 
-
+import EventIcon from '@mui/icons-material/Event';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 
@@ -27,9 +27,16 @@ import { display } from '@mui/system';
 import StatBoxSplit from '../../components/StatBoxSplit';
 
 
+
 const StatisticManagement = () => {
     const location = useLocation();
     const state = location.state;
+
+    const styles = {
+        floatingLabelFocusStyle: {
+            color: "#fff"
+        }
+    }
 
     //THEME
     const theme = useTheme();
@@ -44,12 +51,12 @@ const StatisticManagement = () => {
         entityName: state.data.name
     });
 
-    const [startAtDate, setStartAtDate] = useState('');
+    const [startAtDate, setStartAtDate] = useState(getCurrentDateHour6());
     function handleStartAtDateChange(event) {
         setStartAtDate(event.target.value);
     }
 
-    const [endAtDate, setEndAtDate] = useState('');
+    const [endAtDate, setEndAtDate] = useState(getCurrentDate());
     function handleEndAtDateChange(event) {
         setEndAtDate(event.target.value);
     }
@@ -72,6 +79,7 @@ const StatisticManagement = () => {
     });
     useEffect(() => {
         if (data) {
+            console.log(data.getBrand[0].getStatisticsTotal);
             // set the data to brandStatistic first
             setBrandStatistic(data.getBrand[0].getStatisticsTotal);
             setDisplayStatistic(data.getBrand[0].getStatisticsTotal);
@@ -152,15 +160,14 @@ const StatisticManagement = () => {
 
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
-        console.log("SEARCH" + selectedItem.id + selectedItem.name);
-        console.log(selectedItem === state.data.name);
+        // console.log(selectedItem === state.data.name);
 
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
         let startAtUnix = startAtDateObj.getTime() / 1000;
         let endAtUnix = endAtDateObj.getTime() / 1000;
-        let nowUnix = Math.floor(Date.now() / 1000);
+        // let nowUnix = Math.floor(Date.now() / 1000);
 
         const variables = {
             args: [
@@ -187,7 +194,7 @@ const StatisticManagement = () => {
 
 
         // we want to search brand statistic with corespondinc time frame
-        if (selectedItem.name === state.data.name) {
+        if (selectedItem.entityName === state.data.name) {
             ApolloGetBrandStatistic({ variables }).then((res) => {
                 console.log(res);
                 setDisplayStatistic(res.data.getBrand[0].getStatisticsTotal);
@@ -207,6 +214,7 @@ const StatisticManagement = () => {
     };
 
 
+
     if (loading) return <Loader />;
     if (error) return <Error />;
 
@@ -219,7 +227,7 @@ const StatisticManagement = () => {
                 height={"10%"}
                 mb={"1rem"}
             >
-                <Header title={selectedItem.name} subtitle="統計資料" />
+                <Header title={selectedItem.entityName} subtitle="統計資料" />
             </Box>
 
             <Box
@@ -228,15 +236,14 @@ const StatisticManagement = () => {
                 className={"flex_media"}
                 mb={"1rem"}
             >
-                <Box className={"flex_media"} >
+                <Box display={"flex"} gap={"1rem"} >
                     <TextField
                         id="datetime-local"
                         label="開始時間點"
                         type="datetime-local"
-                        // defaultValue="2017-05-24T10:30"
                         value={startAtDate}
                         onChange={handleStartAtDateChange}
-                        sx={{ width: "160px" }}
+                        sx={{ width: "180px" }}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -246,10 +253,9 @@ const StatisticManagement = () => {
                         id="datetime-local"
                         label="過期時間"
                         type="datetime-local"
-                        // defaultValue="2017-05-24T10:30"
                         value={endAtDate}
                         onChange={handleEndAtDateChange}
-                        sx={{ width: "160px" }}
+                        sx={{ width: "180px" }}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -274,7 +280,7 @@ const StatisticManagement = () => {
                     </Button>
                 </Box>
 
-                <FormControl sx={{ minWidth: "150px" }}>
+                <FormControl sx={{ minWidth: "120px" }}>
                     <InputLabel id="demo-simple-select-label" >店家過濾</InputLabel>
                     <Select
                         required
@@ -349,7 +355,7 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(displayStatistic.coinTotal * 10)}
+                            title={currencyFormatter(displayStatistic.coinAmountTotal)}
                             subtitle="總收入"
                             icon={
                                 <SavingsIcon
@@ -369,7 +375,7 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(5)}
+                            title={currencyFormatter(0)}
                             subtitle="免費幣"
                             icon={
                                 <MonetizationOnIcon
@@ -389,7 +395,7 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={numberFormatter(displayStatistic.giftTotal)}
+                            title={numberFormatter(displayStatistic.giftQuantityTotal)}
                             subtitle="總出貨"
                             icon={
                                 <InventoryIcon
@@ -409,7 +415,7 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(100)}
+                            title={currencyFormatter(displayStatistic.giftAmountTotal)}
                             subtitle="總支出"
                             icon={
                                 <ReceiptIcon
@@ -432,16 +438,13 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatPercentBox
-                            // we still dont have expenses and free coin data
-                            title={((100 / (displayStatistic.coinTotal * 10) * 100).toFixed(2) + "%")}
+                            title={((displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal * 100).toFixed(2) + "%")}
                             subtitle="支出比"
-                            progress={(100 / (displayStatistic.coinTotal * 10)).toFixed(2)}
+                            progress={(displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal).toFixed(2)}
                         />
                     </Box>
                     <Box
-                        // formula: (gift*10) / revenue
-                        // we still dont have expenses and free coin data
-
+                        // formula: (gift count) / total coin inserted
                         className='span6'
                         sx={{
                             backgroundColor: colors.primary[400],
@@ -451,9 +454,9 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatPercentBox
-                            title={((displayStatistic.giftTotal / (displayStatistic.coinTotal) * 100).toFixed(2) + "%")}
+                            title={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal) * 100).toFixed(2) + "%")}
                             subtitle="出貨比"
-                            progress={((displayStatistic.giftTotal / (displayStatistic.coinTotal)).toFixed(2))}
+                            progress={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal)).toFixed(2))}
                         />
                     </Box>
 
@@ -601,4 +604,28 @@ const numberFormatter = (value, options) => {
         /\B(?=(\d{3})+(?!\d))/g,
         options.thousandsSeparator
     )}`
+}
+
+const getCurrentDate = () => {
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = ("0" + (date.getMonth() + 1)).slice(-2)
+    const day = ("0" + date.getDate()).slice(-2)
+
+    const hour = ("0" + date.getHours()).slice(-2)
+    const minute = ("0" + date.getMinutes()).slice(-2)
+
+    return `${year}-${month}-${day}T${hour}:${minute}`
+}
+
+const getCurrentDateHour6 = () => {
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = ("0" + (date.getMonth() + 1)).slice(-2)
+    const day = ("0" + date.getDate()).slice(-2)
+
+    const hour = "06"
+    const minute = "00"
+
+    return `${year}-${month}-${day}T${hour}:${minute}`
 }

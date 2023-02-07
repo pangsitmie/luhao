@@ -22,8 +22,15 @@ import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 
+import { useDispatch, useSelector } from "react-redux";
+import { BRAND_GetAllStores } from 'src/graphQL/BrandPrincipalQueries';
+import CreateStoreModal_B from './CreateStoreModal_B';
+import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
 
 const StoreManagement = () => {
+    const { entityName } = useSelector((state) => state.entity);
+
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -92,16 +99,55 @@ const StoreManagement = () => {
         })
     }
 
-    //GQL
-    const { loading, error, data } = useQuery(GetAllStores, {
+    //========================== GRAPHQL ==========================
+    let STORE_INIT_QUERY;
+    switch (entityName) {
+        case 'company':
+            STORE_INIT_QUERY = GetAllStores;
+            break;
+        case 'brand':
+            STORE_INIT_QUERY = BRAND_GetAllStores;
+            break;
+        case 'store':
+            STORE_INIT_QUERY = STORE_GetAllStores;
+            break;
+        default:
+            break;
+    }
+
+
+    const { loading, error, data } = useQuery(STORE_INIT_QUERY, {
         variables: { limit, offset }
     });
     const [initStores, SetInitStores] = useState([]);
     const [stores, setStores] = useState([]);
+
     useEffect(() => {
         if (data) {
-            setStores(data.managerGetStores);
-            SetInitStores(data.managerGetStores);
+            switch (entityName) {
+                case 'company':
+                    setStores(data.managerGetStores);
+                    SetInitStores(data.managerGetStores);
+                    break;
+                case 'brand':
+                    console.log(data.getBrandPrincipal.brands[0].managerGetStores)
+                    setStores(data.getBrandPrincipal.brands[0].managerGetStores);
+                    SetInitStores(data.getBrandPrincipal.brands[0].managerGetStores);
+                    break;
+                case 'store':
+                    setStores(data.getStorePrincipal.stores);
+                    SetInitStores(data.getStorePrincipal.stores);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }, [data, offset]);
+
+
+    useEffect(() => {
+        if (data) {
+
         }
     }, [data]);
 
@@ -181,8 +227,11 @@ const StoreManagement = () => {
                     padding={"0"}
                     height={"52px"}
                 >
-                    <CreateStoreModal />
+                    {entityName === 'company' ? <CreateStoreModal /> :
+                        entityName === 'brand' ? <CreateStoreModal_B /> : null
+                    }
                 </Box>
+
             </Box>
 
 

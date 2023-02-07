@@ -4,44 +4,45 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { useQuery, useLazyQuery } from "@apollo/client";
-import { GetStore, UpdateStore, RemoveStore, UnbanStore } from "../../graphQL/Queries";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { CreateStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
+    geocodeByPlaceId,
     getLatLng,
 } from 'react-places-autocomplete';
-import ConfirmModal from "../../components/Modal/ConfirmModal";
+import { GetBrandList } from "../../graphQL/Queries";
 import { areaData } from "../../data/cityData";
-import { default_cover_900x300_filename } from "../../data/strings";
+import { defaultCoverURL, default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
-import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
+import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Loader from "../../components/loader/Loader";
-import Error from "../../components/error/Error";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { BRAND_CreateStore } from "src/graphQL/BrandPrincipalQueries";
 
+
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
-    status: yup.string().required("required"),
-    // intro: yup.string().required("required"),
-    brandId: yup.string().required("required"),
-    brandName: yup.string().required("required"),
-    // location_address: yup.string().required("required"),
+
     principalName: yup.string().required("required"),
-    // principalPassword: yup.string().required("required"),
+    principalAccount: yup.string().required("required"),
+    principalPassword: yup.string().required("required").matches(passwordRegex),
     principalLineUrl: yup.string().required("required"),
     principalEmail: yup.string().email("invalid email"),
 });
 
 
-export default function StoreListModal({ props }) {
+export default function CreateStoreModal_B() {
+    const isNonMobile = useMediaQuery("(min-width:600px)");
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    // ========================== STATE ==========================
     const [modal, setModal] = useState(false);
-    const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
-        setStatus(event.target.value);
-    };
+
 
     //  ========================== PASSWORD VISIBILITY ==========================
     const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +51,11 @@ export default function StoreListModal({ props }) {
         event.preventDefault();
     };
 
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    const [{ brandId, brandName }, setBrandInfo] = useState({
+        brandId: "null",
+        brandName: "null",
+    });
+    var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
 
 
     // ========================== CITY ==========================
@@ -67,6 +72,10 @@ export default function StoreListModal({ props }) {
         setSelectedArea(event.target.value);
     };
 
+    // useEffect(() => {
+    //     console.log("city:" + cityFilter + ", selected area:" + selectedArea);
+    // }, [cityFilter, areaFilter, selectedArea]);
+
 
     const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
     const [{ address, coordinates }, setLocation] = useState({
@@ -76,104 +85,6 @@ export default function StoreListModal({ props }) {
             lng: 120,
         }
     });
-
-
-
-
-    const [initialValues, setInitialValues] = useState({
-        id: -1,
-        brandId: -1,
-        brandName: "",
-        name: "",
-        intro: "",
-        //locations get from location state
-        status: "",
-
-
-        principalName: "",
-        principalAccount: "",
-        principalPassword: "",
-        principalLineUrl: "https://lin.ee/",
-        principalEmail: "",
-    });
-
-
-    // =================================================================================
-    // REMOVE STORE MUTATION
-    const [ApolloRemoveStore, { loading, error, data }] = useLazyQuery(RemoveStore);
-    useEffect(() => {
-        if (data) {
-            console.log("REMOVE SUCCESS");
-            window.location.reload();
-        }
-    }, [data]);
-
-
-    //UPDATE STORE MUTATION
-    const [ApolloUpdateStore, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateStore);
-    useEffect(() => {
-        if (data2) {
-            window.location.reload();
-            console.log("UPDATE SUCCESS")
-        }
-    }, [data2]);
-
-    // INITIAL VALUES FROM GET STORE QUERY
-    const { loading: loading3, error: error3, data: data3 } = useQuery(GetStore
-        , {
-            variables: {
-                args: [
-                    {
-                        id: props.id
-                    }
-                ],
-            }
-        }
-    );
-    useEffect(() => {
-        if (data3) {
-            // SET THE initial value using data3
-            const nonNullData = replaceNullWithEmptyString(data3.getStore[0]);
-            setInitialValues({
-                id: props.id,
-                status: nonNullData.status.name,
-                name: nonNullData.name,
-                intro: nonNullData.intro,
-                brandId: nonNullData.brand.id,
-                brandName: nonNullData.brand.name,
-                // city, district, and address is used in state
-                principalName: nonNullData.principal.name,
-                principalAccount: nonNullData.principal.account,
-                principalEmail: nonNullData.principal.email,
-                principalPassword: "",
-                // princiapall password doesnt receive api data
-                principalLineUrl: nonNullData.principal.lineUrl,
-            });
-
-            if (data3.getStore[0].cover !== null || (data3.getStore[0].cover !== "null")) {
-                setCoverFileName(data3.getStore[0].cover);
-            }
-
-            //set city
-            setCityFilter(data3.getStore[0].location.city);
-            //set area
-            setAreaFilter(areaData[data3.getStore[0].location.city]);
-            setSelectedArea(data3.getStore[0].location.district);
-            //set location
-            setLocation((prevState) => ({
-                ...prevState,
-                address: data3.getStore[0].location.address,
-            }));
-            //set status only if not banned
-            if (data3.getStore[0].status.name !== "banned") {
-                setStatus(data3.getStore[0].status.name)
-            }
-        }
-    }, [data3]);
-
-
-
-
 
     const handleLocationSelect = async value => {
         const results = await geocodeByAddress(value);
@@ -195,49 +106,32 @@ export default function StoreListModal({ props }) {
             setSelectedArea(district); // SET THE SELECTED AREA TO THE AREA OF THE SELECTED LOCATION
         }
 
-
         console.log("city" + city + "district" + district + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
         //this.props.onAddressSelected();
     };
 
-    const handleDelete = () => {
-        var result = window.confirm("Are you sure you want to delete this store?");
-        if (result) {
-            ApolloRemoveStore({
-                variables: {
-                    args: [
-                        {
-                            id: props.id
-                        }
-                    ]
-                }
-            })
-        }
+    const initialValues = {
+        name: "",
+        intro: "",
+
+        //locations get from location state
+        principalName: "",
+        principalAccount: "",
+        principalPassword: "",
+        principalLineUrl: "https://lin.ee/",
+        principalEmail: "",
     };
 
-    // UNBAN MUTATION
-    const [ApolloUnBanStore, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanStore);
+    // =================== BRAND LIST ===================
+
+    //============================================ GQL ==================================================
+    //create store
+    const [ApolloCreateStore, { loading, error, data }] = useLazyQuery(BRAND_CreateStore);
     useEffect(() => {
-        if (data4) {
+        if (data) {
             window.location.reload();
         }
-    }, [data4]);
-    const handleUnBan = (e) => {
-        var result = window.confirm("Are you sure you want to unban this store?");
-        if (result) {
-            ApolloUnBanStore({
-                variables: {
-                    args: [
-                        {
-                            id: props.id
-                        }
-                    ],
-                    reason: "null"
-                }
-            })
-            console.log("unbaned");
-        }
-    }
+    }, [data]);
 
 
     const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
@@ -245,28 +139,33 @@ export default function StoreListModal({ props }) {
         setCoverFileName(name);
     };
 
-
     const handleFormSubmit = (values) => {
         const variables = {
             args: [
                 {
-                    id: values.id
+                    id: brandId
                 }
             ],
+            brandId: brandId,
             name: values.name,
             cover: coverFileName,
             location: {
                 city: cityFilter,
                 district: selectedArea,
                 address: address,
-                description: "NONE"
+                coordinate: {
+                    latitude: coordinates.lat,
+                    longitude: coordinates.lng
+                },
+                // description: "location description"
             },
             principal: {
                 name: values.principalName,
+                account: values.principalAccount,
+                password: values.principalPassword,
                 lineUrl: values.principalLineUrl,
             }
-        };
-
+        }
         if (values.intro !== "") {
             variables.intro = values.intro;
         }
@@ -274,43 +173,23 @@ export default function StoreListModal({ props }) {
             variables.principal.email = values.principalEmail;
         }
 
-
-        // if coordinate is not updated
-        if (coordinates.lat !== 0 && coordinates.lng !== 120) {
-            variables.location.coordinate = {
-                latitude: coordinates.lat,
-                longitude: coordinates.lng,
-            };
-        }
-
-        //if password is empty, dont update password
-        if (values.principalPassword !== "") {
-            variables.principal.password = values.principalPassword;
-        }
-
-        //if status is not banned, update status
-        if (initialValues.status !== "banned") {
-            variables.statusId = status;
-        }
-        ApolloUpdateStore({ variables });
+        console.log(variables);
+        ApolloCreateStore({ variables });
     };
 
     const toggleModal = () => {
         setModal(!modal);
     };
+
     if (modal) {
         document.body.classList.add('active-modal')
     } else {
         document.body.classList.remove('active-modal')
     }
-
-
-    if (loading) return <Loader />;
-    if (error) return <Error />;
-
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
+
             <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
 
             {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
@@ -319,6 +198,8 @@ export default function StoreListModal({ props }) {
                     <Box onClick={toggleModal} className="overlay"></Box>
                     <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
+
+
                             <Formik
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
@@ -333,105 +214,36 @@ export default function StoreListModal({ props }) {
                                     handleSubmit,
                                 }) => (
                                     <form onSubmit={handleSubmit}>
-                                        <Box >
-
+                                        <Box>
                                             <Box display={"flex"} m={"1rem 0"}>
                                                 <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-                                                    <Typography variant="h2" sx={{ mb: "10px", fontSize: "2rem", fontWeight: "600", color: "white" }}>
+                                                    <Typography variant="h2" sx={{ textAlign: "left", fontSize: "2rem", fontWeight: "600", color: "white" }}>
                                                         {btnTitle}
                                                     </Typography>
-
-                                                    <Box textAlign="center" display={"flex"} >
-                                                        {(() => {
-                                                            if (initialValues.status === "disable") {
-                                                                return (
-                                                                    <Typography variant="h5" color={colors.primary[100]} >
-                                                                        停用
-                                                                    </Typography>)
-                                                            }
-                                                            if (initialValues.status === "banned") {
-                                                                return (
-                                                                    <Typography variant="h5" color={colors.redAccent[500]}>
-                                                                        封鎖
-                                                                    </Typography>)
-                                                            }
-                                                            else {
-                                                                return (
-                                                                    <Typography variant="h5" color={colors.greenAccent[500]}>
-                                                                        正常
-                                                                    </Typography>)
-                                                            }
-                                                        })()}
-                                                    </Box>
                                                 </Box>
-
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
                                                     <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"store"} />
                                                 </Box>
                                             </Box>
 
-                                            <Box display={"flex"} justifyContent={"space-between"}>
-                                                <TextField className="modal_input_textfield"
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="暱稱"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.name}
-                                                    name="name"
-                                                    error={!!touched.name && !!errors.name}
-                                                    helperText={touched.name && errors.name}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
-                                                />
-                                                <TextField className="modal_input_textfield"
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="介紹 (選填)"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.intro}
-                                                    name="intro"
-                                                    error={!!touched.intro && !!errors.intro}
-                                                    helperText={touched.intro && errors.intro}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
-                                                />
-                                                { }
-                                                <FormControl sx={{ minWidth: 150 }} >
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
-                                                    <Select
-                                                        disabled={initialValues.status === "banned"}
-                                                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        value={status}
-                                                        label="status"
-                                                        onChange={handleStatusChange}
-                                                    >
-                                                        <MenuItem value={"normal"}>正常</MenuItem>
-                                                        <MenuItem value={"disable"}>停用</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                            </Box>
 
-                                            <Box display={"flex"}>
+                                            {/* Brand info */}
+                                            {/* <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
-                                                    variant="filled"
                                                     disabled={true}
+                                                    variant="filled"
                                                     type="text"
                                                     label="品牌id"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.brandId}
+                                                    value={brandId}
                                                     name="brandId"
                                                     error={!!touched.brandId && !!errors.brandId}
                                                     helperText={touched.brandId && errors.brandId}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-
                                                 <TextField
                                                     fullWidth
                                                     disabled={true}
@@ -440,14 +252,43 @@ export default function StoreListModal({ props }) {
                                                     label="品牌名稱"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.brandName}
+                                                    value={brandName}
                                                     name="brandName"
                                                     error={!!touched.brandName && !!errors.brandName}
                                                     helperText={touched.brandName && errors.brandName}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-                                            </Box>
+                                            </Box> */}
 
+
+                                            <TextField className="modal_input_textfield"
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="暱稱 (選填)"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.name}
+                                                name="name"
+                                                error={!!touched.name && !!errors.name}
+                                                helperText={touched.name && errors.name}
+                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                            />
+                                            <TextField className="modal_input_textfield"
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="店面介紹"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.intro}
+                                                name="intro"
+                                                error={!!touched.intro && !!errors.intro}
+                                                helperText={touched.intro && errors.intro}
+                                                sx={{ margin: "0 1rem 0rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                            />
+
+                                            {/* Search Store location */}
                                             <PlacesAutocomplete
                                                 className="places_autocomplete"
                                                 value={inputAddress}
@@ -462,7 +303,7 @@ export default function StoreListModal({ props }) {
                                                             label="搜索店面地點 ..."
                                                             variant="filled"
                                                             type="text"
-                                                            sx={{ mb: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                            sx={{ margin: "1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
                                                                 placeholder: '搜索店面地點 ...',
                                                                 className: 'location-search-input',
@@ -470,7 +311,7 @@ export default function StoreListModal({ props }) {
                                                         />
                                                         <div className="autocomplete-dropdown-container">
                                                             {loading && <div>Loading...</div>}
-                                                            {suggestions.map(suggestion => {
+                                                            {suggestions.map((suggestion, index) => {
                                                                 const className = suggestion.active
                                                                     ? 'suggestion-item--active'
                                                                     : 'suggestion-item';
@@ -480,6 +321,7 @@ export default function StoreListModal({ props }) {
                                                                     : { backgroundColor: colors.primary[400], color: colors.grey[300], cursor: 'pointer', borderRadius: '5px', fontSize: '1rem', padding: '0.5rem', margin: "0.5rem" }; //background color
                                                                 return (
                                                                     <div
+                                                                        key={index} // add a unique key prop
                                                                         {...getSuggestionItemProps(suggestion, {
                                                                             className,
                                                                             style,
@@ -494,8 +336,11 @@ export default function StoreListModal({ props }) {
                                                 )}
                                             </PlacesAutocomplete>
 
+
+
                                             {/* STORE ADDRESS */}
                                             <Box display={"flex"}>
+                                                {/* CITYFILTER */}
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
                                                     <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
                                                     <Select
@@ -549,7 +394,7 @@ export default function StoreListModal({ props }) {
                                                 />
                                             </Box>
 
-                                            <Box display={"flex"} justifyContent={"space-between"} >
+                                            <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
@@ -561,38 +406,22 @@ export default function StoreListModal({ props }) {
                                                     name="principalName"
                                                     error={!!touched.principalName && !!errors.principalName}
                                                     helperText={touched.principalName && errors.principalName}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="負責人line"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalLineUrl}
-                                                    name="principalLineUrl"
-                                                    error={!!touched.principalLineUrl && !!errors.principalLineUrl}
-                                                    helperText={touched.principalLineUrl && errors.principalLineUrl}
-                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                            </Box>
-                                            <Box display={"flex"} justifyContent={"space-between"} >
-
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="負責人信箱"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalEmail}
-                                                    name="principalEmail"
-                                                    error={!!touched.principalEmail && !!errors.principalEmail}
-                                                    helperText={touched.principalEmail && errors.principalEmail}
                                                     sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="負責人賬號"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.principalAccount}
+                                                    name="principalAccount"
+                                                    error={!!touched.principalAccount && !!errors.principalAccount}
+                                                    helperText={touched.principalAccount && errors.principalAccount}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
+
                                                 {/* PASSWORD INPUT */}
                                                 <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
                                                     <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
@@ -616,36 +445,46 @@ export default function StoreListModal({ props }) {
                                                             </InputAdornment>
                                                         }
                                                     />
-                                                    <FormHelperText
-                                                        error={!!touched.principalPassword && !!errors.principalPassword}>
+                                                    <FormHelperText error={!!touched.principalPassword && !!errors.principalPassword}>
                                                         {touched.principalPassword && errors.principalPassword}
                                                     </FormHelperText>
                                                 </FormControl>
                                             </Box>
 
+                                            <Box display={"flex"}>
+
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="負責人信箱 (選填)"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.principalEmail}
+                                                    name="principalEmail"
+                                                    error={!!touched.principalEmail && !!errors.principalEmail}
+                                                    helperText={touched.principalEmail && errors.principalEmail}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="負責人line"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.principalLineUrl}
+                                                    name="principalLineUrl"
+                                                    error={!!touched.principalLineUrl && !!errors.principalLineUrl}
+                                                    helperText={touched.principalLineUrl && errors.principalLineUrl}
+                                                    sx={{ margin: " 0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
+                                            </Box>
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                            <Button onClick={handleDelete} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                    {deleteTitle}
-                                                </Typography>
-                                            </Button>
-
-                                            {values.status === "banned" ? (
-                                                <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
-                                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                        {unbanTitle}
-                                                    </Typography>
-                                                </Button>
-                                            ) : (
-                                                <ConfirmModal props={{ type: "store", id: props.id }} />
-                                            )}
-
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
-                                                    {confirmTitle}
-                                                </Typography>
-                                            </Button>
+                                            <Box display="flex" justifyContent="center" >
+                                                <button className="my-button" type="submit">{confirmTitle}</button>
+                                            </Box>
                                         </Box>
                                     </form>
                                 )}
@@ -656,6 +495,7 @@ export default function StoreListModal({ props }) {
             )
             }
         </>
+
     );
 
 

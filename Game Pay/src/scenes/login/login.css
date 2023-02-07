@@ -94,9 +94,9 @@
     --arrow-stroke: 2px;
     box-sizing: border-box;
     border: 0;
-    border-radius: 20px;
+    border-radius: 6px;
     color: var(--secondary-color);
-    padding: 1em 2.2em;
+    padding: .8em 2em .8em 2.3em;
     background: var(--primary-color);
     display: flex;
     transition: 0.2s;
