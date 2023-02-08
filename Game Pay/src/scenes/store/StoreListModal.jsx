@@ -18,6 +18,7 @@ import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Loader from "../../components/loader/Loader";
 import Error from "../../components/error/Error";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const checkoutSchema = yup.object().shape({
@@ -35,6 +36,9 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function StoreListModal({ props }) {
+    const { entityName } = useSelector((state) => state.entity);
+
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
@@ -631,15 +635,21 @@ export default function StoreListModal({ props }) {
                                                 </Typography>
                                             </Button>
 
-                                            {values.status === "banned" ? (
-                                                <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
-                                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                        {unbanTitle}
-                                                    </Typography>
-                                                </Button>
-                                            ) : (
-                                                <ConfirmModal props={{ type: "store", id: props.id }} />
-                                            )}
+
+                                            {entityName === 'company' ? (
+                                                values.status === "banned" ? (
+                                                    <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
+                                                        backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
+                                                    }}>
+                                                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                                            {unbanTitle}
+                                                        </Typography>
+                                                    </Button>
+                                                ) : (
+                                                    <ConfirmModal props={{ type: "store", id: props.id }} />
+                                                )
+                                            ) : null}
+
 
                                             <Button type="submit" color="success" variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>

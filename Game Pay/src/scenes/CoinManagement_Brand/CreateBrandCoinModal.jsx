@@ -8,6 +8,9 @@ import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { ManagerCreateCurrencyReward } from "../../graphQL/Mutations";
 import { GetBrandList } from "../../graphQL/Queries";
+import { BRAND_CreateCurrencyReward } from "src/graphQL/BrandPrincipalMutations";
+import { useDispatch, useSelector } from "react-redux";
+import { BRAND_GetBrandCurrencyList, BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
 
 
 
@@ -30,6 +33,8 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateBrandCoinModal() {
+  const { entityName } = useSelector((state) => state.entity);
+
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -85,7 +90,24 @@ export default function CreateBrandCoinModal() {
   });
 
   //========================== GRAPHQL ==========================
-  const [ApolloCreateBrandFreeCoinNotification, { loading, error, data }] = useMutation(ManagerCreateCurrencyReward);
+
+  let GET_BRAND_LIST_QUERY;
+  let CREATE_FREE_REWARD_MUTATION;
+
+  switch (entityName) {
+    case 'company':
+      GET_BRAND_LIST_QUERY = GetBrandList;
+      CREATE_FREE_REWARD_MUTATION = ManagerCreateCurrencyReward;
+      break;
+    case 'brand':
+      GET_BRAND_LIST_QUERY = BRAND_GetBrandCurrencyList;
+      CREATE_FREE_REWARD_MUTATION = BRAND_CreateCurrencyReward;
+      break;
+    default:
+      break;
+  }
+
+  const [ApolloCreateBrandFreeCoinNotification, { loading, error, data }] = useMutation(CREATE_FREE_REWARD_MUTATION);
   useEffect(() => {
     if (data) {
       console.log(data);
@@ -96,7 +118,23 @@ export default function CreateBrandCoinModal() {
     }
   }, [data]);
 
-  const { loading: loading1, error: error1, data: data1 } = useQuery(GetBrandList);
+
+  const { loading: loading1, error: error1, data: data1 } = useQuery(GET_BRAND_LIST_QUERY);
+  useEffect(() => {
+    if (data1) {
+      switch (entityName) {
+        case 'company':
+          setBrandList(data1.managerGetBrands);
+          break;
+        case 'brand':
+          setBrandList(data1.getBrandPrincipal.brands);
+          break;
+        default:
+          break;
+      }
+    }
+  }, [data1]);
+
   const [{ brandId, brandName, brandCoinId, brandCoinName }, setBrandInfo] = useState({
     brandId: "null",
     brandName: "null",
@@ -105,12 +143,7 @@ export default function CreateBrandCoinModal() {
   });
   const [brandListFilter, setBrandListFilter] = useState('');
   const [brandList, setBrandList] = useState([]);
-  useEffect(() => {
-    if (data1) {
-      setBrandList(data1.managerGetBrands);
-    }
 
-  }, [data1]);
   const handleBrandListChange = (e) => {
     const targetId = e.target.value;
     console.log(targetId);
@@ -156,12 +189,11 @@ export default function CreateBrandCoinModal() {
       receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
       belongToRole: "brand",
       belongToId: brandId,
+      // belongToId: "4",
       amount: parseInt(values.currencyAmount),
       currencyId: brandCoinId,
+      // currencyId: "5",
       sourceType: "direct",
-      // triggerAt: triggerAtUnix,
-      // startAt: startAtUnix,
-      // endAt: endAtUnix,
       description: values.rewardDescription,
       limit: parseInt(values.rewardLimit),
       comment: values.comment,

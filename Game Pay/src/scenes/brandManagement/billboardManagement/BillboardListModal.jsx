@@ -12,6 +12,7 @@ import { format } from 'date-fns';
 import ConfirmModal from "src/components/Modal/ConfirmModal";
 import { defaultLogoURL, default_billboard_image_600x600_filename } from "src/data/strings";
 import LogoUpload from "src/components/Upload/LogoUpload";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const checkoutSchema = yup.object().shape({
@@ -22,6 +23,8 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function BillboardListModal({ props }) {
+    const { entityName } = useSelector((state) => state.entity);
+
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -387,15 +390,21 @@ export default function BillboardListModal({ props }) {
                                                 </Typography>
                                             </Button>
 
-                                            {values.status === "banned" ? (
-                                                <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
-                                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                        {unbanTitle}
-                                                    </Typography>
-                                                </Button>
-                                            ) : (
-                                                <ConfirmModal props={{ type: "billboard", id: props.id }} />
-                                            )}
+                                            {entityName === 'company' ? (
+                                                values.status === "banned" ? (
+                                                    <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
+                                                        backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
+                                                    }}>
+                                                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                                            {unbanTitle}
+                                                        </Typography>
+                                                    </Button>
+                                                ) : (
+                                                    <ConfirmModal props={{ type: "billboard", id: props.id }} />
+                                                )
+                                            ) : null}
+
+
 
                                             <Button type="submit" color="success" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>

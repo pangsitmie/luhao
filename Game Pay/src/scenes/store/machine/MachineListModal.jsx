@@ -10,6 +10,7 @@ import ConfirmModal from "src/components/Modal/ConfirmModal";
 import { GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "src/graphQL/Queries";
 import { replaceNullWithEmptyString } from "src/utils/Utils";
 import QRCode from "qrcode";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const checkoutSchema = yup.object().shape({
@@ -20,6 +21,9 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function MachineListModal({ props }) {
+    const { entityName } = useSelector((state) => state.entity);
+
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
@@ -491,48 +495,7 @@ export default function MachineListModal({ props }) {
                                                 </Box>
                                             </Box>
 
-                                            {/* <Typography variant="h5" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>商品</Typography>
-                                            <Box display={"flex"}>
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="number"
-                                                    label="商品名稱"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.coin}
-                                                    name="coin"
-                                                    error={!!touched.coin && !!errors.coin}
-                                                    helperText={touched.coin && errors.coin}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="number"
-                                                    label="價格"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.coin}
-                                                    name="coin"
-                                                    error={!!touched.coin && !!errors.coin}
-                                                    helperText={touched.coin && errors.coin}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="number"
-                                                    label="庫存量"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.gift}
-                                                    name="gift"
-                                                    error={!!touched.gift && !!errors.gift}
-                                                    helperText={touched.gift && errors.gift}
-                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                            </Box> */}
+
 
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
@@ -543,7 +506,22 @@ export default function MachineListModal({ props }) {
                                                     </Typography>
                                                 </Button>
 
-                                                {values.status === "banned" ? (
+                                                {entityName === 'company' ? (
+                                                    values.status === "banned" ? (
+                                                        <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
+                                                            backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
+                                                        }}>
+                                                            <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                                                                {unbanTitle}
+                                                            </Typography>
+                                                        </Button>
+                                                    ) : (
+                                                        <ConfirmModal props={{ type: "machine", id: props.id }} />
+                                                    )
+                                                ) : null}
+
+
+                                                {/* {values.status === "banned" ? (
                                                     <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
                                                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                             {unbanTitle}
@@ -551,7 +529,7 @@ export default function MachineListModal({ props }) {
                                                     </Button>
                                                 ) : (
                                                     <ConfirmModal props={{ type: "machine", id: props.id }} />
-                                                )}
+                                                )} */}
 
                                                 <Button type="submit" color="success" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                                                     <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>

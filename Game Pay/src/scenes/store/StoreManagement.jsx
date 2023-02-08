@@ -168,7 +168,7 @@ const StoreManagement = () => {
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}
-                    maxWidth={120}>
+                    maxWidth={140}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名" inputRef={brandRef} />
                 </Box>
                 <Box

@@ -9,6 +9,8 @@ import { tokens } from "../../theme";
 import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
 import { replaceNullWithEmptyString } from "../../utils/Utils";
+import { BRAND_DeleteNotification } from "src/graphQL/BrandPrincipalQueries";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const checkoutSchema = yup.object().shape({
@@ -20,6 +22,8 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function BrandCoinListModal({ props }) {
+  const { entityName } = useSelector((state) => state.entity);
+
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -88,14 +92,24 @@ export default function BrandCoinListModal({ props }) {
   }, [props]);
 
   //========================== GRAPHQL ==========================
-  const [ApolloRemoveNotification, { loading, error, data }] = useLazyQuery(DeleteNotification);
+
+  let DELETE_NOTIFICATION_QUERY;
+  switch (entityName) {
+    case 'company':
+      DELETE_NOTIFICATION_QUERY = DeleteNotification;
+      break;
+    case 'brand':
+      DELETE_NOTIFICATION_QUERY = BRAND_DeleteNotification;
+      break;
+    default:
+      break;
+  }
+
+  const [ApolloRemoveNotification, { loading, error, data }] = useLazyQuery(DELETE_NOTIFICATION_QUERY);
   useEffect(() => {
     if (data) {
       console.log(data);
       window.location.reload();
-    }
-    else {
-      console.log(error)
     }
   }, [data]);
 
@@ -427,7 +441,12 @@ export default function BrandCoinListModal({ props }) {
                           {deleteTitle}
                         </Typography>
                       </Button> */}
-                      <button onClick={handleDelete} className="btn_delete noselect"><span className="text">移除</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
+                      <button onClick={handleDelete} className="btn_delete noselect"><span className="text">移除</span>
+                        <span className="icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path>
+                          </svg>
+                        </span>
+                      </button>
 
                     </Box>
                   </form>

@@ -441,13 +441,6 @@ const Sidebar = () => {
                           selected={selected}
                           setSelected={setSelected}
                         />
-                        <Item
-                          title="幾臺管理 "
-                          to="/machine-management"
-                          icon={<PrecisionManufacturingIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        />
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}

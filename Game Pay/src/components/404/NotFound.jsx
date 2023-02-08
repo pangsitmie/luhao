@@ -26,11 +26,11 @@ const NotFound = () => {
                 <div class="objects">
 
                     <div class="earth-moon">
-                        <img class="object_earth" src="http://salehriaz.com/404Page/img/earth.svg" width="100px" />
-                        <img class="object_moon" src="http://salehriaz.com/404Page/img/moon.svg" width="80px" />
+                        <img class="object_earth" src="https://roundbytes.com/static/media/roundbytes_earth.e50b9aa6eda6a2393296bcb84d93005d.svg" width="100px" />
+                        <img class="object_moon" src="https://roundbytes.com/static/media/roundbytes_moon.03785b8c1691696c00b6a0161d2cd1e4.svg" width="80px" />
                     </div>
                     <div class="box_astronaut">
-                        <img class="object_astronaut" src="http://salehriaz.com/404Page/img/astronaut.svg" width="140px" />
+                        <img class="object_astronaut" src="https://roundbytes.com/static/media/roundbytes_astronaut.e2b60a65821122a3377a8f0f01d68285.svg" width="140px" />
                     </div>
                 </div>
                 <div class="glowing_stars">

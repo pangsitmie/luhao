@@ -306,33 +306,34 @@ export default function CreateStoreModal() {
                                                 </FormControl>
                                             </Box>
 
-
-                                            <TextField className="modal_input_textfield"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="暱稱 (選填)"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.name}
-                                                name="name"
-                                                error={!!touched.name && !!errors.name}
-                                                helperText={touched.name && errors.name}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
-                                            />
-                                            <TextField className="modal_input_textfield"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label="店面介紹"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.intro}
-                                                name="intro"
-                                                error={!!touched.intro && !!errors.intro}
-                                                helperText={touched.intro && errors.intro}
-                                                sx={{ margin: "0 1rem 0rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
-                                            />
+                                            <Box display={"flex"} >
+                                                <TextField className="modal_input_textfield"
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="暱稱"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.name}
+                                                    name="name"
+                                                    error={!!touched.name && !!errors.name}
+                                                    helperText={touched.name && errors.name}
+                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                />
+                                                <TextField className="modal_input_textfield"
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label="店面介紹"
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.intro}
+                                                    name="intro"
+                                                    error={!!touched.intro && !!errors.intro}
+                                                    helperText={touched.intro && errors.intro}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                />
+                                            </Box>
 
                                             {/* Search Store location */}
                                             <PlacesAutocomplete

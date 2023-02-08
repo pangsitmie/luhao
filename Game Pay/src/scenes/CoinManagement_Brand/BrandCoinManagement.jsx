@@ -17,9 +17,14 @@ import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import Refresh from '../../components/Refresh';
 import Pagination from '../../components/Pagination';
+import { useDispatch, useSelector } from "react-redux";
+import { BRAND_GetSentFreeCoinList } from 'src/graphQL/BrandPrincipalQueries';
 
 
 const BrandCoinManagement = () => {
+    const { entityName } = useSelector((state) => state.entity);
+
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -40,6 +45,7 @@ const BrandCoinManagement = () => {
         setLimit(limit);
         setOffset(offset);
     }
+
 
 
     const handleStatusChange = (e) => {
@@ -73,7 +79,19 @@ const BrandCoinManagement = () => {
     }
 
     //GRAPHQL
-    const { loading, error, data } = useQuery(GetSentFreeCoinsList,
+    let GET_FREE_COIN_SENT_QUERY;
+    switch (entityName) {
+        case 'company':
+            GET_FREE_COIN_SENT_QUERY = GetSentFreeCoinsList;
+            break;
+        case 'brand':
+            GET_FREE_COIN_SENT_QUERY = BRAND_GetSentFreeCoinList;
+            break;
+        default:
+            break;
+    }
+
+    const { loading, error, data } = useQuery(GET_FREE_COIN_SENT_QUERY,
         {
             variables: {
                 onlyRewardType: "currency",
@@ -84,13 +102,19 @@ const BrandCoinManagement = () => {
     const [notifications, setNotifications] = useState([]);
     useEffect(() => {
         if (data) {
-            console.log(data);
-            setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
-            setNotifications(data.managerGetAllNotificationSchedules); //datas for display
-        }
-        else {
-            console.log(error);
-            console.log(loading);
+            switch (entityName) {
+                case 'company':
+                    setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
+                    setNotifications(data.managerGetAllNotificationSchedules); //datas for display
+                    break;
+                case 'brand':
+                    setInitNotifications(data.brandGetAllNotificationSchedules); //all brand datas
+                    setNotifications(data.brandGetAllNotificationSchedules); //datas for display
+                    break;
+                default:
+                    break;
+            }
+            // console.log(data);
         }
     }, [data]);
 
@@ -208,22 +232,19 @@ const BrandCoinManagement = () => {
                     maxHeight={"100px"}
 
                 >
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">標題</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">描述</Typography>
-                    </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">結束時間</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">刪除</Typography>
                     </Box>
                 </Box>
@@ -245,10 +266,9 @@ const BrandCoinManagement = () => {
                                     borderBottom={`3px solid ${colors.primary[500]}`}
                                     p="10px"
                                 >
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.comment}</Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
+                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                         {(() => {
                                             if (item.notification.expireAt === null) {
                                                 return "無"
@@ -258,7 +278,7 @@ const BrandCoinManagement = () => {
                                             }
                                         })()}
                                     </Box>
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                         {(() => {
                                             if (item.status.name === "done") {
                                                 return (
@@ -281,8 +301,7 @@ const BrandCoinManagement = () => {
                                         })()}
                                     </Box>
 
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {/* FIXME: change title to delete */}
+                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                         <BrandCoinListModal props={item} />
                                     </Box>
                                 </Box>

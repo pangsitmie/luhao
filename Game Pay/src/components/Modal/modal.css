@@ -41,6 +41,16 @@ body.active-modal {
     z-index: 2;
 }
 
+@media screen and (max-width: 1000px) {
+    .modal-content {
+        width: 100%;
+        height: 90%;
+        overflow: auto;
+    }
+}
+
+
+
 .close-modal {
     margin: 1rem;
 }

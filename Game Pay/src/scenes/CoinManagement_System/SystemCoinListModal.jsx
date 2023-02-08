@@ -15,7 +15,6 @@ const checkoutSchema = yup.object().shape({});
 
 
 export default function SystemCoinListModal({ props }) {
-  console.log(props.notification.reward.receiveDaysOverdue);
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -88,9 +87,6 @@ export default function SystemCoinListModal({ props }) {
       console.log(data);
       window.location.reload();
     }
-    else {
-      console.log(error)
-    }
   }, [data]);
 
 
@@ -108,15 +104,7 @@ export default function SystemCoinListModal({ props }) {
     }
   };
 
-
-
-
-
-
-
   const handleFormSubmit = (values) => { };
-
-
 
   if (modal) {
     document.body.classList.add('active-modal')
