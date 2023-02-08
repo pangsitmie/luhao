@@ -14,6 +14,17 @@ query Brands {
     }
   }
 `
+
+export const BRAND_GetBrandList = gql`
+query GetBrandList {
+  getBrandPrincipal {
+    brands {
+      id
+      name
+    }
+  }
+}
+`
 export const BRAND_GetBrandCurrencyList = gql`
 query GetBrandPrincipal {
   getBrandPrincipal {
@@ -27,7 +38,6 @@ query GetBrandPrincipal {
     }
   }
 }
-
 `
 export const BRAND_GetAllBrands = gql`
 query GetBrandPrincipal {

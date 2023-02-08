@@ -24,6 +24,8 @@ import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
 
 const BrandManagement = () => {
+    const { entityName } = useSelector((state) => state.entity);
+
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -50,7 +52,6 @@ const BrandManagement = () => {
     const filterRef = useRef('品牌名');
 
     //========================== GRAPHQL ==========================
-    const { entityName } = useSelector((state) => state.entity);
 
     let BRAND_INIT_QUERY;
     switch (entityName) {

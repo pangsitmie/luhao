@@ -685,7 +685,24 @@ query GetStore($args: [StoreArgs!]!, $startAt: Int, $endAt: Int) {
   }
 }
 `
-
+export const GetStatisticGraph = gql`
+query GetBrand(
+  $args: [BrandArgs!]!
+  $timeGranularity: EStatisticsPeriodTimeGranularity!
+  $startAt: Int
+  $endAt: Int
+) {
+  getBrand(args: $args) {
+    getStatisticsPeriod(timeGranularity: $timeGranularity, startAt: $startAt, endAt: $endAt) {
+      coinAmountTotal
+      coinQuantityTotal
+      giftAmountTotal
+      giftQuantityTotal
+      timestamp
+    }
+  }
+}
+`
 
 
 // ========================= COMMODITY =========================

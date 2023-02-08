@@ -23,6 +23,7 @@ import ProgressCircle from "../../components/ProgressCircle";
 import { useDispatch, useSelector } from "react-redux";
 import { STORE_GetStoreInfo } from 'src/graphQL/StorePrincipalQueries';
 
+import { mockLineData } from "src/data/mockData";
 
 
 const checkoutSchema = yup.object().shape({
@@ -204,7 +205,7 @@ const StoreDashboard = () => {
                         </Box>
                     </Box>
                     <Box height="250px" m="-20px 0 0 0">
-                        <LineChart isDashboard={true} />
+                        <LineChart isDashboard={true} data={mockLineData} />
                     </Box>
                 </Box>
             </Box>

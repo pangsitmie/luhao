@@ -5,6 +5,11 @@ import { tokens } from "../../theme";
 import LineChart from "../../components/LineChart";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import Header from '../../components/Header';
+import { useQuery } from '@apollo/client'
+
+import { mockLineData } from "src/data/mockData";
+import { GetStatisticGraph } from 'src/graphQL/Queries';
+
 
 const FinanceStatistic = () => {
     //THEME
@@ -17,16 +22,63 @@ const FinanceStatistic = () => {
 
     const [active, setActive] = useState('day');
 
+    const [lineData, setLineData] = useState([]);
+
+    const { loading, error, data } = useQuery(GetStatisticGraph, {
+        variables: {
+            args: [
+                {
+                    id: "1"
+                }
+            ],
+            timeGranularity: "hour",
+            startAt: 1675749600,
+            endAt: 1675836000
+        }
+    });
+    useEffect(() => {
+        if (data) {
+            setLineData(data.getBrand[0].getStatisticsPeriod);
+        }
+    }, [data]);
+
+
+    const finalData = [];
+
+    const coinAmountTotal = [];
+    const coinQuantityTotal = [];
+    const giftAmountTotal = [];
+    const giftQuantityTotal = [];
+
+    for (const item of lineData) {
+        coinAmountTotal.push({ x: new Date(item.timestamp * 1000).toLocaleTimeString(), y: item.coinAmountTotal });
+        coinQuantityTotal.push({ x: new Date(item.timestamp * 1000).toLocaleTimeString(), y: item.coinQuantityTotal });
+        giftAmountTotal.push({ x: new Date(item.timestamp * 1000).toLocaleTimeString(), y: item.giftAmountTotal });
+        giftQuantityTotal.push({ x: new Date(item.timestamp * 1000).toLocaleTimeString(), y: item.giftQuantityTotal });
+
+    }
+
+    console.log(coinAmountTotal, giftAmountTotal);
+
+    finalData.push({ id: "Coin Qty Tot", color: colors.blueAccent[500], data: coinQuantityTotal });
+    finalData.push({ id: "總收入", color: colors.greenAccent[500], data: coinAmountTotal });
+    finalData.push({ id: "Gift Amt Total", color: colors.redAccent[500], data: giftAmountTotal });
+    finalData.push({ id: "Gift Qty Tot", color: colors.grey[500], data: giftQuantityTotal });
+
+    console.log("finalData");
+    console.log(finalData);
+
+
     const handleClick = (selected) => {
         setActive(selected);
     };
 
     return (
-        <Box m="20px">
+        <Box m="20px" >
             {/* HEADER */}
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Box Box display="flex" justifyContent="space-between" alignItems="center" >
                 <Header title="財務細節資料" />
-            </Box>
+            </Box >
 
             <Box
                 display="grid"
@@ -121,11 +173,11 @@ const FinanceStatistic = () => {
 
                     </Box>
                     <Box height="400px" m="-20px 0 0 0">
-                        <LineChart isDashboard={true} />
+                        <LineChart isDashboard={true} data={finalData} />
                     </Box>
                 </Box>
             </Box>
-        </Box>
+        </Box >
     )
 }
 

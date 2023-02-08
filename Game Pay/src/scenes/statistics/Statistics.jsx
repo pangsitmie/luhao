@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { useQuery } from '@apollo/client'
 // QUERIES
 import { GetAllBrands } from '../../graphQL/Queries'
+import { BRAND_GetBrandList } from '../../graphQL/BrandPrincipalQueries'
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -14,8 +15,12 @@ import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
+import { useDispatch, useSelector } from "react-redux";
+
 
 const Statistics = () => {
+    const { entityName } = useSelector((state) => state.entity);
+
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -47,13 +52,37 @@ const Statistics = () => {
     const [initBrands, setInitBrands] = useState([]);
     const [brands, setBrands] = useState([]);
 
-    const { loading, error, data } = useQuery(GetAllBrands, {
+
+    let BRAND_LIST_QUERY;
+    switch (entityName) {
+        case 'company':
+            BRAND_LIST_QUERY = GetAllBrands;
+            break;
+        case 'brand':
+            BRAND_LIST_QUERY = BRAND_GetBrandList;
+            break;
+        default:
+            break;
+    }
+
+    const { loading, error, data } = useQuery(BRAND_LIST_QUERY, {
         variables: { limit, offset }
     });
     useEffect(() => {
         if (data) {
-            setInitBrands(data.managerGetBrands); //all brand datas
-            setBrands(data.managerGetBrands); //datas for display
+            switch (entityName) {
+                case 'company':
+                    setInitBrands(data.managerGetBrands); //all brand datas
+                    setBrands(data.managerGetBrands); //datas for display
+                    break;
+                case 'brand':
+                    setInitBrands(data.getBrandPrincipal.brands); //all brand datas
+                    setBrands(data.getBrandPrincipal.brands); //datas for display
+                    break;
+                default:
+                    break;
+            }
+
         }
     }, [data, offset]);
 
