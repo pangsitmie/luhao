@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
-import { GetBrandStatistic, GetStoreStatistic } from '../../graphQL/Queries'
+import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic } from '../../graphQL/Queries'
 
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
@@ -36,178 +36,131 @@ const StatisticManagement = () => {
 
     // ======================== STATES ========================
 
-    //title state is first initialize as brand name and updated when store name is selected
+    const [startAtDate, setStartAtDate] = useState(getCurrentDate());
+    function handleStartAtDateChange(event) {
+        setStartAtDate(event.target.value);
+        setStartAtDateEpoch((new Date(event.target.value).getTime() / 1000) - 7200);
+        setEndAtDateEpoch((new Date(event.target.value).getTime() / 1000) - 7200 + 86400 - 1);
+    }
+    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getToday6Epoch());
+
+    // const [endAtDate, setEndAtDate] = useState(getCurrentDate());
+    const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
+
+
+
+
+
+
+    useEffect(() => {
+        console.log("startAtDate EPOCH: " + startAtDateEpoch + " endAtDate EPOCH: " + endAtDateEpoch);
+    }, [startAtDateEpoch]);
+
+    const [displayStatistic, setDisplayStatistic] = useState({});
+    const [storeList, setStoreList] = useState([]);
+    const [storeListFilter, setStoreListFilter] = useState('');
     const [selectedItem, setSelectedItem] = useState({
-        id: state.data.id,
+        id: -1,
         entityName: state.data.name
     });
 
-    const [startAtDate, setStartAtDate] = useState(getCurrentDateHour6());
-    function handleStartAtDateChange(event) {
-        setStartAtDate(event.target.value);
-    }
 
-    const [endAtDate, setEndAtDate] = useState(getCurrentDate());
-    function handleEndAtDateChange(event) {
-        setEndAtDate(event.target.value);
-    }
+    // ======================== GET STORE LIST FOR DROPDOWN ========================
+    const { data: dataStoreList } = useQuery(GetStoreListByBrand,
+        {
+            variables: {
+                args: [
+                    {
+                        id: state.data.id,
+                    }
+                ]
+            }
+        }
+    );
+    useEffect(() => {
+        if (dataStoreList) {
+            setStoreList([{ id: -1, name: '無' }, ...dataStoreList.getBrand[0].managerGetStores]);
+        }
+    }, [dataStoreList]);
 
-    const [brandStatistic, setBrandStatistic] = useState({});
-    const [displayStatistic, setDisplayStatistic] = useState({});
 
-    const [storeList, setStoreList] = useState([]);
+    // ======================== GET BRAND STATISTIC ========================
+    // const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatistic, {
+    //     variables: {
+    //         args: [
+    //             {
+    //                 id: state.data.id,
+    //             }
+    //         ],
+    //         startAt: startAtDateEpoch,
+    //         endAt: endAtDateEpoch
+    //         //if endAtDateEpoch - startAtDateEpoch > 86400, then it will be a range of days
+    //         //add timeGranularity variable to query
 
-    const [storeListFilter, setStoreListFilter] = useState('');
-
-    const { loading, error, data } = useQuery(GetBrandStatistic, {
+    //     },
+    //     skip: selectedItem.id !== -1
+    // });
+    const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatistic, {
         variables: {
             args: [
                 {
                     id: state.data.id,
                 }
             ],
-        }
+            startAt: startAtDateEpoch,
+            endAt: endAtDateEpoch
+        },
+        ...((endAtDateEpoch - startAtDateEpoch > 86400) ? { variables: { timeGranularity: "day" } } : {}),
+        skip: selectedItem.id !== -1
     });
+
+
+    // ======================== GET STORE STATISTIC ========================
+    const { loading: loadingStore, error: errorStore, data: dataStore } = useQuery(GetStoreStatistic, {
+        variables: {
+            args: [
+                {
+                    id: selectedItem.id,
+                }
+            ],
+            startAt: startAtDateEpoch,
+            endAt: endAtDateEpoch
+        },
+        skip: selectedItem.id === -1
+    });
+
     useEffect(() => {
-        if (data) {
-            console.log(data.getBrand[0].getStatisticsTotal);
-            // set the data to brandStatistic first
-            setBrandStatistic(data.getBrand[0].getStatisticsTotal);
-            setDisplayStatistic(data.getBrand[0].getStatisticsTotal);
-            setStoreList([{ id: -1, name: '無' }, ...data.getBrand[0].managerGetStores]);
-
+        if (dataBrand) {
+            // console.log("BRAND API RESPONSE");
+            // console.log(dataBrand.getBrand[0].getStatisticsTotal);
+            setDisplayStatistic(dataBrand.getBrand[0].getStatisticsTotal);
         }
-    }, [data]);
 
+        if (dataStore) {
+            // console.log("STORE API RESPONSE");
+            // console.log(dataStore.getStore[0].getStatisticsTotal);
+            setDisplayStatistic(dataStore.getStore[0].getStatisticsTotal);
+        }
+    }, [dataBrand, dataStore]);
 
-    const [ApolloGetBrandStatistic, { loading: loadingBrand, error: errorBrand, data: dataBrand }] = useLazyQuery(GetBrandStatistic);
-
-
-
-    const [ApolloGetStoreStatistic, { loading: loadingStore, error: errorStore, data: dataStore }] = useLazyQuery(GetStoreStatistic);
+    // ========================
     const handleStoreListChange = (e) => {
         const targetId = e.target.value;
-
-        if (targetId === -1) {
-            setSelectedItem({
-                id: state.data.id,
-                entityName: state.data.name
-            });
-
-            setDisplayStatistic(brandStatistic);
-            setStoreListFilter(targetId);
-            return;
-        }
-
         //find the brand id from brand list
         const store = storeList.find(store => store.id === targetId);
         if (store) {
             setSelectedItem(
                 {
                     id: store.id,
-                    entityName: store.name
+                    entityName: store.id === -1 ? state.data.name : store.name
                 }
             );
-
             setStoreListFilter(targetId);
-
-            const startAtDateObj = new Date(startAtDate);
-            const endAtDateObj = new Date(endAtDate);
-
-            let startAtUnix = startAtDateObj.getTime() / 1000;
-            let endAtUnix = endAtDateObj.getTime() / 1000;
-            let nowUnix = Math.floor(Date.now() / 1000);
-
-            const variables = {
-                args: [
-                    {
-                        id: targetId,
-                    }
-                ],
-            };
-            //check if startAtUnix is filled
-            //insert startAtUnix to variables
-            if (!isNaN(startAtUnix)) {
-                variables.startAt = startAtUnix;
-            }
-            //insert endAtUnix to variables if it is selected
-
-            if (!isNaN(endAtUnix)) {
-                variables.endAt = endAtUnix;
-            }
-
-            if (endAtUnix < startAtUnix) {
-                alert("End date must be greater than start date");
-                return;
-            }
-
-            ApolloGetStoreStatistic({ variables }).then((res) => {
-                setDisplayStatistic(res.data.getStore[0].getStatisticsTotal);
-            }).catch((err) => {
-                console.log(err);
-            });
         }
     };
 
-    // ========================== FUNCTIONS ==========================
-    const submitSearch = () => {
-        // console.log(selectedItem === state.data.name);
-
-        const startAtDateObj = new Date(startAtDate);
-        const endAtDateObj = new Date(endAtDate);
-
-        let startAtUnix = startAtDateObj.getTime() / 1000;
-        let endAtUnix = endAtDateObj.getTime() / 1000;
-        // let nowUnix = Math.floor(Date.now() / 1000);
-
-        const variables = {
-            args: [
-                {
-                    id: selectedItem.id,
-                }
-            ],
-        };
-        //check if startAtUnix is filled
-        if (!isNaN(startAtUnix)) {
-            variables.startAt = startAtUnix;
-        }
-        //insert endAtUnix to variables if it is selected
-
-        if (!isNaN(endAtUnix)) {
-            variables.endAt = endAtUnix;
-        }
-        if (endAtUnix < startAtUnix) {
-            alert("End date must be greater than start date");
-            return;
-        }
-        console.log(selectedItem);
-        console.log(variables);
-
-
-        // we want to search brand statistic with corespondinc time frame
-        if (selectedItem.entityName === state.data.name) {
-            ApolloGetBrandStatistic({ variables }).then((res) => {
-                console.log(res);
-                setDisplayStatistic(res.data.getBrand[0].getStatisticsTotal);
-            }).catch((err) => {
-                console.log(err);
-            });
-            return;
-        }
-        else {
-            ApolloGetStoreStatistic({ variables }).then((res) => {
-                setDisplayStatistic(res.data.getStore[0].getStatisticsTotal);
-            }).catch((err) => {
-                console.log(err);
-            });
-            return;
-        }
-    };
-
-
-
-    if (loading) return <Loader />;
-    if (error) return <Error />;
+    if (loadingBrand, loadingStore) return <Loader />;
+    if (errorBrand, errorStore) return <Error />;
 
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
@@ -219,6 +172,7 @@ const StatisticManagement = () => {
                 mb={"1rem"}
             >
                 <Header title={selectedItem.entityName} subtitle="統計資料" />
+                {startAtDateEpoch} - {endAtDateEpoch}
             </Box>
 
             <Box
@@ -231,7 +185,7 @@ const StatisticManagement = () => {
                     <TextField
                         id="datetime-local"
                         label="開始時間點"
-                        type="datetime-local"
+                        type="date"
                         value={startAtDate}
                         onChange={handleStartAtDateChange}
                         sx={{ width: "180px" }}
@@ -240,35 +194,17 @@ const StatisticManagement = () => {
                         }}
                     />
 
-                    <TextField
+                    {/* <TextField
                         id="datetime-local"
                         label="過期時間"
-                        type="datetime-local"
+                        type="date"
                         value={endAtDate}
                         onChange={handleEndAtDateChange}
                         sx={{ width: "180px" }}
                         InputLabelProps={{
                             shrink: true,
                         }}
-                    />
-
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "90px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        padding: "0px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={submitSearch}>
-                        <Typography color={"white"} variant="h5" fontWeight="500">
-                            查詢
-                        </Typography>
-                    </Button>
+                    /> */}
                 </Box>
 
                 <FormControl sx={{ minWidth: "120px" }}>
@@ -318,7 +254,7 @@ const StatisticManagement = () => {
                     <Link
                         to={"/statistic-management/finance"}
                         state={{
-                            data: displayStatistic,
+                            data: state.data,
                         }}
                     >
                         <IconButton>
@@ -553,13 +489,8 @@ const StatisticManagement = () => {
                             }
                         />
                     </Box>
-
-
                 </Box>
             </Box>
-
-
-
         </Box >
     )
 }
@@ -606,17 +537,14 @@ const getCurrentDate = () => {
     const hour = ("0" + date.getHours()).slice(-2)
     const minute = ("0" + date.getMinutes()).slice(-2)
 
-    return `${year}-${month}-${day}T${hour}:${minute}`
+    return `${year}-${month}-${day}`
 }
 
-const getCurrentDateHour6 = () => {
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = ("0" + (date.getMonth() + 1)).slice(-2)
-    const day = ("0" + date.getDate()).slice(-2)
 
-    const hour = "06"
-    const minute = "00"
 
-    return `${year}-${month}-${day}T${hour}:${minute}`
+const getToday6Epoch = () => {
+    return (new Date(getCurrentDate()).getTime() / 1000) - 7200;
+}
+const getCurrentEpoch = () => {
+    return Math.floor(new Date().getTime() / 1000);
 }

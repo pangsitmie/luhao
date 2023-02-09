@@ -8,27 +8,19 @@ import Header from '../../components/Header';
 import { useQuery } from '@apollo/client'
 
 import { mockLineData } from "src/data/mockData";
-import { GetStatisticGraph } from 'src/graphQL/Queries';
+import { GetStoreListByBrand, GetStatisticGraph } from 'src/graphQL/Queries';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 const FinanceStatistic = () => {
+    const location = useLocation();
+    const state = location.state;
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const location = useLocation();
-    const state = location.state;
-    console.log(state.data);
-
-
     // ===================== STATE =====================
-    //title state is first initialize as brand name and updated when store name is selected
-    const [selectedItem, setSelectedItem] = useState({
-        id: state.data.id,
-        entityName: state.data.name
-    });
-
     const [startAtDate, setStartAtDate] = useState(getCurrentDateHour6());
     function handleStartAtDateChange(event) {
         setStartAtDate(event.target.value);
@@ -41,14 +33,54 @@ const FinanceStatistic = () => {
 
     const [storeList, setStoreList] = useState([]);
     const [storeListFilter, setStoreListFilter] = useState('');
-    const [period, setPeriod] = useState('day');
+    const [selectedItem, setSelectedItem] = useState({
+        id: -1,
+        entityName: state.data.name
+    });
+
+    const { data: dataStoreList } = useQuery(GetStoreListByBrand,
+        {
+            variables: {
+                args: [
+                    {
+                        id: state.data.id,
+                    }
+                ]
+            }
+        }
+    );
+    useEffect(() => {
+        if (dataStoreList) {
+            setStoreList([{ id: -1, name: '無' }, ...dataStoreList.getBrand[0].managerGetStores]);
+        }
+    }, [dataStoreList]);
+
+    const handleStoreListChange = (e) => {
+        const targetId = e.target.value;
+        //find the brand id from brand list
+        const store = storeList.find(store => store.id === targetId);
+        if (store) {
+            setSelectedItem(
+                {
+                    id: store.id,
+                    entityName: store.id === -1 ? state.data.name : store.name
+                }
+            );
+            setStoreListFilter(targetId);
+        }
+    };
+
+
+
+    // ===================== GRAPH DATA =====================
+    const [period, setPeriod] = useState('hour');
     const [lineData, setLineData] = useState([]);
 
     const { loading, error, data } = useQuery(GetStatisticGraph, {
         variables: {
             args: [
                 {
-                    id: "1"
+                    id: state.data.id
                 }
             ],
             timeGranularity: period,
@@ -63,151 +95,69 @@ const FinanceStatistic = () => {
     }, [data]);
 
 
-    const handleStoreListChange = (e) => {
-        const targetId = e.target.value;
-
-        if (targetId === -1) {
-            setSelectedItem({
-                id: state.data.id,
-                entityName: state.data.name
-            });
-
-            // setDisplayStatistic(brandStatistic);
-            // setStoreListFilter(targetId);
-            return;
-        }
-
-        //find the brand id from brand list
-        const store = storeList.find(store => store.id === targetId);
-        if (store) {
-            setSelectedItem(
-                {
-                    id: store.id,
-                    entityName: store.name
-                }
-            );
-
-            // setStoreListFilter(targetId);
-
-            const startAtDateObj = new Date(startAtDate);
-            const endAtDateObj = new Date(endAtDate);
-
-            let startAtUnix = startAtDateObj.getTime() / 1000;
-            let endAtUnix = endAtDateObj.getTime() / 1000;
-            let nowUnix = Math.floor(Date.now() / 1000);
-
-            const variables = {
-                args: [
-                    {
-                        id: targetId,
-                    }
-                ],
-            };
-            //check if startAtUnix is filled
-            //insert startAtUnix to variables
-            if (!isNaN(startAtUnix)) {
-                variables.startAt = startAtUnix;
-            }
-            //insert endAtUnix to variables if it is selected
-
-            if (!isNaN(endAtUnix)) {
-                variables.endAt = endAtUnix;
-            }
-
-            if (endAtUnix < startAtUnix) {
-                alert("End date must be greater than start date");
-                return;
-            }
-
-            // ApolloGetStoreStatistic({ variables }).then((res) => {
-            //     // setDisplayStatistic(res.data.getStore[0].getStatisticsTotal);
-            // }).catch((err) => {
-            //     console.log(err);
-            // });
-        }
-    };
-
-    const submitSearch = () => {
-        // console.log(selectedItem === state.data.name);
-
-        const startAtDateObj = new Date(startAtDate);
-        const endAtDateObj = new Date(endAtDate);
-
-        let startAtUnix = startAtDateObj.getTime() / 1000;
-        let endAtUnix = endAtDateObj.getTime() / 1000;
-        // let nowUnix = Math.floor(Date.now() / 1000);
-
-        const variables = {
-            args: [
-                {
-                    id: selectedItem.id,
-                }
-            ],
-        };
-        //check if startAtUnix is filled
-        if (!isNaN(startAtUnix)) {
-            variables.startAt = startAtUnix;
-        }
-        //insert endAtUnix to variables if it is selected
-
-        if (!isNaN(endAtUnix)) {
-            variables.endAt = endAtUnix;
-        }
-        if (endAtUnix < startAtUnix) {
-            alert("End date must be greater than start date");
-            return;
-        }
-        console.log(selectedItem);
-        console.log(variables);
-
-
-        // we want to search brand statistic with corespondinc time frame
-        // if (selectedItem.entityName === state.data.name) {
-        //     ApolloGetBrandStatistic({ variables }).then((res) => {
-        //         console.log(res);
-        //         setDisplayStatistic(res.data.getBrand[0].getStatisticsTotal);
-        //     }).catch((err) => {
-        //         console.log(err);
-        //     });
-        //     return;
-        // }
-        // else {
-        //     ApolloGetStoreStatistic({ variables }).then((res) => {
-        //         setDisplayStatistic(res.data.getStore[0].getStatisticsTotal);
-        //     }).catch((err) => {
-        //         console.log(err);
-        //     });
-        //     return;
-        // }
-    };
-
 
 
     // ===================== GRAPH DATA =====================
     const finalData = [];
 
-    const coinAmountTotal = [];
-    const coinQuantityTotal = [];
-    const giftAmountTotal = [];
-    const giftQuantityTotal = [];
+    const coinAmountTotal = [],
+        coinQuantityTotal = [],
+        giftAmountTotal = [],
+        giftQuantityTotal = [];
+
 
     for (const item of lineData) {
-        coinAmountTotal.push({ x: new Date(item.timestamp * 1000).toLocaleTimeString(), y: item.coinAmountTotal });
-        coinQuantityTotal.push({ x: new Date(item.timestamp * 1000).toLocaleTimeString(), y: item.coinQuantityTotal });
-        giftAmountTotal.push({ x: new Date(item.timestamp * 1000).toLocaleTimeString(), y: item.giftAmountTotal });
-        giftQuantityTotal.push({ x: new Date(item.timestamp * 1000).toLocaleTimeString(), y: item.giftQuantityTotal });
+        let x = item.timestamp;
+        switch (period) {
+            case 'hour':
+                x = new Date(item.timestamp * 1000).toLocaleString("default", {
+                    day: "numeric",
+                    month: "short",
+                    hour: "numeric",
+                });
+                break;
+            case 'day':
+                x = new Date(item.timestamp * 1000).toLocaleDateString("default", {
+                    day: "numeric",
+                    month: "short"
+                });
+                break;
+            case 'week':
+                let weekStart = new Date(item.timestamp * 1000);
+                let weekEnd = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 6);
+                x = `${weekStart.toLocaleDateString("default", {
+                    day: "numeric",
+                    month: "short"
+                })} - ${weekEnd.toLocaleDateString("default", {
+                    day: "numeric",
+                    month: "short"
+                })}`;
+                break;
+            case 'month':
+                x = new Date(item.timestamp * 1000).toLocaleDateString("default", {
+                    month: "short",
+                    year: "numeric"
+                });
+                break;
+        }
 
+
+        coinAmountTotal.push({ x, y: item.coinAmountTotal });
+        coinQuantityTotal.push({ x, y: item.coinQuantityTotal });
+        giftAmountTotal.push({ x, y: item.giftAmountTotal });
+        giftQuantityTotal.push({ x, y: item.giftQuantityTotal });
     }
 
-    console.log(coinAmountTotal, giftAmountTotal);
 
-    finalData.push({ id: "Coin Qty Tot", color: colors.blueAccent[500], data: coinQuantityTotal });
-    finalData.push({ id: "總收入", color: colors.greenAccent[500], data: coinAmountTotal });
-    finalData.push({ id: "Gift Amt Total", color: colors.redAccent[500], data: giftAmountTotal });
-    finalData.push({ id: "Gift Qty Tot", color: colors.grey[500], data: giftQuantityTotal });
+    // console.log(coinAmountTotal, giftAmountTotal);
 
-    console.log("finalData");
-    console.log(finalData);
+    finalData.push({ id: "Coin Qty Tot", color: "#6a994e", data: coinQuantityTotal });
+    finalData.push({ id: "Coin Amt Tot", color: "#219ebc", data: coinAmountTotal });
+    finalData.push({ id: "Gift Amt Tot", color: "#fb8500", data: giftAmountTotal });
+    finalData.push({ id: "Gift Qty Tot", color: "#ffb703", data: giftQuantityTotal });
+
+    // console.log("finalData");
+    // console.log(finalData);
 
 
     const handleClick = (selected) => {
@@ -261,23 +211,7 @@ const FinanceStatistic = () => {
                         }}
                     />
 
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "90px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        padding: "0px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={submitSearch}>
-                        <Typography color={"white"} variant="h5" fontWeight="500">
-                            查詢
-                        </Typography>
-                    </Button>
+
                 </Box>
 
                 <FormControl sx={{ minWidth: "120px" }}>
