@@ -12,7 +12,7 @@ import { GetStatisticGraph } from 'src/graphQL/Queries';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
-const FinanceStatistic = () => {
+const UserStatistic = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -41,7 +41,7 @@ const FinanceStatistic = () => {
 
     const [storeList, setStoreList] = useState([]);
     const [storeListFilter, setStoreListFilter] = useState('');
-    const [period, setPeriod] = useState('day');
+    const [active, setActive] = useState('day');
     const [lineData, setLineData] = useState([]);
 
     const { loading, error, data } = useQuery(GetStatisticGraph, {
@@ -51,9 +51,9 @@ const FinanceStatistic = () => {
                     id: "1"
                 }
             ],
-            timeGranularity: period,
-            startAt: new Date(startAtDate).getTime() / 1000,
-            endAt: new Date(endAtDate).getTime() / 1000
+            timeGranularity: "hour",
+            startAt: 1675749600,
+            endAt: 1675836000
         }
     });
     useEffect(() => {
@@ -211,7 +211,7 @@ const FinanceStatistic = () => {
 
 
     const handleClick = (selected) => {
-        setPeriod(selected);
+        setActive(selected);
     };
 
     return (
@@ -357,10 +357,10 @@ const FinanceStatistic = () => {
                             <Button
                                 sx={{
                                     borderRadius: "0px",
-                                    backgroundColor: period === 'hour' ? "rgba(255, 255, 255, 0.074)" : "transparent",
-                                    border: period === 'hour' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
-                                    webkitBackdropFilter: period === 'hour' ? "blur(20px)" : "none",
-                                    backdropFilter: period === 'hour' ? "blur(20px)" : "none",
+                                    backgroundColor: active === 'hour' ? "rgba(255, 255, 255, 0.074)" : "transparent",
+                                    border: active === 'hour' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    webkitBackdropFilter: active === 'hour' ? "blur(20px)" : "none",
+                                    backdropFilter: active === 'hour' ? "blur(20px)" : "none",
                                 }}
                                 onClick={() => handleClick('hour')}
                             >
@@ -371,10 +371,10 @@ const FinanceStatistic = () => {
                             <Button
                                 sx={{
                                     borderRadius: "0px",
-                                    backgroundColor: period === 'day' ? "rgba(255, 255, 255, 0.074)" : "transparent",
-                                    border: period === 'day' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
-                                    webkitBackdropFilter: period === 'day' ? "blur(20px)" : "none",
-                                    backdropFilter: period === 'day' ? "blur(20px)" : "none",
+                                    backgroundColor: active === 'day' ? "rgba(255, 255, 255, 0.074)" : "transparent",
+                                    border: active === 'day' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    webkitBackdropFilter: active === 'day' ? "blur(20px)" : "none",
+                                    backdropFilter: active === 'day' ? "blur(20px)" : "none",
                                 }}
                                 onClick={() => handleClick('day')}
                             >
@@ -385,10 +385,10 @@ const FinanceStatistic = () => {
                             <Button
                                 sx={{
                                     borderRadius: "0px",
-                                    backgroundColor: period === 'week' ? "rgba(255, 255, 255, 0.074)" : "transparent",
-                                    border: period === 'week' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
-                                    webkitBackdropFilter: period === 'week' ? "blur(20px)" : "none",
-                                    backdropFilter: period === 'week' ? "blur(20px)" : "none",
+                                    backgroundColor: active === 'week' ? "rgba(255, 255, 255, 0.074)" : "transparent",
+                                    border: active === 'week' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    webkitBackdropFilter: active === 'week' ? "blur(20px)" : "none",
+                                    backdropFilter: active === 'week' ? "blur(20px)" : "none",
                                 }}
                                 onClick={() => handleClick('week')}
                             >
@@ -399,10 +399,10 @@ const FinanceStatistic = () => {
                             <Button
                                 sx={{
                                     borderRadius: "0px",
-                                    backgroundColor: period === 'month' ? "rgba(255, 255, 255, 0.074)" : "transparent",
-                                    border: period === 'month' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
-                                    webkitBackdropFilter: period === 'month' ? "blur(20px)" : "none",
-                                    backdropFilter: period === 'month' ? "blur(20px)" : "none",
+                                    backgroundColor: active === 'month' ? "rgba(255, 255, 255, 0.074)" : "transparent",
+                                    border: active === 'month' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    webkitBackdropFilter: active === 'month' ? "blur(20px)" : "none",
+                                    backdropFilter: active === 'month' ? "blur(20px)" : "none",
                                 }}
                                 onClick={() => handleClick('month')}
                             >
@@ -424,7 +424,7 @@ const FinanceStatistic = () => {
     )
 }
 
-export default FinanceStatistic
+export default UserStatistic
 
 const getCurrentDate = () => {
     const date = new Date()

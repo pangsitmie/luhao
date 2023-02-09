@@ -23,7 +23,7 @@ import BrandCoinManagement from "src/scenes/CoinManagement_Brand/BrandCoinManage
 import AdsManagement from "src/scenes/adsManagement/AdsManagement";
 import VersionManagement from "src/scenes/version/VersionManagement";
 import Promotion from "src/scenes/promotion/Promotion";
-import Statistics from "src/scenes/statistics/Statistics";
+import StatisticList from "src/scenes/statistics/StatisticList";
 import StatisticManagement from "src/scenes/statistics/StatisticManagement";
 import FinanceStatistic from "src/scenes/statistics/FinanceStatistic";
 import PartnerAdsManagement from "src/scenes/partnerAds/PartnerAdsManagement";
@@ -101,7 +101,7 @@ function App() {
                       <Route path="/brand-coins" element={<BrandCoinManagement />} />
 
                       {/* STATISTIC */}
-                      <Route path="/statistic" element={<Statistics />} />
+                      <Route path="/statistic" element={<StatisticList />} />
                       <Route path="/statistic-management" element={<StatisticManagement />} />
                       <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
 
@@ -122,7 +122,7 @@ function App() {
                       <Route path="/brand-coins" element={<BrandCoinManagement />} />
 
                       {/* STATISTIC */}
-                      <Route path="/statistic" element={<Statistics />} />
+                      <Route path="/statistic" element={<StatisticList />} />
                       <Route path="/statistic-management" element={<StatisticManagement />} />
                       <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
                     </>
@@ -136,7 +136,7 @@ function App() {
                       <Route path="/machine-management" element={<MachineManagement />} />
 
                       {/* STATISTIC */}
-                      <Route path="/statistic" element={<Statistics />} />
+                      <Route path="/statistic" element={<StatisticList />} />
                       <Route path="/statistic-management" element={<StatisticManagement />} />
                       <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
                     </>

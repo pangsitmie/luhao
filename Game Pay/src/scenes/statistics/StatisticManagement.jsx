@@ -9,7 +9,6 @@ import { ColorModeContext, tokens } from "../../theme";
 
 import { GetBrandStatistic, GetStoreStatistic } from '../../graphQL/Queries'
 
-import EventIcon from '@mui/icons-material/Event';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 
@@ -23,20 +22,12 @@ import GroupIcon from '@mui/icons-material/Group';
 import StatBox from "../../components/StatBox";
 import StatPercentBox from '../../components/StatPercentBox';
 import Header from '../../components/Header';
-import { display } from '@mui/system';
 import StatBoxSplit from '../../components/StatBoxSplit';
-
 
 
 const StatisticManagement = () => {
     const location = useLocation();
     const state = location.state;
-
-    const styles = {
-        floatingLabelFocusStyle: {
-            color: "#fff"
-        }
-    }
 
     //THEME
     const theme = useTheme();
@@ -375,30 +366,10 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(0)}
-                            subtitle="免費幣"
+                            title={currencyFormatter(displayStatistic.coinQuantityTotal)}
+                            subtitle="總投幣"
                             icon={
                                 <MonetizationOnIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
-                                />
-                            }
-                        />
-                    </Box>
-
-                    <Box
-                        className='span3'
-                        sx={{
-                            background: "linear-gradient(135deg, #4281B7, #4697E7)",
-                            backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            webkitBackdropFilter: "blur(20px)",
-                            backdropFilter: "blur(20px)",
-                        }}
-                    >
-                        <StatBox
-                            title={numberFormatter(displayStatistic.giftQuantityTotal)}
-                            subtitle="總出貨"
-                            icon={
-                                <InventoryIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
                                 />
                             }
@@ -419,6 +390,26 @@ const StatisticManagement = () => {
                             subtitle="總支出"
                             icon={
                                 <ReceiptIcon
+                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                />
+                            }
+                        />
+                    </Box>
+
+                    <Box
+                        className='span3'
+                        sx={{
+                            background: "linear-gradient(135deg, #4281B7, #4697E7)",
+                            backgroundColor: "rgba(255, 255, 255, 0.074)",
+                            webkitBackdropFilter: "blur(20px)",
+                            backdropFilter: "blur(20px)",
+                        }}
+                    >
+                        <StatBox
+                            title={numberFormatter(displayStatistic.giftQuantityTotal)}
+                            subtitle="總出貨"
+                            icon={
+                                <InventoryIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
                                 />
                             }
@@ -481,7 +472,7 @@ const StatisticManagement = () => {
                         使用者
                     </Typography>
                     <Link
-                        to={"/statistic-management/finance"}
+                        to={"/statistic-management/user"}
                         state={{
                             data: displayStatistic,
                         }}
@@ -510,7 +501,7 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBoxSplit
-                            title={"客人数量"}
+                            title={"總客人"}
                             subtitle1="新客人"
                             val1={numberFormatter(1000)}
                             subtitle2="舊客人"

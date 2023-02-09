@@ -18,7 +18,7 @@ import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
 
 
-const Statistics = () => {
+const StatisticList = () => {
     const { entityName } = useSelector((state) => state.entity);
 
     //========================== THEME ==========================
@@ -250,4 +250,4 @@ const Statistics = () => {
     )
 }
 
-export default Statistics
+export default StatisticList
