@@ -18,7 +18,7 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function CreateMachineModal({ props }) {
+export default function CreateRewardModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);

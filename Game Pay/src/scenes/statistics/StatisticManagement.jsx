@@ -23,9 +23,13 @@ import StatBox from "../../components/StatBox";
 import StatPercentBox from '../../components/StatPercentBox';
 import Header from '../../components/Header';
 import StatBoxSplit from '../../components/StatBoxSplit';
+import { useDispatch, useSelector } from "react-redux";
 
 
 const StatisticManagement = () => {
+    const { entityName } = useSelector((state) => state.entity);
+
+
     const location = useLocation();
     const state = location.state;
 
@@ -34,35 +38,65 @@ const StatisticManagement = () => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-    // ======================== STATES ========================
-
     const [startAtDate, setStartAtDate] = useState(getCurrentDate());
+    useEffect(() => {
+        setStartAtDateEpoch((new Date(startAtDate).getTime() / 1000) - 7200);
+    }, [startAtDate]);
     function handleStartAtDateChange(event) {
         setStartAtDate(event.target.value);
-        setStartAtDateEpoch((new Date(event.target.value).getTime() / 1000) - 7200);
-        setEndAtDateEpoch((new Date(event.target.value).getTime() / 1000) - 7200 + 86400 - 1);
     }
-    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getToday6Epoch());
 
-    // const [endAtDate, setEndAtDate] = useState(getCurrentDate());
+    const [endAtDate, setEndAtDate] = useState(getCurrentDate());
+    useEffect(() => {
+        if ((new Date(endAtDate).getTime() / 1000) === getTodayEpoch()) {
+            setEndAtDateEpoch(getCurrentEpoch());
+        } else {
+            setEndAtDateEpoch(((new Date(endAtDate).getTime() / 1000) - 7201));
+        }
+    }, [endAtDate]);
+    function handleEndAtDateChange(event) {
+        setEndAtDate(event.target.value);
+    }
+
+    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getCurrentDate());
     const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
 
+    const setToday = () => {
+        setStartAtDate(getCurrentDate());
+        setEndAtDate(getCurrentDate());
+    }
 
-
-
-
+    const setWeek = () => {
+        setStartAtDate(getWeekAgoDate());
+        setEndAtDate(getCurrentDate());
+    }
+    const [period, setPeriod] = useState('day');
 
     useEffect(() => {
-        console.log("startAtDate EPOCH: " + startAtDateEpoch + " endAtDate EPOCH: " + endAtDateEpoch);
-    }, [startAtDateEpoch]);
+        const epochDifference = endAtDateEpoch - startAtDateEpoch;
+        switch (true) {
+            case epochDifference > 2592000:
+                setPeriod('month');
+                break;
+            case epochDifference > 604800:
+                setPeriod('week');
+                break;
+            case epochDifference > 0:
+                setPeriod('day');
+                break;
+        }
+    }, [startAtDateEpoch, endAtDateEpoch]);
+
+
 
     const [displayStatistic, setDisplayStatistic] = useState({});
     const [storeList, setStoreList] = useState([]);
     const [storeListFilter, setStoreListFilter] = useState('');
     const [selectedItem, setSelectedItem] = useState({
-        id: -1,
+        id: entityName === "store" ? state.data.id : -1,
         entityName: state.data.name
     });
+
 
 
     // ======================== GET STORE LIST FOR DROPDOWN ========================
@@ -74,7 +108,8 @@ const StatisticManagement = () => {
                         id: state.data.id,
                     }
                 ]
-            }
+            },
+            skip: entityName === "store"
         }
     );
     useEffect(() => {
@@ -85,21 +120,6 @@ const StatisticManagement = () => {
 
 
     // ======================== GET BRAND STATISTIC ========================
-    // const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatistic, {
-    //     variables: {
-    //         args: [
-    //             {
-    //                 id: state.data.id,
-    //             }
-    //         ],
-    //         startAt: startAtDateEpoch,
-    //         endAt: endAtDateEpoch
-    //         //if endAtDateEpoch - startAtDateEpoch > 86400, then it will be a range of days
-    //         //add timeGranularity variable to query
-
-    //     },
-    //     skip: selectedItem.id !== -1
-    // });
     const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatistic, {
         variables: {
             args: [
@@ -108,10 +128,11 @@ const StatisticManagement = () => {
                 }
             ],
             startAt: startAtDateEpoch,
-            endAt: endAtDateEpoch
+            endAt: endAtDateEpoch,
+            timeGranularity: period
         },
-        ...((endAtDateEpoch - startAtDateEpoch > 86400) ? { variables: { timeGranularity: "day" } } : {}),
-        skip: selectedItem.id !== -1
+        // ...((endAtDateEpoch - startAtDateEpoch > 86400) ? { variables: { timeGranularity: "day" } } : {}),
+        skip: selectedItem.id !== -1 || entityName === "store" //skip if store is selected
     });
 
 
@@ -124,21 +145,17 @@ const StatisticManagement = () => {
                 }
             ],
             startAt: startAtDateEpoch,
-            endAt: endAtDateEpoch
+            endAt: endAtDateEpoch,
+            timeGranularity: period
         },
         skip: selectedItem.id === -1
     });
 
     useEffect(() => {
         if (dataBrand) {
-            // console.log("BRAND API RESPONSE");
-            // console.log(dataBrand.getBrand[0].getStatisticsTotal);
             setDisplayStatistic(dataBrand.getBrand[0].getStatisticsTotal);
         }
-
         if (dataStore) {
-            // console.log("STORE API RESPONSE");
-            // console.log(dataStore.getStore[0].getStatisticsTotal);
             setDisplayStatistic(dataStore.getStore[0].getStatisticsTotal);
         }
     }, [dataBrand, dataStore]);
@@ -172,7 +189,7 @@ const StatisticManagement = () => {
                 mb={"1rem"}
             >
                 <Header title={selectedItem.entityName} subtitle="統計資料" />
-                {startAtDateEpoch} - {endAtDateEpoch}
+                {/* {startAtDateEpoch} - {endAtDateEpoch} */}
             </Box>
 
             <Box
@@ -188,26 +205,58 @@ const StatisticManagement = () => {
                         type="date"
                         value={startAtDate}
                         onChange={handleStartAtDateChange}
-                        sx={{ width: "180px" }}
+                        sx={{ width: "160px" }}
                         InputLabelProps={{
                             shrink: true,
                         }}
                     />
 
-                    {/* <TextField
+                    <TextField
                         id="datetime-local"
                         label="過期時間"
                         type="date"
                         value={endAtDate}
                         onChange={handleEndAtDateChange}
-                        sx={{ width: "180px" }}
+                        sx={{ width: "160px" }}
                         InputLabelProps={{
                             shrink: true,
                         }}
-                    /> */}
+                    />
+                    <Button sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        minWidth: "100px",
+                        height: "52px",
+                        borderRadius: "10px",
+                        ':hover': {
+                            bgcolor: colors.primary[300],
+                            border: '1px solid white',
+                        }
+                    }}
+                        onClick={() => setToday()}>
+                        <Typography color={"white"} variant="h5" fontWeight="600">
+                            今天
+                        </Typography>
+                    </Button>
+                    <Button sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        minWidth: "100px",
+                        height: "52px",
+                        borderRadius: "10px",
+                        ':hover': {
+                            bgcolor: colors.primary[300],
+                            border: '1px solid white',
+                        }
+                    }}
+                        onClick={() => setWeek()}>
+                        <Typography color={"white"} variant="h5" fontWeight="600">
+                            本週
+                        </Typography>
+                    </Button>
                 </Box>
 
-                <FormControl sx={{ minWidth: "120px" }}>
+                <FormControl sx={{ minWidth: "120px", display: entityName !== "store" ? "block" : "none" }}>
                     <InputLabel id="demo-simple-select-label" >店家過濾</InputLabel>
                     <Select
                         required
@@ -542,9 +591,22 @@ const getCurrentDate = () => {
 
 
 
-const getToday6Epoch = () => {
-    return (new Date(getCurrentDate()).getTime() / 1000) - 7200;
+
+const getTodayEpoch = () => {
+    return (new Date(getCurrentDate()).getTime() / 1000);
 }
 const getCurrentEpoch = () => {
     return Math.floor(new Date().getTime() / 1000);
+}
+
+const getWeekAgoDate = () => {
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = ("0" + (date.getMonth() + 1)).slice(-2)
+    const day = ("0" + (date.getDate() - 7)).slice(-2)
+
+    const hour = ("0" + date.getHours()).slice(-2)
+    const minute = ("0" + date.getMinutes()).slice(-2)
+
+    return `${year}-${month}-${day}`
 }

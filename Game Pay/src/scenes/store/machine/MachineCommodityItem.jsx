@@ -62,7 +62,6 @@ export default function MachineCommodityListModal({ props, storeData }) {
     const [commodityList, setCommodityList] = useState([]);
     useEffect(() => {
         if (data1) {
-            console.log(data1.getStore[0].commodities);
             setCommodityList(data1.getStore[0].commodities);
         }
 
@@ -99,7 +98,6 @@ export default function MachineCommodityListModal({ props, storeData }) {
     );
     useEffect(() => {
         if (data3) {
-            console.log(data3.getMachine[0].commodity);
             const nonNullData = replaceNullWithEmptyString(data3.getMachine[0].commodity);
             setSelectedCommodity({
                 id: nonNullData.id,
@@ -131,7 +129,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
         };
 
 
-        console.log(variables);
+        // console.log(variables);
         ApolloUpdateCommodity({ variables });
     };
 

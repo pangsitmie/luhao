@@ -549,8 +549,6 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
 }
 `
 
-
-
 // ========================= ADS =========================
 export const GetAdsList = gql`
 query ManagerGetAdvertisements {

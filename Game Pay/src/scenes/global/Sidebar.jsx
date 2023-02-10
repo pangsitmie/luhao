@@ -23,6 +23,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import LOGO from "../../assets/logo512.png";
+import STORE_LOGO from "../../assets/store_logo.png";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +31,7 @@ import { setBrand, setCompany, setStore } from "../../redux/entity";
 import { BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
 import { useQuery } from "@apollo/client";
 import { STORE_GetStoreInfo } from "src/graphQL/StorePrincipalQueries";
+import { getImgURL } from "src/utils/Utils";
 
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
@@ -56,6 +58,8 @@ const Sidebar = () => {
   const { entityName } = useSelector((state) => state.entity);
 
   const [name, setName] = useState("COMPANY");
+  const [img, setImg] = useState(LOGO);
+
 
 
   let SIDEBAR_INIT_QUERY;
@@ -72,14 +76,6 @@ const Sidebar = () => {
       break;
   }
 
-  // const { loading, error, data } = useQuery(SIDEBAR_INIT_QUERY);
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log(data.getBrandPrincipal.name);
-  //     setName(data.getBrandPrincipal.name);
-  //   }
-  // }, [data]);
-
   const { loading, error, data } = useQuery(SIDEBAR_INIT_QUERY);
   useEffect(() => {
     if (data) {
@@ -87,12 +83,12 @@ const Sidebar = () => {
         case 'company':
           break;
         case 'brand':
-          console.log(data.getBrandPrincipal.name);
           setName(data.getBrandPrincipal.name);
+          setImg(getImgURL(data.getBrandPrincipal.brands[0].logo));
           break;
         case 'store':
-          console.log(data.getStorePrincipal.name);
           setName(data.getStorePrincipal.name);
+          setImg(STORE_LOGO);
           break;
         default:
           break;
@@ -176,9 +172,9 @@ const Sidebar = () => {
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
-                  width="65px"
-                  height="65px"
-                  src={LOGO}
+                  width="70px"
+                  height="70px"
+                  src={img}
                   style={{ borderRadius: "50%" }}
                 />
               </Box>

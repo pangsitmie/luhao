@@ -21,15 +21,51 @@ const FinanceStatistic = () => {
     const colors = tokens(theme.palette.mode);
 
     // ===================== STATE =====================
-    const [startAtDate, setStartAtDate] = useState(getCurrentDateHour6());
+    const [startAtDate, setStartAtDate] = useState(getCurrentDate());
+    useEffect(() => {
+        setStartAtDateEpoch((new Date(startAtDate).getTime() / 1000) - 7200);
+    }, [startAtDate]);
     function handleStartAtDateChange(event) {
         setStartAtDate(event.target.value);
     }
 
     const [endAtDate, setEndAtDate] = useState(getCurrentDate());
+    useEffect(() => {
+        if ((new Date(endAtDate).getTime() / 1000) === getTodayEpoch()) {
+            setEndAtDateEpoch(getCurrentEpoch());
+        } else {
+            setEndAtDateEpoch(((new Date(endAtDate).getTime() / 1000) - 7201));
+        }
+    }, [endAtDate]);
     function handleEndAtDateChange(event) {
         setEndAtDate(event.target.value);
     }
+
+    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getCurrentDate());
+    const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
+
+
+    useEffect(() => {
+        const epochDifference = endAtDateEpoch - startAtDateEpoch;
+        switch (true) {
+            case epochDifference > 2592000:
+                setPeriod('month');
+                console.log('month');
+                break;
+            case epochDifference > 604800:
+                setPeriod('week');
+                console.log('week');
+                break;
+            case epochDifference > 86400:
+                setPeriod('day');
+                console.log('day');
+                break;
+            case epochDifference >= 0:
+                console.log('hour');
+                setPeriod('hour');
+                break;
+        }
+    }, [startAtDateEpoch, endAtDateEpoch]);
 
     const [storeList, setStoreList] = useState([]);
     const [storeListFilter, setStoreListFilter] = useState('');
@@ -84,8 +120,8 @@ const FinanceStatistic = () => {
                 }
             ],
             timeGranularity: period,
-            startAt: new Date(startAtDate).getTime() / 1000,
-            endAt: new Date(endAtDate).getTime() / 1000
+            startAt: startAtDateEpoch,
+            endAt: endAtDateEpoch
         }
     });
     useEffect(() => {
@@ -94,7 +130,15 @@ const FinanceStatistic = () => {
         }
     }, [data]);
 
+    const setToday = () => {
+        setStartAtDate(getCurrentDate());
+        setEndAtDate(getCurrentDate());
+    }
 
+    const setWeek = () => {
+        setStartAtDate(getWeekAgoDate());
+        setEndAtDate(getCurrentDate());
+    }
 
 
     // ===================== GRAPH DATA =====================
@@ -190,10 +234,10 @@ const FinanceStatistic = () => {
                     <TextField
                         id="datetime-local"
                         label="開始時間點"
-                        type="datetime-local"
+                        type="date"
                         value={startAtDate}
                         onChange={handleStartAtDateChange}
-                        sx={{ width: "180px" }}
+                        sx={{ width: "160px" }}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -202,18 +246,51 @@ const FinanceStatistic = () => {
                     <TextField
                         id="datetime-local"
                         label="過期時間"
-                        type="datetime-local"
+                        type="date"
                         value={endAtDate}
                         onChange={handleEndAtDateChange}
-                        sx={{ width: "180px" }}
+                        sx={{ width: "160px" }}
                         InputLabelProps={{
                             shrink: true,
                         }}
                     />
-
-
+                    <Button sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        minWidth: "100px",
+                        height: "52px",
+                        borderRadius: "10px",
+                        ':hover': {
+                            bgcolor: colors.primary[300],
+                            border: '1px solid white',
+                        }
+                    }}
+                        onClick={() => setToday()}>
+                        <Typography color={"white"} variant="h5" fontWeight="600">
+                            今天
+                        </Typography>
+                    </Button>
+                    <Button sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        minWidth: "100px",
+                        height: "52px",
+                        borderRadius: "10px",
+                        ':hover': {
+                            bgcolor: colors.primary[300],
+                            border: '1px solid white',
+                        }
+                    }}
+                        onClick={() => setWeek()}>
+                        <Typography color={"white"} variant="h5" fontWeight="600">
+                            本週
+                        </Typography>
+                    </Button>
                 </Box>
 
+                {/* <Box>
+                    UNIX TIME: {startAtDate}: {startAtDateEpoch} --- {endAtDate}: {endAtDateEpoch}
+                </Box> */}
                 <FormControl sx={{ minWidth: "120px" }}>
                     <InputLabel id="demo-simple-select-label" >店家過濾</InputLabel>
                     <Select
@@ -360,6 +437,37 @@ const FinanceStatistic = () => {
 
 export default FinanceStatistic
 
+const defaultOptions = {
+    significantDigits: '0',
+    thousandsSeparator: ',',
+    decimalSeparator: '.',
+    symbol: 'NT'
+}
+
+const currencyFormatter = (value, options) => {
+    if (typeof value !== 'number') value = 0.0
+    options = { ...defaultOptions, ...options }
+    value = value.toFixed(options.significantDigits)
+
+    const [currency, decimal] = value.split('.')
+    return `${options.symbol} ${currency.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        options.thousandsSeparator
+    )}`
+}
+
+const numberFormatter = (value, options) => {
+    if (typeof value !== 'number') value = 0.0
+    options = { ...defaultOptions, ...options }
+    value = value.toFixed(options.significantDigits)
+
+    const [number] = value.split('.')
+    return `${number.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        options.thousandsSeparator
+    )}`
+}
+
 const getCurrentDate = () => {
     const date = new Date()
     const year = date.getFullYear()
@@ -369,17 +477,25 @@ const getCurrentDate = () => {
     const hour = ("0" + date.getHours()).slice(-2)
     const minute = ("0" + date.getMinutes()).slice(-2)
 
-    return `${year}-${month}-${day}T${hour}:${minute}`
+    return `${year}-${month}-${day}`
 }
-
-const getCurrentDateHour6 = () => {
+// const getToday6Epoch = () => {
+//     return (new Date(getCurrentDate()).getTime() / 1000) - 7200;
+// }
+const getTodayEpoch = () => {
+    return (new Date(getCurrentDate()).getTime() / 1000);
+}
+const getCurrentEpoch = () => {
+    return Math.floor(new Date().getTime() / 1000);
+}
+const getWeekAgoDate = () => {
     const date = new Date()
     const year = date.getFullYear()
     const month = ("0" + (date.getMonth() + 1)).slice(-2)
-    const day = ("0" + date.getDate()).slice(-2)
+    const day = ("0" + (date.getDate() - 7)).slice(-2)
 
-    const hour = "06"
-    const minute = "00"
+    const hour = ("0" + date.getHours()).slice(-2)
+    const minute = ("0" + date.getMinutes()).slice(-2)
 
-    return `${year}-${month}-${day}T${hour}:${minute}`
+    return `${year}-${month}-${day}`
 }

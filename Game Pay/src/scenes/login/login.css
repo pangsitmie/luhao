@@ -52,11 +52,9 @@
 }
 
 .container .box .title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 500;
-    letter-spacing: .1em;
     color: #fff;
-    line-height: 150%;
     margin-bottom: 1rem;
 }
 
@@ -87,22 +85,22 @@
 
 /* BTN */
 .btn_right_arrow {
-    --primary-color: #f8f8f8;
-    --secondary-color: #1e1e1e;
+    --primary-color: rgba(255, 255, 255, 0.2);
+    --secondary-color: #fff;
     --hover-color: #111;
     --arrow-width: 10px;
     --arrow-stroke: 2px;
     box-sizing: border-box;
     border: 0;
-    border-radius: 6px;
+    border-radius: 25px;
     color: var(--secondary-color);
-    padding: .8em 2em .8em 2.3em;
+    padding: 1em 2.6em 1em 3em;
     background: var(--primary-color);
     display: flex;
     transition: 0.2s;
     align-items: center;
-    gap: 0.6em;
-    font-weight: bold;
+    gap: 0.5em;
+    font-weight: 600;
 }
 
 .btn_right_arrow .arrow-wrapper {
@@ -114,7 +112,6 @@
 .btn_right_arrow .arrow {
     margin-top: 1px;
     width: var(--arrow-width);
-    background: var(--primary-color);
     height: var(--arrow-stroke);
     position: relative;
     transition: 0.2s;
@@ -136,14 +133,14 @@
 
 .btn_right_arrow:hover {
     background-color: var(--hover-color);
-    color: var(--primary-color);
+    color: var(--secondary-color);
 }
 
 .btn_right_arrow:hover .arrow {
-    background: var(--primary-color);
+    background: var(--secondary-color);
 }
 
 .btn_right_arrow:hover .arrow:before {
     right: 0;
-    border-color: var(--primary-color);
+    border-color: var(--secondary-color);
 }

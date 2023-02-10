@@ -211,22 +211,11 @@ const Login = () => {
             <div className="container">
                 <div className="box">
                     <Typography variant="h5" sx={{
-                        color: (() => {
-                            switch (entityName) {
-                                // case "company":
-                                //     return colors.primary[100];
-                                // case "brand":
-                                //     return colors.greenAccent[400];
-                                // case "store":
-                                //     return colors.blueAccent[400];
-                                default:
-                                    return colors.primary[100];
-                            }
-                        })(), fontWeight: "300"
+                        color: colors.primary[100], fontSize: "13px", fontWeight: "300", ml: "2px", mb: "5px"
                     }}>
                         {entityName.toUpperCase()}
                     </Typography>
-                    <span className="title">GAME PAY </span>
+                    <span className="title">GAME PAY</span>
                     <div>
                         <Formik
                             onSubmit={handleFormSubmit}

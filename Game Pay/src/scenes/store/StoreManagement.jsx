@@ -22,7 +22,7 @@ import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BRAND_GetAllStores } from 'src/graphQL/BrandPrincipalQueries';
 import CreateStoreModal_B from './CreateStoreModal_B';
 import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
@@ -275,20 +275,23 @@ const StoreManagement = () => {
                     p="10px"
                 >
 
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">店面名稱</Typography>
                     </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">商品資料</Typography>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">獎勵</Typography>
                     </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機臺資料</Typography>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">商品</Typography>
                     </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機臺</Typography>
+                    </Box>
+                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">資料</Typography>
                     </Box>
                 </Box>
                 <Box
@@ -306,8 +309,8 @@ const StoreManagement = () => {
                             borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
                                     if (store.status.name === "disable") {
                                         return (
@@ -338,7 +341,25 @@ const StoreManagement = () => {
 
                             {/* BUTTON TO MACHINE MANAGEMENT */}
                             <Box
-                                width={"20%"}
+                                width={"15%"}
+                                height={"100%"}
+                                display={"flex"}
+                                alignItems={"center"} justifyContent={"center"}
+                                borderRadius="4px"
+                            >
+                                <Link
+                                    to={"/reward-management"}
+                                    state={{
+                                        data: store,
+                                    }}
+                                >
+                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 2rem" }}>
+                                        獎勵
+                                    </Button>
+                                </Link>
+                            </Box>
+                            <Box
+                                width={"15%"}
                                 height={"100%"}
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
@@ -356,7 +377,7 @@ const StoreManagement = () => {
                                 </Link>
                             </Box>
                             <Box
-                                width={"20%"}
+                                width={"15%"}
                                 height={"100%"}
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
@@ -374,7 +395,7 @@ const StoreManagement = () => {
                                 </Link>
                             </Box>
                             <Box
-                                width={"20%"}
+                                width={"15%"}
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">

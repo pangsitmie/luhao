@@ -3,16 +3,19 @@ import { gql } from "@apollo/client";
 
 export const BRAND_GetBrandInfo = gql`
 query Brands {
-    getBrandPrincipal {
-      email
-      lineUrl
-      name
-      phone {
-        country
-        number
-      }
+  getBrandPrincipal {
+    email
+    lineUrl
+    name
+    phone {
+      country
+      number
+    }
+    brands {
+      logo
     }
   }
+}
 `
 
 export const BRAND_GetBrandList = gql`

@@ -35,6 +35,7 @@ import { setBrand, setCompany, setStore } from "./redux/entity";
 import NotFound from "./components/404/NotFound";
 import BrandDashboard from "./scenes/dashboard/BrandDashboard";
 import StoreDashboard from "./scenes/dashboard/StoreDashboard";
+import RewardManagement from "./scenes/store/reward/RewardManagement";
 
 
 const StoreManagement = lazy(() => import('./scenes/store/StoreManagement'));
@@ -90,6 +91,7 @@ function App() {
                       <Route path="/billboard-management" element={<BillboardManagement />} />
                       <Route path="/store-management" element={<StoreManagement />} />
                       <Route path="/commodity-management" element={<CommodityManagement />} />
+                      <Route path="/reward-management" element={<RewardManagement />} />
                       <Route path="/machine-management" element={<MachineManagement />} />
                       <Route path="/system-ads" element={<AdsManagement />} />
                       <Route path="/partner" element={<PartnerManagement />} />
@@ -118,6 +120,7 @@ function App() {
                       <Route path="/billboard-management" element={<BillboardManagement />} />
                       <Route path="/store-management" element={<StoreManagement />} />
                       <Route path="/commodity-management" element={<CommodityManagement />} />
+                      <Route path="/reward-management" element={<RewardManagement />} />
                       <Route path="/machine-management" element={<MachineManagement />} />
                       <Route path="/brand-coins" element={<BrandCoinManagement />} />
 
@@ -133,6 +136,7 @@ function App() {
 
                       <Route path="/store-management" element={<StoreManagement />} />
                       <Route path="/commodity-management" element={<CommodityManagement />} />
+                      <Route path="/reward-management" element={<RewardManagement />} />
                       <Route path="/machine-management" element={<MachineManagement />} />
 
                       {/* STATISTIC */}

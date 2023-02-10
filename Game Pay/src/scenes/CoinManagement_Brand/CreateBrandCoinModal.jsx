@@ -110,11 +110,7 @@ export default function CreateBrandCoinModal() {
   const [ApolloCreateBrandFreeCoinNotification, { loading, error, data }] = useMutation(CREATE_FREE_REWARD_MUTATION);
   useEffect(() => {
     if (data) {
-      console.log(data);
       window.location.reload();
-    }
-    else {
-      console.log(error)
     }
   }, [data]);
 
@@ -170,8 +166,6 @@ export default function CreateBrandCoinModal() {
 
 
   const handleFormSubmit = (values) => {
-    console.log("SEND CREATE NOTIFICATION REQUEST");
-    console.log(values);
     const triggerAtDateObj = new Date(triggerAtDate);
     const expireAtDateObj = new Date(expireAtDate);
     const startAtDateObj = new Date(startAtDate);

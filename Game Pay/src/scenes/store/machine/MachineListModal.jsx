@@ -120,23 +120,20 @@ export default function MachineListModal({ props }) {
                 setStatus(nonNullData.status.name)
             }
 
-            console.log("NON NULL DATA");
-            console.log(nonNullData);
-
 
             setCounterCheck(nonNullData.counterInfo.counterCheck);
 
 
-            console.log("COUNTERS");
-            console.log(nonNullData.counterInfo.counters);
-            console.log(typeof nonNullData.counterInfo.counters);
+            // console.log("COUNTERS");
+            // console.log(nonNullData.counterInfo.counters);
+            // console.log(typeof nonNullData.counterInfo.counters);
 
-            console.log(Array.isArray(nonNullData.counterInfo.counters));
+            // console.log(Array.isArray(nonNullData.counterInfo.counters));
 
 
             const countersArray = Object.values(nonNullData.counterInfo.counters);
-            console.log(countersArray);
-            console.log(Array.isArray(countersArray));
+            // console.log(countersArray);
+            // console.log(Array.isArray(countersArray));
 
             if (Array.isArray(countersArray) && countersArray.length > 0) {
                 // if (true) {

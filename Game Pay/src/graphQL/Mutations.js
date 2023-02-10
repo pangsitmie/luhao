@@ -89,3 +89,34 @@ mutation UpdateCurrentAppVersion($clientName: EAppClient!, $android: String, $io
   }
 }
 `
+
+
+export const CreteStorePhysicalReward = gql`
+mutation ManagerCreateCurrencyReward(
+  $belongToRole: EManagerRewardBelongToRole!
+  $belongToId: ID!
+  $receiveDaysOverdue: Int
+  $amount: Int!
+  $currencyId: String!
+  $description: String
+  $endAt: Int
+  $limit: Int
+  $sourceType: EManagerCreateRewardSourceType!
+  $startAt: Int!
+) {
+  managerCreateCurrencyReward(
+    belongToRole: $belongToRole
+    belongToId: $belongToId
+    receiveDaysOverdue: $receiveDaysOverdue
+    amount: $amount
+    currencyId: $currencyId
+    description: $description
+    endAt: $endAt
+    limit: $limit
+    sourceType: $sourceType
+    startAt: $startAt
+  ) {
+    id
+  }
+}
+`

@@ -16,6 +16,7 @@ import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
+import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
 
 
 const StatisticList = () => {
@@ -53,19 +54,21 @@ const StatisticList = () => {
     const [brands, setBrands] = useState([]);
 
 
-    let BRAND_LIST_QUERY;
+    let LIST_QUERY;
     switch (entityName) {
         case 'company':
-            BRAND_LIST_QUERY = GetAllBrands;
+            LIST_QUERY = GetAllBrands;
             break;
         case 'brand':
-            BRAND_LIST_QUERY = BRAND_GetBrandList;
+            LIST_QUERY = BRAND_GetBrandList;
             break;
+        case 'store':
+            LIST_QUERY = STORE_GetAllStores;
         default:
             break;
     }
 
-    const { loading, error, data } = useQuery(BRAND_LIST_QUERY, {
+    const { loading, error, data } = useQuery(LIST_QUERY, {
         variables: { limit, offset }
     });
     useEffect(() => {
@@ -79,6 +82,9 @@ const StatisticList = () => {
                     setInitBrands(data.getBrandPrincipal.brands); //all brand datas
                     setBrands(data.getBrandPrincipal.brands); //datas for display
                     break;
+                case 'store':
+                    setInitBrands(data.getStorePrincipal.stores); //all brand datas
+                    setBrands(data.getStorePrincipal.stores); //datas for display
                 default:
                     break;
             }
