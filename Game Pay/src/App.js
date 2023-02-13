@@ -36,6 +36,7 @@ import NotFound from "./components/404/NotFound";
 import BrandDashboard from "./scenes/dashboard/BrandDashboard";
 import StoreDashboard from "./scenes/dashboard/StoreDashboard";
 import RewardManagement from "./scenes/store/reward/RewardManagement";
+import ReviewManagement from "./scenes/review/ReviewManagement";
 
 
 const StoreManagement = lazy(() => import('./scenes/store/StoreManagement'));
@@ -110,6 +111,9 @@ function App() {
                       <Route path="/promotion" element={<Promotion />} />
                       {/* SYSTEM */}
                       <Route path="/version" element={<VersionManagement />} />
+
+                      {/* REVIEW */}
+                      <Route path="/review" element={<ReviewManagement />} />
                     </>
                   ) : entityName === "brand" ? (
                     <>
@@ -128,6 +132,9 @@ function App() {
                       <Route path="/statistic" element={<StatisticList />} />
                       <Route path="/statistic-management" element={<StatisticManagement />} />
                       <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
+
+                      {/* REVIEW */}
+                      <Route path="/review" element={<ReviewManagement />} />
                     </>
                   ) : entityName === "store" ? (
                     <>
@@ -143,6 +150,9 @@ function App() {
                       <Route path="/statistic" element={<StatisticList />} />
                       <Route path="/statistic-management" element={<StatisticManagement />} />
                       <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
+
+                      {/* REVIEW */}
+                      <Route path="/review" element={<ReviewManagement />} />
                     </>
                   ) : (
                     <Navigate to="/404" />

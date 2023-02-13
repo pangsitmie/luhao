@@ -246,6 +246,22 @@ query GetStore($args: [StoreArgs!]!) {
   }
 }
 `
+export const GetStoreCurrency = gql`
+query GetStore($args: [StoreArgs!]!) {
+  getStore(args: $args) {
+    id
+    name
+    brand {
+      id
+      name
+      currency {
+        id
+        name
+      }
+    }
+  }
+}
+`
 export const CreateStore = gql`
 query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $intro: String, $cover: String!) {
   getBrand(args: $args) {

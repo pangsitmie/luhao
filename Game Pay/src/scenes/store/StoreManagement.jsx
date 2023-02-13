@@ -130,7 +130,6 @@ const StoreManagement = () => {
                     SetInitStores(data.managerGetStores);
                     break;
                 case 'brand':
-                    console.log(data.getBrandPrincipal.brands[0].managerGetStores)
                     setStores(data.getBrandPrincipal.brands[0].managerGetStores);
                     SetInitStores(data.getBrandPrincipal.brands[0].managerGetStores);
                     break;

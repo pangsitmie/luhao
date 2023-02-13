@@ -5,6 +5,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { Link } from "react-router-dom";
 
 
 const Topbar = () => {
@@ -16,9 +17,11 @@ const Topbar = () => {
       </div>
       {/* ICONS */}
       <Box display="flex" >
-        <IconButton>
-          <NotificationsOutlinedIcon />
-        </IconButton>
+        <Link to="/review">
+          <IconButton>
+            <NotificationsOutlinedIcon />
+          </IconButton>
+        </Link>
         <IconButton>
           <SettingsOutlinedIcon />
         </IconButton>

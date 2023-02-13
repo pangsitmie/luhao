@@ -9,7 +9,7 @@ import { CreteStorePhysicalReward } from "src/graphQL/Mutations";
 import { GetBrandList } from "src/graphQL/Queries";
 import { BRAND_CreateCurrencyReward } from "src/graphQL/BrandPrincipalMutations";
 import { useDispatch, useSelector } from "react-redux";
-import { BRAND_GetBrandCurrencyList, BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
+import { GetStoreCurrency } from "src/graphQL/Queries";
 
 
 
@@ -20,15 +20,16 @@ const checkoutSchema = yup.object().shape({
     currencyAmount: yup.number().required("required"),
     receiveDaysOverdue: yup.number().required("required"),
     rewardLimit: yup.number().required("required"),
-    rewardDescription: yup.string().required("required"),
+    description: yup.string().required("required"),
 
     // startAt: yup.string().required("required"),
     // endAt: yup.string().required("required"),
 });
 
-
-export default function CreateRewardModal() {
+// THIS IS FOR STORE CHECKIN
+export default function CreateRewardModal({ props }) {
     const { entityName } = useSelector((state) => state.entity);
+    console.log("STORE ID" + props.id);
 
     //========================== THEME ==========================
     const theme = useTheme();
@@ -55,7 +56,6 @@ export default function CreateRewardModal() {
     const [initialValues, setInitialValues] = useState({
         title: "",
         content: "",
-        comment: "",
         rewardId: "",
         triggerAtDate: "",
         expireAtDate: "",
@@ -64,7 +64,7 @@ export default function CreateRewardModal() {
         currencyAmount: "",
         receiveDaysOverdue: "",
         rewardLimit: "",
-        rewardDescription: "",
+        description: "",
         rewardStatus: "",
         startAt: "",
         endAt: "",
@@ -72,23 +72,20 @@ export default function CreateRewardModal() {
 
     //========================== GRAPHQL ==========================
 
-    let GET_BRAND_LIST_QUERY;
     let CREATE_FREE_REWARD_MUTATION;
 
     switch (entityName) {
         case 'company':
-            GET_BRAND_LIST_QUERY = GetBrandList;
             CREATE_FREE_REWARD_MUTATION = CreteStorePhysicalReward;
             break;
         case 'brand':
-            GET_BRAND_LIST_QUERY = BRAND_GetBrandCurrencyList;
             CREATE_FREE_REWARD_MUTATION = BRAND_CreateCurrencyReward;
             break;
         default:
             break;
     }
 
-    const [ApolloCreateBrandFreeCoinNotification, { loading, error, data }] = useMutation(CREATE_FREE_REWARD_MUTATION);
+    const [ApolloCreateStoreCheckinReward, { loading, error, data }] = useMutation(CREATE_FREE_REWARD_MUTATION);
     useEffect(() => {
         if (data) {
             window.location.reload();
@@ -96,15 +93,23 @@ export default function CreateRewardModal() {
     }, [data]);
 
 
-    const { loading: loading1, error: error1, data: data1 } = useQuery(GET_BRAND_LIST_QUERY);
+    const { loading: loading1, error: error1, data: data1 } = useQuery(GetStoreCurrency, {
+        variables: {
+            args: {
+
+                id: props.id
+            }
+        }
+    });
     useEffect(() => {
         if (data1) {
+            console.log(data1.getStore[0].brand.currency);
             switch (entityName) {
                 case 'company':
-                    setBrandList(data1.managerGetBrands);
+                    setCurrencyList(data1.getStore);
                     break;
                 case 'brand':
-                    setBrandList(data1.getBrandPrincipal.brands);
+                    setCurrencyList(data1.getStore);
                     break;
                 default:
                     break;
@@ -112,39 +117,33 @@ export default function CreateRewardModal() {
         }
     }, [data1]);
 
-    const [{ brandId, brandName, brandCoinId, brandCoinName }, setBrandInfo] = useState({
-        brandId: "null",
-        brandName: "null",
+    const [{ storeId, storeName, brandCoinId, brandCoinName }, setCurrencyInfo] = useState({
+        storeId: "null",
+        storeName: "null",
         brandCoinId: "null",
         brandCoinName: "null",
     });
-    const [brandListFilter, setBrandListFilter] = useState('');
-    const [brandList, setBrandList] = useState([]);
+    const [currencyListFilter, setCurrencyListFilter] = useState('');
+    const [currencyList, setCurrencyList] = useState([]);
 
-    const handleBrandListChange = (e) => {
+    const handleCurrencyListChange = (e) => {
         const targetId = e.target.value;
         console.log(targetId);
 
         //find the brand id from brand list
-        const brand = brandList.find(brand => brand.id === targetId);
+        const item = currencyList.find(item => item.id === targetId);
 
-        if (brand) {
-            setBrandListFilter(targetId);
-            setBrandInfo({
-                brandId: targetId,
-                brandName: brand.name,
-                brandCoinId: brand.currency.id,
-                brandCoinName: brand.currency.name,
+        if (item) {
+            setCurrencyListFilter(targetId);
+            setCurrencyInfo({
+                storeId: targetId,
+                storeName: item.name,
+                brandCoinId: item.brand.currency.id,
+                brandCoinName: item.brand.currency.name,
             });
-            console.log(brand);
+            console.log(item);
         }
     };
-
-
-
-
-
-
 
     const handleFormSubmit = (values) => {
         const startAtDateObj = new Date(startAtDate);
@@ -159,15 +158,14 @@ export default function CreateRewardModal() {
         const variables = {
             sourceType: "physicalStoreCheckIn",
             belongToRole: "store",
-            belongToId: "1",
+            belongToId: storeId,
             amount: 1,
             amount: parseInt(values.currencyAmount),
             currencyId: brandCoinId,
-            description: values.rewardDescription,
+            description: values.description,
             receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
 
             limit: parseInt(values.rewardLimit),
-            description: values.comment,
         }
 
         //check if startAtUnix is filled
@@ -184,7 +182,6 @@ export default function CreateRewardModal() {
             variables.endAt = endAtUnix;
         }
 
-
         if (endAtUnix < startAtUnix) {
             alert("End date must be greater than start date");
             return;
@@ -192,7 +189,7 @@ export default function CreateRewardModal() {
 
         console.log(variables);
 
-        // ApolloCreateBrandFreeCoinNotification({ variables });
+        ApolloCreateStoreCheckinReward({ variables });
 
     };
 
@@ -236,21 +233,21 @@ export default function CreateRewardModal() {
                                         <Box color={"black"}>
                                             <Box display={"flex"} justifyContent={"space-between"}>
                                                 <FormControl sx={{ minWidth: 165, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >品牌過濾</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >獎勵過濾</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
-                                                        value={brandListFilter}
-                                                        label="brandListFilter"
-                                                        onChange={handleBrandListChange}
+                                                        value={currencyListFilter}
+                                                        label="currencyListFilter"
+                                                        onChange={handleCurrencyListChange}
                                                     >
-                                                        {brandList.map((brand, i) => (
+                                                        {currencyList.map((item, i) => (
                                                             <MenuItem
-                                                                value={brand.id}
+                                                                value={item.id}
                                                                 key={`${i}`}
                                                             >
-                                                                {brand.id} - {brand.name} - {brand.currency.id} - {brand.currency.name}
+                                                                {item.id} - {item.name} | {item.brand.currency.id} - {item.brand.currency.name}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>
@@ -263,10 +260,10 @@ export default function CreateRewardModal() {
                                                     label="獎勵描述"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.rewardDescription}
-                                                    name="rewardDescription"
-                                                    error={!!touched.rewardDescription && !!errors.rewardDescription}
-                                                    helperText={touched.rewardDescription && errors.rewardDescription}
+                                                    value={values.description}
+                                                    name="description"
+                                                    error={!!touched.description && !!errors.description}
+                                                    helperText={touched.description && errors.description}
                                                     sx={{ margin: "0rem 0rem 1rem 1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>

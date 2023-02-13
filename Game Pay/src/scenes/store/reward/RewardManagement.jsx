@@ -10,7 +10,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateCommodityModal from './CreateRewardModal';
 import CommodityListModal from './RewardListModal';
-import { GetCommodityList } from 'src/graphQL/Queries';
+// import { GetCommodityList } from 'src/graphQL/Queries';
 import Pagination from 'src/components/Pagination';
 import Refresh from 'src/components/Refresh';
 
@@ -49,32 +49,30 @@ const RewardManagement = () => {
     const [commodityDatas, setComodityDatas] = useState([]);
 
 
-    const [imgUrls, setImgUrls] = useState({});
-
 
     //REF
     const searchRef = useRef('');
 
-    const { loading, error, data } = useQuery(GetCommodityList
-        , {
-            variables: {
-                args: [
-                    {
-                        id: state.data.id
-                    }
-                ],
-                // limit: limit,
-                // offset: offset
-            }
-        }
-    );
-    useEffect(() => {
-        if (data) {
-            console.log(data);
-            setComodityDatas(data.getStore[0].commodities);
-            setInitCommodityDatas(data.getStore[0].commodities);
-        }
-    }, [data]);
+    // const { loading, error, data } = useQuery(GetCommodityList
+    //     , {
+    //         variables: {
+    //             args: [
+    //                 {
+    //                     id: state.data.id
+    //                 }
+    //             ],
+    //             // limit: limit,
+    //             // offset: offset
+    //         }
+    //     }
+    // );
+    // useEffect(() => {
+    //     if (data) {
+    //         console.log(data);
+    //         setComodityDatas(data.getStore[0].commodities);
+    //         setInitCommodityDatas(data.getStore[0].commodities);
+    //     }
+    // }, [data]);
 
 
 
@@ -101,8 +99,8 @@ const RewardManagement = () => {
     }
 
 
-    if (loading) return <Loader />;
-    if (error) return <Error />;
+    // if (loading) return <Loader />;
+    // if (error) return <Error />;
 
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
