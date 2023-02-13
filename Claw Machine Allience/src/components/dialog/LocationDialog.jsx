@@ -4,6 +4,7 @@ import { ColorModeContext, tokens } from "../../theme";
 import MARKER_ICON from "src/assets/marker_icon.png";
 import CloseIcon from '@mui/icons-material/Close';
 import "./locationDialog.css";
+import { useNavigate } from 'react-router-dom';
 
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -15,12 +16,19 @@ const setPopupVisibility = () => {
     console.log("setPopupVisibility");
 }
 
+
 const LocationDialog = ({ props, top, left, closePopup }) => {
-    console.log(top, left);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    console.log(props.title);
+    let navigate = useNavigate();
+
+    const navigateToArea = () => {
+        console.log(props);
+        navigate(`/area`, { state: { data: props } });
+    }
+
+
     return (
         <Box
             className={"location_dialog "}
@@ -90,7 +98,7 @@ const LocationDialog = ({ props, top, left, closePopup }) => {
             </Box>
 
             <Box display={"flex"} justifyContent={"center"} alignItems={"center"} mt={"1rem"}>
-                <button className='btn_transparent'>
+                <button className='btn_transparent' onClick={() => navigateToArea(props)}>
                     View Stores
                 </button>
             </Box>

@@ -5,7 +5,7 @@ import { ColorModeContext, tokens } from "../../theme";
 
 import { useLocation } from 'react-router-dom';
 
-import { taichung, changhua } from "src/data/data";
+import { taichung, changhua, yunlin } from "src/data/data";
 import { CSSTransition } from 'react-transition-group';
 
 
@@ -22,7 +22,7 @@ const containerStyle = {
 const City = () => {
     const location = useLocation();
     const state = location.state;
-    console.log(state);
+    // console.log(state);
 
     let data;
 
@@ -33,11 +33,14 @@ const City = () => {
         case 'changhua':
             data = changhua;
             break;
+        case 'yunlin':
+            data = yunlin;
+            break;
         default:
         // handle default case
     }
 
-    console.log(data);
+    // console.log(data);
 
     const center = {
         lat: data[0].coordinates.lat,
@@ -71,9 +74,6 @@ const City = () => {
 
 
     const [isPopupVisible, setPopupVisibility] = useState(false);
-    useEffect(() => {
-        console.log(isPopupVisible);
-    }, [isPopupVisible]);
 
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [dialogPosition, setDialogPosition] = useState({
@@ -81,19 +81,13 @@ const City = () => {
         left: "0px"
     });
 
-    useEffect(() => {
-        console.log(dialogPosition);
-    }, [dialogPosition]);
-
 
     const handleMarkerClick = (item) => {
         setSelectedMarker(item);
         setPopupVisibility(true);
-        console.log("hello");
     };
 
     function handleClick(event) {
-        // console.log(event.pixel.x);
         const top = event.pixel.y + 320;
         if (top < 0) {
             top = top * -1;
