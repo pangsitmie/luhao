@@ -1,12 +1,13 @@
 /* STORE CAROUSEL */
 .store_carousel_item {
     display: grid;
-    grid-template-columns: 25% 70% 5%;
-    padding: 3rem;
+    grid-template-columns: 60% 40%;
+    padding: 3rem 3rem 0 3rem;
+    border-radius: 16px;
     width: 100%;
     height: 100%;
     background-image: url('src/assets/store_carousel_bg.png');
-    background-color: rgba(27, 27, 32, 0.4);
+    background-color: rgba(194, 194, 194, 0.15);
     background-size: cover;
 }
 
@@ -22,11 +23,11 @@
 }
 
 .store_carousel_item_img img {
-    width: 100%;
+    height: 100%;
 }
 
 .store_carousel_item_content {
-    padding: 0 5rem;
+    padding: 0 2rem;
 }
 
 

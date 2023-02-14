@@ -21,6 +21,8 @@ import StatPercentBox from 'src/components/StatPercentBox';
 
 import { GetStoreStatistic, GetStoreStatisticPeriod } from 'src/graphQL/Queries';
 import { STORE_GetStoreInfo } from 'src/graphQL/StorePrincipalQueries';
+import Loader from 'src/components/loader/Loader';
+import Error from 'src/components/error/Error';
 
 
 
@@ -39,7 +41,6 @@ const StoreDashboard = () => {
     const { loading, error, data } = useQuery(STORE_GetStoreInfo);
     useEffect(() => {
         if (data) {
-            console.log(data.getStorePrincipal.name);
             setName(data.getStorePrincipal.name);
             setSelectedItem({
                 id: data.getStorePrincipal.stores[0].id,
@@ -90,7 +91,6 @@ const StoreDashboard = () => {
     useEffect(() => {
         if (dataStore) {
             setDisplayStatistic(dataStore.getStore[0].getStatisticsTotal);
-            console.log(dataStore.getStore[0].getStatisticsTotal);
         }
     }, [dataStore]);
 
@@ -133,8 +133,12 @@ const StoreDashboard = () => {
         giftAmountTotal.push({ x, y: item.giftAmountTotal });
     }
 
-    finalData.push({ id: "Coin Amt Tot", color: "#219ebc", data: coinAmountTotal });
-    finalData.push({ id: "Gift Amt Tot", color: "#fb8500", data: giftAmountTotal });
+    finalData.push({ id: "總收入", color: "#219ebc", data: coinAmountTotal });
+    finalData.push({ id: "總支出", color: "#fb8500", data: giftAmountTotal });
+
+
+    if (loadingStore, loadingStorePeriod) return <Loader />;
+    if (errorStore, errorStorePeriod) return <Error />;
 
     return (
         <Box m="20px">
@@ -328,7 +332,6 @@ const StoreDashboard = () => {
                                 {currencyFormatter(displayStatistic.coinAmountTotal)}
                             </Typography>
                         </Box>
-
                     </Box>
                     <Box height="250px" m="-20px 0 0 0">
                         <LineChart isDashboard={true} data={finalData} />

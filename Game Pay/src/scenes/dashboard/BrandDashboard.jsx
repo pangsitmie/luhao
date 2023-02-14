@@ -40,7 +40,6 @@ const BrandDashboard = () => {
     const { loading, error, data } = useQuery(BRAND_GetBrandInfo);
     useEffect(() => {
         if (data) {
-            console.log(data.getBrandPrincipal.name);
             setName(data.getBrandPrincipal.name);
             setSelectedItem({
                 id: data.getBrandPrincipal.brands[0].id,
@@ -90,7 +89,6 @@ const BrandDashboard = () => {
     useEffect(() => {
         if (dataBrand) {
             setDisplayStatistic(dataBrand.getBrand[0].getStatisticsTotal);
-            console.log(dataBrand.getBrand[0].getStatisticsTotal);
         }
     }, [dataBrand]);
 
@@ -136,13 +134,13 @@ const BrandDashboard = () => {
         giftAmountTotal.push({ x, y: item.giftAmountTotal });
     }
 
-    finalData.push({ id: "Coin Amt Tot", color: "#219ebc", data: coinAmountTotal });
-    finalData.push({ id: "Gift Amt Tot", color: "#fb8500", data: giftAmountTotal });
+    finalData.push({ id: "總收入", color: "#219ebc", data: coinAmountTotal });
+    finalData.push({ id: "總支出", color: "#fb8500", data: giftAmountTotal });
 
 
 
-    if (loadingBrand) return <Loader />;
-    if (errorBrand) return <Error />;
+    if (loadingBrand, loadingBrandPeriod) return <Loader />;
+    if (errorBrand, errorBrandPeriod) return <Error />;
 
     return (
         <Box m="20px">

@@ -4,6 +4,7 @@ import MAP1 from 'src/assets/map1.png'
 import React, { Component } from "react";
 import Slider from "react-slick";
 
+import TAICHUNG_PHONE from 'src/assets/taichung_phone.png'
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -28,148 +29,90 @@ const Carousel = () => {
         <div>
             <Slider {...settings}>
                 <div>
-                    <Box className={"store_carousel_item"} border={"2px solid " + colors.grey[100]}>
-                        {/* IMG */}
-                        <Box className={"store_carousel_item_img"} >
-                            <img src={MAP1} alt="" />
-                        </Box>
-
+                    <Box className={"store_carousel_item"} >
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
                                 <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
-                                    臺中市
+                                    Taichung City
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                </Typography>
+                                    Click on the marked locations of the capsule toy machines and special stores on the map, use various popular social media platforms, and gather                                </Typography>
 
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
                                 <button className='btn_transparent'>
-                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFB0EE" }}>
-                                        View More
+                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFF" }}>
+                                        View Locations
                                     </Typography>
                                 </button>
                             </Box>
                         </Box>
 
-                        <Box >
-                            <Box border={"4px solid white"}
-                                borderRadius={"50%"}
-                                width={"80px"}
-                                height={"80px"}
-                                display={"flex"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                                mt={"-30px"}>
-                                <Typography variant="h2" sx={{ fontSize: "35px", fontWeight: "600", color: "#fff", mb: "5px" }}>
-                                    中
-                                </Typography>
-                            </Box>
+                        <Box className={"store_carousel_item_img"} >
+                            <img src={TAICHUNG_PHONE} alt="" />
                         </Box>
-
                     </Box>
                 </div>
 
                 {/* 2ND CONTENT */}
                 <div>
-                    <Box className={"store_carousel_item"} border={"2px solid " + colors.grey[100]}>
-                        {/* IMG */}
-                        <Box className={"store_carousel_item_img"} >
-                            <img src={MAP1} alt="" />
-                        </Box>
-
+                    <Box className={"store_carousel_item"} >
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
                                 <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
-                                    臺北市
+                                    Taipei City
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                </Typography>
+                                    Click on the marked locations of the capsule toy machines and special stores on the map, use various popular social media platforms, and gather                                </Typography>
 
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
                                 <button className='btn_transparent'>
-                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFB0EE" }}>
-                                        View More
+                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFF" }}>
+                                        View Locations
                                     </Typography>
                                 </button>
                             </Box>
                         </Box>
 
-                        <Box >
-                            <Box border={"4px solid white"}
-                                borderRadius={"50%"}
-                                width={"80px"}
-                                height={"80px"}
-                                display={"flex"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                                mt={"-30px"}>
-                                <Typography variant="h2" sx={{ fontSize: "35px", fontWeight: "600", color: "#fff", mb: "5px" }}>
-                                    北
-                                </Typography>
-                            </Box>
+                        <Box className={"store_carousel_item_img"} >
+                            <img src={TAICHUNG_PHONE} alt="" />
                         </Box>
-
                     </Box>
                 </div>
 
-                {/* 3RD CONTENT */}
+                {/* 2ND CONTENT */}
                 <div>
-                    <Box className={"store_carousel_item"} border={"2px solid " + colors.grey[100]}>
-                        {/* IMG */}
-                        <Box className={"store_carousel_item_img"} >
-                            <img src={MAP1} alt="" />
-                        </Box>
-
+                    <Box className={"store_carousel_item"} >
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
                                 <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
-                                    臺南市
+                                    Tainan City
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                </Typography>
+                                    Click on the marked locations of the capsule toy machines and special stores on the map, use various popular social media platforms, and gather                                </Typography>
 
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
                                 <button className='btn_transparent'>
-                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFB0EE" }}>
-                                        View More
+                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFF" }}>
+                                        View Locations
                                     </Typography>
                                 </button>
                             </Box>
                         </Box>
 
-                        <Box >
-                            <Box border={"4px solid white"}
-                                borderRadius={"50%"}
-                                width={"80px"}
-                                height={"80px"}
-                                display={"flex"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                                mt={"-30px"}>
-                                <Typography variant="h2" sx={{ fontSize: "35px", fontWeight: "600", color: "#fff", mb: "5px" }}>
-                                    南
-                                </Typography>
-                            </Box>
+                        <Box className={"store_carousel_item_img"} >
+                            <img src={TAICHUNG_PHONE} alt="" />
                         </Box>
-
                     </Box>
                 </div>
-
-
-
-
             </Slider >
         </div >
     )

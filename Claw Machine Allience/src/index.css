@@ -70,8 +70,8 @@ section {
 .btn_transparent {
   width: 100%;
   background-color: transparent;
-  border-radius: 10em;
-  padding: 1em 2em;
+  border-radius: 14px;
+  padding: 1em 2.5em;
   color: #fff;
   cursor: pointer;
   transition: all 0.3s ease-in-out;

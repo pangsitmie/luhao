@@ -144,8 +144,9 @@
     padding: 2rem;
     flex-direction: column;
     width: 60%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(131, 131, 131, 0.1);
     border: 2px solid white;
+    border-radius: 16px;
     color: white;
 }
 
