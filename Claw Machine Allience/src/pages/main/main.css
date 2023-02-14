@@ -1,18 +1,46 @@
-.hero {
-    background-image: url('src/assets/retro_bg.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+.space_bg {
+    position: absolute;
+    z-index: -1000;
+    width: 100%;
+    top: 0;
+}
+
+.tagline_text {
+    font-size: 150px;
+    transform: rotate(-15deg);
+    text-align: center;
+    margin: -50px 0 0 0;
+    padding: 0;
+}
+
+.wave_divider {
+    width: 100%;
+    margin-top: 250px;
+}
+
+.tagline_text2 {
+    font-size: 150px;
+    transform: rotate(-15deg);
+    text-align: center;
+    margin: -80px 0 0 30px;
+    padding: 0;
 }
 
 .hero_content {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 15rem 5rem;
-    z-index: -1;
+    padding: 0 5rem;
+    grid-template-columns: 60% 40%;
 }
 
+.hero_content_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.hero_content_img img {
+    width: 400px;
+}
 
 .tagline {
     display: flex;
@@ -49,27 +77,27 @@
 }
 
 /* FIND YOUR FAV BRANDS */
-.tagline2_left {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2rem;
+.fav_brands {
+    background-image: url('src/assets/wave_purple.png');
+    /* background-color: #9EA0C9; */
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
-.tagline2_right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.tagline2_left P {
+    font-size: 100px;
+    text-align: left;
+    padding: 0;
+    color: #101123;
 }
 
-.tagline2_left img {
-    width: 400px;
+.tagline2_right P {
+    font-size: 100px;
+    text-align: left;
+    margin: -100px 0 0 250px;
+    color: #101123;
 }
-
-.tagline2_right img {
-    width: 900px;
-}
-
 
 /* BRANDS CAROUSEL */
 .container {

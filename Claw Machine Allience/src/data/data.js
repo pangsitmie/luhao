@@ -125,7 +125,6 @@ export const yunlin = [
                 facebookLink: 'https://www.facebook.com/people/%E6%8B%BD%E8%B2%93/100083529812395/',
                 googleLink: 'https://goo.gl/maps/dMBmkNaFvcBn19on7',
             },
-
         ]
 
     },

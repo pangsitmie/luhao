@@ -61,7 +61,7 @@ export const tokens = (mode) => ({
         900: "#151632",
       },
       background: {
-        100: "#0A090A",
+        100: "#101123",
       }
     }
     : {
