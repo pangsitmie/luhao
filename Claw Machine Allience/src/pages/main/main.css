@@ -1,6 +1,7 @@
 .space_bg {
     position: absolute;
-    z-index: -1000;
+    background-size: cover;
+    z-index: -10000;
     width: 100%;
     top: 0;
 }
@@ -9,13 +10,8 @@
     font-size: 150px;
     transform: rotate(-15deg);
     text-align: center;
-    margin: -50px 0 0 0;
+    margin: -80px 0 0 0;
     padding: 0;
-}
-
-.wave_divider {
-    width: 100%;
-    margin-top: 250px;
 }
 
 .tagline_text2 {
@@ -24,6 +20,20 @@
     text-align: center;
     margin: -80px 0 0 30px;
     padding: 0;
+}
+
+.tagline_text3 {
+    font-size: 40px;
+    transform: rotate(-15deg);
+    text-align: center;
+    margin: -50px 0 0 50px;
+    padding: 0;
+    color: #EE1784;
+}
+
+.wave_divider {
+    width: 100%;
+    margin-top: 160px;
 }
 
 .hero_content {

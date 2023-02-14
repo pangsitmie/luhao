@@ -256,7 +256,7 @@ const StatisticManagement = () => {
                     </Button>
                 </Box>
 
-                <FormControl sx={{ minWidth: "120px", display: entityName !== "store" ? "block" : "none" }}>
+                <FormControl sx={{ minWidth: "120px", display: entityName === "store" ? "none" : "block" }}>
                     <InputLabel id="demo-simple-select-label" >店家過濾</InputLabel>
                     <Select
                         required

@@ -3,6 +3,8 @@ import { useQuery } from '@apollo/client'
 // QUERIES
 import { GetAllBrands } from '../../graphQL/Queries'
 import { BRAND_GetBrandList } from '../../graphQL/BrandPrincipalQueries'
+import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
+
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
@@ -16,7 +18,6 @@ import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
-import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
 
 
 const StatisticList = () => {

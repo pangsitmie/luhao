@@ -705,7 +705,7 @@ query GetStore($args: [StoreArgs!]!, $startAt: Int, $endAt: Int) {
   }
 }
 `
-export const GetStatisticGraph = gql`
+export const GetBrandStatisticPeriod = gql`
 query GetBrand(
   $args: [BrandArgs!]!
   $timeGranularity: EStatisticsPeriodTimeGranularity!
@@ -714,6 +714,29 @@ query GetBrand(
 ) {
   getBrand(args: $args) {
     getStatisticsPeriod(timeGranularity: $timeGranularity, startAt: $startAt, endAt: $endAt) {
+      coinAmountTotal
+      coinQuantityTotal
+      giftAmountTotal
+      giftQuantityTotal
+      timestamp
+    }
+  }
+}
+`
+
+export const GetStoreStatisticPeriod = gql`
+query GetStatisticsPeriod(
+  $args: [StoreArgs!]!
+  $timeGranularity: EStatisticsPeriodTimeGranularity!
+  $startAt: Int
+  $endAt: Int
+) {
+  getStore(args: $args) {
+    getStatisticsPeriod(
+      timeGranularity: $timeGranularity
+      startAt: $startAt
+      endAt: $endAt
+    ) {
       coinAmountTotal
       coinQuantityTotal
       giftAmountTotal

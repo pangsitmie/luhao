@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import { useQuery } from '@apollo/client'
 
 import { mockLineData } from "src/data/mockData";
-import { GetStatisticGraph } from 'src/graphQL/Queries';
+import { GetBrandStatisticPeriod } from 'src/graphQL/Queries';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
@@ -44,7 +44,7 @@ const UserStatistic = () => {
     const [active, setActive] = useState('day');
     const [lineData, setLineData] = useState([]);
 
-    const { loading, error, data } = useQuery(GetStatisticGraph, {
+    const { loading, error, data } = useQuery(GetBrandStatisticPeriod, {
         variables: {
             args: [
                 {

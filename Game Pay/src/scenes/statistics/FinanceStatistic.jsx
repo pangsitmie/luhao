@@ -4,15 +4,18 @@ import { Box, Button, Typography, useTheme, IconButton, TextField, FormControl, 
 import { tokens } from "../../theme";
 import LineChart from "../../components/LineChart";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import Header from '../../components/Header';
+// import Header from '../../components/Header';
 import { useQuery } from '@apollo/client'
 
-import { mockLineData } from "src/data/mockData";
-import { GetStoreListByBrand, GetStatisticGraph } from 'src/graphQL/Queries';
+// import { mockLineData } from "src/data/mockData";
+import { GetStoreListByBrand, GetBrandStatisticPeriod, GetStoreStatisticPeriod } from 'src/graphQL/Queries';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch, useSelector } from "react-redux";
 
 
 const FinanceStatistic = () => {
+    const { entityName } = useSelector((state) => state.entity);
+
     const location = useLocation();
     const state = location.state;
 
@@ -43,26 +46,27 @@ const FinanceStatistic = () => {
 
     const [startAtDateEpoch, setStartAtDateEpoch] = useState(getCurrentDate());
     const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
-
+    const [displayHour, setDisplayHour] = useState(true);
 
     useEffect(() => {
         const epochDifference = endAtDateEpoch - startAtDateEpoch;
+        setDisplayHour(epochDifference < 604800);
         switch (true) {
             case epochDifference > 2592000:
                 setPeriod('month');
-                console.log('month');
+                // console.log('month');
                 break;
             case epochDifference > 604800:
                 setPeriod('week');
-                console.log('week');
+                // console.log('week');
                 break;
             case epochDifference > 86400:
                 setPeriod('day');
-                console.log('day');
+                // console.log('day');
                 break;
             case epochDifference >= 0:
-                console.log('hour');
                 setPeriod('hour');
+                // console.log('hour');
                 break;
         }
     }, [startAtDateEpoch, endAtDateEpoch]);
@@ -70,7 +74,7 @@ const FinanceStatistic = () => {
     const [storeList, setStoreList] = useState([]);
     const [storeListFilter, setStoreListFilter] = useState('');
     const [selectedItem, setSelectedItem] = useState({
-        id: -1,
+        id: entityName === "store" ? state.data.id : -1,
         entityName: state.data.name
     });
 
@@ -82,7 +86,8 @@ const FinanceStatistic = () => {
                         id: state.data.id,
                     }
                 ]
-            }
+            },
+            skip: entityName === "store"
         }
     );
     useEffect(() => {
@@ -112,7 +117,7 @@ const FinanceStatistic = () => {
     const [period, setPeriod] = useState('hour');
     const [lineData, setLineData] = useState([]);
 
-    const { loading, error, data } = useQuery(GetStatisticGraph, {
+    const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatisticPeriod, {
         variables: {
             args: [
                 {
@@ -122,13 +127,34 @@ const FinanceStatistic = () => {
             timeGranularity: period,
             startAt: startAtDateEpoch,
             endAt: endAtDateEpoch
-        }
+        },
+        skip: selectedItem.id !== -1 || entityName === "store" //skip if store is selected
     });
+
+
+    const { loading: loadingStore, error: errorStore, data: dataStore } = useQuery(GetStoreStatisticPeriod, {
+        variables: {
+            args: [
+                {
+                    id: selectedItem.id,
+                }
+            ],
+            timeGranularity: period,
+            startAt: startAtDateEpoch,
+            endAt: endAtDateEpoch
+        },
+        skip: selectedItem.id === -1
+    });
+
+
     useEffect(() => {
-        if (data) {
-            setLineData(data.getBrand[0].getStatisticsPeriod);
+        if (dataBrand) {
+            setLineData(dataBrand.getBrand[0].getStatisticsPeriod);
         }
-    }, [data]);
+        if (dataStore) {
+            setLineData(dataStore.getStore[0].getStatisticsPeriod);
+        }
+    }, [dataBrand, dataStore]);
 
     const setToday = () => {
         setStartAtDate(getCurrentDate());
@@ -193,15 +219,11 @@ const FinanceStatistic = () => {
     }
 
 
-    // console.log(coinAmountTotal, giftAmountTotal);
 
     finalData.push({ id: "Coin Qty Tot", color: "#6a994e", data: coinQuantityTotal });
     finalData.push({ id: "Coin Amt Tot", color: "#219ebc", data: coinAmountTotal });
     finalData.push({ id: "Gift Amt Tot", color: "#fb8500", data: giftAmountTotal });
     finalData.push({ id: "Gift Qty Tot", color: "#ffb703", data: giftQuantityTotal });
-
-    // console.log("finalData");
-    // console.log(finalData);
 
 
     const handleClick = (selected) => {
@@ -291,7 +313,7 @@ const FinanceStatistic = () => {
                 {/* <Box>
                     UNIX TIME: {startAtDate}: {startAtDateEpoch} --- {endAtDate}: {endAtDateEpoch}
                 </Box> */}
-                <FormControl sx={{ minWidth: "120px" }}>
+                <FormControl sx={{ minWidth: "120px", display: entityName === "store" ? "none" : "block" }}>
                     <InputLabel id="demo-simple-select-label" >店家過濾</InputLabel>
                     <Select
                         required
@@ -367,6 +389,7 @@ const FinanceStatistic = () => {
                             borderRadius={"6px"}>
                             <Button
                                 sx={{
+                                    display: displayHour ? "block" : "none",
                                     borderRadius: "0px",
                                     backgroundColor: period === 'hour' ? "rgba(255, 255, 255, 0.074)" : "transparent",
                                     border: period === 'hour' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",

@@ -12,6 +12,8 @@ query Brands {
       number
     }
     brands {
+      id
+      name
       logo
     }
   }

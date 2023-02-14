@@ -30,6 +30,7 @@ const MainPage = () => {
                 <Box>
                     <p className='racing_font tagline_text'>CLAW</p>
                     <p className='racing_font tagline_text2'>MACHINE</p>
+                    <p className='racing_font tagline_text3'>ALLIANCE</p>
                 </Box>
                 <Box>
                     <img src={WAVE} className={"wave_divider"} alt="" />
@@ -107,13 +108,13 @@ const MainPage = () => {
                         </button>
                     </Box>
                 </Box>
-                <Box className="curved-overlay" backgroundColor={colors.background[100]}>
+                <Box className="curved-overlay" backgroundColor={"#332258"}>
                 </Box>
             </Box>
 
 
             {/* STORE CAROUSEL */}
-            <Box p={"30rem 0rem 10rem 0rem"} position={"relative"}>
+            <Box p={"30rem 0rem 10rem 0rem"} position={"relative"} bgcolor={"#332258"}>
                 <Box>
                     <Typography variant="h2" sx={{ textAlign: "center", fontSize: "4rem", color: colors.grey[100], mb: "3rem" }}>
                         LOCATIONS
