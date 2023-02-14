@@ -2,13 +2,17 @@ import { gql } from "@apollo/client";
 
 export const STORE_GetStoreInfo = gql`
 query GetStorePrincipal {
-    getStorePrincipal {
+  getStorePrincipal {
+    id
+    name
+    email
+    lineUrl
+    stores {
       id
       name
-      email
-      lineUrl
     }
   }
+}
 `
 
 export const STORE_GetAllStores = gql`

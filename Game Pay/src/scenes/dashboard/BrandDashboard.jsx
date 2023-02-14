@@ -1,53 +1,35 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useQuery, useMutation, useLazyQuery, ApolloClient, ApolloCache } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 
-import App from '../../App';
 import "../../index.css";
 import { GetBrandStatistic, GetBrandStatisticPeriod, GetStoreListByBrand, GetStoreStatistic } from '../../graphQL/Queries'
+import { BRAND_GetBrandInfo } from 'src/graphQL/BrandPrincipalQueries';
 
 // THEME
 import { ColorModeContext, tokens } from "../../theme";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import * as yup from "yup";
 
 
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
-import StoreIcon from '@mui/icons-material/Store';
 import SavingsIcon from '@mui/icons-material/Savings';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ReceiptIcon from '@mui/icons-material/Receipt';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import GroupIcon from '@mui/icons-material/Group';
+
 
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
-
-import { useDispatch, useSelector } from "react-redux";
-import { BRAND_GetBrandInfo } from 'src/graphQL/BrandPrincipalQueries';
-
-import { mockLineData } from "src/data/mockData";
-import Loader from 'src/components/loader/Loader';
-import Error from 'src/components/error/Error';
 import StatPercentBox from 'src/components/StatPercentBox';
 
 
-const checkoutSchema = yup.object().shape({
-    account: yup.string().required("required"),
-    password: yup.string().required("required").nullable(),
-});
-
+import Loader from 'src/components/loader/Loader';
+import Error from 'src/components/error/Error';
 
 const BrandDashboard = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     const [selectedItem, setSelectedItem] = useState({
         id: 0,
@@ -92,17 +74,6 @@ const BrandDashboard = () => {
     const [startAtDateEpoch, setStartAtDateEpoch] = useState(getCurrentDate());
     const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
 
-    const setToday = () => {
-        setStartAtDate(getCurrentDate());
-        setEndAtDate(getCurrentDate());
-    }
-
-    const setWeek = () => {
-        setStartAtDate(getWeekAgoDate());
-        setEndAtDate(getCurrentDate());
-    }
-
-
     const [displayStatistic, setDisplayStatistic] = useState({});
     const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatistic, {
         variables: {
@@ -126,7 +97,7 @@ const BrandDashboard = () => {
 
 
 
-    // GRAPH
+    // ================================ GRAPH ================================
     const [lineData, setLineData] = useState([]);
 
     const { loading: loadingBrandPeriod, error: errorBrandPeriod, data: dataBrandPeriod } = useQuery(GetBrandStatisticPeriod, {
@@ -180,70 +151,6 @@ const BrandDashboard = () => {
                 <Header title="DASHBOARD" subtitle={"Welcome Back " + name} />
             </Box>
 
-            {/* <Box
-                alignItems={"center"}
-                justifyContent={"space-between"}
-                className={"flex_media"}
-                mb={"1rem"}
-            >
-                <Box display={"flex"} gap={"1rem"} >
-                    <TextField
-                        id="datetime-local"
-                        label="開始時間點"
-                        type="date"
-                        value={startAtDate}
-                        onChange={handleStartAtDateChange}
-                        sx={{ width: "160px" }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-
-                    <TextField
-                        id="datetime-local"
-                        label="過期時間"
-                        type="date"
-                        value={endAtDate}
-                        onChange={handleEndAtDateChange}
-                        sx={{ width: "160px" }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "100px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={() => setToday()}>
-                        <Typography color={"white"} variant="h5" fontWeight="600">
-                            今天
-                        </Typography>
-                    </Button>
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "100px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={() => setWeek()}>
-                        <Typography color={"white"} variant="h5" fontWeight="600">
-                            本週
-                        </Typography>
-                    </Button>
-                </Box>
-            </Box> */}
 
             {/* FINANCE CHARTS */}
             <Box
@@ -420,7 +327,7 @@ const BrandDashboard = () => {
                                 fontWeight="600"
                                 color={colors.grey[100]}
                             >
-                                總收入
+                                本日總收入
                             </Typography>
                             <Typography
                                 variant="h3"
@@ -485,9 +392,6 @@ const getCurrentDate = () => {
     return `${year}-${month}-${day}`
 }
 
-
-
-
 const getTodayEpoch = () => {
     return (new Date(getCurrentDate()).getTime() / 1000);
 }
@@ -495,15 +399,4 @@ const getCurrentEpoch = () => {
     return Math.floor(new Date().getTime() / 1000);
 }
 
-const getWeekAgoDate = () => {
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = ("0" + (date.getMonth() + 1)).slice(-2)
-    const day = ("0" + (date.getDate() - 7)).slice(-2)
-
-    const hour = ("0" + date.getHours()).slice(-2)
-    const minute = ("0" + date.getMinutes()).slice(-2)
-
-    return `${year}-${month}-${day}`
-}
 
