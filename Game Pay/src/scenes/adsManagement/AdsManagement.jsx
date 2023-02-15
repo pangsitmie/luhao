@@ -215,7 +215,7 @@ const AdsManagement = () => {
                             borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type.name === "banner" ? "系統橫幅 - (B)" : "系統插入 - (P)"}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type === "banner" ? "系統橫幅 - (B)" : "系統插入 - (P)"}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {item.endAt === null ? (

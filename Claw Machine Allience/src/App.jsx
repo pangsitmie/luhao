@@ -11,6 +11,7 @@ import Footer from "./components/footer/Footer";
 import GRADIENT_BLUR_TOP from "src/assets/gradient_blur_top.png";
 import Map from "./pages/map/Map";
 import Main from "./pages/main/Main";
+import About from "./pages/about/About";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/map" element={<Map />} />
           <Route exact path="/city" element={<City />} />
           <Route exact path="/area" element={<Area />} />
+          <Route exact path="/about" element={<About />} />
         </Routes>
         <Footer />
       </ThemeProvider>

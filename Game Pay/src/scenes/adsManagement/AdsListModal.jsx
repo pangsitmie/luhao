@@ -70,7 +70,7 @@ export default function AdsListModal({ props }) {
             setInitialValues({
                 url: nonNullData.url,
                 description: nonNullData.description,
-                type: nonNullData.type.name,
+                type: nonNullData.type,
             });
 
             const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
@@ -239,7 +239,7 @@ export default function AdsListModal({ props }) {
                                                         修改廣告
                                                     </Typography>
                                                     <Typography variant="h5" sx={{ mt: ".5rem", textAlign: "left", fontSize: ".9rem", fontWeight: "600", color: colors.grey[200], lineHeight: "1.5" }}>
-                                                        {values.type === "banner" ? "系統橫幅" : "系統插入"}
+                                                        {values.type === "banner" ? "系統橫幅 - (B)" : "系統插入 - (P)"}
                                                     </Typography>
                                                 </Box>
                                                 <Box width={"65%"}>

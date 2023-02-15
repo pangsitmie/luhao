@@ -85,6 +85,7 @@ const BrandDashboard = () => {
             endAt: endAtDateEpoch,
             timeGranularity: "day"
         },
+        skip: !selectedItem.id // Skip the query if selectedItem.id is falsy
     });
     useEffect(() => {
         if (dataBrand) {
@@ -109,6 +110,7 @@ const BrandDashboard = () => {
             startAt: startAtDateEpoch,
             endAt: endAtDateEpoch
         },
+        skip: !selectedItem.id // Skip the query if selectedItem.id is falsy
     });
     useEffect(() => {
         if (dataBrandPeriod) {

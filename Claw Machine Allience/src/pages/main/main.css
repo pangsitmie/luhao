@@ -89,7 +89,7 @@
 /* FIND YOUR FAV BRANDS */
 .fav_brands {
     background-image: url('src/assets/wave_purple.png');
-    /* background-color: #9EA0C9; */
+    /* background-color: #7e51cf; */
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
@@ -131,7 +131,7 @@
     display: flex;
     align-items: center;
     padding: 8rem 5rem;
-    background-image: url('src/assets/arcade_bg1.jpg');
+    background-image: url('src/assets/arcade_bg2.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -141,7 +141,7 @@
 
 .curved_content {
     display: flex;
-    padding: 2rem;
+    padding: 3rem 3rem;
     flex-direction: column;
     width: 60%;
     background-color: rgba(131, 131, 131, 0.1);

@@ -23,6 +23,16 @@ export const taichung = [
                 facebookLink: 'https://www.facebook.com/people/%E5%A4%9A%E5%A4%9A%E9%BE%8D%E9%81%8A%E6%A8%82%E5%9C%92/100084066647630/',
                 googleLink: 'https://goo.gl/maps/1EqwWpqXb1gwWDYy6',
             },
+            {
+                name: '多多龍遊樂園',
+                address: '407台中市西屯區福星路368號',
+                coordinates: {
+                    lat: 24.191373,
+                    lng: 120.6587974
+                },
+                facebookLink: 'https://www.facebook.com/dcoolcatchme/',
+                googleLink: 'https://goo.gl/maps/XRCJuWRfjYKsUoi27',
+            },
 
         ]
     },
@@ -38,7 +48,20 @@ export const taichung = [
         coordinates: {
             lat: 24.1479583,
             lng: 120.6799787
-        }
+        },
+        stores: [
+            {
+                name: '多多龍遊樂園',
+                address: '407台中市西屯區福星路368號',
+                coordinates: {
+                    lat: 24.1479401,
+                    lng: 120.6856362
+                },
+                facebookLink: 'https://www.instagram.com/invites/contact/?i=o4w3f26i8h9v&utm_content=or8gmni',
+                googleLink: 'https://goo.gl/maps/6CUetcCTaSGLhrRR6',
+            },
+
+        ]
     },
     {
         id: 2,

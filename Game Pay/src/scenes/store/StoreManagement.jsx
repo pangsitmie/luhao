@@ -280,9 +280,9 @@ const StoreManagement = () => {
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
-                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    {/* <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">獎勵</Typography>
-                    </Box>
+                    </Box> */}
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">商品</Typography>
                     </Box>
@@ -339,7 +339,7 @@ const StoreManagement = () => {
                             </Box>
 
                             {/* BUTTON TO MACHINE MANAGEMENT */}
-                            <Box
+                            {/* <Box
                                 width={"15%"}
                                 height={"100%"}
                                 display={"flex"}
@@ -356,7 +356,7 @@ const StoreManagement = () => {
                                         獎勵
                                     </Button>
                                 </Link>
-                            </Box>
+                            </Box> */}
                             <Box
                                 width={"15%"}
                                 height={"100%"}

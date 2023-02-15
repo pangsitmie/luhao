@@ -6,7 +6,7 @@ import * as yup from "yup";
 import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
 import { CreteStorePhysicalReward } from "src/graphQL/Mutations";
-import { GetBrandList } from "src/graphQL/Queries";
+// import { GetBrandList } from "src/graphQL/Queries";
 import { BRAND_CreateCurrencyReward } from "src/graphQL/BrandPrincipalMutations";
 import { useDispatch, useSelector } from "react-redux";
 import { GetStoreCurrency } from "src/graphQL/Queries";
@@ -79,8 +79,12 @@ export default function CreateRewardModal({ props }) {
             CREATE_FREE_REWARD_MUTATION = CreteStorePhysicalReward;
             break;
         case 'brand':
+            // fixme: subtitute with brand mutation
             CREATE_FREE_REWARD_MUTATION = BRAND_CreateCurrencyReward;
             break;
+        case 'store':
+            // fixme: subtitute with store mutation
+            CREATE_FREE_REWARD_MUTATION = CreteStorePhysicalReward;
         default:
             break;
     }
@@ -96,7 +100,6 @@ export default function CreateRewardModal({ props }) {
     const { loading: loading1, error: error1, data: data1 } = useQuery(GetStoreCurrency, {
         variables: {
             args: {
-
                 id: props.id
             }
         }
@@ -189,7 +192,7 @@ export default function CreateRewardModal({ props }) {
 
         console.log(variables);
 
-        ApolloCreateStoreCheckinReward({ variables });
+        // ApolloCreateStoreCheckinReward({ variables });
 
     };
 

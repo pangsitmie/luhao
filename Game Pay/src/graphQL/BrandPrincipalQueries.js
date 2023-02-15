@@ -133,12 +133,7 @@ query BrandGetAllNotificationSchedules($onlyRewardType: ERewardType) {
             currency {
               id
               name
-              createdAt
-              type {
-                id
-                description
-                name
-              }
+              type 
             }
           }
         }
@@ -151,11 +146,7 @@ query BrandGetAllNotificationSchedules($onlyRewardType: ERewardType) {
           description
           name
         }
-        sourceType {
-          id
-          description
-          name
-        }
+        sourceType
         endAt
         startAt
         description

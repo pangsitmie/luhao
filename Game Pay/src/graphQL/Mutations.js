@@ -32,12 +32,42 @@ mutation CreateBrand($name: String!, $vatNumber: String!, $principal: CreateBran
 
 // COINS
 export const ManagerCreateCurrencyReward = gql`
-mutation ManagerCreateCurrencyReward($currencyId: String!, $sourceType: EManagerCreateRewardSourceType!, $startAt: Int!, $limit: Int, $description: String, $endAt: Int, $comment: String!, $notification: ManagerCreateNotificationField!, $triggerAt: Int, $receiveDaysOverdue: Int!, $amount: Int!, $belongToId: ID!, $belongToRole: EManagerRewardBelongToRole!) {
-  managerCreateCurrencyReward(currencyId: $currencyId, sourceType: $sourceType, startAt: $startAt, limit: $limit, description: $description, endAt: $endAt, receiveDaysOverdue: $receiveDaysOverdue, amount: $amount, belongToId: $belongToId, belongToRole: $belongToRole) {
+mutation ManagerCreateCurrencyReward(
+  $currencyId: String!
+  $sourceType: EManagerCreateRewardSourceType!
+  $startAt: Int!
+  $limit: Int
+  $description: String
+  $endAt: Int
+  $comment: String!
+  $notification: ManagerCreateNotificationField!
+  $triggerAt: Int
+  $receiveDaysOverdue: Int!
+  $amount: Int!
+  $belongToId: ID!
+  $belongToRole: EManagerRewardBelongToRole!
+) {
+  managerCreateCurrencyReward(
+    currencyId: $currencyId
+    sourceType: $sourceType
+    startAt: $startAt
+    limit: $limit
+    description: $description
+    endAt: $endAt
+    receiveDaysOverdue: $receiveDaysOverdue
+    amount: $amount
+    belongToId: $belongToId
+    belongToRole: $belongToRole
+  ) {
     id
-    managerCreateNotificationScheduleToAllMember(comment: $comment, notification: $notification, triggerAt: $triggerAt)
+    managerCreateNotificationScheduleToAllMember(
+      comment: $comment
+      notification: $notification
+      triggerAt: $triggerAt
+    )
   }
 }
+
 `
 
 // ADS

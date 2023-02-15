@@ -58,6 +58,8 @@ const SystemNotificationManagement = () => {
         }
     }, [data]);
 
+    console.log(notifications);
+
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
         // LOG SEARCH STATES
@@ -226,7 +228,7 @@ const SystemNotificationManagement = () => {
                 >
                     {/* MAP DATA */}
                     {notifications.map((item, i) => {
-                        if (item.notification.type.name === "system") {
+                        if (item.notification.type === "system") {
                             return (
                                 <Box
                                     key={`${item.id}-${i}`}

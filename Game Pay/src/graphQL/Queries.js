@@ -104,10 +104,6 @@ query ManagerGetBrands {
     currency {
       id
       name
-      type {
-        id
-        name
-      }
     }
   }
 }
@@ -482,10 +478,7 @@ query ManagerGetAllNotificationSchedules {
       id
       title
       content
-      type {
-        id
-        name
-      }
+      type
       expireAt
     }
   }
@@ -525,12 +518,7 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
             currency {
               id
               name
-              createdAt
-              type {
-                id
-                description
-                name
-              }
+              type
             }
           }
         }
@@ -539,15 +527,11 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
           id
           description
           name
-        id
-          description
-          name
-        }
-        sourceType {
           id
           description
           name
         }
+        sourceType
         endAt
         startAt
         description
@@ -580,11 +564,7 @@ query ManagerGetAdvertisements {
       description
       name
     }
-    type {
-      id
-      description
-      name
-    }
+    type
   }
 }
 `
@@ -603,11 +583,7 @@ query GetAdvertisement($args: [AdvertisementArgs!]!) {
       description
       name
     }
-    type {
-      id
-      description
-      name
-    }
+    type 
   }
 }
 `

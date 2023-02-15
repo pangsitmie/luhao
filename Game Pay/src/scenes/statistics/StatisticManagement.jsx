@@ -436,6 +436,68 @@ const StatisticManagement = () => {
                         />
                     </Box>
 
+
+
+                    {/* ROW3 */}
+                    <Box
+                        className='span4'
+                        sx={{
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
+                            webkitBackdropFilter: "blur(20px)",
+                            backdropFilter: "blur(20px)",
+                        }}
+                    >
+                        <StatBox
+                            title={currencyFormatter(10000)}
+                            subtitle="已發送的總免費幣"
+                            icon={
+                                <MonetizationOnIcon
+                                    sx={{ color: colors.redAccent[300], fontSize: "45px" }}
+                                />
+                            }
+                        />
+                    </Box>
+
+                    <Box
+                        className='span4'
+                        sx={{
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
+                            webkitBackdropFilter: "blur(20px)",
+                            backdropFilter: "blur(20px)",
+                        }}
+                    >
+                        <StatBox
+                            title={currencyFormatter(7000)}
+                            subtitle="用戶已領取的總免費幣"
+                            icon={
+                                <MonetizationOnIcon
+                                    sx={{ color: colors.blueAccent[300], fontSize: "45px" }}
+                                />
+                            }
+                        />
+                    </Box>
+
+                    <Box
+                        className='span4'
+                        sx={{
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
+                            webkitBackdropFilter: "blur(20px)",
+                            backdropFilter: "blur(20px)",
+                        }}
+                    >
+                        <StatBox
+                            title={currencyFormatter(5000)}
+                            subtitle="已使用的總免費幣"
+                            icon={
+                                <MonetizationOnIcon
+                                    sx={{ color: colors.greenAccent[300], fontSize: "45px" }}
+                                />
+                            }
+                        />
+                    </Box>
                 </Box>
             </Box>
 
@@ -498,7 +560,6 @@ const StatisticManagement = () => {
                             }
                         />
                     </Box>
-
                     <Box
                         className='span4'
                         sx={{
@@ -509,28 +570,8 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(10000)}
-                            subtitle="總免費幣發送"
-                            icon={
-                                <MonetizationOnIcon
-                                    sx={{ color: colors.redAccent[300], fontSize: "45px" }}
-                                />
-                            }
-                        />
-                    </Box>
-
-                    <Box
-                        className='span4'
-                        sx={{
-                            backgroundColor: colors.primary[400],
-                            border: "1px solid " + colors.grey[300],
-                            webkitBackdropFilter: "blur(20px)",
-                            backdropFilter: "blur(20px)",
-                        }}
-                    >
-                        <StatBox
-                            title={currencyFormatter(10000)}
-                            subtitle="總免費幣使用"
+                            title={numberFormatter(0)}
+                            subtitle="追隨者總數"
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: colors.greenAccent[300], fontSize: "45px" }}
@@ -538,6 +579,28 @@ const StatisticManagement = () => {
                             }
                         />
                     </Box>
+                    <Box
+                        className='span4'
+                        sx={{
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
+                            webkitBackdropFilter: "blur(20px)",
+                            backdropFilter: "blur(20px)",
+                        }}
+                    >
+                        <StatBox
+                            title={numberFormatter(0)}
+                            subtitle="追隨者總數"
+                            icon={
+                                <MonetizationOnIcon
+                                    sx={{ color: colors.greenAccent[300], fontSize: "45px" }}
+                                />
+                            }
+                        />
+                    </Box>
+
+
+
                 </Box>
             </Box>
         </Box >

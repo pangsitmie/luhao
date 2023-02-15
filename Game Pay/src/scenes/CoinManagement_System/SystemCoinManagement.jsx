@@ -230,7 +230,7 @@ const SystemCoinManagement = () => {
                 >
                     {/* MAP DATA */}
                     {notifications.map((item, i) => {
-                        if (item.notification.reward.content.currency.type.name === "systemFree") {
+                        if (item.notification.reward.content.currency.type === "systemFree") {
                             return (
                                 <Box
                                     key={`${item.id}-${i}`}

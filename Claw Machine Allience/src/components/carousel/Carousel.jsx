@@ -34,7 +34,7 @@ const Carousel = () => {
                         <Box className={"store_carousel_item_content"} >
                             <Box >
                                 <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
-                                    Taichung City
+                                    Taichung
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
@@ -63,7 +63,7 @@ const Carousel = () => {
                         <Box className={"store_carousel_item_content"} >
                             <Box >
                                 <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
-                                    Taipei City
+                                    Taipei
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
@@ -92,7 +92,7 @@ const Carousel = () => {
                         <Box className={"store_carousel_item_content"} >
                             <Box >
                                 <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
-                                    Tainan City
+                                    Tainan
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>

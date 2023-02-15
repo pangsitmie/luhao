@@ -8,8 +8,8 @@ import { ColorModeContext, tokens } from "src/theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import CreateCommodityModal from './CreateRewardModal';
-import CommodityListModal from './RewardListModal';
+import CreateRewardModal from './CreateRewardModal';
+import RewardListModal from './RewardListModal';
 // import { GetCommodityList } from 'src/graphQL/Queries';
 import Pagination from 'src/components/Pagination';
 import Refresh from 'src/components/Refresh';
@@ -21,8 +21,8 @@ import Error from 'src/components/error/Error';
 
 
 const RewardManagement = () => {
-    const location = useLocation();
-    const state = location.state;
+    // const location = useLocation();
+    // const state = location.state;
     // console.log(state); // output: "the-page-id"
     // console.log("STATE" + state.data.id); // output: "the-page-id"
     // console.log("STATE" + state.data.name); // output: "the-page-id"
@@ -45,46 +45,23 @@ const RewardManagement = () => {
     }
 
 
-    const [initCommodityDatas, setInitCommodityDatas] = useState([]);
-    const [commodityDatas, setComodityDatas] = useState([]);
+    const [initDatas, setInitDatas] = useState([]);
+    const [data, setData] = useState([]);
 
 
 
     //REF
     const searchRef = useRef('');
 
-    // const { loading, error, data } = useQuery(GetCommodityList
-    //     , {
-    //         variables: {
-    //             args: [
-    //                 {
-    //                     id: state.data.id
-    //                 }
-    //             ],
-    //             // limit: limit,
-    //             // offset: offset
-    //         }
-    //     }
-    // );
-    // useEffect(() => {
-    //     if (data) {
-    //         console.log(data);
-    //         setComodityDatas(data.getStore[0].commodities);
-    //         setInitCommodityDatas(data.getStore[0].commodities);
-    //     }
-    // }, [data]);
-
-
-
     //FUNCTIONS
     const submitSearch = () => {
         //CALL SEARCH FUNCTION
         let value = searchRef.current.value;
         if (value.length > 2) {
-            let search = arraySearch(commodityDatas, value);
-            setComodityDatas(search)
+            let search = arraySearch(data, value);
+            setData(search)
         } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setComodityDatas(initCommodityDatas)
+            setData(initDatas)
         }
     }
 
@@ -105,8 +82,7 @@ const RewardManagement = () => {
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"15%"}>
-                <h1 className='userManagement_title'>{state.data.name} - 獎勵</h1>
-                <Typography variant="h5" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
+                <h1 className='userManagement_title'>獎勵 - !DEV!</h1>
             </Box>
 
             {/* SEARCH DIV */}
@@ -146,7 +122,7 @@ const RewardManagement = () => {
                     marginLeft={"auto"}
                     height={"52px"}
                 >
-                    <CreateCommodityModal props={state.data} />
+                    <CreateRewardModal props={""} />
                 </Box>
             </Box>
 
@@ -214,7 +190,7 @@ const RewardManagement = () => {
                     height={"100%"}
                     overflow={"auto"}
                 >
-                    {commodityDatas.map((item, i) => (
+                    {/* {data.map((item, i) => (
                         <Box
                             key={`${item.id}-${i}`}
                             display="flex"
@@ -232,10 +208,10 @@ const RewardManagement = () => {
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">
-                                <CommodityListModal props={item} />
+                                <RewardListModal props={item} />
                             </Box>
                         </Box>
-                    ))}
+                    ))} */}
                 </Box>
 
             </Box>

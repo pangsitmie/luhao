@@ -87,9 +87,11 @@ const StoreDashboard = () => {
             endAt: endAtDateEpoch,
             timeGranularity: "day"
         },
+        skip: !selectedItem.id // Skip the query if selectedItem.id is falsy
     });
     useEffect(() => {
         if (dataStore) {
+            // console.log(dataStore.getStore[0].getStatisticsTotal)
             setDisplayStatistic(dataStore.getStore[0].getStatisticsTotal);
         }
     }, [dataStore]);
@@ -108,9 +110,11 @@ const StoreDashboard = () => {
             startAt: startAtDateEpoch,
             endAt: endAtDateEpoch
         },
+        skip: !selectedItem.id // Skip the query if selectedItem.id is falsy
     });
     useEffect(() => {
         if (dataStorePeriod) {
+            // console.log(dataStorePeriod.getStore[0].getStatisticsPeriod)
             setLineData(dataStorePeriod.getStore[0].getStatisticsPeriod);
         }
     }, [dataStorePeriod]);

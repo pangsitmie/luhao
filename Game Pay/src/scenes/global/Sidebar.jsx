@@ -21,6 +21,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import UpdateIcon from '@mui/icons-material/Update';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutIcon from '@mui/icons-material/Logout';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 
 import LOGO from "../../assets/logo512.png";
 import STORE_LOGO from "../../assets/store_logo.png";
@@ -247,8 +248,15 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px" }}
                         >
-                          廣告
+                          通知
                         </Typography>
+                        <Item
+                          title="系統通知"
+                          to="/system-notification"
+                          icon={<NotificationsIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
                         <Item
                           title="系統廣告"
                           to="/system-ads"
@@ -257,7 +265,7 @@ const Sidebar = () => {
                           setSelected={setSelected}
                         />
                         <Item
-                          title="商業合作"
+                          title="商業合作廣告"
                           to="/partner"
                           icon={<BusinessIcon />}
                           selected={selected}
@@ -268,22 +276,15 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px" }}
                         >
-                          通知
+                          財務
                         </Typography>
                         <Item
-                          title="系統通知"
-                          to="/system-notification"
-                          icon={<NotificationsIcon />}
+                          title="獎勵"
+                          to="/reward-management"
+                          icon={<CardGiftcardIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
-                        <Typography
-                          variant="h6"
-                          color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
-                        >
-                          財務
-                        </Typography>
                         <Item
                           title="系統免費幣發送"
                           to="/system-coins"
@@ -376,6 +377,13 @@ const Sidebar = () => {
                           財務
                         </Typography>
                         <Item
+                          title="獎勵"
+                          to="/reward-management"
+                          icon={<CardGiftcardIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
+                        <Item
                           title="品牌專屬幣發送"
                           to="/brand-coins"
                           icon={<MonetizationOnIcon />}
@@ -422,7 +430,6 @@ const Sidebar = () => {
                           selected={selected}
                           setSelected={setSelected}
                         />
-
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
@@ -444,6 +451,13 @@ const Sidebar = () => {
                         >
                           財務
                         </Typography>
+                        <Item
+                          title="獎勵"
+                          to="/reward-management"
+                          icon={<CardGiftcardIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
                         <Item
                           title="統計"
                           to="/statistic"

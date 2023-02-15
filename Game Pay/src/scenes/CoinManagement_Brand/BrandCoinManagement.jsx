@@ -256,7 +256,7 @@ const BrandCoinManagement = () => {
                 >
                     {/* MAP DATA */}
                     {notifications.map((item, i) => {
-                        if (item.notification.reward.content.currency.type.name === "brand") {
+                        if (item.notification.reward.content.currency.type === "brand") {
                             return (
                                 <Box
                                     key={`${item.id}-${i}`}
