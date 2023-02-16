@@ -26,20 +26,23 @@
     font-size: 40px;
     transform: rotate(-15deg);
     text-align: center;
-    margin: -50px 0 0 50px;
+    margin: -40px 0 0 50px;
     padding: 0;
     color: #EE1784;
 }
 
 .wave_divider {
     width: 100%;
-    margin-top: 160px;
+    height: 200px;
+    margin-top: 220px;
+    margin-bottom: -50px;
 }
 
 .hero_content {
+    background-color: #fff;
     display: grid;
-    padding: 0 5rem;
-    grid-template-columns: 60% 40%;
+    padding: 0 5rem 10rem;
+    grid-template-columns: 50% 50%;
 }
 
 .hero_content_img {
@@ -49,7 +52,7 @@
 }
 
 .hero_content_img img {
-    width: 400px;
+    width: 100%;
 }
 
 .tagline {
@@ -88,29 +91,18 @@
 
 /* FIND YOUR FAV BRANDS */
 .fav_brands {
-    background-image: url('src/assets/wave_purple.png');
-    /* background-color: #7e51cf; */
-    width: 100%;
-    background-size: cover;
+    background-image: url('src/assets/Vector.png');
+    background-color: #fff;
     background-repeat: no-repeat;
+    background-size: contain;
+    height: 850px;
+    display: grid;
+    grid-template-columns: 60% 40%;
 }
 
-.tagline2_left P {
-    font-size: 100px;
-    text-align: left;
-    padding: 0;
-    color: #101123;
-}
-
-.tagline2_right P {
-    font-size: 100px;
-    text-align: left;
-    margin: -100px 0 0 250px;
-    color: #101123;
-}
 
 /* BRANDS CAROUSEL */
-.container {
+/* .container {
     width: 100%;
     height: 100vh;
     overflow: hidden;
@@ -124,7 +116,6 @@
     left: -50%;
     width: 200%;
     height: 500px;
-
 }
 
 .curved {
@@ -150,8 +141,6 @@
     color: white;
 }
 
-
-
 .curved-overlay {
     position: absolute;
     border-radius: 50% 50% 0 0;
@@ -159,15 +148,29 @@
     width: 200%;
     height: 500px;
     top: 95%;
+} */
+/* CUREVE END */
+
+
+
+
+.map_content {
+    display: grid;
+    grid-template-columns: 45% 50%;
+    gap: 5%;
+    background-color: #fff;
+    height: 100%;
+    padding: 15rem 5rem;
 }
 
-.gradient_blur_location {
-    position: absolute;
-    top: 20rem;
-    left: 0;
+
+.pruple_wave_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pruple_wave_img img {
     width: 100%;
-    height: 100%;
-    backdrop-filter: blur(10px);
-    z-index: -100000;
-    height: 70%;
+    height: 200px;
 }

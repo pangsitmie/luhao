@@ -1,5 +1,5 @@
 footer {
-    margin-top: 5rem;
+    margin-top: 0rem;
     width: 100%;
     bottom: 0;
     background-color: #101123;
@@ -20,8 +20,10 @@ footer a {
 }
 
 .contact_container {
-    display: grid;
-    grid-template-columns: 50% 50%;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    /* grid-template-columns: 50% 50%; */
 }
 
 .footer__socials {
@@ -37,7 +39,7 @@ footer a {
 }
 
 .footer__socials a {
-    background-color: #1B1821;
+    background-color: #423e4b;
     /* background: linear-gradient(to right, #8B287B, #22305D); */
     color: var(--color-white);
     padding: .7rem;
@@ -68,7 +70,6 @@ footer a {
 }
 
 .footer__copyright {
-    margin-top: 2rem;
     margin-bottom: .5rem;
     font-size: 1rem;
     color: var(--color-white);

@@ -98,7 +98,7 @@ const LocationDialog = ({ props, top, left, closePopup }) => {
             </Box>
 
             <Box display={"flex"} justifyContent={"center"} alignItems={"center"} mt={"1rem"}>
-                <button className='btn_transparent' onClick={() => navigateToArea(props)}>
+                <button className='btn_transparent_full' onClick={() => navigateToArea(props)}>
                     View Stores
                 </button>
             </Box>

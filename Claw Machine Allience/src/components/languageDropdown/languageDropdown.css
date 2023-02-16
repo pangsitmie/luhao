@@ -1,0 +1,133 @@
+.sub__menus {
+    position: absolute;
+    display: none;
+    background: rgba(168, 168, 168, 0.1);
+    border: transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    border-color: var(--color-white);
+    transition: height var(--speed) ease;
+    width: 150px;
+    right: 20px;
+    top: 0px;
+    padding: 0;
+    z-index: 1000;
+    box-shadow: 0 10px 12px rgb(22 33 39 / 25%);
+}
+
+.menu-item .sub__menus a {
+    padding: 0px 0 0px 0;
+    margin: 7px 20px;
+}
+
+.menu-item:hover>a {
+    -webkit-text-fill-color: #fff;
+}
+
+.menu-item .sub__menus li:hover a {
+    -webkit-text-fill-color: #fff;
+}
+
+@media (min-width:992px) {
+    .sub__menus__arrows:hover .sub__menus {
+        display: block;
+    }
+
+    .sub__menus__arrows__full:hover .sub__menus {
+        display: block;
+        z-index: 1000000;
+    }
+}
+
+@media(max-width:991px) {
+    .header__middle__logo {
+        width: 77%;
+    }
+
+    .header__middle__menus {
+        width: 20%;
+    }
+
+    .header__middle__logo img {
+        max-width: 150px;
+        margin: 10px 0 0 0;
+    }
+
+    .main-nav .menubar__button:hover {
+        background-color: var(--color-bg);
+    }
+
+    .main-nav .menu-item:hover>a {
+        color: var(--color-white) !important
+    }
+
+    .main-nav .menubar__button {
+        display: block !important;
+        float: right;
+        background-color: transparent;
+        color: #fff;
+        padding: 2px 5px;
+        border-radius: 5px;
+        margin: 27px auto 0;
+        cursor: pointer;
+        position: relative;
+        z-index: 10037;
+    }
+
+    .main-nav .menubar__button svg {
+        font-size: 27px;
+    }
+
+    .main-nav ul.menuq2 {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        z-index: 10007;
+        background-color: var(--color-bg);
+        border-bottom: 3px solid var(--color-white);
+        right: 0;
+        padding-bottom: 17px;
+        padding-top: 57px;
+    }
+
+    .main-nav .menu-item a {
+        margin: 10px 17px;
+        text-align: center;
+        color: var(--color-light);
+    }
+
+    .main-nav ul.main-menu {
+        display: none
+    }
+
+    .main-nav .sub__menus__arrows:hover .sub__menus {
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+    }
+
+    .sub__menus__Active {
+        display: block !important;
+        margin: 0 auto;
+        background: var(--color-bg);
+        left: 0;
+        right: 0;
+    }
+
+    .sub__menus__Active2 {
+        display: block !important;
+    }
+
+    .menus__categorysss {
+        display: none;
+    }
+
+    .menus__categorysss2 {
+        display: none;
+    }
+
+    .menu-item .sub__menus__full a {
+        text-align: left;
+    }
+
+}

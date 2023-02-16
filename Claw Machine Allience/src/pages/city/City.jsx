@@ -100,7 +100,7 @@ const City = () => {
     }
 
     return (
-        <Box>
+        <Box transition-style="in:circle:top-left">
             <Box height={"95vh"} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
                 <Typography onClick={handleClick} variant="h2" sx={{ textAlign: "center", fontSize: "1.5rem", fontWeight: "500", color: colors.grey[100], textTransform: "uppercase" }}>
                     ALL AVAILABLE AREAS IN

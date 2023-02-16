@@ -1,7 +1,4 @@
 .taiwan_map {
-    position: absolute;
-    width: auto;
-    height: 100%;
     top: 30%;
     left: 35%;
     z-index: -10000;

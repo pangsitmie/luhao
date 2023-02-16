@@ -8,81 +8,134 @@ import Carousel from 'src/components/carousel/Carousel';
 
 import SPACE_BG1 from 'src/assets/space_bg1.png'
 import WAVE from 'src/assets/wave.png'
-import IPHONE_HERO from 'src/assets/iphone_hero.png'
-
+import PURPLE_WAVE from 'src/assets/pruple_wave.png'
+import GREEN_MAP from 'src/assets/green_map.png'
+import MAP_VECTOR from 'src/assets/map_vector.png'
+import SHOP_3D from 'src/assets/shop_3d.png'
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
+import { useTranslation } from 'react-i18next';
+
 
 const Main = () => {
+    const { t } = useTranslation();
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     return (
-        <section className="main_container">
+        <section>
             <img src={SPACE_BG1} className={"space_bg"} alt="" />
             <Box className="hero">
                 <Box>
-                    <p className='racing_font tagline_text'>CLAW</p>
-                    <p className='racing_font tagline_text2'>MACHINE</p>
-                    <p className='racing_font tagline_text3'>ALLIANCE</p>
-                </Box>
-                <Box>
-                    <img src={WAVE} className={"wave_divider"} alt="" />
+                    <p className='racing_font tagline_text'>{t('claw_machine_title1')}</p>
+                    <p className='racing_font tagline_text2'>{t('claw_machine_title2')}</p>
+                    <p className='racing_font tagline_text3'>{t('claw_machine_title3')}</p>
                 </Box>
             </Box >
+            <Box>
+                <img src={WAVE} className={"wave_divider"} alt="" />
+            </Box>
 
 
-            {/* HERO CONTENT */}
+            {/* FIND THE BEST AREA CONTENT */}
             <Box className={"hero_content"}>
                 <Box>
                     <Box>
-                        <Typography variant="h2" sx={{ fontSize: "36px", fontWeight: "600", color: "#fff", mb: "1rem" }}>
-                            Taichung Claw Machine Alliance
+                        <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#87AE2D", mb: "1rem" }}>
+                            {t('find_the_best')}
                         </Typography>
-                        <Typography variant="h2" sx={{ fontSize: "18px", color: "#fff", mb: "1rem", lineHeight: "28px" }}>
-                            We are dedicated to providing the latest information about the best places to play claw machines in the area. By compiling a comprehensive map of
-                            high-quality stores, we aim to make it easier for everyone to find the perfect location for their claw machine experience. Whether you're a
-                            seasoned claw machine player or just starting out, our map will provide all the information you need to make an informed decision.
+                        <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#87AE2D", mb: "1rem" }}>
+                            {t('area')}
+                        </Typography>
+                        <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                            {t('area_tagline1')}
                         </Typography>
                     </Box>
-                    <Box display={"flex"} gap={"1rem"} mt={"2rem"}>
-                        <Box>
-                            <LocationSearchingIcon sx={{ fontSize: "40px", color: "#fff", mb: "1rem" }} />
-                            <Typography variant="h2" sx={{ fontSize: "20px", fontWeight: "600", color: "#fff", mb: "1rem" }}>
-                                How to Quickly Explore Stores
+                    <Box display={"flex"} gap={"2rem"} mt={"3rem"}>
+                        <Box width={"100%"}>
+                            <LocationSearchingIcon sx={{ fontSize: "40px", color: "#87AE2D", mb: "1rem" }} />
+                            <Typography variant="h2" sx={{ fontSize: "20px", fontWeight: "600", color: "#484848", mb: "1rem" }}>
+                                {t('area_subtitle1')}
                             </Typography>
-                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#fff", mb: "1rem", lineHeight: "28px" }}>
-                                We map claw machine alliances and special stores and promote via social media for quick exploration.
-                            </Typography>
-                        </Box>
-                        <Box>
-                            <LocationOnIcon sx={{ fontSize: "40px", color: "#fff", mb: "1rem" }} />
-                            <Typography variant="h2" sx={{ fontSize: "20px", fontWeight: "600", color: "#fff", mb: "1rem" }}>
-                                Taichung Alliance Areas includes
-                            </Typography>
-                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#fff", mb: "1rem", lineHeight: "28px" }}>
-                                The Taichung alliance for example are, Yizhong and Fengjia ,Donghai, Miaodong, Changhua shopping area .
+                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                                {t('area_desc1')}
                             </Typography>
                         </Box>
+                        <Box width={"100%"}>
+                            <LocationOnIcon sx={{ fontSize: "40px", color: "#87AE2D", mb: "1rem" }} />
+                            <Typography variant="h2" sx={{ fontSize: "20px", fontWeight: "600", color: "#484848", mb: "1rem" }}>
+                                {t('area_subtitle2')}
+                            </Typography>
+                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                                {t('area_desc2')}
+                            </Typography>
+                        </Box>
+
                     </Box>
                 </Box>
                 <Box className={"hero_content_img"}>
-                    <img src={IPHONE_HERO} alt="" />
+                    <img src={GREEN_MAP} alt="" />
                 </Box>
             </Box>
 
             {/* FIND YOUR FAV BRANDS */}
-            <Box mt={"15rem"} p={"10rem"} className={"fav_brands"}>
-                <div className='tagline2_left'>
-                    <p className='racing_font'>FIND YOUR</p>
-                </div>
-                <div className='tagline2_right'>
-                    <p className='racing_font'>FAVORITE BRAND</p>
-                </div>
+            <Box p={"10rem 5rem"} className={"fav_brands"}>
+                <Box display={"flex"} justifyContent={"center"}>
+                    <img src={SHOP_3D} alt="" />
+                </Box>
+                <Box >
+                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "70px", fontWeight: "bold", color: "#332258", mb: "1rem" }}>
+                        {t('popular')}
+                    </Typography>
+                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "70px", fontWeight: "bold", color: "#332258", mb: "1rem" }}>
+                        {t('brands')}
+                    </Typography>
+                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                        {t('brand_tagline')}
+                    </Typography>
+                    <Box display="flex" justifyContent="flex-end" pt={"1rem"}>
+                        <button className="btn_transparent">
+                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#181818" }}>
+                                {t('view_brands')}
+                            </Typography>
+                        </button>
+                    </Box>
+                </Box>
+            </Box>
+
+
+
+            <Box className={"map_content"} >
+                <Box>
+                    <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#ED6B6C", mb: "1rem" }}>
+                        {t('check_out_our')}
+                    </Typography>
+                    <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#ED6B6C", mb: "1rem" }}>
+                        {t('map')}
+                    </Typography>
+                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                        {t('map_tagline')}
+                    </Typography>
+                    <Box display="flex" pt={"1rem"}>
+                        <button className="btn_transparent">
+                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#181818" }}>
+                                {t('map_btn')}
+                            </Typography>
+                        </button>
+                    </Box>
+                </Box>
+                <Box display={"flex"} justifyContent={"center"}>
+                    <img src={MAP_VECTOR} alt="" />
+                </Box>
+            </Box>
+
+            <Box bgcolor={"#fff"} className='pruple_wave_img'>
+                <img src={PURPLE_WAVE} alt="" />
             </Box>
 
             {/* BRANDS CAROUSEL */}
-            <Box className="container">
+            {/* <Box className="container">
                 <Box className="curved-overlay-top" backgroundColor={"#9EA0C9"}>
                 </Box>
                 <Box className="curved">
@@ -108,14 +161,14 @@ const Main = () => {
                 </Box>
                 <Box className="curved-overlay" backgroundColor={"#332258"}>
                 </Box>
-            </Box>
+            </Box> */}
 
 
             {/* STORE CAROUSEL */}
             <Box p={"10rem 0rem 2rem 0rem"} position={"relative"} sx={{ background: "linear-gradient(180deg, #332258, #101123)" }} >
                 <Box>
                     <Typography variant="h2" sx={{ textAlign: "center", fontSize: "4.2rem", fontWeight: "bold", color: colors.grey[100], mb: "3rem" }}>
-                        LOCATIONS
+                        {t('locations')}
                     </Typography>
                 </Box>
                 <Carousel />

@@ -80,14 +80,14 @@ const AreaDialog = ({ props, top, left, closePopup }) => {
             <Box display={"flex"} justifyContent={"space-evenly"} alignItems={"center"} mt={"2rem"} gap={"1rem"}>
                 {props.facebookLink &&
                     <a href={props.facebookLink} target="_blank">
-                        <button className='btn_transparent' >
+                        <button className='btn_transparent_full' >
                             Facebook
                         </button>
                     </a>
                 }
 
                 <a href={props.googleLink} target="_blank">
-                    <button className='btn_transparent' >
+                    <button className='btn_transparent_full' >
                         Google Map
                     </button>
                 </a>

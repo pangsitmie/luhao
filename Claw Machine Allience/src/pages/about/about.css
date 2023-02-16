@@ -4,14 +4,14 @@
     justify-content: center;
     height: 50vh;
     background-color: #E9F4FF;
-    padding: 6rem 8rem 0;
+    padding: 7rem 8rem 0;
 }
 
 .about_content {
     display: flex;
-    padding: 8rem;
+    padding: 10rem 8rem 5rem;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     background-color: #111116;
 }
 
@@ -20,6 +20,7 @@
     justify-content: center;
     align-items: center;
     z-index: -100000;
+    margin-bottom: -50px;
 }
 
 .about_wave img {

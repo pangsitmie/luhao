@@ -8,10 +8,10 @@ import Area from "./pages/area/Area";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 
-import GRADIENT_BLUR_TOP from "src/assets/gradient_blur_top.png";
 import Map from "./pages/map/Map";
 import Main from "./pages/main/Main";
 import About from "./pages/about/About";
+import NotFound from "./components/404/NotFound";
 
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
         <Header />
         <Routes>
           <Route exact path="/" element={<Main />} />
+          <Route exact path="*" element={<NotFound />} />
           <Route exact path="/maintest" element={<MainTest />} />
           <Route exact path="/map" element={<Map />} />
           <Route exact path="/city" element={<City />} />
