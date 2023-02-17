@@ -1,0 +1,177 @@
+.hero_bg {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    top: -70px;
+    right: 0px;
+}
+
+.tagline_text {
+    font-size: 90px;
+    text-align: left;
+    color: #270143;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.tagline_text2 {
+    font-size: 40px;
+    text-align: left;
+    color: #270143;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.tagline_text3 {
+    width: 40%;
+    font-size: 18px;
+    text-align: left;
+    padding: 0;
+    color: #484848;
+}
+
+.wave_divider {
+    width: 100%;
+    height: 200px;
+    margin-top: 120px;
+    margin-bottom: -20px;
+}
+
+.hero_content {
+    background-color: #fff;
+    display: grid;
+    padding: 2rem 5rem 10rem;
+    grid-template-columns: 50% 50%;
+}
+
+.hero_content_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero_content_img img {
+    width: 100%;
+}
+
+.tagline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tagline img {
+    width: 80%;
+}
+
+
+
+
+
+.hero_content_item {
+    padding: 10rem 0;
+}
+
+.hero_content_col2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero_content_col2 img {
+    width: 100%;
+}
+
+.hero_content_col3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* FIND YOUR FAV BRANDS */
+.fav_brands {
+    background-image: url('src/assets/Vector.png');
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 850px;
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+
+/* BRANDS CAROUSEL */
+/* .container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.curved-overlay-top {
+    position: absolute;
+    border-radius: 0 0 50% 50%;
+    bottom: 95%;
+    left: -50%;
+    width: 200%;
+    height: 500px;
+}
+
+.curved {
+    display: flex;
+    align-items: center;
+    padding: 8rem 5rem;
+    background-image: url('src/assets/arcade_bg2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.curved_content {
+    display: flex;
+    padding: 3rem 3rem;
+    flex-direction: column;
+    width: 60%;
+    background-color: rgba(131, 131, 131, 0.1);
+    border: 2px solid white;
+    border-radius: 16px;
+    color: white;
+}
+
+.curved-overlay {
+    position: absolute;
+    border-radius: 50% 50% 0 0;
+    left: -50%;
+    width: 200%;
+    height: 500px;
+    top: 95%;
+} */
+/* CUREVE END */
+
+
+
+
+.map_content {
+    display: grid;
+    grid-template-columns: 45% 50%;
+    gap: 5%;
+    background-color: #fff;
+    height: 100%;
+    padding: 15rem 5rem;
+}
+
+
+.pruple_wave_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pruple_wave_img img {
+    width: 100%;
+    height: 200px;
+}

@@ -1,0 +1,29 @@
+.about_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50vh;
+    background-color: #ECEBEC;
+    padding: 7rem 8rem 0;
+}
+
+.about_content {
+    display: flex;
+    padding: 10rem 8rem 5rem;
+    flex-direction: column;
+    height: 100%;
+    background-color: #111116;
+}
+
+.about_wave {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -100000;
+    margin-bottom: -50px;
+}
+
+.about_wave img {
+    width: 100%;
+    height: 150px;
+}
