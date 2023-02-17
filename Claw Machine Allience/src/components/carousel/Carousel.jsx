@@ -10,8 +10,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import "./carousel.css";
+import { useTranslation } from 'react-i18next';
 
 const Carousel = () => {
+    const { t } = useTranslation();
+
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -38,7 +42,8 @@ const Carousel = () => {
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
-                                    Click on the marked locations of the capsule toy machines and special stores on the map, use various popular social media platforms, and gather                                </Typography>
+                                    {t('location_desc')}
+                                </Typography>
 
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
@@ -67,8 +72,8 @@ const Carousel = () => {
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
-                                    Click on the marked locations of the capsule toy machines and special stores on the map, use various popular social media platforms, and gather                                </Typography>
-
+                                    {t('location_desc')}
+                                </Typography>
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
                                 <button className='btn_transparent'>
@@ -96,8 +101,8 @@ const Carousel = () => {
                                 </Typography>
 
                                 <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
-                                    Click on the marked locations of the capsule toy machines and special stores on the map, use various popular social media platforms, and gather                                </Typography>
-
+                                    {t('location_desc')}
+                                </Typography>
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
                                 <button className='btn_transparent'>

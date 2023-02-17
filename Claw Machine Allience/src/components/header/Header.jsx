@@ -4,12 +4,13 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 
-import PublicIcon from '@mui/icons-material/Public';
 import LOGO from "src/assets/logo.png";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import LanguageDropdown from './LanguageDropdown';
+import LanguageDropdown from 'src/components/languageDropdown/LanguageDropdown';
+import { useLocation } from "react-router-dom";
+
 
 const Header = () => {
     const { t } = useTranslation();
@@ -18,18 +19,13 @@ const Header = () => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-    const navigate = useNavigate();
+    const location = useLocation();
+    const [currentPage, setCurrentPage] = useState(location.pathname);
 
-    const [isMenuSubMenu4, setMenuSubMenu4] = useState(false);
-    const toggleSubmenu4 = () => {
-        setMenuSubMenu4(isMenuSubMenu4 === false ? true : false);
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
-    let boxClassSubMenu4 = ["sub__menus"];
-    if (isMenuSubMenu4) {
-        boxClassSubMenu4.push('sub__menus__Active');
-    } else {
-        boxClassSubMenu4.push('');
-    }
+
 
     return (
         <Box display="flex" justifyContent="space-between" p={1}>
@@ -39,14 +35,20 @@ const Header = () => {
             <Box display="flex" alignItems={"center"}>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="/map">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
+                        <Typography variant="h2" sx={{
+                            textAlign: "center", fontSize: "1rem", fontWeight: "500",
+                            color: currentPage === "/" ? "#fff" : "#1e1e1e",
+                        }}>
                             Map
                         </Typography>
                     </a>
                 </Box>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="#">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
+                        <Typography variant="h2" sx={{
+                            textAlign: "center", fontSize: "1rem", fontWeight: "500",
+                            color: currentPage === "/" ? "#fff" : "#1e1e1e",
+                        }}>
                             Brands
                         </Typography>
                     </a>
@@ -59,14 +61,20 @@ const Header = () => {
 
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="#">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
+                        <Typography variant="h2" sx={{
+                            textAlign: "center", fontSize: "1rem", fontWeight: "500",
+                            color: currentPage === "/" ? "#fff" : "#1e1e1e",
+                        }}>
                             Stores
                         </Typography>
                     </a>
                 </Box>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="/about">
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1rem", fontWeight: "600", color: colors.grey[100] }}>
+                        <Typography variant="h2" sx={{
+                            textAlign: "center", fontSize: "1rem", fontWeight: "500",
+                            color: currentPage === "/" ? "#fff" : "#1e1e1e",
+                        }}>
                             About
                         </Typography>
                     </a>

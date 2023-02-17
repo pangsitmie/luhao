@@ -22,7 +22,7 @@ const About = () => {
                 <img src={WAVE_WHITE} alt="" />
             </Box>
             <Box className='about_content'>
-                <Typography variant={"h4"} sx={{ width: "70%", fontSize: "4rem", fontWeight: "600", color: "#fff", mb: "2rem" }}>
+                <Typography variant={"h4"} sx={{ width: "80%", fontSize: "4rem", fontWeight: "600", color: "#fff", mb: "2rem" }}>
                     {t('about_title2')}
                 </Typography>
                 <Typography variant={"h4"} sx={{ fontSize: "1.4rem", fontWeight: "600", color: "#fff", mb: "2rem" }}>

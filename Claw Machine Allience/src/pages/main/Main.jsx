@@ -14,7 +14,7 @@ import MAP_VECTOR from 'src/assets/map_vector.png'
 import SHOP_3D from 'src/assets/shop_3d.png'
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-
+import HERO_BG from 'src/assets/hero_bg.png'
 import { useTranslation } from 'react-i18next';
 
 
@@ -24,18 +24,20 @@ const Main = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     return (
-        <section>
-            <img src={SPACE_BG1} className={"space_bg"} alt="" />
-            <Box className="hero">
-                <Box>
-                    <p className='racing_font tagline_text'>{t('claw_machine_title1')}</p>
-                    <p className='racing_font tagline_text2'>{t('claw_machine_title2')}</p>
-                    <p className='racing_font tagline_text3'>{t('claw_machine_title3')}</p>
-                </Box>
-            </Box >
-            <Box>
-                <img src={WAVE} className={"wave_divider"} alt="" />
+        <>
+            <Box p={"8rem 0"} >
+                <img src={HERO_BG} className={"hero_bg"} alt="" />
+                <Box className="hero" >
+                    <Box p={" 0 5rem"}>
+                        <p className='tagline_text'>{t('claw_machine_title1')}</p>
+                        <p className='tagline_text2'>{t('claw_machine_title2')}</p>
+                        <p className='tagline_text3'>{t('claw_machine_title3')}</p>
+                    </Box>
+                </Box >
             </Box>
+            <div>
+                <img src={WAVE} className={"wave_divider"} alt="" />
+            </div>
 
 
             {/* FIND THE BEST AREA CONTENT */}
@@ -52,7 +54,7 @@ const Main = () => {
                             {t('area_tagline1')}
                         </Typography>
                     </Box>
-                    <Box display={"flex"} gap={"2rem"} mt={"3rem"}>
+                    <Box display={"flex"} gap={"5rem"} mt={"3rem"}>
                         <Box width={"100%"}>
                             <LocationSearchingIcon sx={{ fontSize: "40px", color: "#87AE2D", mb: "1rem" }} />
                             <Typography variant="h2" sx={{ fontSize: "20px", fontWeight: "600", color: "#484848", mb: "1rem" }}>
@@ -85,10 +87,10 @@ const Main = () => {
                     <img src={SHOP_3D} alt="" />
                 </Box>
                 <Box >
-                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "70px", fontWeight: "bold", color: "#332258", mb: "1rem" }}>
+                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "70px", fontWeight: "bold", color: "#182E58", mb: "1rem" }}>
                         {t('popular')}
                     </Typography>
-                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "70px", fontWeight: "bold", color: "#332258", mb: "1rem" }}>
+                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "70px", fontWeight: "bold", color: "#182E58", mb: "1rem" }}>
                         {t('brands')}
                     </Typography>
                     <Typography variant="h2" sx={{ textAlign: "right", fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
@@ -125,8 +127,8 @@ const Main = () => {
                         </button>
                     </Box>
                 </Box>
-                <Box display={"flex"} justifyContent={"center"}>
-                    <img src={MAP_VECTOR} alt="" />
+                <Box display={"flex"} justifyContent={"center"} alignItems={"center"} >
+                    <img src={MAP_VECTOR} width={"90%"} alt="" />
                 </Box>
             </Box>
 
@@ -165,7 +167,7 @@ const Main = () => {
 
 
             {/* STORE CAROUSEL */}
-            <Box p={"10rem 0rem 2rem 0rem"} position={"relative"} sx={{ background: "linear-gradient(180deg, #332258, #101123)" }} >
+            <Box p={"10rem 0rem 2rem 0rem"} position={"relative"} sx={{ background: "linear-gradient(180deg, #332258, #111116)" }} >
                 <Box>
                     <Typography variant="h2" sx={{ textAlign: "center", fontSize: "4.2rem", fontWeight: "bold", color: colors.grey[100], mb: "3rem" }}>
                         {t('locations')}
@@ -173,7 +175,7 @@ const Main = () => {
                 </Box>
                 <Carousel />
             </Box>
-        </ section >
+        </  >
     )
 }
 
