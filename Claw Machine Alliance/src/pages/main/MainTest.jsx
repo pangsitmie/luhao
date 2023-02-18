@@ -4,7 +4,7 @@ import { Box, Typography, useTheme } from '@mui/material'
 import { ColorModeContext, tokens } from "../../theme";
 
 import './main.css'
-import SLOT_MACHINE1 from 'src/assets/slot_machine1.png'
+// import SLOT_MACHINE1 from 'src/assets/slot_machine1.png'
 import Carousel from 'src/components/carousel/Carousel';
 
 // import Carousel from "./components/carouse/Carousel";
@@ -58,7 +58,7 @@ const MainTest = () => {
                         </Box>
                     </Box>
                     <Box className={"hero_content_col2"}>
-                        <img src={SLOT_MACHINE1} alt="" />
+                        {/* <img src={SLOT_MACHINE1} alt="" /> */}
                     </Box>
                     <Box className={"hero_content_col3"}>
                         <Box className={"hero_content_item"}>

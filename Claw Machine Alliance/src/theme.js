@@ -61,7 +61,7 @@ export const tokens = (mode) => ({
         900: "#151632",
       },
       background: {
-        100: "#ECEBEC",
+        100: "#FFFFFF",
       }
     }
     : {
@@ -169,30 +169,42 @@ export const themeSettings = (mode) => {
         }),
     },
     typography: {
-      fontFamily: ["Playfair Display", "Source Sans Pro", "sans-serif"].join(","),
+      fontFamily: ["Inter", "sans-serif"].join(","),
       fontSize: 12,
+      color: "#2D3436",
       h1: {
-        fontFamily: ["Playfair Display", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 40,
+        fontFamily: ["Inter", "sans-serif"].join(","),
+        fontSize: 96,
+        lineHeight: 1.2,
+        fontWeight: 800,
+        letterSpacing: "-3px",
       },
       h2: {
-        fontFamily: ["Playfair Display", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 32,
+        fontFamily: ["Inter", "sans-serif"].join(","),
+        fontSize: 60,
+        lineHeight: 1.2,
+        fontWeight: 800,
+        letterSpacing: "-1px",
       },
       h3: {
-        fontFamily: ["Playfair Display", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 24,
+        fontFamily: ["Inter", "sans-serif"].join(","),
+        fontSize: 32,
+        fontWeight: 800,
+        letterSpacing: "-1px",
       },
       h4: {
-        fontFamily: ["Playfair Display", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 20,
+        fontFamily: ["Inter", "sans-serif"].join(","),
+        fontSize: 22,
+        fontWeight: "bold",
+        lineHeight: 1.5,
       },
       h5: {
-        fontFamily: ["Playfair Display", "Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 16,
+        fontFamily: ["Inter", "sans-serif"].join(","),
+        fontSize: 19,
+        lineHeight: 1.5,
       },
       h6: {
-        fontFamily: ["Playfair Display", "Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: 14,
       },
     },

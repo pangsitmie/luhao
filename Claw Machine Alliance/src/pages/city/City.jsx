@@ -102,10 +102,10 @@ const City = () => {
     return (
         <Box transition-style="in:circle:top-left">
             <Box height={"95vh"} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
-                <Typography onClick={handleClick} variant="h2" sx={{ textAlign: "center", fontSize: "1.5rem", fontWeight: "500", color: "#0A130D", textTransform: "uppercase" }}>
-                    ALL AVAILABLE AREAS IN
+                <Typography onClick={handleClick} variant="h3" sx={{ textAlign: "center", color: "#2D3436" }}>
+                    Places you might be <span>interested</span> in
                 </Typography>
-                <Typography variant="h2" sx={{ textAlign: "center", fontSize: "5rem", fontWeight: "600", color: "#0A130D", textTransform: "uppercase" }}>
+                <Typography variant="h1" sx={{ textAlign: "center", color: "#2D3436", textTransform: "capitalize" }}>
                     {state.data}
                 </Typography>
             </Box>

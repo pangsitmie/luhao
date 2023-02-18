@@ -25,13 +25,13 @@ const Main = () => {
     const colors = tokens(theme.palette.mode);
     return (
         <>
-            <Box p={"8rem 0"} >
+            <Box height={"90vh"} display={"flex"} alignItems={"center"}>
                 <img src={HERO_BG} className={"hero_bg"} alt="" />
                 <Box className="hero" >
-                    <Box p={" 0 5rem"}>
-                        <p className='tagline_text'>{t('claw_machine_title1')}</p>
-                        <p className='tagline_text2'>{t('claw_machine_title2')}</p>
-                        <p className='tagline_text3'>{t('claw_machine_title3')}</p>
+                    <Box className={"container"} >
+                        <Typography variant="h1" sx={{ color: "#270143", mb: "1rem" }} >{t('claw_machine_title1')}</Typography>
+                        <Typography variant="h3" sx={{ color: "#270143", mb: "3rem" }} >{t('claw_machine_title2')}</Typography>
+                        <Typography className={"textW50"} variant="h5" sx={{ color: "#2D3436" }} >{t('claw_machine_title3')}</Typography>
                     </Box>
                 </Box >
             </Box>
@@ -41,39 +41,38 @@ const Main = () => {
 
 
             {/* FIND THE BEST AREA CONTENT */}
-            <Box className={"hero_content"}>
-                <Box>
+            <Box className={"hero_content container"}>
+                <Box >
                     <Box>
-                        <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#87AE2D", mb: "1rem" }}>
+                        <Typography variant="h2" sx={{ color: "#2D3436" }} >
                             {t('find_the_best')}
                         </Typography>
-                        <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#87AE2D", mb: "1rem" }}>
+                        <Typography variant="h1" sx={{ color: "#87AE2D", mb: "1rem" }} >
                             {t('area')}
                         </Typography>
-                        <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                        <Typography variant="h5" sx={{ color: "#2D3436", mb: "1rem" }}>
                             {t('area_tagline1')}
                         </Typography>
                     </Box>
-                    <Box display={"flex"} gap={"5rem"} mt={"3rem"}>
+                    <Box display={"flex"} gap={"2rem"} mt={"3rem"}>
                         <Box width={"100%"}>
                             <LocationSearchingIcon sx={{ fontSize: "40px", color: "#87AE2D", mb: "1rem" }} />
-                            <Typography variant="h2" sx={{ fontSize: "20px", fontWeight: "600", color: "#484848", mb: "1rem" }}>
+                            <Typography variant="h4" sx={{ color: "#484848", mb: "1rem" }}>
                                 {t('area_subtitle1')}
                             </Typography>
-                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                            <Typography variant="h5" sx={{ color: "#2D3436", mb: "1rem" }}>
                                 {t('area_desc1')}
                             </Typography>
                         </Box>
                         <Box width={"100%"}>
                             <LocationOnIcon sx={{ fontSize: "40px", color: "#87AE2D", mb: "1rem" }} />
-                            <Typography variant="h2" sx={{ fontSize: "20px", fontWeight: "600", color: "#484848", mb: "1rem" }}>
+                            <Typography variant="h4" sx={{ color: "#484848", mb: "1rem" }}>
                                 {t('area_subtitle2')}
                             </Typography>
-                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                            <Typography variant="h5" sx={{ color: "#2D3436", mb: "1rem" }}>
                                 {t('area_desc2')}
                             </Typography>
                         </Box>
-
                     </Box>
                 </Box>
                 <Box className={"hero_content_img"}>
@@ -84,21 +83,21 @@ const Main = () => {
             {/* FIND YOUR FAV BRANDS */}
             <Box p={"10rem 5rem"} className={"fav_brands"}>
                 <Box display={"flex"} justifyContent={"center"}>
-                    <img src={SHOP_3D} alt="" />
+                    <img src={SHOP_3D} width="600px" alt="" />
                 </Box>
                 <Box >
-                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "70px", fontWeight: "bold", color: "#182E58", mb: "1rem" }}>
+                    <Typography variant="h2" sx={{ color: "#2D3436", textAlign: "right" }} >
                         {t('popular')}
                     </Typography>
-                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "70px", fontWeight: "bold", color: "#182E58", mb: "1rem" }}>
+                    <Typography variant="h1" sx={{ color: "#182E58", textAlign: "right", mb: "1rem" }} >
                         {t('brands')}
                     </Typography>
-                    <Typography variant="h2" sx={{ textAlign: "right", fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                    <Typography variant="h5" sx={{ color: "#2D3436", textAlign: "right", mb: "4rem" }} >
                         {t('brand_tagline')}
                     </Typography>
                     <Box display="flex" justifyContent="flex-end" pt={"1rem"}>
                         <button className="btn_transparent">
-                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#181818" }}>
+                            <Typography variant="h5" sx={{ color: "#2D3436" }}>
                                 {t('view_brands')}
                             </Typography>
                         </button>
@@ -110,18 +109,18 @@ const Main = () => {
 
             <Box className={"map_content"} >
                 <Box>
-                    <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#ED6B6C", mb: "1rem" }}>
+                    <Typography variant="h1" sx={{ color: "#ED6B6C" }} >
                         {t('check_out_our')}
                     </Typography>
-                    <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#ED6B6C", mb: "1rem" }}>
+                    <Typography variant="h1" sx={{ color: "#ED6B6C", mb: "1rem" }} >
                         {t('map')}
                     </Typography>
-                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
+                    <Typography variant="h5" sx={{ color: "#2D3436", mb: "4rem" }}>
                         {t('map_tagline')}
                     </Typography>
                     <Box display="flex" pt={"1rem"}>
                         <button className="btn_transparent">
-                            <Typography variant="h2" sx={{ fontSize: "18px", color: "#181818" }}>
+                            <Typography variant="h5" sx={{ color: "#2D3436" }}>
                                 {t('map_btn')}
                             </Typography>
                         </button>
@@ -169,7 +168,7 @@ const Main = () => {
             {/* STORE CAROUSEL */}
             <Box p={"10rem 0rem 2rem 0rem"} position={"relative"} sx={{ background: "linear-gradient(180deg, #332258, #111116)" }} >
                 <Box>
-                    <Typography variant="h2" sx={{ textAlign: "center", fontSize: "4.2rem", fontWeight: "bold", color: colors.grey[100], mb: "3rem" }}>
+                    <Typography variant="h1" sx={{ color: "#FFFFFF", textAlign: "center", mb: "4rem" }} >
                         {t('locations')}
                     </Typography>
                 </Box>

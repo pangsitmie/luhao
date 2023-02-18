@@ -37,18 +37,17 @@ const Carousel = () => {
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
-                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
+                                <Typography variant="h2" sx={{ color: "#fff", mb: "1rem" }}>
                                     Taichung
                                 </Typography>
 
-                                <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
+                                <Typography variant="h5" sx={{ color: colors.grey[100], mb: "4rem" }}>
                                     {t('location_desc')}
                                 </Typography>
-
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
                                 <button className='btn_transparent'>
-                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFF" }}>
+                                    <Typography variant="h5" sx={{ color: "#FFF" }}>
                                         View Locations
                                     </Typography>
                                 </button>
@@ -67,17 +66,17 @@ const Carousel = () => {
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
-                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
-                                    Taipei
+                                <Typography variant="h2" sx={{ color: "#fff", mb: "1rem" }}>
+                                    Changhua
                                 </Typography>
 
-                                <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
+                                <Typography variant="h5" sx={{ color: colors.grey[100], mb: "4rem" }}>
                                     {t('location_desc')}
                                 </Typography>
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
                                 <button className='btn_transparent'>
-                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFF" }}>
+                                    <Typography variant="h5" sx={{ color: "#FFF" }}>
                                         View Locations
                                     </Typography>
                                 </button>
@@ -96,17 +95,17 @@ const Carousel = () => {
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
-                                <Typography variant="h2" sx={{ fontSize: "42px", fontWeight: "600", color: "#fff", lineHeight: "1.4", mb: "1rem" }}>
-                                    Tainan
+                                <Typography variant="h2" sx={{ color: "#fff", mb: "1rem" }}>
+                                    Yunlin
                                 </Typography>
 
-                                <Typography variant="h2" sx={{ fontSize: "18px", color: colors.grey[100], lineHeight: "1.5", mb: "4rem" }}>
+                                <Typography variant="h5" sx={{ color: colors.grey[100], mb: "4rem" }}>
                                     {t('location_desc')}
                                 </Typography>
                             </Box>
                             <Box position={"absolute"} bottom={"3rem"} >
                                 <button className='btn_transparent'>
-                                    <Typography variant="h2" sx={{ fontSize: "18px", color: "#FFF" }}>
+                                    <Typography variant="h5" sx={{ color: "#FFF" }}>
                                         View Locations
                                     </Typography>
                                 </button>

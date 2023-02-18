@@ -22,9 +22,7 @@ const Header = () => {
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(location.pathname);
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+
 
 
     return (
@@ -35,9 +33,10 @@ const Header = () => {
             <Box display="flex" alignItems={"center"}>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="/map">
-                        <Typography variant="h2" sx={{
-                            textAlign: "center", fontSize: "1rem", fontWeight: "500",
-                            color: currentPage === "/" ? "#fff" : "#1e1e1e",
+                        <Typography variant="h5" sx={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            color: currentPage === "/" ? "#fff" : "#2D3436",
                         }}>
                             Map
                         </Typography>
@@ -45,9 +44,10 @@ const Header = () => {
                 </Box>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="#">
-                        <Typography variant="h2" sx={{
-                            textAlign: "center", fontSize: "1rem", fontWeight: "500",
-                            color: currentPage === "/" ? "#fff" : "#1e1e1e",
+                        <Typography variant="h5" sx={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            color: currentPage === "/" ? "#fff" : "#2D3436",
                         }}>
                             Brands
                         </Typography>
@@ -61,9 +61,10 @@ const Header = () => {
 
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="#">
-                        <Typography variant="h2" sx={{
-                            textAlign: "center", fontSize: "1rem", fontWeight: "500",
-                            color: currentPage === "/" ? "#fff" : "#1e1e1e",
+                        <Typography variant="h5" sx={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            color: currentPage === "/" ? "#fff" : "#2D3436",
                         }}>
                             Stores
                         </Typography>
@@ -71,9 +72,10 @@ const Header = () => {
                 </Box>
                 <Box margin={"0 2rem"} className="header_item">
                     <a href="/about">
-                        <Typography variant="h2" sx={{
-                            textAlign: "center", fontSize: "1rem", fontWeight: "500",
-                            color: currentPage === "/" ? "#fff" : "#1e1e1e",
+                        <Typography variant="h5" sx={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            color: currentPage === "/" ? "#fff" : "#2D3436",
                         }}>
                             About
                         </Typography>

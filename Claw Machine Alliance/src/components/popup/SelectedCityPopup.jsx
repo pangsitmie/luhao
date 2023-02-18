@@ -12,17 +12,17 @@ const SelectedCityPopup = (props) => {
 
     const { selectedCity } = props;
     return (
-        <Box backgroundColor={"#E6E6E6"} borderRadius={"12px"} p={"2rem"}>
-            <Typography variant="h2" sx={{ fontSize: "26px", fontWeight: "bold", color: "#0A130D", mb: "1.5rem", textAlign: "left", textTransform: "capitalize" }}>
+        <Box backgroundColor={"#FFFFFF"} borderRadius={"20px"} p={"2rem"} boxShadow={"0px 8px 15px rgba(0, 0, 0, 0.2)"}>
+            <Typography variant="h3" sx={{ color: "#639E23", mb: "1.5rem", textAlign: "left", textTransform: "capitalize" }}>
                 {selectedCity}
             </Typography>
 
-            <Typography variant="h3" sx={{ fontSize: "16px", color: "#484848", mb: "4rem", textAlign: "left" }}>
+            <Typography variant="h5" sx={{ color: "#484848", mb: "4rem", textAlign: "left" }}>
                 Our map feature takes the guesswork out of finding the best locations, giving you access to up-to-date informa
             </Typography>
 
             <button className="btn_transparent" onClick={() => handleCityClick(selectedCity)}>
-                <Typography variant="h2" sx={{ fontSize: "18px", textTransform: "capitalize", color: "#181818" }}>
+                <Typography variant="h5" sx={{ color: "#2D3436", textTransform: "capitalize" }}>
                     {selectedCity} Locations
                 </Typography>
             </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, Typography, useTheme, Button } from '@mui/material'
 import { tokens } from "../../theme";
 
@@ -14,6 +14,11 @@ import SelectedCityPopup from 'src/components/popup/SelectedCityPopup';
 import CityListView from 'src/components/listView/CityListView';
 import RecommendedLocations from 'src/components/recommendedLocations/RecommendedLocations';
 
+import YELLOW_BOTTOM from 'src/assets/yellow_bottom.png';
+import YELLOW_TOP from 'src/assets/yellow_top1.png';
+import WIGGLE from 'src/assets/wiggle.png';
+
+
 const Map = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -24,78 +29,84 @@ const Map = () => {
         setSelectedCity(city);
     }
 
+    useEffect(() => {
+        // Preload images
+        const images = [TAIWAN_MAP_TAICHUNG, TAIWAN_MAP_CHANGHUA, TAIWAN_MAP_YUNLIN];
+        images.forEach((img) => {
+            new Image().src = img;
+        });
+    }, []);
+
     return (
-        <>
-            <Box className={"sea_bg"}>
-                {/* first row */}
-                <Box className={"map_intro"}>
-                    <Box >
-                        <Typography variant="h2" sx={{ fontSize: "70px", fontWeight: "bold", color: "#070607", mb: "1.5rem" }}>
-                            TAIWAN MAP
-                        </Typography>
-                        <Typography variant="h2" sx={{ fontSize: "18px", color: "#484848", mb: "1rem", lineHeight: "28px" }}>
-                            Our map feature takes the guesswork out of finding the best locations, giving you access to up-to-date information on high-quality stores all in one place.
-                        </Typography>
-                    </Box>
-                    {/* selected City popup componenet */}
-                    <SelectedCityPopup selectedCity={selectedCity} />
+        <Box position={"relative"}>
+            {/* first row */}
+            <Box className={"map_intro"}>
+                <Box >
+                    <Typography variant="h1" sx={{ color: "#2D3436", mb: "1.5rem" }}>
+                        We are <span className='green'>everywhere</span>
+                    </Typography>
+                    <Typography variant="h5" sx={{ color: "#2D3436", width: "50%", mb: "1rem", lineHeight: "28px" }}>
+                        Our map feature takes the guesswork out of finding the best locations, giving you access to up-to-date information on high-quality stores all in one place.
+                    </Typography>
                 </Box>
+            </Box>
 
-                <Box className={"map_list"}>
-                    <Box display={"flex"} flexDirection={"column"} alignItems={"center"} width={"100%"}>
-                        {/* SELECT CITY FROM HERE */}
-                        <Typography variant="h2" sx={{ fontSize: "30px", fontWeight: "bold", color: "#0A130D", mb: "1.5rem" }}>
-                            Select Location
-                        </Typography>
-                        <CityListView selectedCity={selectedCity} onSelectCity={handleSelectedCity} />
+            <Box className={"map_list"}>
+                <Box display={"flex"} flexDirection={"column"} alignItems={"center"}  >
+                    {/* SELECT CITY FROM HERE */}
+                    <Typography variant="h2" sx={{ fontSize: "30px", fontWeight: "bold", color: "#0A130D", mb: "1.5rem" }}>
+                        Select Location
+                    </Typography>
+                    <CityListView selectedCity={selectedCity} onSelectCity={handleSelectedCity} />
+                </Box>
+                <Box className={"taiwan_map"} position={"relative"}>
+                    {/* selected City popup componenet */}
+                    <Box position={"relative"}>
+                        <Box className={"wiggle"}>
+                        </Box>
+                        <SelectedCityPopup selectedCity={selectedCity} />
+
                     </Box>
-                    <Box className={"taiwan_map"}>
-                        {selectedCity === "taichung" && <img src={TAIWAN_MAP_TAICHUNG} />}
-                        {selectedCity === "changhua" && <img src={TAIWAN_MAP_CHANGHUA} />}
-                        {selectedCity === "yunlin" && <img src={TAIWAN_MAP_YUNLIN} />}
-                        {/* add more images and conditions for other cities */}
-                    </Box>
 
-
+                    <img
+                        src={
+                            selectedCity === "taipei"
+                                ? TAIWAN_MAP_TAICHUNG
+                                : selectedCity === "taichung"
+                                    ? TAIWAN_MAP_TAICHUNG
+                                    : selectedCity === "changhua"
+                                        ? TAIWAN_MAP_CHANGHUA
+                                        : selectedCity === "yunlin"
+                                            ? TAIWAN_MAP_YUNLIN
+                                            : selectedCity === "chiayi"
+                                                ? TAIWAN_MAP_YUNLIN
+                                                : selectedCity === "kaoshiung"
+                                                    ? TAIWAN_MAP_YUNLIN
+                                                    : selectedCity === "tainan"
+                                                        ? TAIWAN_MAP_YUNLIN
+                                                        : null
+                        }
+                    />
                 </Box>
             </Box>
 
 
-            {/* <Box p={"5rem"}>
-                <Typography variant="h2" sx={{ fontSize: "60px", textAlign: "center", fontWeight: "bold", color: "#070607", mb: "1.5rem" }}>
-                    RECOMMENDED LOCATIONS
+            <Box className={"container"}>
+
+                <Typography variant="h2" sx={{ textAlign: "center", color: "#2D3436", mb: "1.5rem" }}>
+                    Popular Spots
                 </Typography>
+                <Typography variant="h3" sx={{ textAlign: "center", color: "#ADADAD", mb: "1.5rem" }}>
+                    Our best <span>recommendation</span> • for you
+                </Typography>
+
+            </Box>
+            <img className='yellow_bottom' src={YELLOW_BOTTOM} alt="" />
+            <img className='yellow_top' src={YELLOW_TOP} alt="" />
+            <Box>
                 <RecommendedLocations />
-            </Box> */}
-
-            {/* button that handles click event */}
-            {/* <PinpointBtn
-                props={{
-                    title: "臺中",
-                    city: "taichung",
-                    top: "50%",
-                    left: "20%"
-                }}
-            />
-
-            <PinpointBtn
-                props={{
-                    title: "彰化",
-                    city: "changhua",
-                    top: "56%",
-                    left: "15%"
-                }}
-            />
-
-            <PinpointBtn
-                props={{
-                    title: "雲林",
-                    city: "yunlin",
-                    top: "65%",
-                    left: "12%"
-                }}
-            /> */}
-        </>
+            </Box>
+        </Box>
     )
 }
 
