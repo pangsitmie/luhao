@@ -16,13 +16,6 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-
-            {/* <div className="footer__copyright">
-                <small>
-                    <a href="https://roundbytes.com">&copy; </a>
-                    雲程在線
-                </small>
-            </div> */}
         </footer >
     )
 }

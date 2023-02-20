@@ -1,23 +1,18 @@
 .item_top {
-    height: 100px;
-    padding: 8px;
-    border-width: 1px;
+    height: 90px;
+    padding: 5px;
     border-radius: 20px 20px 0 0;
-    border-style: solid;
 }
 
 .item {
-    height: 100px;
-    padding: 8px;
-    border-style: solid;
+    height: 90px;
+    padding: 5px;
 }
 
 .item_bottom {
-    height: 100px;
-    padding: 8px;
-    border-width: 0 1px 1px 1px;
+    height: 90px;
+    padding: 5px;
     border-radius: 0 0 20px 20px;
-    border-style: solid;
 }
 
 .item_inner {

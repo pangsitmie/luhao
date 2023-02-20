@@ -12,6 +12,7 @@ import Map from "./pages/map/Map";
 import Main from "./pages/main/Main";
 import About from "./pages/about/About";
 import NotFound from "./components/404/NotFound";
+import Copy from "./components/copy/Copy";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route exact path="/about" element={<About />} />
         </Routes>
         <Footer />
+        <Copy />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

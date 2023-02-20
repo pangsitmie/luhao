@@ -28,18 +28,23 @@ const LanguageDropdown = () => {
 
     return (
         <>
-            <Button onClick={toggleSubmenu4} className="menu-item sub__menus__arrows" > <Link to="#"><PublicIcon sx={{ color: "#fff" }} /><br /></Link>
+            <Button sx={{ background: "transparent" }} onClick={toggleSubmenu4} className="menu-item sub__menus__arrows" >
+                <Link ><PublicIcon sx={{ color: "#Fefefe" }} /></Link>
                 <ul className={boxClassSubMenu4.join(' ')} >
-                    <li><NavLink onClick={() => i18next.changeLanguage('en')} activeClassName='is-active'>
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "12px", fontWeight: "600", color: "#cecece" }}>
-                            EN
-                        </Typography>
-                    </NavLink> </li>
-                    <li><NavLink onClick={() => i18next.changeLanguage('tw')} activeClassName='is-active'>
-                        <Typography variant="h2" sx={{ textAlign: "center", fontSize: "12px", fontWeight: "600", color: "#cecece" }}>
-                            中文
-                        </Typography>
-                    </NavLink> </li>
+                    <li>
+                        <NavLink onClick={() => i18next.changeLanguage('en')} activeClassName='is-active'>
+                            <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "center", color: "#D1D1D1" }}>
+                                EN
+                            </Typography>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink onClick={() => i18next.changeLanguage('tw')} activeClassName='is-active'>
+                            <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "center", color: "#D1D1D1" }}>
+                                中文
+                            </Typography>
+                        </NavLink>
+                    </li>
                 </ul>
             </Button>
         </>

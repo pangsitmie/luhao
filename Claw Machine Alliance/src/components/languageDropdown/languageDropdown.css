@@ -1,12 +1,11 @@
 .sub__menus {
     position: absolute;
     display: none;
-    background: rgba(168, 168, 168, 0.1);
+    background: rgba(238, 238, 238, 0.3);
     border: transparent;
     border-radius: 20px;
     overflow: hidden;
-    border-color: var(--color-white);
-    transition: height var(--speed) ease;
+    transition: all 0.3s ease-in-out;
     width: 150px;
     right: 20px;
     top: 0px;
@@ -15,27 +14,35 @@
     box-shadow: 0 10px 12px rgb(22 33 39 / 25%);
 }
 
+.menu-item:hover {
+    background: transparent;
+}
+
 .menu-item .sub__menus a {
     padding: 0px 0 0px 0;
     margin: 7px 20px;
 }
 
 .menu-item:hover>a {
-    -webkit-text-fill-color: #fff;
+    -webkit-text-fill-color: #1e1e1e;
+    background: transparent;
 }
 
 .menu-item .sub__menus li:hover a {
-    -webkit-text-fill-color: #fff;
+    -webkit-text-fill-color: #1e1e1e;
 }
 
 @media (min-width:992px) {
     .sub__menus__arrows:hover .sub__menus {
         display: block;
+        background-color: transparent;
     }
 
     .sub__menus__arrows__full:hover .sub__menus {
         display: block;
         z-index: 1000000;
+        background-color: transparent;
+
     }
 }
 
@@ -110,6 +117,7 @@
         display: block !important;
         margin: 0 auto;
         background: var(--color-bg);
+        color: #1e1e1e;
         left: 0;
         right: 0;
     }

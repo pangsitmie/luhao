@@ -24,6 +24,7 @@
     }
 
     .hero_content {
+        display: flex;
         flex-direction: column;
     }
 
@@ -38,12 +39,12 @@
 }
 
 .hero_content {
-    /* display: grid;
-    grid-template-columns: 50% 45%;
+    display: grid;
+    grid-template-columns: 60% 35%;
     gap: 5%;
-    padding: 2rem 5rem 10rem; */
-    display: flex;
     padding: 2rem 5rem 10rem;
+    /* display: flex;
+    padding: 2rem 5rem 10rem; */
 }
 
 .hero_content_img {

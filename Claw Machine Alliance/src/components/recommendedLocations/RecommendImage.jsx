@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Icon, Typography } from '@mui/material'
 import React from 'react'
+import GOOGLE_MAP_ICON from '../../assets/google_map_icon.png'
 
 const RecommendImage = ({ props }) => {
 
@@ -22,6 +23,45 @@ const RecommendImage = ({ props }) => {
         height: "100%",
         borderRadius: "20px",
         zIndex: 1,
+    };
+
+    const circleBoxStyle = {
+        width: "50px",
+        height: "50px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "absolute",
+        top: "1rem",
+        right: "1rem",
+        backgroundColor: "white",
+        borderRadius: "50%",
+        padding: ".5rem",
+        zIndex: 3000,
+        transition: "transform 0.2s ease-in-out",
+        "&:hover": {
+            transform: "scale(1.1)",
+            cursor: "pointer",
+        },
+    };
+    const circleBoxStyleNoTitle = {
+        width: "50px",
+        height: "50px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "absolute",
+        bottom: "1rem",
+        left: "1rem",
+        backgroundColor: "white",
+        borderRadius: "50%",
+        padding: ".5rem",
+        zIndex: 3000,
+        transition: "transform 0.2s ease-in-out",
+        "&:hover": {
+            transform: "scale(1.1)",
+            cursor: "pointer",
+        },
     };
 
     return (
@@ -52,6 +92,20 @@ const RecommendImage = ({ props }) => {
                     {props.title}
                 </Typography>
             </Box>
+
+            {props.googleMapURL && (
+                <a href={props.googleMapURL} target={"_blank"}>
+                    {props.title ? (
+                        <Box sx={circleBoxStyle}>
+                            <img src={GOOGLE_MAP_ICON} width={"100%"} alt="" />
+                        </Box>
+                    ) : (
+                        <Box sx={circleBoxStyleNoTitle}>
+                            <img src={GOOGLE_MAP_ICON} width={"100%"} alt="" />
+                        </Box>
+                    )}
+                </a>
+            )}
         </Box>
     )
 }

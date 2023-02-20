@@ -5,7 +5,6 @@ footer {
     background-color: #111116;
     /* background: linear-gradient(to right, #2c2833, #1B1821); */
     color: #fff;
-    padding: 1rem;
 }
 
 footer a {
@@ -69,12 +68,6 @@ footer a {
     transition: var(--transition);
 }
 
-.footer__copyright {
-    margin-bottom: .5rem;
-    font-size: 1rem;
-    color: var(--color-white);
-    text-align: center;
-}
 
 
 /* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */

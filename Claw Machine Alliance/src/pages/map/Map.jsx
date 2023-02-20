@@ -3,10 +3,14 @@ import { Box, Typography, useTheme, Button } from '@mui/material'
 import { tokens } from "../../theme";
 
 
-
+import TAIWAN_MAP_TAIPEI from "src/assets/taiwan_map_taipei.png";
 import TAIWAN_MAP_TAICHUNG from "src/assets/taiwan_map_taichung.png";
 import TAIWAN_MAP_CHANGHUA from "src/assets/taiwan_map_changhua.png";
 import TAIWAN_MAP_YUNLIN from "src/assets/taiwan_map_yunlin.png";
+import TAIWAN_MAP_CHIAYI from "src/assets/taiwan_map_chiayi.png";
+import TAIWAN_MAP_TAINAN from "src/assets/taiwan_map_tainan.png";
+import TAIWAN_MAP_KAOSHIUNG from "src/assets/taiwan_map_kaoshiung.png";
+
 
 
 import "./map.css";
@@ -17,9 +21,13 @@ import RecommendedLocations from 'src/components/recommendedLocations/Recommende
 import YELLOW_BOTTOM from 'src/assets/yellow_bottom.png';
 import YELLOW_TOP from 'src/assets/yellow_top1.png';
 import WIGGLE from 'src/assets/wiggle.png';
+import { useTranslation } from 'react-i18next';
 
 
 const Map = () => {
+    const { t } = useTranslation();
+
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -38,24 +46,24 @@ const Map = () => {
     }, []);
 
     return (
-        <Box position={"relative"}>
+        <Box position={"relative"} >
             {/* first row */}
-            <Box className={"map_intro"}>
+            <Box className={"map_intro"} >
                 <Box >
                     <Typography variant="h1" sx={{ color: "#2D3436", mb: "1.5rem" }}>
-                        We are <span className='green'>everywhere</span>
+                        {t('map_title')} <span className='green'>{t('map_title_span')}</span>
                     </Typography>
-                    <Typography variant="h5" sx={{ color: "#2D3436", width: "50%", mb: "1rem", lineHeight: "28px" }}>
-                        Our map feature takes the guesswork out of finding the best locations, giving you access to up-to-date information on high-quality stores all in one place.
+                    <Typography variant="h4" sx={{ color: "#ADADAD", width: "50%", mb: "1rem" }}>
+                        {t('map_desc')}
                     </Typography>
                 </Box>
             </Box>
 
-            <Box className={"map_list"}>
+            <Box className={"map_list"} >
                 <Box display={"flex"} flexDirection={"column"} alignItems={"center"}  >
                     {/* SELECT CITY FROM HERE */}
-                    <Typography variant="h2" sx={{ fontSize: "30px", fontWeight: "bold", color: "#0A130D", mb: "1.5rem" }}>
-                        Select Location
+                    <Typography variant="h3" sx={{ color: "#ADADAD", mb: "1.5rem" }}>
+                        {t('select_location')}
                     </Typography>
                     <CityListView selectedCity={selectedCity} onSelectCity={handleSelectedCity} />
                 </Box>
@@ -71,7 +79,7 @@ const Map = () => {
                     <img
                         src={
                             selectedCity === "taipei"
-                                ? TAIWAN_MAP_TAICHUNG
+                                ? TAIWAN_MAP_TAIPEI
                                 : selectedCity === "taichung"
                                     ? TAIWAN_MAP_TAICHUNG
                                     : selectedCity === "changhua"
@@ -79,11 +87,11 @@ const Map = () => {
                                         : selectedCity === "yunlin"
                                             ? TAIWAN_MAP_YUNLIN
                                             : selectedCity === "chiayi"
-                                                ? TAIWAN_MAP_YUNLIN
-                                                : selectedCity === "kaoshiung"
-                                                    ? TAIWAN_MAP_YUNLIN
-                                                    : selectedCity === "tainan"
-                                                        ? TAIWAN_MAP_YUNLIN
+                                                ? TAIWAN_MAP_CHIAYI
+                                                : selectedCity === "tainan"
+                                                    ? TAIWAN_MAP_TAINAN
+                                                    : selectedCity === "kaoshiung"
+                                                        ? TAIWAN_MAP_KAOSHIUNG
                                                         : null
                         }
                     />

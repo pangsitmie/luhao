@@ -158,9 +158,12 @@ function App() {
                     <Navigate to="/404" />
                   )}
                 </Routes>
+
               </Suspense>
             </main>
+
           </div>
+
         </ThemeProvider>
       </ColorModeContext.Provider>
     </React.Fragment>

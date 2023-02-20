@@ -30,8 +30,8 @@ const Main = () => {
                 <Box className="hero" >
                     <Box className={"container"} >
                         <Typography variant="h1" sx={{ color: "#270143", mb: "1rem" }} >{t('claw_machine_title1')}</Typography>
-                        <Typography variant="h3" sx={{ color: "#270143", mb: "3rem" }} >{t('claw_machine_title2')}</Typography>
-                        <Typography className={"textW50"} variant="h5" sx={{ color: "#2D3436" }} >{t('claw_machine_title3')}</Typography>
+                        <Typography variant="h3" sx={{ color: "#2D3436", mb: "3rem" }} >{t('claw_machine_title2')} <span>{t('claw_machine_title3')}</span></Typography>
+                        <Typography className={"textW50"} variant="h5" sx={{ color: "#2D3436" }} >{t('claw_machine_tagline')}</Typography>
                     </Box>
                 </Box >
             </Box>

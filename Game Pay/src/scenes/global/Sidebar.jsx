@@ -4,6 +4,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
+import Copy from "src/components/copy/Copy";
 
 // ICONS
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -495,6 +496,7 @@ const Sidebar = () => {
             }
           </Box>
         </Menu>
+        <Copy />
         <a href="https://roundbytes.com/" rel="dofollow"></a>
       </ProSidebar>
     </Box>

@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 import { taichung, changhua, yunlin } from "src/data/data";
 import { CSSTransition } from 'react-transition-group';
+import TAICHUNG_DETAIL_MAP from "src/assets/taichung_detail_map.png";
 
 
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
@@ -100,7 +101,7 @@ const City = () => {
     }
 
     return (
-        <Box transition-style="in:circle:top-left">
+        <Box transition-style="in:circle:hesitate">
             <Box height={"95vh"} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
                 <Typography onClick={handleClick} variant="h3" sx={{ textAlign: "center", color: "#2D3436" }}>
                     Places you might be <span>interested</span> in
@@ -110,49 +111,61 @@ const City = () => {
                 </Typography>
             </Box>
 
-            {isLoaded ? (
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={center}
-                    zoom={12}
-                    onLoad={onLoad}
-                    onUnmount={onUnmount}
-                    onDrag={() => setPopupVisibility(false)}
-                    onClick={() => setPopupVisibility(false)}
-                >
-                    { /* Child components, such as markers, info windows, etc. */}
-                    {data.map((item) => (
-                        <MarkerF
-                            key={item.title}
-                            position={item.coordinates}
-                            onClick={(event) => {
-                                handleMarkerClick(item);
-                                handleClick(event);
-                            }}
-                        />
-                    ))}
 
-                    {isPopupVisible && (
-                        <CSSTransition
-                            in={isPopupVisible}
-                            timeout={10000}
-                            classNames="fade"
-                            unmountOnExit
-                        >
-                            <LocationDialog
-                                props={selectedMarker}
-                                closePopup={() => setPopupVisibility(false)}
-                                top={dialogPosition.top}
-                                left={dialogPosition.left}
-                                visible={isPopupVisible}
-                            />
-                        </CSSTransition>
-                    )}
-                </GoogleMap>
-            ) : <></>}
+            {/* google map componenet dibawah */}
 
-        </Box>
+            <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                <img src={TAICHUNG_DETAIL_MAP} width={"100%"} alt="" />
+
+            </Box>
+
+        </Box >
     )
 }
 
 export default City
+
+
+
+
+/*
+{isLoaded ? (
+    <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={12}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        onDrag={() => setPopupVisibility(false)}
+        onClick={() => setPopupVisibility(false)}
+    >
+        {data.map((item) => (
+            <MarkerF
+                key={item.title}
+                position={item.coordinates}
+                onClick={(event) => {
+                    handleMarkerClick(item);
+                    handleClick(event);
+                }}
+            />
+        ))}
+
+        {isPopupVisible && (
+            <CSSTransition
+                in={isPopupVisible}
+                timeout={10000}
+                classNames="fade"
+                unmountOnExit
+            >
+                <LocationDialog
+                    props={selectedMarker}
+                    closePopup={() => setPopupVisibility(false)}
+                    top={dialogPosition.top}
+                    left={dialogPosition.left}
+                    visible={isPopupVisible}
+                />
+            </CSSTransition>
+        )}
+    </GoogleMap>
+) : <></>}
+*/

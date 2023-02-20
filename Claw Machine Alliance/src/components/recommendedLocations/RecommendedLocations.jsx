@@ -5,46 +5,44 @@ import RecommendImage from './RecommendImage'
 
 
 import FENGJIA from 'src/assets/fengjia.jpeg'
-import RAMEN1 from 'src/assets/ramen1.jpg'
+import TC_MUSEUM from 'src/assets/taichung_museum.jpg'
+import YIZHONG from 'src/assets/yizhong.jpg'
+import SECOND_MARKET from 'src/assets/second_market.webp'
 import RAMEN2 from 'src/assets/ramen2.jpg'
-import DDL1 from 'src/assets/duoduolong1.jpg'
-import DDL2 from 'src/assets/duoduolong2.jpg'
+import DDL from 'src/assets/duoduolong2.jpg'
 import TAICHUNG_THEATER from 'src/assets/taichung_theater.jpeg'
 
 const RecommendedLocations = () => {
-
-
-
     const items = [
         {
             image: FENGJIA,
             title: "Fengjia",
-            googleMapURL: "https://goo.gl/maps/4Z9Z9Z9Z9Z9Z9Z9Z9",
+            googleMapURL: "https://goo.gl/maps/mGw7E45EWYjKkUYX7",
         },
         {
-            image: RAMEN1,
-            title: "Ichiran Ramen",
-            googleMapURL: "https://goo.gl/maps/4Z9Z9Z9Z9Z9Z9Z9Z",
+            image: SECOND_MARKET,
+            title: "2nd Market",
+            googleMapURL: "https://goo.gl/maps/ajViBmER12uCeaqYA",
         },
         {
-            image: RAMEN2,
+            image: YIZHONG,
             title: null,
-            googleMapURL: null,
+            googleMapURL: "null",
         },
         {
-            image: DDL1,
+            image: TC_MUSEUM,
             title: null,
-            googleMapURL: null,
+            googleMapURL: "https://goo.gl/maps/FxF5oBmrba5DFCsG9",
         },
         {
-            image: DDL2,
+            image: DDL,
             title: "多多龍",
-            googleMapURL: null,
+            googleMapURL: "https://goo.gl/maps/LCCriFULvxquEKPE8",
         },
         {
             image: TAICHUNG_THEATER,
-            title: null,
-            googleMapURL: null,
+            title: "",
+            googleMapURL: "https://goo.gl/maps/nE9VSCRNpZNeQAnHA",
         },
     ]
 

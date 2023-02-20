@@ -5,6 +5,10 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 
 import TAICHUNG_PHONE from 'src/assets/taichung_phone.png'
+
+import TAIPEI_SLICE from 'src/assets/taipei_slice.png'
+import TAICHUNG_SLICE from 'src/assets/taichung_slice.png'
+import TAINAN_SLICE from 'src/assets/tainan_slice.png'
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -37,15 +41,15 @@ const Carousel = () => {
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
-                                <Typography variant="h2" sx={{ color: "#fff", mb: "1rem" }}>
-                                    Taichung
+                                <Typography variant="h3" sx={{ color: "#fff", mb: "1rem" }}>
+                                    {t('taichung')}
                                 </Typography>
 
                                 <Typography variant="h5" sx={{ color: colors.grey[100], mb: "4rem" }}>
-                                    {t('location_desc')}
+                                    {t('locations_tc')}
                                 </Typography>
                             </Box>
-                            <Box position={"absolute"} bottom={"3rem"} >
+                            <Box  >
                                 <button className='btn_transparent'>
                                     <Typography variant="h5" sx={{ color: "#FFF" }}>
                                         View Locations
@@ -55,7 +59,7 @@ const Carousel = () => {
                         </Box>
 
                         <Box className={"store_carousel_item_img"} >
-                            <img src={TAICHUNG_PHONE} alt="" />
+                            <img src={TAICHUNG_SLICE} alt="" />
                         </Box>
                     </Box>
                 </div>
@@ -67,14 +71,14 @@ const Carousel = () => {
                         <Box className={"store_carousel_item_content"} >
                             <Box >
                                 <Typography variant="h2" sx={{ color: "#fff", mb: "1rem" }}>
-                                    Changhua
+                                    {t('taipei')}
                                 </Typography>
 
                                 <Typography variant="h5" sx={{ color: colors.grey[100], mb: "4rem" }}>
-                                    {t('location_desc')}
+                                    {t('locations_tpe')}
                                 </Typography>
                             </Box>
-                            <Box position={"absolute"} bottom={"3rem"} >
+                            <Box  >
                                 <button className='btn_transparent'>
                                     <Typography variant="h5" sx={{ color: "#FFF" }}>
                                         View Locations
@@ -84,7 +88,7 @@ const Carousel = () => {
                         </Box>
 
                         <Box className={"store_carousel_item_img"} >
-                            <img src={TAICHUNG_PHONE} alt="" />
+                            <img src={TAIPEI_SLICE} alt="" />
                         </Box>
                     </Box>
                 </div>
@@ -95,15 +99,15 @@ const Carousel = () => {
                         {/* CONTENT */}
                         <Box className={"store_carousel_item_content"} >
                             <Box >
-                                <Typography variant="h2" sx={{ color: "#fff", mb: "1rem" }}>
-                                    Yunlin
+                                <Typography variant="h3" sx={{ color: "#fff", mb: "1rem" }}>
+                                    {t('tainan')}
                                 </Typography>
 
                                 <Typography variant="h5" sx={{ color: colors.grey[100], mb: "4rem" }}>
-                                    {t('location_desc')}
+                                    {t('locations_tainan')}
                                 </Typography>
                             </Box>
-                            <Box position={"absolute"} bottom={"3rem"} >
+                            <Box  >
                                 <button className='btn_transparent'>
                                     <Typography variant="h5" sx={{ color: "#FFF" }}>
                                         View Locations
@@ -113,7 +117,7 @@ const Carousel = () => {
                         </Box>
 
                         <Box className={"store_carousel_item_img"} >
-                            <img src={TAICHUNG_PHONE} alt="" />
+                            <img src={TAINAN_SLICE} alt="" />
                         </Box>
                     </Box>
                 </div>
