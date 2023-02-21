@@ -294,11 +294,29 @@ query GetStore($args: [StoreArgs!]!) {
 }
 `
 export const CreateMachineFromGetStores = gql`
-query GetStore($args: [StoreArgs!]!, $code: String!, $price: Int, $name: String, $description: String, $counterCheck: Boolean, $counters: [CounterArgs!]) {
+query GetStore(
+  $args: [StoreArgs!]!
+  $code: String!
+  $price: Int
+  $name: String
+  $description: String
+  $counterCheck: Boolean
+  $counters: [CounterArgs!]
+  $nfc: String
+) {
   getStore(args: $args) {
-    createMachine(code: $code, price: $price, name: $name, description: $description, counterCheck: $counterCheck, counters: $counters) 
+    createMachine(
+      code: $code
+      price: $price
+      name: $name
+      description: $description
+      counterCheck: $counterCheck
+      counters: $counters
+      nfc: $nfc
+    )
   }
 }
+
 `
 
 // ========================= MACHINES =========================
@@ -352,15 +370,34 @@ query GetMachine($args: [MachineArgs!]!) {
       price
       stock
     }
+    nfc
   }
 }
 `
 export const UpdateMachine = gql`
-query GetMachine($args: [MachineArgs!]!, $price: Float, $name: String, $description: String, $statusId: EUpdateMachineStatus, $counterCheck: Boolean, $counters: [CounterArgs!]) {
+query GetMachine(
+  $args: [MachineArgs!]!
+  $price: Float
+  $name: String
+  $description: String
+  $statusId: EUpdateMachineStatus
+  $counterCheck: Boolean
+  $counters: [CounterArgs!]
+  $nfc: String
+) {
   getMachine(args: $args) {
-    update(price: $price, name: $name, description: $description, statusId: $statusId, counterCheck: $counterCheck, counters: $counters)
+    update(
+      price: $price
+      name: $name
+      description: $description
+      statusId: $statusId
+      counterCheck: $counterCheck
+      counters: $counters
+      nfc: $nfc
+    )
   }
 }
+
 `
 
 export const BanMachine = gql`

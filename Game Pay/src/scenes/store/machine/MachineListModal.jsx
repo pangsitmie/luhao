@@ -49,6 +49,7 @@ export default function MachineListModal({ props }) {
     const [initialValues, setInitialValues] = useState({
         id: 0,
         UUID: "",
+        NFC: "",
         name: "",
         code: "",
         price: 0,
@@ -105,6 +106,7 @@ export default function MachineListModal({ props }) {
                 // ...nonNullData
                 id: nonNullData.id,
                 UUID: nonNullData.uuid,
+                NFC: nonNullData.nfc,
                 name: nonNullData.name,
                 code: nonNullData.code,
                 price: nonNullData.price,
@@ -181,7 +183,7 @@ export default function MachineListModal({ props }) {
             ],
             name: values.name,
             description: values.desc,
-
+            nfc: values.NFC,
             statusId: initialValues.status === 'banned' ? null : status,
             price: parseInt(values.price),
             counterCheck: counterCheck
@@ -350,8 +352,19 @@ export default function MachineListModal({ props }) {
                                                     </Select>
                                                 </FormControl>
                                             </Box>
-
-
+                                            <TextField className="modal_input_textfield"
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="NFC"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.NFC}
+                                                name="NFC"
+                                                error={!!touched.NFC && !!errors.NFC}
+                                                helperText={touched.NFC && errors.NFC}
+                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                            />
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
                                                 disabled={true}
@@ -366,6 +379,7 @@ export default function MachineListModal({ props }) {
                                                 helperText={touched.UUID && errors.UUID}
                                                 sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
+
                                             <Box display={"flex"} justifyContent={"center"}>
 
                                                 <TextField

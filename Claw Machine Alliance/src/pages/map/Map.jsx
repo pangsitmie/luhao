@@ -50,10 +50,10 @@ const Map = () => {
             {/* first row */}
             <Box className={"map_intro"} >
                 <Box >
-                    <Typography variant="h1" sx={{ color: "#2D3436", mb: "1.5rem" }}>
+                    <Typography variant="h1" sx={{ color: "#111", mb: "1.5rem" }}>
                         {t('map_title')} <span className='green'>{t('map_title_span')}</span>
                     </Typography>
-                    <Typography variant="h4" sx={{ color: "#ADADAD", width: "50%", mb: "1rem" }}>
+                    <Typography variant="h4" sx={{ color: "#A1A1A1", width: "50%", mb: "1rem" }}>
                         {t('map_desc')}
                     </Typography>
                 </Box>

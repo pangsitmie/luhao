@@ -3,7 +3,7 @@ import { Box, Rating, Typography, useTheme } from '@mui/material'
 import { ColorModeContext, tokens } from "../../theme";
 import MARKER_ICON from "src/assets/marker_icon.png";
 import CloseIcon from '@mui/icons-material/Close';
-import "./locationDialog.css";
+import "./dialog.css";
 import { useNavigate } from 'react-router-dom';
 
 const formatter = new Intl.NumberFormat('en-US', {

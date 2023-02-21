@@ -13,6 +13,7 @@ const checkoutSchema = yup.object().shape({
     storeId: yup.string().required("店面id必填"),
     name: yup.string().required("機台名稱必填"),
     code: yup.string().required("機台碼必填"),
+    nfc: yup.string().required("NFCID必填"),
     price: yup.string().required("機台單次花費金額必填"),
     // description: yup.string().required("備註必填"),
 });
@@ -39,6 +40,7 @@ export default function CreateMachineModal({ props }) {
         storeId: "",
         storeName: "",
         name: "",
+        nfc: "",
         code: "",
         price: "",
         description: "",
@@ -69,6 +71,7 @@ export default function CreateMachineModal({ props }) {
             ],
             name: values.name,
             code: values.code,
+            code: values.nfc,
             price: parseInt(values.price),
             counterCheck: counterCheck
         };
@@ -185,6 +188,19 @@ export default function CreateMachineModal({ props }) {
                                                 name="name"
                                                 error={!!touched.name && !!errors.name}
                                                 helperText={touched.name && errors.name}
+                                                sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                variant="filled"
+                                                type="text"
+                                                label="NFC"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.nfc}
+                                                name="nfc"
+                                                error={!!touched.nfc && !!errors.nfc}
+                                                helperText={touched.nfc && errors.nfc}
                                                 sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
                                             <Box display={"flex"}>

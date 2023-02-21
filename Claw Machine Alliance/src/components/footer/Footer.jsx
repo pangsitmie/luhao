@@ -2,12 +2,16 @@ import React from 'react'
 import './footer.css'
 import FacebookIcon from '@mui/icons-material/Facebook';
 import EmailIcon from '@mui/icons-material/Email';
+import FOOTER_LOGO from '../../assets/footer_logo.png'
+import { Box } from '@mui/material';
 const Footer = () => {
 
     return (
         <footer>
             <div className='contact_container'>
-                <div></div>
+                <Box display={"flex"} alignItems={"center"} >
+                    <img width={"100%"} height={"50px"} src={FOOTER_LOGO} alt="" />
+                </Box>
                 <div className="footer__socials">
                     <p>gcvtaichungoffice@gmail.com</p>
                     <div className='footer__socials__icons'>

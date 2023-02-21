@@ -14,7 +14,7 @@ import MAP_VECTOR from 'src/assets/map_vector.png'
 import SHOP_3D from 'src/assets/shop_3d.png'
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import HERO_BG from 'src/assets/hero_bg.png'
+import HERO_BG from 'src/assets/hero_bg1.png'
 import { useTranslation } from 'react-i18next';
 
 
@@ -25,23 +25,29 @@ const Main = () => {
     const colors = tokens(theme.palette.mode);
     return (
         <>
-            <Box height={"90vh"} display={"flex"} alignItems={"center"}>
-                <img src={HERO_BG} className={"hero_bg"} alt="" />
-                <Box className="hero" >
-                    <Box className={"container"} >
-                        <Typography variant="h1" sx={{ color: "#270143", mb: "1rem" }} >{t('claw_machine_title1')}</Typography>
-                        <Typography variant="h3" sx={{ color: "#2D3436", mb: "3rem" }} >{t('claw_machine_title2')} <span>{t('claw_machine_title3')}</span></Typography>
-                        <Typography className={"textW50"} variant="h5" sx={{ color: "#2D3436" }} >{t('claw_machine_tagline')}</Typography>
-                    </Box>
-                </Box >
+            <img src={HERO_BG} className={"hero_bg"} alt="" />
+            <Box height={"80vh"}
+                // bgcolor={"#123123"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                p={"4rem 0"}
+                flexDirection={"column"}>
+                <Box >
+                    <Typography variant="h1" sx={{ textAlign: "center", color: "#2F3547", mb: "1rem" }} >{t('claw_machine_title1')}</Typography>
+                    <Typography variant="h3" sx={{ textAlign: "center", color: "#2F3547", mb: "3rem" }} >{t('claw_machine_title2')} {t('claw_machine_title3')}</Typography>
+                </Box>
+                <Box>
+                    <Typography variant="h5" sx={{ textAlign: "center", color: "#FFF" }} >
+                        {t('claw_machine_tagline')}
+                    </Typography>
+                </Box>
             </Box>
-            <div>
-                <img src={WAVE} className={"wave_divider"} alt="" />
-            </div>
+
 
 
             {/* FIND THE BEST AREA CONTENT */}
-            <Box className={"hero_content container"}>
+            <Box className={"hero_content"} pt={"10rem"}>
                 <Box >
                     <Box>
                         <Typography variant="h2" sx={{ color: "#2D3436" }} >

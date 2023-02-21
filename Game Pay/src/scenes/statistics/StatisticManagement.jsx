@@ -65,6 +65,10 @@ const StatisticManagement = () => {
         setStartAtDate(getCurrentDate());
         setEndAtDate(getCurrentDate());
     }
+    const setYesterday = () => {
+        setStartAtDate(getYesterdayDate());
+        setEndAtDate(getCurrentDate());
+    }
 
     const setWeek = () => {
         setStartAtDate(getWeekAgoDate());
@@ -236,6 +240,22 @@ const StatisticManagement = () => {
                         onClick={() => setToday()}>
                         <Typography color={"white"} variant="h5" fontWeight="600">
                             今天
+                        </Typography>
+                    </Button>
+                    <Button sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        minWidth: "100px",
+                        height: "52px",
+                        borderRadius: "10px",
+                        ':hover': {
+                            bgcolor: colors.primary[300],
+                            border: '1px solid white',
+                        }
+                    }}
+                        onClick={() => setYesterday()}>
+                        <Typography color={"white"} variant="h5" fontWeight="600">
+                            昨天
                         </Typography>
                     </Button>
                     <Button sx={{
@@ -652,6 +672,17 @@ const getCurrentDate = () => {
     return `${year}-${month}-${day}`
 }
 
+const getYesterdayDate = () => {
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = ("0" + (date.getMonth() + 1)).slice(-2)
+    const day = ("0" + (date.getDate() - 1)).slice(-2)
+
+    const hour = ("0" + date.getHours()).slice(-2)
+    const minute = ("0" + date.getMinutes()).slice(-2)
+
+    return `${year}-${month}-${day}`
+}
 
 
 

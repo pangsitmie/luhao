@@ -12,7 +12,8 @@ import Map from "./pages/map/Map";
 import Main from "./pages/main/Main";
 import About from "./pages/about/About";
 import NotFound from "./components/404/NotFound";
-import Copy from "./components/copy/Copy";
+import Fengjia from "./pages/places/Fengjia";
+// import Copy from "./components/copy/Copy";
 
 
 function App() {
@@ -32,9 +33,10 @@ function App() {
           <Route exact path="/city" element={<City />} />
           <Route exact path="/area" element={<Area />} />
           <Route exact path="/about" element={<About />} />
+          <Route exact path="/fengjia" element={<Fengjia />} />
         </Routes>
         <Footer />
-        <Copy />
+        {/* <Copy /> */}
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

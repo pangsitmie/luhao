@@ -26,7 +26,7 @@ const Header = () => {
 
 
     return (
-        <Box display="flex" justifyContent="space-between" p={1}>
+        <Box display="flex" justifyContent="space-between" height={"100px"}>
             <Box>
 
             </Box>

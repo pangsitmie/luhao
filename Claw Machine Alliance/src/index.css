@@ -66,6 +66,12 @@ section {
   box-shadow: 0 0 0 0 #181818;
 }
 
+.flex_cc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 span {
   color: #6C5CE7;
 }
@@ -101,12 +107,14 @@ span {
 
 }
 
-
+.pink {
+  color: #ED6B6C;
+}
 
 .btn_transparent {
   width: 240px;
   background-color: transparent;
-  border-radius: 15px;
+  border-radius: 25px;
   padding: 1em 1.5em;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
