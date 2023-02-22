@@ -26,7 +26,7 @@ const Header = () => {
 
 
     return (
-        <Box display="flex" justifyContent="space-between" height={"100px"}>
+        <Box display="flex" justifyContent="space-between" height={"100px"} className={"header"}>
             <Box>
 
             </Box>
@@ -38,7 +38,7 @@ const Header = () => {
                             fontWeight: "600",
                             color: currentPage === "/" ? "#fff" : "#2D3436",
                         }}>
-                            Map
+                            地圖
                         </Typography>
                     </a>
                 </Box>
@@ -49,7 +49,7 @@ const Header = () => {
                             fontWeight: "600",
                             color: currentPage === "/" ? "#fff" : "#2D3436",
                         }}>
-                            Brands
+                            品牌
                         </Typography>
                     </a>
                 </Box>
@@ -66,7 +66,7 @@ const Header = () => {
                             fontWeight: "600",
                             color: currentPage === "/" ? "#fff" : "#2D3436",
                         }}>
-                            Stores
+                            店家
                         </Typography>
                     </a>
                 </Box>
@@ -77,7 +77,7 @@ const Header = () => {
                             fontWeight: "600",
                             color: currentPage === "/" ? "#fff" : "#2D3436",
                         }}>
-                            About
+                            關於
                         </Typography>
                     </a>
                 </Box>

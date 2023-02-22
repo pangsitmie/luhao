@@ -13,6 +13,7 @@ import Main from "./pages/main/Main";
 import About from "./pages/about/About";
 import NotFound from "./components/404/NotFound";
 import Fengjia from "./pages/places/Fengjia";
+import DDL from "./pages/places/DDL";
 // import Copy from "./components/copy/Copy";
 
 
@@ -34,6 +35,7 @@ function App() {
           <Route exact path="/area" element={<Area />} />
           <Route exact path="/about" element={<About />} />
           <Route exact path="/fengjia" element={<Fengjia />} />
+          <Route exact path="/duoduolong" element={<DDL />} />
         </Routes>
         <Footer />
         {/* <Copy /> */}

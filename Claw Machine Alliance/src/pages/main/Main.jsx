@@ -16,8 +16,8 @@ import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import HERO_BG from 'src/assets/hero_bg1.png'
 import { useTranslation } from 'react-i18next';
-
-
+import MAIN_HERO_BACK from 'src/assets/main_hero_back.png'
+import MAIN_HERO_FRONT from 'src/assets/main_hero_front.png'
 const Main = () => {
     const { t } = useTranslation();
 
@@ -25,29 +25,33 @@ const Main = () => {
     const colors = tokens(theme.palette.mode);
     return (
         <>
-            <img src={HERO_BG} className={"hero_bg"} alt="" />
+            <img src={MAIN_HERO_BACK} className={"hero_bg"} alt="" />
             <Box height={"80vh"}
                 // bgcolor={"#123123"}
                 display={"flex"}
                 justifyContent={"space-between"}
                 alignItems={"center"}
                 p={"4rem 0"}
-                flexDirection={"column"}>
+                flexDirection={"column"}
+                position={"relative"}>
+
+                <img src={MAIN_HERO_FRONT} className={"main_hero_front"} alt="" />
+
                 <Box >
-                    <Typography variant="h1" sx={{ textAlign: "center", color: "#2F3547", mb: "1rem" }} >{t('claw_machine_title1')}</Typography>
-                    <Typography variant="h3" sx={{ textAlign: "center", color: "#2F3547", mb: "3rem" }} >{t('claw_machine_title2')} {t('claw_machine_title3')}</Typography>
+                    <Typography variant="h3" sx={{ textAlign: "center", color: "#fff" }} >{t('claw_machine_title2')} {t('claw_machine_title3')}</Typography>
+                    <Typography variant="h1" className={"threeD"} >{t('claw_machine_title1')}</Typography>
                 </Box>
                 <Box>
-                    <Typography variant="h5" sx={{ textAlign: "center", color: "#FFF" }} >
+                    {/* <Typography variant="h5" sx={{ textAlign: "center", color: "#FFF" }} >
                         {t('claw_machine_tagline')}
-                    </Typography>
+                    </Typography> */}
                 </Box>
             </Box>
 
 
 
             {/* FIND THE BEST AREA CONTENT */}
-            <Box className={"hero_content"} pt={"10rem"}>
+            <Box className={"hero_content"} pt={"20rem"}>
                 <Box >
                     <Box>
                         <Typography variant="h2" sx={{ color: "#2D3436" }} >
@@ -125,11 +129,13 @@ const Main = () => {
                         {t('map_tagline')}
                     </Typography>
                     <Box display="flex" pt={"1rem"}>
-                        <button className="btn_transparent">
-                            <Typography variant="h5" sx={{ color: "#2D3436" }}>
-                                {t('map_btn')}
-                            </Typography>
-                        </button>
+                        <a href="/map">
+                            <button className="btn_transparent" >
+                                <Typography variant="h5" sx={{ color: "#2D3436" }}>
+                                    {t('map_btn')}
+                                </Typography>
+                            </button>
+                        </a>
                     </Box>
                 </Box>
                 <Box display={"flex"} justifyContent={"center"} alignItems={"center"} >

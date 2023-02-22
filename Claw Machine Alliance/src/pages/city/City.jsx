@@ -21,12 +21,11 @@ import SECOND_MARKET from 'src/assets/second_market.webp'
 import RAMEN2 from 'src/assets/ramen2.jpg'
 import DDL from 'src/assets/duoduolong2.jpg'
 import TAICHUNG_THEATER from 'src/assets/taichung_theater.jpeg'
-import DetailItemListView from 'src/components/listView/DetailItemListView';
+import DetailItemView from 'src/components/listView/DetailItemListView';
 import Dropdown from 'src/components/dropdown/Dropdown';
-import DetailItemDialog from 'src/components/dialog/DetailItemDialog';
 
 
-
+import 'animate.css';
 
 
 
@@ -39,6 +38,12 @@ const containerStyle = {
 
 
 const City = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+    const { t } = useTranslation();
+
+
     const items = [
         {
             image: FENGJIA,
@@ -76,6 +81,11 @@ const City = () => {
     const location = useLocation();
     const state = location.state;
     // console.log(state);
+
+    const [cityData, setCityData] = useState([]);
+    const handleDataChange = (data) => {
+        setCityData(data);
+    };
 
     let data;
 
@@ -159,14 +169,22 @@ const City = () => {
             <Box height={"100vh"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} >
                 {/* content */}
                 <Box width={"50%"}>
-                    <Typography onClick={handleClick} variant="h3" sx={{ textAlign: "left", color: "#2D3436" }}>
-                        Places you might be <span>interested</span> in
+                    <Typography variant="h1" sx={{ textAlign: "left", color: "#0057D9", textTransform: "capitalize", marginBottom: "1rem" }}>
+                        {t(state.data)}
                     </Typography>
-                    <Typography variant="h1" sx={{ textAlign: "left", color: "#0057D9", textTransform: "capitalize", marginBottom: "4rem" }}>
-                        {state.data}
+                    <Typography variant="h3" sx={{ textAlign: "left", color: "#2D3436", mb: "4rem" }}>
+                        體驗文化融合與美食的城市
                     </Typography>
                     <Typography variant="h5" sx={{ color: "#2D3436", mb: "1rem" }}>
-                        Our map feature takes the guesswork out of finding the best locations, giving you access to up-to-date information on high-quality stores all in one place.
+                        台中是臺灣中部地區的重要城市，也是臺灣的文化、經濟和交通感覺樞紐之一。擁有豐富的自然景觀，包括青山綠水、優美的山谷、湖泊和瀑布。此外，也是臺灣著名的美食之都，擁有眾多的美食餐廳和夜市，各式各樣的美食風味讓人流連忘返。
+                        <br /><br />
+                        台中市為臺灣的文化重鎮，有眾多的博物館、藝術中心和展覽館。例如，台中國家歌劇院、台中市立美術館、逢甲文化商圈等，都是文化藝術愛好者必訪之地。此外，台中市也是臺灣著名的觀光城市，每年吸引了大量的國內外旅客前來遊玩觀光，
+                        其中最著名的風景觀光區包括日月潭、清境農場、高美濕地等。
+                        <br /><br />
+                        最後，台中市也是臺灣的經濟重心之一，擁有眾多的產業和企業。其中，
+                        半導體、光電、綠能等高科技產業成為臺灣經濟的重要支柱。
+                        台中市也擁有便捷的交通系統，包括臺中高鐵站、臺中國際機場、臺中港等，
+                        使得臺中市成為重要的物流及交通重鎮。
                     </Typography>
                 </Box>
                 {/* image */}
@@ -176,7 +194,7 @@ const City = () => {
             </Box>
 
             {/* images section */}
-            <Box >
+            <Box mt={"5rem"}>
                 <Box display={"flex"} gap={".5rem"} alignItems={"flex-end"} marginBottom={".5rem"}>
                     <Box width={"65%"} height={"380px"}>
                         <RecommendImage props={items[1]} />
@@ -197,49 +215,24 @@ const City = () => {
 
             {/* google map componenet dibawah */}
 
-            <Box paddingTop={"20rem"}>
-                <Typography variant="h2" sx={{ textAlign: "center", color: "#2D3436", marginBottom: "4rem" }}>
-                    Explore Taichung
+            <Box paddingTop={"15rem"} >
+                <Typography variant="h2" sx={{ textAlign: "center", color: "#111", marginBottom: "4rem" }}>
+                    探索台中
                 </Typography>
             </Box>
 
-            <Box display={"flex"} gap={"1rem"}>
-                <Box width={"100%"}>
-                    <Box display={"flex"} justifyContent={"space-evenly"}>
-                        <Box>
-                            <Typography variant="h4" sx={{ color: "#639E23", mb: "1rem" }}>
-                                Travel
-                            </Typography>
-                        </Box>
-                        <Box>
-                            <Typography variant="h4" sx={{ color: "#FAC161", mb: "1rem" }}>
-                                Claw Machines
-                            </Typography>
 
-                        </Box>
-                        <Box>
-                            <Typography variant="h4" sx={{ color: "#ED6B6C", mb: "1rem" }}>
-                                Foods
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <DetailItemListView />
-                </Box>
+            <DetailItemView />
 
-                <Box display={"flex"} justifyContent={"center"} alignItems={"center"} borderRadius={"20px"} backgroundColor={"#EAEBEC"} position={"relative"}>
-                    {/* detail item selector */}
-                    <img src={TAICHUNG_DETAIL_MAP} width={"100%"} alt="" />
-                    <DetailItemDialog />
-                </Box>
-            </Box>
+
 
             <Box padding={"10rem 0"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-                <Typography variant="h2" sx={{ textAlign: "center", color: "#2D3436", marginBottom: "2rem" }}>
-                    Other Spots
+                <Typography variant="h3" sx={{ textAlign: "center", color: "#111", marginBottom: "2rem" }}>
+                    更多景點
                 </Typography>
-                <button className="btn_transparent">
-                    <Typography variant="h4" sx={{ color: "#2D3436" }}>
-                        View More
+                <button className="btn_transparent" >
+                    <Typography variant="h5" sx={{ color: "#2D3436" }}>
+                        查看更多
                     </Typography>
                 </button>
             </Box>

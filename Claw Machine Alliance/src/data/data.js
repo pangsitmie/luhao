@@ -152,3 +152,107 @@ export const yunlin = [
 
     },
 ]
+
+
+
+
+
+export const ExploreTaichungData = [
+    {
+        topic: "travel",
+        data: [
+            {
+                id: 0,
+                title: "台中公園",
+                description: "位於台中火車站附近，是台中市歷史最悠久的公園。公園內的湖心亭為重要象徵且可以在湖中央划船，適合親子一同前往休閒運動。",
+                image: require("../assets/taichung_park.png"),
+                mapImg: require("../assets/taichung_park_map.png"),
+                googleMapLink: "https://goo.gl/maps/KbEGEb8dvo5ah9Af7",
+                redirect: "taichung-park",
+            },
+            {
+                id: 1,
+                title: "台中國家歌劇院",
+                description: "位於台中市西屯區，有戶外噴水池觀看水舞，也有餐飲空間與空中花園。獨創的建築工法成為台中知名地標，可以觀賞戲劇表演也能購買文創小物。",
+                image: require("../assets/taichung_theater.png"),
+                mapImg: require("../assets/taichung_theater_map.png"),
+                googleMapLink: "https://goo.gl/maps/phnWVRMEqb6do1wMA",
+                redirect: "taichung-theater",
+            },
+            {
+                id: 2,
+                title: "高美濕地",
+                description: "豐富的濕地生態是賞鳥、看夕陽的好地方。一旁的高美自行車道讓遊客可以在散步之餘欣賞沿途美景，闔家探索生態樂趣。",
+                image: require("../assets/gaomei.png"),
+                mapImg: require("../assets/gaomei_map.png"),
+                googleMapLink: "https://goo.gl/maps/FieDppVS6eKdDmKV6",
+                redirect: "gaomei",
+            },
+        ],
+    },
+    {
+        topic: "entertainment",
+        data: [
+            {
+                id: 0,
+                title: "多多龍",
+                description: "娃娃機店家，有多種娃娃可以選擇，也有娃娃機可以玩，適合親子一同前往。",
+                image: require("../assets/duoduolong2.jpg"),
+                mapImg: require("../assets/duoduolong_map.png"),
+                googleMapLink: "https://goo.gl/maps/TB4HBMSV7yhExRDB8",
+                redirect: "duoduolong",
+            },
+            {
+                id: 1,
+                title: "多多龍",
+                description: "娃娃機店家，有多種娃娃可以選擇，也有娃娃機可以玩，適合親子一同前往。",
+                image: require("../assets/duoduolong2.jpg"),
+                mapImg: require("../assets/duoduolong_map.png"),
+                googleMapLink: "https://goo.gl/maps/TB4HBMSV7yhExRDB8",
+                redirect: "duoduolong",
+            },
+            {
+                id: 2,
+                title: "多多龍",
+                description: "娃娃機店家，有多種娃娃可以選擇，也有娃娃機可以玩，適合親子一同前往。",
+                image: require("../assets/duoduolong2.jpg"),
+                mapImg: require("../assets/duoduolong_map.png"),
+                googleMapLink: "https://goo.gl/maps/TB4HBMSV7yhExRDB8",
+                redirect: "duoduolong",
+            },
+        ],
+    },
+    {
+        topic: "foods",
+        data: [
+            {
+                id: 0,
+                title: "逢甲夜市",
+                description: "融合異國風味以及在地的美味小吃，吃飽喝足之餘還可以購物，販售商品豐富多樣，絕對滿載而歸!",
+                image: require("../assets/fengjia.jpeg"),
+                mapImg: require("../assets/fengjia_map.png"),
+                googleMapLink: "https://goo.gl/maps/vPagkPsuZ3mEhc3h6",
+                redirect: "fengjia",
+            },
+            {
+                id: 1,
+                title: "一中商圈",
+                description: "販賣商品種類玲瑯滿目，吃喝玩樂一站滿足，所有最新流行趨勢都在這裡，兼具精品商店及夜市小攤，適合大眾化消費。",
+                image: require("../assets/yizhong_detail_img.png"),
+                mapImg: require("../assets/yizhong_map.png"),
+                googleMapLink: "https://goo.gl/maps/ifedocGjazQGuSgv6",
+                redirect: "fengjia",
+            },
+            {
+                id: 2,
+                title: "第二市場",
+                description: "集結眾多知名在地美食，都是在地人念念不忘的好滋味，代代相傳的美食讓遊客都慕名而來。",
+                image: require("../assets/second_market.webp"),
+                mapImg: require("../assets/second_market_map.png"),
+                googleMapLink: "https://goo.gl/maps/gzTVFyXQPb2u3s4v5",
+                redirect: "fengjia",
+            },
+        ],
+    },
+];
+

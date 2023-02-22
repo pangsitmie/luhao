@@ -23,11 +23,21 @@
     transition: all 0.2s ease-in-out;
 }
 
-.detail_item_inner:hover {
+.selector_detail_item_inner {
+    display: flex;
+    gap: 1rem;
+    border-radius: 15px;
+    height: 100%;
+    padding: 8px 2rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.detail_item_inner:hover,
+.selector_detail_item_inner:hover {
     /* background-color: #F1F2F6; */
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
     transform: scale(1.01);
-
 }
 
 .detail_item_inner_active {
