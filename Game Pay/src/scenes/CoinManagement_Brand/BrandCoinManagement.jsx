@@ -145,7 +145,7 @@ const BrandCoinManagement = () => {
                     maxWidth={130}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="結束時間" inputRef={searchValueRef} />
                 </Box>
-                <FormControl sx={{ minWidth: 100 }} >
+                {/* <FormControl sx={{ minWidth: 100 }} >
                     <InputLabel id="demo-simple-select-label" >審核</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -160,9 +160,9 @@ const BrandCoinManagement = () => {
                         <MenuItem value={"待審核"}>待審核</MenuItem>
                         <MenuItem value={"封鎖"}>封鎖</MenuItem>
                     </Select>
-                </FormControl>
+                </FormControl> */}
                 {/* SEARCH BTN */}
-                <Button sx={{
+                {/* <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
                     minWidth: "120px",
@@ -178,7 +178,7 @@ const BrandCoinManagement = () => {
                     <Typography color={"white"} variant="h5" fontWeight="500">
                         查詢
                     </Typography>
-                </Button>
+                </Button> */}
                 <Box
                     display="flex"
                     backgroundColor={colors.primary[400]}

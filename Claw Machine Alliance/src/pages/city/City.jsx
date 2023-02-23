@@ -58,12 +58,12 @@ const City = () => {
         {
             image: YIZHONG,
             title: null,
-            googleMapURL: "null",
+            googleMapURL: "https://goo.gl/maps/eyowGmyorZ3gp88Q6"
         },
         {
             image: TC_MUSEUM,
             title: null,
-            googleMapURL: "https://goo.gl/maps/FxF5oBmrba5DFCsG9",
+            googleMapURL: "https://goo.gl/maps/aLqmr3fx32BwS8Gh6",
         },
         {
             image: DDL,
@@ -72,7 +72,7 @@ const City = () => {
         },
         {
             image: TAICHUNG_THEATER,
-            title: "",
+            title: "Taichung Theater",
             googleMapURL: "https://goo.gl/maps/nE9VSCRNpZNeQAnHA",
         },
     ]

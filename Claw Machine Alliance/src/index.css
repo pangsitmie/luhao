@@ -15,7 +15,19 @@ body,
   overflow-x: hidden;
 }
 
+.social_icon_button {
+  border-radius: 50%;
+  display: flex;
+  font-size: 2rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem;
+  transition: all 0.3s ease-in-out;
+}
 
+.social_icon_button:hover {
+  background-color: #111 !important;
+}
 
 a,
 a:link,

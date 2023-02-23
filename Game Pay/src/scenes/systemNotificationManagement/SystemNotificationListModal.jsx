@@ -23,7 +23,7 @@ export default function SystemNotificationListModal({ props }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  var btnTitle = "詳細資料", deleteTitle = "刪除";
+  var btnTitle = "詳細", deleteTitle = "刪除";
   const [modal, setModal] = useState(false); //open or close modal
 
 

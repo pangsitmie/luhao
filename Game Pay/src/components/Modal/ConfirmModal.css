@@ -3,14 +3,7 @@ body.active-modal {
 }
 
 
-.btn-modal {
-    font-size: 0.9rem !important;
-    font-weight: 500 !important;
-    border-radius: 10px !important;
-    padding: .5rem 1.5rem !important;
-    cursor: pointer !important;
-    min-width: 100px !important;
-}
+
 
 .confirm-modal,
 .confirm-overlay {

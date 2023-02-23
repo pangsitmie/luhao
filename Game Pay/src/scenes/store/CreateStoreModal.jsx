@@ -56,7 +56,7 @@ export default function CreateStoreModal() {
         brandId: "null",
         brandName: "null",
     });
-    var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
+    var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
 
 
     // ========================== CITY ==========================

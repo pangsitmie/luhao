@@ -86,9 +86,6 @@ const DetailItemView = () => {
                                     {data[0].description}
                                 </Typography>
                             </Box>
-                            <Box alignItems={"center"} justifyContent={"center"} >
-                                <img src={RED_POINTER} width={"40px"} alt="" />
-                            </Box>
                         </Box>
                     </Box>
 
@@ -112,9 +109,7 @@ const DetailItemView = () => {
                                     {data[1].description}
                                 </Typography>
                             </Box>
-                            <Box alignItems={"center"} justifyContent={"center"} >
-                                <img src={RED_POINTER} width={"40px"} alt="" />
-                            </Box>
+
                         </Box>
                     </Box>
 
@@ -139,9 +134,7 @@ const DetailItemView = () => {
                                     {data[2].description}
                                 </Typography>
                             </Box>
-                            <Box alignItems={"center"} justifyContent={"center"} >
-                                <img src={RED_POINTER} width={"40px"} alt="" />
-                            </Box>
+
                         </Box>
                     </Box>
                 </Box>

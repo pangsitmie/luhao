@@ -27,12 +27,12 @@ const RecommendedLocations = () => {
         {
             image: YIZHONG,
             title: null,
-            googleMapURL: "null",
+            googleMapURL: "",
         },
         {
             image: TC_MUSEUM,
             title: null,
-            googleMapURL: "https://goo.gl/maps/FxF5oBmrba5DFCsG9",
+            googleMapURL: "",
         },
         {
             image: DDL,
@@ -42,7 +42,7 @@ const RecommendedLocations = () => {
         {
             image: TAICHUNG_THEATER,
             title: "",
-            googleMapURL: "https://goo.gl/maps/nE9VSCRNpZNeQAnHA",
+            googleMapURL: "",
         },
     ]
 

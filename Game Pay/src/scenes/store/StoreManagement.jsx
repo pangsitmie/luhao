@@ -168,15 +168,7 @@ const StoreManagement = () => {
                     borderRadius="10px"
                     height={"52px"}
                     maxWidth={140}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="品牌名" inputRef={brandRef} />
-                </Box>
-                <Box
-                    display="flex"
-                    backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
-                    height={"52px"}
-                    maxWidth={140}>
-                    <InputBase sx={{ m: "0 1rem", height: "100%" }} placeholder="店面名" inputRef={searchRef} />
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder="品牌 或 店面名稱" inputRef={brandRef} />
                 </Box>
                 <FormControl sx={{ width: 120 }}>
                     <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
@@ -280,9 +272,6 @@ const StoreManagement = () => {
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
-                    {/* <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">獎勵</Typography>
-                    </Box> */}
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">商品</Typography>
                     </Box>
@@ -339,24 +328,7 @@ const StoreManagement = () => {
                             </Box>
 
                             {/* BUTTON TO MACHINE MANAGEMENT */}
-                            {/* <Box
-                                width={"15%"}
-                                height={"100%"}
-                                display={"flex"}
-                                alignItems={"center"} justifyContent={"center"}
-                                borderRadius="4px"
-                            >
-                                <Link
-                                    to={"/reward-management"}
-                                    state={{
-                                        data: store,
-                                    }}
-                                >
-                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 2rem" }}>
-                                        獎勵
-                                    </Button>
-                                </Link>
-                            </Box> */}
+
                             <Box
                                 width={"15%"}
                                 height={"100%"}
@@ -370,7 +342,7 @@ const StoreManagement = () => {
                                         data: store,
                                     }}
                                 >
-                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 2rem" }}>
+                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.5rem" }}>
                                         商品
                                     </Button>
                                 </Link>
@@ -388,7 +360,7 @@ const StoreManagement = () => {
                                         data: store,
                                     }}
                                 >
-                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 2rem" }}>
+                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.5rem" }}>
                                         機台
                                     </Button>
                                 </Link>

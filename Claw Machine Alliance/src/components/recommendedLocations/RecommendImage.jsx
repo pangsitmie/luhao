@@ -96,15 +96,9 @@ const RecommendImage = ({ props }) => {
 
             {props.googleMapURL && (
                 <a href={props.googleMapURL} target={"_blank"}>
-                    {props.title ? (
-                        <Box sx={circleBoxStyle} className={"animate__bounceIn"}>
-                            <img src={GOOGLE_MAP_ICON} width={"100%"} alt="" />
-                        </Box>
-                    ) : (
-                        <Box sx={circleBoxStyleNoTitle} className={"animate__bounceIn"}>
-                            <img src={GOOGLE_MAP_ICON} width={"100%"} alt="" />
-                        </Box>
-                    )}
+                    <Box sx={circleBoxStyle} className={"animate__bounceIn"}>
+                        <img src={GOOGLE_MAP_ICON} width={"100%"} alt="" />
+                    </Box>
                 </a>
             )}
         </Box>

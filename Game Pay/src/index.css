@@ -15,7 +15,32 @@ h1 {
   margin: 0;
 }
 
+/*  */
 
+
+
+
+
+
+.rotate-screen {
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.rotate-screen p {
+  margin: 0;
+}
+
+/*  */
 
 html,
 body,

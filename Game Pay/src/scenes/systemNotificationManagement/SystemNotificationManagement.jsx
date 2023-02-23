@@ -131,7 +131,7 @@ const SystemNotificationManagement = () => {
                 </FormControl>
 
                 {/* SEARCH BTN */}
-                <Button sx={{
+                {/* <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
                     minWidth: "120px",
@@ -147,7 +147,7 @@ const SystemNotificationManagement = () => {
                     <Typography color={"white"} variant="h5" fontWeight="500">
                         查詢
                     </Typography>
-                </Button>
+                </Button> */}
                 <Box
                     display="flex"
                     backgroundColor={colors.primary[400]}
@@ -217,7 +217,7 @@ const SystemNotificationManagement = () => {
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">刪除</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">詳細資料</Typography>
                     </Box>
                 </Box>
                 <Box

@@ -137,10 +137,12 @@ const StatisticList = () => {
                 {/* name Search */}
                 <Box
                     display="flex"
+                    alignItems="center"
+                    justifyContent="center"
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, width: "200px" }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
+                    <InputBase sx={{ ml: "1rem", pr: 2 }} placeholder="輸入名稱" inputRef={searchValueRef} />
                 </Box>
 
 
@@ -148,10 +150,9 @@ const StatisticList = () => {
                 <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
-                    minWidth: "150px",
+                    minWidth: "120px",
                     height: "52px",
                     borderRadius: "10px",
-                    padding: "0px",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',

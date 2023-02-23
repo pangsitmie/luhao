@@ -142,7 +142,7 @@ const BrandManagement = () => {
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}
-                    maxWidth={120}>
+                    maxWidth={140}>
                     <InputBase sx={{ ml: 2, pr: 2 }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
                 </Box>
                 <FormControl sx={{ width: 100 }} >
@@ -160,7 +160,7 @@ const BrandManagement = () => {
                         <MenuItem value={"停用"}>停用</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 100 }} >
+                {/* <FormControl sx={{ minWidth: 100 }} >
                     <InputLabel id="demo-simple-select-label" >審核</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -175,7 +175,7 @@ const BrandManagement = () => {
                         <MenuItem value={"待審核"}>待審核</MenuItem>
                         <MenuItem value={"封鎖"}>封鎖</MenuItem>
                     </Select>
-                </FormControl>
+                </FormControl> */}
 
                 {/* SEARCH BTN */}
                 <Button sx={{
@@ -317,7 +317,8 @@ const BrandManagement = () => {
                                 width={"20%"}
                                 height={"100%"}
                                 display={"flex"}
-                                alignItems={"center"} justifyContent={"center"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
                                 borderRadius="4px"
                             >
                                 <Link
@@ -326,8 +327,8 @@ const BrandManagement = () => {
                                         data: brand,
                                     }}
                                 >
-                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
-                                        告示牌管理
+                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 2rem" }}>
+                                        告示
                                     </Button>
                                 </Link>
                             </Box>

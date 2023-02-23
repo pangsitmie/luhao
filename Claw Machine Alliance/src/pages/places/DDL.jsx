@@ -101,15 +101,23 @@ const DDL = () => {
                     </Box>
 
                     <Box display={"flex"} alignItems={"center"} gap={"1rem"}>
-                        <IconButton sx={{ backgroundColor: "#1877F2", padding: "1rem" }}>
-                            <FacebookIcon sx={{ color: "#FFF", fontSize: "2rem" }} />
-                        </IconButton>
-                        <IconButton sx={{ backgroundColor: "#FF0000", padding: "1rem" }}>
-                            <YouTubeIcon sx={{ color: "#FFF", fontSize: "2rem" }} />
-                        </IconButton>
-                        <IconButton sx={{ backgroundColor: "#212121" }}>
-                            <img src={TIKTOK} width={"50px"} alt="" />
-                        </IconButton>
+                        <a href="https://www.facebook.com/多多龍遊樂園-101250252694267/" target={"_blank"}>
+                            <IconButton className='social_icon_button' sx={{ backgroundColor: "#1877F2", padding: "1rem" }}>
+                                <FacebookIcon sx={{ color: "#FFF", fontSize: "2rem" }} />
+                            </IconButton>
+                        </a>
+
+                        <a href="https://www.youtube.com/" target={"_blank"}>
+                            <IconButton className='social_icon_button' sx={{ backgroundColor: "#FF0000", padding: "1rem" }}>
+                                <YouTubeIcon sx={{ color: "#FFF", fontSize: "2rem" }} />
+                            </IconButton>
+                        </a>
+
+                        <a href="https://www.tiktok.com/" target={"_blank"}>
+                            <IconButton className='social_icon_button' sx={{ backgroundColor: "#212121" }}>
+                                <img src={TIKTOK} width={"50px"} alt="" />
+                            </IconButton>
+                        </a>
                     </Box>
 
                 </Box>
@@ -127,15 +135,15 @@ const DDL = () => {
                     Highlights
                 </Typography> */}
                 <Box display={"flex"} gap={"2rem"}>
-                    <Box width={"50%"}>
+                    <Box width={"60%"}>
                         <img src={DDL_PAGE_IMG1} style={{ width: "100%", height: "500px", objectFit: "cover" }} />
                     </Box>
-                    <Box display={"flex"} width={"50%"}>
+                    <Box display={"flex"} width={"40%"}>
                         <Box >
                             <Box >
                                 <img style={{ width: "100%", height: "250px", objectFit: "cover" }} src={DDL_PAGE_IMG2} alt="" />
                             </Box>
-                            <Typography variant="h4" sx={{ textAlign: "center", fontSize: "24px", color: "#FFEBA9", m: "1rem 0" }}>
+                            <Typography variant="h4" sx={{ textAlign: "center", fontSize: "24px", color: "#FFF", m: "1rem 0" }}>
                                 包羅萬象的日常用品及食物，應有盡有任你夾取!如果卡關，別忘了詢問店員出獎的小撇步。歡迎來挑戰且留下美好回憶~!
                             </Typography>
                         </Box>

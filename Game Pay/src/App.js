@@ -62,14 +62,36 @@ function App() {
     }
   }, []);
 
+  const [isPortrait, setIsPortrait] = useState(null);
 
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      setIsPortrait(window.orientation === 0 || window.orientation === 180);
+    };
+
+    window.addEventListener('orientationchange', handleOrientationChange);
+
+    // If isPortrait is null, set it based on the initial orientation
+    if (isPortrait === null) {
+      setIsPortrait(window.orientation === 0 || window.orientation === 180);
+    }
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+    };
+  }, [isPortrait]);
 
   return (
     <React.Fragment>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <div className="app">
+          {isPortrait && (
+            <div className="rotate-screen">
+              <p>請將手機調成橫向</p>
+            </div>
+          )}
+          <div className={` ${isPortrait ? 'hidden' : 'app'}`}>
             <Sidebar isSidebar={isSidebar} />
             <main className="content">
               <Topbar setIsSidebar={setIsSidebar} />

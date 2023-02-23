@@ -48,7 +48,7 @@ export default function CreateBrandModal() {
   };
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = "新增品牌", confirmTitle = "新增", cancelTitle = "取消";
+  var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -158,13 +158,13 @@ export default function CreateBrandModal() {
                     <Box color={"black"}>
 
                       {/* UPLOAD LOGO & COVER BOX */}
-                      <Box display="flex" m={"1rem 0"} >
-                        <Box width={"35%"}>
+                      <Box display="flex" m={"1rem 0"} gap={".5rem"}>
+                        <Box width={"30%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
                           {/* UPLOAD LOGO COMPONENT */}
                           <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={getImgURL(logoFileName, "logo")} type={"brand"} />
                         </Box>
 
-                        <Box width={"65%"}>
+                        <Box width={"70%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
                           {/* UPLOAD COVER COMPONENET */}
                           <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"brand"} />
                         </Box>

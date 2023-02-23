@@ -270,13 +270,13 @@ export default function BrandListModal({ props }) {
                       </Box>
 
                       {/* UPLOAD LOGO & COVER BOX */}
-                      <Box display="flex" m={"1rem 0"} >
-                        <Box width={"35%"}>
+                      <Box display="flex" m={"1rem 0"} gap={".5rem"}>
+                        <Box width={"30%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
                           {/* UPLOAD LOGO COMPONENT */}
                           <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={getImgURL(logoFileName, "logo")} type={"brand"} />
                         </Box>
 
-                        <Box width={"65%"}>
+                        <Box width={"70%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
                           {/* UPLOAD COVER COMPONENET */}
                           <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"brand"} />
                         </Box>
