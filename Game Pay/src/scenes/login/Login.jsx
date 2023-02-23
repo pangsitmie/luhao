@@ -293,7 +293,7 @@ const Login = () => {
                             )}
                         </Formik>
                     </div>
-                    <Box display={"flex"} justifyContent={"space-between"} p={"1rem 0 0 0"}>
+                    {/* <Box display={"flex"} justifyContent={"space-between"} p={"1rem 0 0 0"}>
                         <span>
                             <Button color="secondary" sx={getStyles("company", entityName)} onClick={() => dispatch(setCompany())}>公司登入</Button>
                         </span>
@@ -303,7 +303,7 @@ const Login = () => {
                         <span>
                             <Button color="secondary" sx={getStyles("store", entityName)} onClick={() => dispatch(setStore())}>店家登入</Button>
                         </span>
-                    </Box>
+                    </Box> */}
                 </div>
             </div>
         </Box >

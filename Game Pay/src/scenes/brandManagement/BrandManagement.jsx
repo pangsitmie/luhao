@@ -22,9 +22,13 @@ import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from 'react-i18next';
+// const { t } = useTranslation();
 
 const BrandManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
+    const { t } = useTranslation();
+
 
     //========================== THEME ==========================
     const theme = useTheme();
@@ -131,7 +135,7 @@ const BrandManagement = () => {
         // here
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>品牌管理</h1>
+                <h1 className='userManagement_title'>{t("brand_management")}</h1>
             </Box>
 
             {/* SEARCH DIV */}
@@ -152,7 +156,7 @@ const BrandManagement = () => {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={status}
-                        label="Status"
+                        label={t("status")}
                         onChange={handleStatusChange}
                     >
                         <MenuItem value={"無"}>無</MenuItem>
@@ -191,8 +195,8 @@ const BrandManagement = () => {
                 }}
                     onClick={submitSearch}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
-                    <Typography color={"white"} variant="h5" fontWeight="500">
-                        查詢
+                    <Typography color={"white"} variant="h5" fontWeight="500" sx={{ textTransform: "capitalize" }}>
+                        {t("search")}
                     </Typography>
                 </Button>
 
@@ -250,19 +254,19 @@ const BrandManagement = () => {
                     p="10px"
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌名稱</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("brand_name")}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">品牌負責人</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("principal_name")}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("status")}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">告示牌管理</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("billboard")}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("details")}</Typography>
                     </Box>
                 </Box>
 
@@ -290,25 +294,25 @@ const BrandManagement = () => {
                                     if (brand.status.name === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                停用
+                                                {t("disable")}
                                             </Typography>)
                                     }
                                     else if (brand.status.name === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                封鎖
+                                                {t("banned")}
                                             </Typography>)
                                     }
                                     else if (brand.status.name === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                移除
+                                                {t("deleted")}
                                             </Typography>)
                                     }
                                     else {
                                         return (
                                             <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                正常
+                                                {t("normal")}
                                             </Typography>)
                                     }
                                 })()}
@@ -327,8 +331,8 @@ const BrandManagement = () => {
                                         data: brand,
                                     }}
                                 >
-                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 2rem" }}>
-                                        告示
+                                    <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 2rem", textTransform: "capitalize" }}>
+                                        {t("billboard")}
                                     </Button>
                                 </Link>
                             </Box>

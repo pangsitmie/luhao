@@ -13,7 +13,8 @@ import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useTranslation } from 'react-i18next';
+// const { t } = useTranslation();
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -31,6 +32,7 @@ const checkoutSchema = yup.object().shape({
 
 export default function BrandListModal({ props }) {
   const { entityName } = useSelector((state) => state.entity);
+  const { t } = useTranslation();
 
 
   //========================== THEME ==========================
@@ -54,7 +56,8 @@ export default function BrandListModal({ props }) {
   });
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+  var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+  //  confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
 
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
@@ -219,7 +222,9 @@ export default function BrandListModal({ props }) {
   return (
     <>
       {/* THE CONTENT OF THE BUTTON */}
-      <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>{btnTitle}</Button>
+      <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "1px solid #111", borderColor: colors.blueAccent[100] }}>
+        {btnTitle}
+      </Button>
 
       {/* CONTENT OF WHAT HAPPEN AFTER BUTTON CLICKED */}
       {modal && (
@@ -251,19 +256,19 @@ export default function BrandListModal({ props }) {
                           if (initialValues.status === "disable") {
                             return (
                               <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                停用
+                                {t("disable")}
                               </Typography>)
                           }
                           if (initialValues.status === "banned") {
                             return (
                               <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                封鎖
+                                {t("banned")}
                               </Typography>)
                           }
                           else {
                             return (
                               <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                正常
+                                {t("normal")}
                               </Typography>)
                           }
                         })()}
@@ -288,7 +293,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="品牌名稱"
+                          label={t("brand_name")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.name}
@@ -301,7 +306,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="統一編號"
+                          label={t("vat_number")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.vatNumber}
@@ -335,7 +340,7 @@ export default function BrandListModal({ props }) {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="品牌簡介"
+                        label={t("brand_intro")}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.intro}
@@ -349,7 +354,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人"
+                          label={t("principal")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalName}
@@ -361,7 +366,7 @@ export default function BrandListModal({ props }) {
 
                         {/* PASSWORD INPUT */}
                         <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                          <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
+                          <InputLabel htmlFor="filled-adornment-password">{t("principal_password")} (不必要)</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}
                             onChange={handleChange}
@@ -393,7 +398,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人Line"
+                          label={t("principal_line")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalLineUrl}
@@ -407,7 +412,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人手機"
+                          label={t("principal_phone")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principaPhone}
@@ -421,7 +426,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人電子信箱"
+                          label={t("principal_email")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalEmail}
@@ -436,7 +441,7 @@ export default function BrandListModal({ props }) {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="品牌專屬幣名稱"
+                        label={t("brand_coin_name")}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.brandCoinName}

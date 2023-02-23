@@ -63,6 +63,13 @@ function App() {
   }, []);
 
   const [isPortrait, setIsPortrait] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent));
+  }, []);
+
 
   useEffect(() => {
     const handleOrientationChange = () => {
@@ -81,17 +88,23 @@ function App() {
     };
   }, [isPortrait]);
 
+  // useEffect(() => {
+  //   console.log("ismoible: ", isMobile);
+  //   console.log("ispotrait: ", isPortrait);
+  // }, [isMobile, isPortrait]);
+
+
   return (
     <React.Fragment>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {isPortrait && (
+          {(isMobile && isPortrait) && (
             <div className="rotate-screen">
-              <p>請將手機調成橫向</p>
+              <p>請將手機調成橫向。</p>
             </div>
           )}
-          <div className={` ${isPortrait ? 'hidden' : 'app'}`}>
+          <div className={` ${isMobile && isPortrait ? 'hidden' : 'app'}`}>
             <Sidebar isSidebar={isSidebar} />
             <main className="content">
               <Topbar setIsSidebar={setIsSidebar} />

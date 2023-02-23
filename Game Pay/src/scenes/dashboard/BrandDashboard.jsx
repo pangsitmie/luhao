@@ -26,7 +26,11 @@ import StatPercentBox from 'src/components/StatPercentBox';
 import Loader from 'src/components/loader/Loader';
 import Error from 'src/components/error/Error';
 
+import { useTranslation } from 'react-i18next';
+
 const BrandDashboard = () => {
+    const { t } = useTranslation();
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -148,7 +152,7 @@ const BrandDashboard = () => {
         <Box m="20px">
             {/* HEADER */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="DASHBOARD" subtitle={"Welcome Back " + name} />
+                <Header title={t('dashboard')} subtitle={t('welcome_back') + name} />
             </Box>
 
 
@@ -165,7 +169,7 @@ const BrandDashboard = () => {
 
                 <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
                     <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
-                        本日統計
+                        {t('today_statistic')}
                     </Typography>
                 </Box>
 
@@ -187,7 +191,7 @@ const BrandDashboard = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.coinAmountTotal)}
-                            subtitle="總收入"
+                            subtitle={t('total_earning')}
                             icon={
                                 <SavingsIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -207,7 +211,7 @@ const BrandDashboard = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.coinQuantityTotal)}
-                            subtitle="總投幣"
+                            subtitle={t('total_coin')}
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -227,7 +231,7 @@ const BrandDashboard = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.giftAmountTotal)}
-                            subtitle="總支出"
+                            subtitle={t('total_expense')}
                             icon={
                                 <ReceiptIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -247,7 +251,7 @@ const BrandDashboard = () => {
                     >
                         <StatBox
                             title={numberFormatter(displayStatistic.giftQuantityTotal)}
-                            subtitle="總出貨"
+                            subtitle={t('total_prize')}
                             icon={
                                 <InventoryIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -270,7 +274,7 @@ const BrandDashboard = () => {
                     >
                         <StatPercentBox
                             title={((displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal * 100).toFixed(2) + "%")}
-                            subtitle="支出比"
+                            subtitle={t('expense_rate')}
                             progress={(displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal).toFixed(2)}
                         />
                     </Box>
@@ -286,7 +290,7 @@ const BrandDashboard = () => {
                     >
                         <StatPercentBox
                             title={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal) * 100).toFixed(2) + "%")}
-                            subtitle="出貨比"
+                            subtitle={t('prize_rate')}
                             progress={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal)).toFixed(2))}
                         />
                     </Box>
@@ -327,7 +331,7 @@ const BrandDashboard = () => {
                                 fontWeight="600"
                                 color={colors.grey[100]}
                             >
-                                本日總收入
+                                {t('total_today_earning')}
                             </Typography>
                             <Typography
                                 variant="h3"

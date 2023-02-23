@@ -6,6 +6,7 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Link } from "react-router-dom";
+import LanguageDropdown from "src/components/languageDropdown/LanguageDropdown";
 
 
 const Topbar = () => {
@@ -32,6 +33,7 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
+        <LanguageDropdown />
       </Box>
     </Box>
   );

@@ -35,6 +35,9 @@ import { useQuery } from "@apollo/client";
 import { STORE_GetStoreInfo } from "src/graphQL/StorePrincipalQueries";
 import { getImgURL } from "src/utils/Utils";
 
+// translate
+import { useTranslation } from 'react-i18next';
+
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
@@ -49,13 +52,15 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
       onClick={onClick ? onClick : () => setSelected(title)}
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      <Typography sx={{ textTransform: "capitalize" }}>{title}</Typography>
       <Link to={to} />
     </MenuItem>
   );
 };
 
 const Sidebar = () => {
+  const { t } = useTranslation();
+
   // REDUX STORE
   const { entityName } = useSelector((state) => state.entity);
 
@@ -64,39 +69,39 @@ const Sidebar = () => {
 
 
 
-  let SIDEBAR_INIT_QUERY;
-  switch (entityName) {
-    case "company":
-      SIDEBAR_INIT_QUERY = null;
-    case "brand":
-      SIDEBAR_INIT_QUERY = BRAND_GetBrandInfo;
-      break;
-    case "store":
-      SIDEBAR_INIT_QUERY = STORE_GetStoreInfo;
-      break;
-    default:
-      break;
-  }
+  // let SIDEBAR_INIT_QUERY;
+  // switch (entityName) {
+  //   case "company":
+  //     SIDEBAR_INIT_QUERY = null;
+  //   case "brand":
+  //     SIDEBAR_INIT_QUERY = BRAND_GetBrandInfo;
+  //     break;
+  //   case "store":
+  //     SIDEBAR_INIT_QUERY = STORE_GetStoreInfo;
+  //     break;
+  //   default:
+  //     break;
+  // }
 
-  const { loading, error, data } = useQuery(SIDEBAR_INIT_QUERY);
-  useEffect(() => {
-    if (data) {
-      switch (entityName) {
-        case 'company':
-          break;
-        case 'brand':
-          setName(data.getBrandPrincipal.name);
-          setImg(getImgURL(data.getBrandPrincipal.brands[0].logo));
-          break;
-        case 'store':
-          setName(data.getStorePrincipal.name);
-          setImg(STORE_LOGO);
-          break;
-        default:
-          break;
-      }
-    }
-  }, [data]);
+  // const { loading, error, data } = useQuery(SIDEBAR_INIT_QUERY);
+  // useEffect(() => {
+  //   if (data) {
+  //     switch (entityName) {
+  //       case 'company':
+  //         break;
+  //       case 'brand':
+  //         setName(data.getBrandPrincipal.name);
+  //         setImg(getImgURL(data.getBrandPrincipal.brands[0].logo));
+  //         break;
+  //       case 'store':
+  //         setName(data.getStorePrincipal.name);
+  //         setImg(STORE_LOGO);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  // }, [data]);
 
 
   const theme = useTheme();
@@ -108,7 +113,7 @@ const Sidebar = () => {
 
   const logout = () => {
     localStorage.clear();
-    navigate('/login');
+    navigate(`/login/${entityName}`);
   }
 
   useEffect(() => {
@@ -209,7 +214,7 @@ const Sidebar = () => {
                     return (
                       <>
                         <Item
-                          title="Dashboard"
+                          title={t('dashboard')}
                           to="/"
                           icon={<HomeOutlinedIcon />}
                           selected={selected}
@@ -219,26 +224,26 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          管理
+                          {t('management')}
                         </Typography>
                         <Item
-                          title="使用者管理"
+                          title={t('user_management')}
                           to="/user-management"
                           icon={<PeopleOutlinedIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="品牌管理"
+                          title={t('brand_management')}
                           to="/brand-management"
                           icon={<LocalOfferIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="店面管理 "
+                          title={t('store_management')}
                           to="/store-management"
                           icon={<StoreIcon />}
                           selected={selected}
@@ -247,26 +252,26 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          通知
+                          {t('notification')}
                         </Typography>
                         <Item
-                          title="系統通知"
+                          title={t('system_notification')}
                           to="/system-notification"
                           icon={<NotificationsIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="系統廣告"
+                          title={t('system_ads')}
                           to="/system-ads"
                           icon={<AnnouncementIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="商業合作廣告"
+                          title={t('partner_ads')}
                           to="/partner"
                           icon={<BusinessIcon />}
                           selected={selected}
@@ -275,33 +280,33 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          財務
+                          {t('finance')}
                         </Typography>
                         <Item
-                          title="獎勵"
+                          title={t('rewards')}
                           to="/reward-management"
                           icon={<CardGiftcardIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="系統免費幣發送"
+                          title={t('system_free_coin')}
                           to="/system-coins"
                           icon={<AttachMoneyIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="品牌專屬幣發送"
+                          title={t('brand_free_coin')}
                           to="/brand-coins"
                           icon={<MonetizationOnIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="統計"
+                          title={t('statistic')}
                           to="/statistic"
                           icon={<BarChartIcon />}
                           selected={selected}
@@ -310,20 +315,19 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          系統
+                          {t('system')}
                         </Typography>
-
                         <Item
-                          title="版本管控"
+                          title={t('version_control')}
                           to="/version"
                           icon={<UpdateIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="登出"
+                          title={t('logout')}
                           icon={<LogoutIcon />}
                           selected={selected}
                           setSelected={setSelected}
@@ -342,7 +346,7 @@ const Sidebar = () => {
                     return (
                       <>
                         <Item
-                          title="Dashboard"
+                          title={t('dashboard')}
                           to="/"
                           icon={<HomeOutlinedIcon />}
                           selected={selected}
@@ -352,19 +356,19 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          管理
+                          {t('management')}
                         </Typography>
                         <Item
-                          title="品牌管理"
+                          title={t('brand_management')}
                           to="/brand-management"
                           icon={<LocalOfferIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="店面管理 "
+                          title={t('store_management')}
                           to="/store-management"
                           icon={<StoreIcon />}
                           selected={selected}
@@ -373,26 +377,26 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          財務
+                          {t('finance')}
                         </Typography>
-                        <Item
+                        {/* <Item
                           title="獎勵"
                           to="/reward-management"
                           icon={<CardGiftcardIcon />}
                           selected={selected}
                           setSelected={setSelected}
-                        />
+                        /> */}
                         <Item
-                          title="品牌專屬幣發送"
+                          title={t('brand_free_coin')}
                           to="/brand-coins"
                           icon={<MonetizationOnIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title="統計"
+                          title={t('statistic')}
                           to="/statistic"
                           icon={<BarChartIcon />}
                           selected={selected}
@@ -401,12 +405,12 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          系統
+                          {t('system')}
                         </Typography>
                         <Item
-                          title="登出"
+                          title={t('logout')}
                           icon={<LogoutIcon />}
                           selected={selected}
                           setSelected={setSelected}
@@ -425,7 +429,7 @@ const Sidebar = () => {
                     return (
                       <>
                         <Item
-                          title="Dashboard"
+                          title={t('dashboard')}
                           to="/"
                           icon={<HomeOutlinedIcon />}
                           selected={selected}
@@ -434,12 +438,12 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          管理
+                          {t('management')}
                         </Typography>
                         <Item
-                          title="店面管理 "
+                          title={t('store_management')}
                           to="/store-management"
                           icon={<StoreIcon />}
                           selected={selected}
@@ -448,19 +452,19 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          財務
+                          {t('finance')}
                         </Typography>
-                        <Item
+                        {/* <Item
                           title="獎勵"
                           to="/reward-management"
                           icon={<CardGiftcardIcon />}
                           selected={selected}
                           setSelected={setSelected}
-                        />
+                        /> */}
                         <Item
-                          title="統計"
+                          title={t('statistic')}
                           to="/statistic"
                           icon={<BarChartIcon />}
                           selected={selected}
@@ -469,12 +473,12 @@ const Sidebar = () => {
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px" }}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          系統
+                          {t('system')}
                         </Typography>
                         <Item
-                          title="登出"
+                          title={t('logout')}
                           icon={<LogoutIcon />}
                           selected={selected}
                           setSelected={setSelected}

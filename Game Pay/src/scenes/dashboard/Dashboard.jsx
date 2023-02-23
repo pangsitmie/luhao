@@ -25,6 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { BRAND_GetBrandInfo } from 'src/graphQL/BrandPrincipalQueries';
 
 import { mockLineData } from "src/data/mockData";
+import { useTranslation } from 'react-i18next';
+// const { t } = useTranslation();
 
 
 const checkoutSchema = yup.object().shape({
@@ -34,6 +36,9 @@ const checkoutSchema = yup.object().shape({
 
 
 const Dashboard = () => {
+    const { t } = useTranslation();
+
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -61,7 +66,7 @@ const Dashboard = () => {
         <Box m="20px">
             {/* HEADER */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="DASHBOARD" subtitle={"Welcome Back"} />
+                <Header title={t('dashboard')} subtitle={t('welcome_back')} />
             </Box>
 
             {/* GRID & CHARTS */}

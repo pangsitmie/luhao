@@ -13,7 +13,7 @@ const checkoutSchema = yup.object().shape({
     storeId: yup.string().required("店面id必填"),
     name: yup.string().required("機台名稱必填"),
     code: yup.string().required("機台碼必填"),
-    nfc: yup.string().required("NFCID必填"),
+    // nfc: yup.string().required("NFCID必填"),
     price: yup.string().required("機台單次花費金額必填"),
     // description: yup.string().required("備註必填"),
 });
@@ -71,10 +71,12 @@ export default function CreateMachineModal({ props }) {
             ],
             name: values.name,
             code: values.code,
-            code: values.nfc,
             price: parseInt(values.price),
             counterCheck: counterCheck
         };
+        if (values.nfc !== "") {
+            variables.nfc = values.nfc;
+        }
         if (values.description !== "") {
             variables.description = values.description;
         }
@@ -90,6 +92,7 @@ export default function CreateMachineModal({ props }) {
                 }
             ]
         }
+        console.log(variables);
         ApolloCreateMachineFromGetStores({ variables });
     };
 

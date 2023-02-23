@@ -168,26 +168,46 @@ export const themeSettings = (mode) => {
       h1: {
         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
         fontSize: 40,
+        textTransform: "capitalize",
       },
       h2: {
         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
         fontSize: 32,
+        textTransform: "capitalize",
       },
       h3: {
         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
         fontSize: 24,
+        textTransform: "capitalize",
       },
       h4: {
         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
         fontSize: 20,
+        textTransform: "capitalize",
       },
       h5: {
         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
         fontSize: 16,
+        textTransform: "capitalize",
       },
       h6: {
         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
         fontSize: 14,
+        textTransform: "capitalize",
+      },
+      styleOverrides: {
+        root: {
+          textTransform: "capitalize",
+        },
+      },
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: "none",
+          },
+        },
       },
     },
   };

@@ -30,7 +30,8 @@ export function unixTimestampToDatetimeLocal(timestamp) {
 }
 
 function parseImgURL(filename) {
-    return `https://file-test.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
+    // return `https://file-test.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
+    return `https://file-qa.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
     // return `https://file.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
 }
 

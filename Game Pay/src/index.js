@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import LoginProvider from "./LoginProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import './i18n';
 
 //APOLLO
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, useQuery, gql } from '@apollo/client';
@@ -15,6 +16,7 @@ import { onError } from '@apollo/client/link/error';
 //REDUX
 import store from './redux/store'
 import { Provider } from 'react-redux'
+
 
 let originalQuery;
 let originalVariables;
@@ -109,7 +111,8 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" })
+  // new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" })
+  new HttpLink({ uri: "https://market-qa.cloudprogrammingonline.com/graphql/" })
   // new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" })
 ]);
 
@@ -143,7 +146,7 @@ root.render(
         <React.StrictMode>
           <Routes>
             <Route exact path="/*" element={<App />} />
-            <Route path="/login" element={<LoginProvider />} />
+            <Route path="/login/*" element={<LoginProvider />} />
           </Routes>
         </React.StrictMode>
       </BrowserRouter>
