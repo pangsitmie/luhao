@@ -17,15 +17,15 @@ const Topbar = () => {
       <div>
       </div>
       {/* ICONS */}
-      <Box display="flex" >
-        <Link to="/review">
+      <Box display="flex" justifyContent={"center"}>
+        {/* <Link to="/review">
           <IconButton>
             <NotificationsOutlinedIcon />
           </IconButton>
-        </Link>
-        <IconButton>
+        </Link> */}
+        {/* <IconButton>
           <SettingsOutlinedIcon />
-        </IconButton>
+        </IconButton> */}
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />

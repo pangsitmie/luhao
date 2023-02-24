@@ -17,12 +17,13 @@ import Refresh from 'src/components/Refresh';
 // QRCODE
 import Loader from 'src/components/loader/Loader';
 import Error from 'src/components/error/Error';
-
+import { useTranslation } from 'react-i18next';
 
 
 const CommodityManagement = () => {
   const location = useLocation();
   const state = location.state;
+  const { t } = useTranslation();
   // console.log(state); // output: "the-page-id"
   // console.log("STATE" + state.data.id); // output: "the-page-id"
   // console.log("STATE" + state.data.name); // output: "the-page-id"
@@ -107,7 +108,7 @@ const CommodityManagement = () => {
   return (
     <Box p={2} position="flex" flexDirection={"column"}>
       <Box height={"15%"}>
-        <h1 className='userManagement_title'>{state.data.name} - 商品</h1>
+        <h1 className='userManagement_title'>{state.data.name} - {t('products')}</h1>
         <Typography variant="h5" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
       </Box>
 
@@ -120,7 +121,7 @@ const CommodityManagement = () => {
           borderRadius="10px"
           height={"52px"}
           maxWidth={150}>
-          <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="機台名稱" inputRef={searchRef} />
+          <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder={t('product_name')} inputRef={searchRef} />
         </Box>
 
         {/* SEARCH BTN */}
@@ -138,7 +139,7 @@ const CommodityManagement = () => {
           onClick={submitSearch}>
           <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
           <Typography color={"white"} variant="h5" fontWeight="500">
-            查詢
+            {t('search')}
           </Typography>
         </Button>
 
@@ -193,16 +194,16 @@ const CommodityManagement = () => {
           p="10px"
         >
           <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">商品名稱</Typography>
+            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('product_name')}</Typography>
           </Box>
           <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">價格</Typography>
+            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('price')}</Typography>
           </Box>
           <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">庫存量</Typography>
+            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('stock')}</Typography>
           </Box>
           <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('detail')}</Typography>
           </Box>
         </Box>
 

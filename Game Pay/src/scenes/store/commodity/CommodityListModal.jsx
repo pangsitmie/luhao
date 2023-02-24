@@ -8,7 +8,7 @@ import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
 import { GetCommodity, RemoveMachine, UnBanMachine, UpdateCommodity } from "src/graphQL/Queries";
 import { replaceNullWithEmptyString } from "src/utils/Utils";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -21,6 +21,7 @@ const checkoutSchema = yup.object().shape({
 export default function MachineListModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { t } = useTranslation();
     const [modal, setModal] = useState(false);
     //REF
     const [status, setStatus] = useState('disable');
@@ -29,7 +30,7 @@ export default function MachineListModal({ props }) {
     };
 
 
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
     const [initialValues, setInitialValues] = useState({
         id: 0,
         UUID: "",
@@ -146,25 +147,25 @@ export default function MachineListModal({ props }) {
                                                         if (initialValues.status === "disable") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
-                                                                    停用
+                                                                    {t('disable')}
                                                                 </Typography>)
                                                         }
                                                         else if (initialValues.status === "banned") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    封鎖
+                                                                    {t('banned')}
                                                                 </Typography>)
                                                         }
                                                         else if (initialValues.status === "removed") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    删除
+                                                                    {t('removed')}
                                                                 </Typography>)
                                                         }
                                                         else {
                                                             return (
                                                                 <Typography variant="h5" color={colors.greenAccent[300]} sx={{ margin: ".5rem 0" }}>
-                                                                    正常
+                                                                    {t('normal')}
                                                                 </Typography>)
                                                         }
                                                     })()}
@@ -190,7 +191,7 @@ export default function MachineListModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="機台名稱"
+                                                label={t('product_name')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -204,7 +205,7 @@ export default function MachineListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="number"
-                                                    label="價格"
+                                                    label={t('price')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.price}
@@ -217,7 +218,7 @@ export default function MachineListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="number"
-                                                    label="庫存量"
+                                                    label={t('stock')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.stock}

@@ -18,13 +18,16 @@ import Loader from 'src/components/loader/Loader';
 import Error from 'src/components/error/Error';
 import Refresh from 'src/components/Refresh';
 import Pagination from 'src/components/Pagination';
+import { useTranslation } from 'react-i18next';
 
 const BillboardManagement = () => {
     const location = useLocation();
     const state = location.state;
-    console.log(state); // output: "the-page-id"
-    console.log("STATE" + state.data.id); // output: "the-page-id"
-    console.log("STATE" + state.data.name); // output: "the-page-id"
+    const { t } = useTranslation();
+    // console.log(state); // output: "the-page-id"
+    // console.log("STATE" + state.data.id); // output: "the-page-id"
+    // console.log("STATE" + state.data.name); // output: "the-page-id"
+
 
     //THEME
     const theme = useTheme();
@@ -99,7 +102,7 @@ const BillboardManagement = () => {
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>{state.data.name} - 告示牌管理</h1>
+                <h1 className='userManagement_title'>{state.data.name} - {t('billboards')}</h1>
             </Box>
 
             {/* SEARCH DIV */}
@@ -111,7 +114,7 @@ const BillboardManagement = () => {
                     borderRadius="10px"
                     height={"52px"}
                     maxWidth={120}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="開始時間" inputRef={brandRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder={t('start_time')} inputRef={brandRef} />
                 </Box>
                 <Box
                     display="flex"
@@ -119,7 +122,7 @@ const BillboardManagement = () => {
                     borderRadius="10px"
                     height={"52px"}
                     maxWidth={120}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="結束時間" inputRef={brandRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder={t('end_time')} inputRef={brandRef} />
                 </Box>
 
                 {/* SEARCH BTN */}
@@ -137,7 +140,7 @@ const BillboardManagement = () => {
                     onClick={submitSearch}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
                     <Typography color={"white"} variant="h5" fontWeight="500">
-                        查詢
+                        {t('search')}
                     </Typography>
                 </Button>
 
@@ -195,19 +198,19 @@ const BillboardManagement = () => {
                     maxHeight={"100px"}
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">標題</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('title')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('start_time')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">結束時間</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('end_time')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('status')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('details')}</Typography>
                     </Box>
                 </Box>
 
@@ -231,7 +234,7 @@ const BillboardManagement = () => {
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {item.endAt === null ? (
                                     <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                        無
+                                        {t('none')}
                                     </Typography>
                                 ) : (
                                     format(new Date(item.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
@@ -242,27 +245,27 @@ const BillboardManagement = () => {
                                     if (item.status.name === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                停用
+                                                {t('disable')}
                                             </Typography>
                                         )
                                     }
                                     else if (item.status.name === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                封鎖
+                                                {t('banned')}
                                             </Typography>
                                         )
                                     }
                                     else if (item.status.name === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                删除
+                                                {t('removed')}
                                             </Typography>)
                                     }
                                     else {
                                         return (
                                             <Typography variant="h5" color={colors.greenAccent[400]} sx={{ margin: ".5rem .5rem" }}>
-                                                正常
+                                                {t('normal')}
                                             </Typography>
                                         )
                                     }

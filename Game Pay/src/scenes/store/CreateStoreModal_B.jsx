@@ -13,13 +13,12 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { GetBrandList } from "../../graphQL/Queries";
 import { areaData } from "../../data/cityData";
-import { defaultCoverURL, default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { BRAND_CreateStore } from "src/graphQL/BrandPrincipalQueries";
-
+import { useTranslation } from 'react-i18next';
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -36,6 +35,7 @@ const checkoutSchema = yup.object().shape({
 
 export default function CreateStoreModal_B() {
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    const { t } = useTranslation();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -55,7 +55,8 @@ export default function CreateStoreModal_B() {
         brandId: "null",
         brandName: "null",
     });
-    var btnTitle = "新增店面", confirmTitle = "新增", cancelTitle = "取消";
+
+    var btnTitle = t("create_store"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
 
     // ========================== CITY ==========================
@@ -134,7 +135,7 @@ export default function CreateStoreModal_B() {
     }, [data]);
 
 
-    const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
+    const [coverFileName, setCoverFileName] = useState("");
     const handleUploadCoverSucess = (name) => {
         setCoverFileName(name);
     };
@@ -228,44 +229,14 @@ export default function CreateStoreModal_B() {
                                             </Box>
 
 
-                                            {/* Brand info */}
-                                            {/* <Box display={"flex"}>
-                                                <TextField
-                                                    fullWidth
-                                                    disabled={true}
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="品牌id"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={brandId}
-                                                    name="brandId"
-                                                    error={!!touched.brandId && !!errors.brandId}
-                                                    helperText={touched.brandId && errors.brandId}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    disabled={true}
-                                                    variant="filled"
-                                                    type="text"
-                                                    label="品牌名稱"
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={brandName}
-                                                    name="brandName"
-                                                    error={!!touched.brandName && !!errors.brandName}
-                                                    helperText={touched.brandName && errors.brandName}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                            </Box> */}
+
 
 
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="暱稱 (選填)"
+                                                label={t('store_name')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -278,7 +249,7 @@ export default function CreateStoreModal_B() {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="店面介紹"
+                                                label={t('intro')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.intro}
@@ -300,7 +271,7 @@ export default function CreateStoreModal_B() {
                                                         <TextField
                                                             className="modal_input_textfield"
                                                             fullWidth
-                                                            label="搜索店面地點 ..."
+                                                            label={t('search_location')}
                                                             variant="filled"
                                                             type="text"
                                                             sx={{ margin: "1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
@@ -342,7 +313,7 @@ export default function CreateStoreModal_B() {
                                             <Box display={"flex"}>
                                                 {/* CITYFILTER */}
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{t('county_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
@@ -361,7 +332,7 @@ export default function CreateStoreModal_B() {
                                                 </FormControl>
 
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >鄉鎮過濾</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{t('district_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
@@ -382,7 +353,7 @@ export default function CreateStoreModal_B() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面地址"
+                                                    label={t('address')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={address}
@@ -399,11 +370,11 @@ export default function CreateStoreModal_B() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人名稱"
+                                                    label={t('principal_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalName}
-                                                    name="principalName"
+                                                    name={t('principal_name')}
                                                     error={!!touched.principalName && !!errors.principalName}
                                                     helperText={touched.principalName && errors.principalName}
                                                     sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -412,11 +383,11 @@ export default function CreateStoreModal_B() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人賬號"
+                                                    label={t('principal_account')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalAccount}
-                                                    name="principalAccount"
+                                                    name={t('principal_account')}
                                                     error={!!touched.principalAccount && !!errors.principalAccount}
                                                     helperText={touched.principalAccount && errors.principalAccount}
                                                     sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -424,7 +395,7 @@ export default function CreateStoreModal_B() {
 
                                                 {/* PASSWORD INPUT */}
                                                 <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
+                                                    <InputLabel htmlFor="filled-adornment-password">{`${t('principal_password')}`}</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}
@@ -457,7 +428,7 @@ export default function CreateStoreModal_B() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人信箱 (選填)"
+                                                    label={t('principal_email')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalEmail}
@@ -470,7 +441,7 @@ export default function CreateStoreModal_B() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人line"
+                                                    label={t('principal_line')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalLineUrl}

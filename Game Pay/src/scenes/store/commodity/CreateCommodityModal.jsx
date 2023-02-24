@@ -6,7 +6,7 @@ import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
 import { useLazyQuery } from "@apollo/client";
 import { CreateCommodity } from "src/graphQL/Queries";
-
+import { useTranslation } from 'react-i18next';
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
@@ -21,6 +21,7 @@ const checkoutSchema = yup.object().shape({
 export default function CreateRewardModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { t } = useTranslation();
     const [modal, setModal] = useState(false);
     const [counterCheck, setCounterCheck] = useState(true);
     const handleCounterCheckChange = (event) => {
@@ -33,7 +34,7 @@ export default function CreateRewardModal({ props }) {
     };
 
 
-    var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
+    var btnTitle = t("create"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
     const initialValues = {
         storeId: "",
@@ -122,7 +123,7 @@ export default function CreateRewardModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面id"
+                                                    label={t('store_id')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.storeId}
@@ -136,7 +137,7 @@ export default function CreateRewardModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面名稱"
+                                                    label={t('store_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.storeName}
@@ -150,7 +151,7 @@ export default function CreateRewardModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="商品名稱"
+                                                label={t('product_name')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -164,7 +165,7 @@ export default function CreateRewardModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="number"
-                                                    label="價格"
+                                                    label={t('price')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.price}
@@ -177,7 +178,7 @@ export default function CreateRewardModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="number"
-                                                    label="庫存量"
+                                                    label={t('stock')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.stock}

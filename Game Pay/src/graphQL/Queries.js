@@ -396,7 +396,6 @@ query GetMachine(
     )
   }
 }
-
 `
 
 export const BanMachine = gql`

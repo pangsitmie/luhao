@@ -73,7 +73,7 @@ export default function CreateAdsModal() {
 
 
     // IMAGE UPLOAD
-    const [imageFileName, setImageFileName] = useState(default_ads_image_900x360_filename);
+    const [imageFileName, setImageFileName] = useState('');
     const handleUploadImageSucess = (name) => {
         setImageFileName(name);
     };

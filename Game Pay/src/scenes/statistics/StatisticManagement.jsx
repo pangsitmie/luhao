@@ -25,10 +25,10 @@ import Header from '../../components/Header';
 import StatBoxSplit from '../../components/StatBoxSplit';
 import { useDispatch, useSelector } from "react-redux";
 
-
+import { useTranslation } from 'react-i18next';
 const StatisticManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
-
+    const { t } = useTranslation();
 
     const location = useLocation();
     const state = location.state;
@@ -192,7 +192,7 @@ const StatisticManagement = () => {
                 height={"10%"}
                 mb={"1rem"}
             >
-                <Header title={selectedItem.entityName} subtitle="統計資料" />
+                <Header title={selectedItem.entityName} subtitle={t('statistic_info')} />
                 {/* {startAtDateEpoch} - {endAtDateEpoch} */}
             </Box>
 
@@ -205,7 +205,7 @@ const StatisticManagement = () => {
                 <Box display={"flex"} gap={"1rem"} >
                     <TextField
                         id="datetime-local"
-                        label="開始時間點"
+                        label={t('start_time')}
                         type="date"
                         value={startAtDate}
                         onChange={handleStartAtDateChange}
@@ -217,7 +217,7 @@ const StatisticManagement = () => {
 
                     <TextField
                         id="datetime-local"
-                        label="過期時間"
+                        label={t('end_time')}
                         type="date"
                         value={endAtDate}
                         onChange={handleEndAtDateChange}
@@ -226,58 +226,10 @@ const StatisticManagement = () => {
                             shrink: true,
                         }}
                     />
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "100px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={() => setToday()}>
-                        <Typography color={"white"} variant="h5" fontWeight="600">
-                            今天
-                        </Typography>
-                    </Button>
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "100px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={() => setYesterday()}>
-                        <Typography color={"white"} variant="h5" fontWeight="600">
-                            昨天
-                        </Typography>
-                    </Button>
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "100px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={() => setWeek()}>
-                        <Typography color={"white"} variant="h5" fontWeight="600">
-                            本週
-                        </Typography>
-                    </Button>
                 </Box>
 
                 <FormControl sx={{ minWidth: "120px", display: entityName === "store" ? "none" : "block" }}>
-                    <InputLabel id="demo-simple-select-label" >店家過濾</InputLabel>
+                    <InputLabel id="demo-simple-select-label" >{t('store_filter')}</InputLabel>
                     <Select
                         required
                         labelId="demo-simple-select-label"
@@ -303,6 +255,56 @@ const StatisticManagement = () => {
                     </Select>
                 </FormControl>
             </Box>
+            <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
+                <Button
+                    sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        borderRadius: "8px",
+                        padding: "0.5rem 1.5rem",
+                        minWidth: "100px",
+                        ':hover': {
+                            bgcolor: colors.primary[200],
+                        }
+                    }}
+                    onClick={() => setToday()}>
+                    <Typography color={"white"} variant="h6" fontWeight="600">
+                        {t('today')}
+                    </Typography>
+                </Button>
+                <Button
+                    sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        borderRadius: "8px",
+                        padding: "0.5rem 1.5rem",
+                        minWidth: "100px",
+                        ':hover': {
+                            bgcolor: colors.primary[200],
+                        }
+                    }}
+                    onClick={() => setYesterday()}>
+                    <Typography color={"white"} variant="h6" fontWeight="600">
+                        {t('yesterday')}
+                    </Typography>
+                </Button>
+                <Button
+                    sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        borderRadius: "8px",
+                        padding: "0.5rem 1.5rem",
+                        minWidth: "100px",
+                        ':hover': {
+                            bgcolor: colors.primary[200],
+                        }
+                    }}
+                    onClick={() => setWeek()}>
+                    <Typography color={"white"} variant="h6" fontWeight="600">
+                        {t('this_week')}
+                    </Typography>
+                </Button>
+            </Box>
 
 
             {/* FINANCE CHARTS */}
@@ -318,21 +320,24 @@ const StatisticManagement = () => {
 
                 <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
                     <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
-                        財務
+                        {t('finance')}
                     </Typography>
-                    <Link
-                        to={"/statistic-management/finance"}
-                        state={{
-                            data: state.data,
-                        }}
-                    >
-                        <IconButton>
-                            <NavigateNextIcon />
-                        </IconButton>
-                    </Link>
+                    <Box display={"flex"} alignItems={"center"} justifyContent={"center"} gap={".5rem"}>
+                        <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
+                            {t('details')}
+                        </Typography>
+                        <Link
+                            to={"/statistic-management/finance"}
+                            state={{
+                                data: state.data,
+                            }}
+                        >
+                            <IconButton>
+                                <NavigateNextIcon />
+                            </IconButton>
+                        </Link>
+                    </Box>
                 </Box>
-
-
 
                 {/* GRID & CHARTS */}
                 <Box
@@ -352,7 +357,7 @@ const StatisticManagement = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.coinAmountTotal)}
-                            subtitle="總收入"
+                            subtitle={t('total_earning')}
                             icon={
                                 <SavingsIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -372,7 +377,7 @@ const StatisticManagement = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.coinQuantityTotal)}
-                            subtitle="總投幣"
+                            subtitle={t('total_coin')}
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -392,7 +397,7 @@ const StatisticManagement = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.giftAmountTotal)}
-                            subtitle="總支出"
+                            subtitle={t('total_expense')}
                             icon={
                                 <ReceiptIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -412,7 +417,7 @@ const StatisticManagement = () => {
                     >
                         <StatBox
                             title={numberFormatter(displayStatistic.giftQuantityTotal)}
-                            subtitle="總出貨"
+                            subtitle={t('total_prize')}
                             icon={
                                 <InventoryIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -435,7 +440,7 @@ const StatisticManagement = () => {
                     >
                         <StatPercentBox
                             title={((displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal * 100).toFixed(2) + "%")}
-                            subtitle="支出比"
+                            subtitle={t('expense_rate')}
                             progress={(displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal).toFixed(2)}
                         />
                     </Box>
@@ -451,14 +456,14 @@ const StatisticManagement = () => {
                     >
                         <StatPercentBox
                             title={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal) * 100).toFixed(2) + "%")}
-                            subtitle="出貨比"
+                            subtitle={t('prize_rate')}
                             progress={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal)).toFixed(2))}
                         />
                     </Box>
 
 
 
-                    {/* ROW3 */}
+                    {/* ROW3
                     <Box
                         className='span4'
                         sx={{
@@ -517,7 +522,7 @@ const StatisticManagement = () => {
                                 />
                             }
                         />
-                    </Box>
+                    </Box> */}
                 </Box>
             </Box>
 
@@ -533,10 +538,9 @@ const StatisticManagement = () => {
                     webkitBackdropFilter: "blur(20px)",
                     backdropFilter: "blur(20px)",
                 }}>
-
                 <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
                     <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
-                        使用者
+                        {t('users')}
                     </Typography>
                     <Link
                         to={"/statistic-management/user"}
@@ -568,11 +572,11 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatBoxSplit
-                            title={"總客人"}
-                            subtitle1="新客人"
-                            val1={numberFormatter(1000)}
-                            subtitle2="舊客人"
-                            val2={numberFormatter(500)}
+                            title={t('total_users')}
+                            subtitle1={t('new_users')}
+                            val1={numberFormatter(0)}
+                            subtitle2={t('returning_users')}
+                            val2={numberFormatter(0)}
                             icon={
                                 <GroupIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -591,7 +595,7 @@ const StatisticManagement = () => {
                     >
                         <StatBox
                             title={numberFormatter(0)}
-                            subtitle="追隨者總數"
+                            subtitle={t('followers')}
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: colors.greenAccent[300], fontSize: "45px" }}
@@ -610,7 +614,7 @@ const StatisticManagement = () => {
                     >
                         <StatBox
                             title={numberFormatter(0)}
-                            subtitle="追隨者總數"
+                            subtitle={t('followers')}
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: colors.greenAccent[300], fontSize: "45px" }}

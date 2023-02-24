@@ -8,7 +8,7 @@ import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
 import { GetMachineCommodity, GetCommodityList, RemoveMachine, UnBanMachine, ConnectCommodityToMachine } from "src/graphQL/Queries";
 import { replaceNullWithEmptyString } from "src/utils/Utils";
-
+import { useTranslation } from 'react-i18next';
 
 
 const checkoutSchema = yup.object().shape({
@@ -20,6 +20,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function MachineCommodityListModal({ props, storeData }) {
+    const { t } = useTranslation();
     // console.log("STORE DATA: " + storeData.id);
     // console.log(props.id); // this is the machine id
     const theme = useTheme();
@@ -33,7 +34,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
 
 
 
-    var btnTitle = "綁定商品", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    var btnTitle = t('link_product'), confirmTitle = t('update'), deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
     const [initialValues, setInitialValues] = useState({
         id: 0,
         uuid: "",
@@ -182,25 +183,25 @@ export default function MachineCommodityListModal({ props, storeData }) {
                                                         if (initialValues.status === "disable") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
-                                                                    停用
+                                                                    {t('disable')}
                                                                 </Typography>)
                                                         }
                                                         else if (initialValues.status === "banned") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    封鎖
+                                                                    {t('banned')}
                                                                 </Typography>)
                                                         }
                                                         else if (initialValues.status === "removed") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    删除
+                                                                    {t('deleted')}
                                                                 </Typography>)
                                                         }
                                                         else {
                                                             return (
                                                                 <Typography variant="h5" color={colors.greenAccent[300]} sx={{ margin: ".5rem 0" }}>
-                                                                    正常
+                                                                    {t('normal')}
                                                                 </Typography>)
                                                         }
                                                     })()}
@@ -228,7 +229,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="商品名稱"
+                                                    label={t('product_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={selectedCommodity.name}
@@ -238,7 +239,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150, mb: "1rem" }}>
-                                                    <InputLabel id="demo-simple-select-label" >商品選擇</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{t('product_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], width: "auto" }}
                                                         labelId="demo-simple-select-label"
@@ -264,7 +265,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="number"
-                                                    label="價格"
+                                                    label={t('price')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={selectedCommodity.price}
@@ -278,7 +279,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="number"
-                                                    label="庫存量"
+                                                    label={t('stock')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={selectedCommodity.stock}

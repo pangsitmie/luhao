@@ -23,7 +23,7 @@ import { GetStoreStatistic, GetStoreStatisticPeriod } from 'src/graphQL/Queries'
 import { STORE_GetStoreInfo } from 'src/graphQL/StorePrincipalQueries';
 import Loader from 'src/components/loader/Loader';
 import Error from 'src/components/error/Error';
-
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -31,6 +31,7 @@ const StoreDashboard = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { t } = useTranslation();
 
     const [selectedItem, setSelectedItem] = useState({
         id: 0,
@@ -137,8 +138,8 @@ const StoreDashboard = () => {
         giftAmountTotal.push({ x, y: item.giftAmountTotal });
     }
 
-    finalData.push({ id: "總收入", color: "#219ebc", data: coinAmountTotal });
-    finalData.push({ id: "總支出", color: "#fb8500", data: giftAmountTotal });
+    finalData.push({ id: t('total_earning'), color: "#219ebc", data: coinAmountTotal });
+    finalData.push({ id: t('total_expense'), color: "#fb8500", data: giftAmountTotal });
 
 
     if (loadingStore, loadingStorePeriod) return <Loader />;
@@ -148,7 +149,7 @@ const StoreDashboard = () => {
         <Box m="20px">
             {/* HEADER */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="DASHBOARD" subtitle={"Welcome Back " + name} />
+                <Header title={t('dashboard')} subtitle={t('welcome_back') + name} />
             </Box>
 
             {/* FINANCE CHARTS */}
@@ -164,7 +165,7 @@ const StoreDashboard = () => {
 
                 <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
                     <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
-                        本日統計
+                        {t('today_statistic')}
                     </Typography>
                 </Box>
 
@@ -186,7 +187,7 @@ const StoreDashboard = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.coinAmountTotal)}
-                            subtitle="總收入"
+                            subtitle={t('total_earning')}
                             icon={
                                 <SavingsIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -206,7 +207,7 @@ const StoreDashboard = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.coinQuantityTotal)}
-                            subtitle="總投幣"
+                            subtitle={t('total_coin')}
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -226,7 +227,7 @@ const StoreDashboard = () => {
                     >
                         <StatBox
                             title={currencyFormatter(displayStatistic.giftAmountTotal)}
-                            subtitle="總支出"
+                            subtitle={t('total_expense')}
                             icon={
                                 <ReceiptIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -246,7 +247,7 @@ const StoreDashboard = () => {
                     >
                         <StatBox
                             title={numberFormatter(displayStatistic.giftQuantityTotal)}
-                            subtitle="總出貨"
+                            subtitle={t('total_prize')}
                             icon={
                                 <InventoryIcon
                                     sx={{ color: colors.primary[100], fontSize: "45px" }}
@@ -268,8 +269,10 @@ const StoreDashboard = () => {
                         }}
                     >
                         <StatPercentBox
-                            title={((displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal * 100).toFixed(2) + "%")}
-                            subtitle="支出比"
+                            title={(!isNaN(displayStatistic.giftAmountTotal) && displayStatistic.coinAmountTotal !== 0) ?
+                                ((displayStatistic.giftAmountTotal / (displayStatistic.coinAmountTotal) * 100).toFixed(2) + "%")
+                                : "0%"}
+                            subtitle={t('expense_rate')}
                             progress={(displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal).toFixed(2)}
                         />
                     </Box>
@@ -284,8 +287,10 @@ const StoreDashboard = () => {
                         }}
                     >
                         <StatPercentBox
-                            title={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal) * 100).toFixed(2) + "%")}
-                            subtitle="出貨比"
+                            title={(!isNaN(displayStatistic.coinQuantityTotal) && displayStatistic.coinQuantityTotal !== 0) ?
+                                ((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal) * 100).toFixed(2) + "%")
+                                : "0%"}
+                            subtitle={t('prize_rate')}
                             progress={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal)).toFixed(2))}
                         />
                     </Box>
@@ -326,7 +331,7 @@ const StoreDashboard = () => {
                                 fontWeight="600"
                                 color={colors.grey[100]}
                             >
-                                本日總收入
+                                {t('total_today_earning')}
                             </Typography>
                             <Typography
                                 variant="h3"
@@ -337,7 +342,7 @@ const StoreDashboard = () => {
                             </Typography>
                         </Box>
                     </Box>
-                    <Box height="250px" m="-20px 0 0 0">
+                    <Box height="250px" m="-20px 20px 0 0">
                         <LineChart isDashboard={true} data={finalData} />
                     </Box>
                 </Box>

@@ -11,11 +11,11 @@ import { useQuery } from '@apollo/client'
 import { GetStoreListByBrand, GetBrandStatisticPeriod, GetStoreStatisticPeriod } from 'src/graphQL/Queries';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from "react-redux";
-
+import { useTranslation } from 'react-i18next';
 
 const FinanceStatistic = () => {
     const { entityName } = useSelector((state) => state.entity);
-
+    const { t } = useTranslation();
     const location = useLocation();
     const state = location.state;
 
@@ -50,13 +50,14 @@ const FinanceStatistic = () => {
 
     useEffect(() => {
         const epochDifference = endAtDateEpoch - startAtDateEpoch;
+        // console.log(epochDifference);
         setDisplayHour(epochDifference < 604800);
         switch (true) {
             case epochDifference > 2592000:
                 setPeriod('month');
                 // console.log('month');
                 break;
-            case epochDifference > 604800:
+            case epochDifference > 691200:
                 setPeriod('week');
                 // console.log('week');
                 break;
@@ -160,6 +161,10 @@ const FinanceStatistic = () => {
         setStartAtDate(getCurrentDate());
         setEndAtDate(getCurrentDate());
     }
+    const setYesterday = () => {
+        setStartAtDate(getYesterdayDate());
+        setEndAtDate(getCurrentDate());
+    }
 
     const setWeek = () => {
         setStartAtDate(getWeekAgoDate());
@@ -220,10 +225,10 @@ const FinanceStatistic = () => {
 
 
 
-    finalData.push({ id: "Coin Qty Tot", color: "#6a994e", data: coinQuantityTotal });
-    finalData.push({ id: "Coin Amt Tot", color: "#219ebc", data: coinAmountTotal });
-    finalData.push({ id: "Gift Amt Tot", color: "#fb8500", data: giftAmountTotal });
-    finalData.push({ id: "Gift Qty Tot", color: "#ffb703", data: giftQuantityTotal });
+    finalData.push({ id: t('total_earning'), color: "#6a994e", data: coinQuantityTotal });
+    finalData.push({ id: t('total_coin'), color: "#219ebc", data: coinAmountTotal });
+    finalData.push({ id: t('total_expense'), color: "#fb8500", data: giftAmountTotal });
+    finalData.push({ id: t('total_prize'), color: "#ffb703", data: giftQuantityTotal });
 
 
     const handleClick = (selected) => {
@@ -241,7 +246,7 @@ const FinanceStatistic = () => {
                 </Box>
                 <Box>
                     <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{ m: "0 0 5px 0" }}>
-                        財務細節資料
+                        {t('financial_details')}
                     </Typography>
                 </Box>
             </Box >
@@ -255,7 +260,7 @@ const FinanceStatistic = () => {
                 <Box display={"flex"} gap={"1rem"} >
                     <TextField
                         id="datetime-local"
-                        label="開始時間點"
+                        label={t('start_time')}
                         type="date"
                         value={startAtDate}
                         onChange={handleStartAtDateChange}
@@ -267,7 +272,7 @@ const FinanceStatistic = () => {
 
                     <TextField
                         id="datetime-local"
-                        label="過期時間"
+                        label={t('end_time')}
                         type="date"
                         value={endAtDate}
                         onChange={handleEndAtDateChange}
@@ -276,45 +281,10 @@ const FinanceStatistic = () => {
                             shrink: true,
                         }}
                     />
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "100px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={() => setToday()}>
-                        <Typography color={"white"} variant="h5" fontWeight="600">
-                            今天
-                        </Typography>
-                    </Button>
-                    <Button sx={{
-                        backgroundColor: colors.primary[300],
-                        color: colors.grey[100],
-                        minWidth: "100px",
-                        height: "52px",
-                        borderRadius: "10px",
-                        ':hover': {
-                            bgcolor: colors.primary[300],
-                            border: '1px solid white',
-                        }
-                    }}
-                        onClick={() => setWeek()}>
-                        <Typography color={"white"} variant="h5" fontWeight="600">
-                            本週
-                        </Typography>
-                    </Button>
                 </Box>
 
-                {/* <Box>
-                    UNIX TIME: {startAtDate}: {startAtDateEpoch} --- {endAtDate}: {endAtDateEpoch}
-                </Box> */}
                 <FormControl sx={{ minWidth: "120px", display: entityName === "store" ? "none" : "block" }}>
-                    <InputLabel id="demo-simple-select-label" >店家過濾</InputLabel>
+                    <InputLabel id="demo-simple-select-label" >{t('store_filter')}</InputLabel>
                     <Select
                         required
                         labelId="demo-simple-select-label"
@@ -340,6 +310,56 @@ const FinanceStatistic = () => {
                     </Select>
                 </FormControl>
             </Box>
+            <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
+                <Button
+                    sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        borderRadius: "8px",
+                        padding: "0.5rem 1.5rem",
+                        minWidth: "100px",
+                        ':hover': {
+                            bgcolor: colors.primary[200],
+                        }
+                    }}
+                    onClick={() => setToday()}>
+                    <Typography color={"white"} variant="h5" fontWeight="600">
+                        {t('today')}
+                    </Typography>
+                </Button>
+                <Button
+                    sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        borderRadius: "8px",
+                        padding: "0.5rem 1.5rem",
+                        minWidth: "100px",
+                        ':hover': {
+                            bgcolor: colors.primary[200],
+                        }
+                    }}
+                    onClick={() => setYesterday()}>
+                    <Typography color={"white"} variant="h6" fontWeight="600">
+                        {t('yesterday')}
+                    </Typography>
+                </Button>
+                <Button
+                    sx={{
+                        backgroundColor: colors.primary[300],
+                        color: colors.grey[100],
+                        borderRadius: "8px",
+                        padding: "0.5rem 1.5rem",
+                        minWidth: "100px",
+                        ':hover': {
+                            bgcolor: colors.primary[200],
+                        }
+                    }}
+                    onClick={() => setWeek()}>
+                    <Typography color={"white"} variant="h5" fontWeight="600">
+                        {t('this_week')}
+                    </Typography>
+                </Button>
+            </Box >
 
 
             <Box
@@ -399,7 +419,7 @@ const FinanceStatistic = () => {
                                 onClick={() => handleClick('hour')}
                             >
                                 <Typography variant="h6" fontWeight="400" color={colors.grey[100]}>
-                                    時
+                                    {t('hour')}
                                 </Typography>
                             </Button>
                             <Button
@@ -413,7 +433,7 @@ const FinanceStatistic = () => {
                                 onClick={() => handleClick('day')}
                             >
                                 <Typography variant="h6" fontWeight="400" color={colors.grey[100]}>
-                                    天
+                                    {t('day')}
                                 </Typography>
                             </Button>
                             <Button
@@ -427,7 +447,7 @@ const FinanceStatistic = () => {
                                 onClick={() => handleClick('week')}
                             >
                                 <Typography variant="h6" fontWeight="400" color={colors.grey[100]}>
-                                    周
+                                    {t('week')}
                                 </Typography>
                             </Button>
                             <Button
@@ -441,7 +461,7 @@ const FinanceStatistic = () => {
                                 onClick={() => handleClick('month')}
                             >
                                 <Typography variant="h6" fontWeight="400" color={colors.grey[100]}>
-                                    月
+                                    {t('month')}
                                 </Typography>
                             </Button>
 
@@ -449,7 +469,7 @@ const FinanceStatistic = () => {
                         </Box>
 
                     </Box>
-                    <Box height="400px" m="-20px 0 0 0">
+                    <Box height="400px" m="-20px 20px 0 0">
                         <LineChart isDashboard={true} data={finalData} />
                     </Box>
                 </Box>
@@ -502,9 +522,17 @@ const getCurrentDate = () => {
 
     return `${year}-${month}-${day}`
 }
-// const getToday6Epoch = () => {
-//     return (new Date(getCurrentDate()).getTime() / 1000) - 7200;
-// }
+const getYesterdayDate = () => {
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = ("0" + (date.getMonth() + 1)).slice(-2)
+    const day = ("0" + (date.getDate() - 1)).slice(-2)
+
+    const hour = ("0" + date.getHours()).slice(-2)
+    const minute = ("0" + date.getMinutes()).slice(-2)
+
+    return `${year}-${month}-${day}`
+}
 const getTodayEpoch = () => {
     return (new Date(getCurrentDate()).getTime() / 1000);
 }

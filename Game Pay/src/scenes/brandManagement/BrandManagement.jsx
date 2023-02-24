@@ -147,10 +147,10 @@ const BrandManagement = () => {
                     borderRadius="10px"
                     height={"52px"}
                     maxWidth={140}>
-                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder="品牌名 或 負責人" inputRef={searchValueRef} />
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('brand_name')} inputRef={searchValueRef} />
                 </Box>
                 <FormControl sx={{ width: 100 }} >
-                    <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
+                    <InputLabel id="demo-simple-select-label" >{t('status')}</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                         labelId="demo-simple-select-label"
@@ -159,9 +159,9 @@ const BrandManagement = () => {
                         label={t("status")}
                         onChange={handleStatusChange}
                     >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"正常"}>正常</MenuItem>
-                        <MenuItem value={"停用"}>停用</MenuItem>
+                        <MenuItem value={"無"}>{t('none')}</MenuItem>
+                        <MenuItem value={"正常"}>{t('normal')}</MenuItem>
+                        <MenuItem value={"停用"}>{t('disable')}</MenuItem>
                     </Select>
                 </FormControl>
                 {/* <FormControl sx={{ minWidth: 100 }} >

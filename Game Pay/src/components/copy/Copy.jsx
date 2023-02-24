@@ -4,9 +4,9 @@ import './copy.css'
 const Copy = () => {
     return (
         <div className='copy_container'>
-            建議使用Chrome, Safari最新版本瀏覽
+            Please use Chrome or Safari for the best experience.
             <br />
-            <span class="black">Design by <a class="black" href="https://roundbytes.com">Round Bytes</a></span>
+            <span className="black">Design by <a className="black" href="https://roundbytes.com">Round Bytes</a></span>
         </div>
     )
 }

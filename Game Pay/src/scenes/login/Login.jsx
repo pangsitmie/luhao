@@ -57,19 +57,6 @@ const Login = () => {
     const [isLoggedIn, setIsLogin] = useState(false);
     const [accessToken, setAccessToken] = useState('');
 
-    const getStyles = (entityName, currentEntity) => {
-        if (entityName === currentEntity) {
-            if (entityName === "company") {
-                return { backgroundColor: "rgba(255,255,255,.2)" };
-            } else if (entityName === "brand") {
-                return { backgroundColor: "rgba(255,255,255,.2)" };
-            } else if (entityName === "store") {
-                return { backgroundColor: "rgba(255,255,255,.2)" };
-            }
-        }
-        return {};
-    };
-
 
     // ========================== COMPANY LOGIN ==========================
     const [apolloManagerLogin, { loading: loadingManager, error: errorManager, data: dataManager }] = useMutation(ManagerLogin);
@@ -104,68 +91,6 @@ const Login = () => {
     }, [data1]);
     // ========================== END ==========================
 
-    // ========================== BRAND LOGIN ==========================
-    const [apolloBrandLogin, { loading: loadingBrand, error: errorBrand, data: dataBrand }] = useMutation(BrandLogin);
-    // if login success we want to get the access token
-    useEffect(() => {
-        if (dataBrand) {
-            console.log("LOGIN TOKEN: " + dataBrand.brandPrincipalWebLogin);
-            localStorage.setItem('login_token', dataBrand.brandPrincipalWebLogin);
-            setIsLogin(true);
-
-            apolloGetBrandAccessToken({
-                variables: {
-                    refreshToken: "Bearer " + dataBrand.brandPrincipalWebLogin
-                }
-            });
-        }
-    }, [dataBrand]);
-
-    const [apolloGetBrandAccessToken, { loading: loadingBrandAT, error: errorBrandAT, data: dataBrandAT }] = useLazyQuery(GetBrandPrincipalWebAccessToken);
-    useEffect(() => {
-        if (dataBrandAT) {
-            console.log("ACCESS TOKEN: " + dataBrandAT.getBrandPrincipalWebAccessToken);
-            setAccessToken(dataBrandAT.getBrandPrincipalWebAccessToken);
-            localStorage.setItem('token', dataBrandAT.getBrandPrincipalWebAccessToken);
-            localStorage.setItem('entity', JSON.stringify({ entityName: 'brand' }));
-            navigate("/");
-        }
-        else {
-            console.log("NO ACCESS TOKEN")
-        }
-    }, [dataBrandAT]);
-
-    // ========================== END ==========================
-    // ========================== STORE LOGIN ==========================
-    const [apolloStoreLogin, { loading: loadingStore, error: errorStore, data: dataStore }] = useMutation(StoreLogin);
-    // if login success we want to get the access token
-    useEffect(() => {
-        if (dataStore) {
-            console.log("LOGIN TOKEN: " + dataStore.storePrincipalWebLogin);
-            localStorage.setItem('login_token', dataStore.storePrincipalWebLogin);
-            setIsLogin(true);
-
-            apolloGeStoreAccessToken({
-                variables: {
-                    refreshToken: "Bearer " + dataStore.storePrincipalWebLogin
-                }
-            });
-        }
-    }, [dataStore]);
-
-    const [apolloGeStoreAccessToken, { loading: loadingStoreAT, error: errorStoreAT, data: dataStoreAT }] = useLazyQuery(GetStoreWebAccessToken);
-    useEffect(() => {
-        if (dataStoreAT) {
-            console.log("ACCESS TOKEN: " + dataStoreAT.getStorePrincipalWebAccessToken);
-            setAccessToken(dataStoreAT.getStorePrincipalWebAccessToken);
-            localStorage.setItem('token', dataStoreAT.getStorePrincipalWebAccessToken);
-            localStorage.setItem('entity', JSON.stringify({ entityName: 'store' }));
-            navigate("/");
-        }
-        else {
-            console.log("NO ACCESS TOKEN")
-        }
-    }, [dataStoreAT]);
 
 
 
@@ -174,34 +99,10 @@ const Login = () => {
     const handleFormSubmit = (values) => {
 
         const variables = {};
-        switch (entityName) {
-            case "company":
-                console.log("COMPANY LOGIN");
-                variables.account = values.account;
-                variables.password = values.password;
-                apolloManagerLogin({ variables });
-                break;
-            case "brand":
-                console.log("BRAND LOGIN");
-                variables.phone = {
-                    country: "tw",
-                    number: values.account
-                };
-                variables.password = values.password;
-                apolloBrandLogin({ variables });
-                break;
-            case "store":
-                console.log("STORE LOGIN");
-                variables.account = values.account;
-                variables.password = values.password;
-                apolloStoreLogin({ variables });
-                break;
-            default:
-                variables.account = values.account;
-                variables.password = values.password;
-                apolloManagerLogin({ variables });
-                break;
-        }
+        variables.account = values.account;
+        variables.password = values.password;
+        apolloManagerLogin({ variables });
+
         console.log(variables);
 
     }
@@ -213,7 +114,7 @@ const Login = () => {
                     <Typography variant="h5" sx={{
                         color: colors.primary[100], fontSize: "13px", fontWeight: "300", ml: "2px", mb: "5px"
                     }}>
-                        {entityName.toUpperCase()}
+                        COMPANY
                     </Typography>
                     <span className="title">GAME PAY</span>
                     <div>
@@ -236,14 +137,7 @@ const Login = () => {
                                             fullWidth
                                             variant="filled"
                                             type="text"
-                                            label={(() => {
-                                                switch (entityName) {
-                                                    case "brand":
-                                                        return "Phone";
-                                                    default:
-                                                        return "Account";
-                                                }
-                                            })()}
+                                            label="Account"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             value={values.account}

@@ -7,6 +7,7 @@ import { tokens } from "src/theme";
 import { useLazyQuery } from "@apollo/client";
 import { CreateMachineFromGetStores } from "src/graphQL/Queries";
 
+import { useTranslation } from 'react-i18next';
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
@@ -20,6 +21,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateMachineModal({ props }) {
+    const { t } = useTranslation();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
@@ -34,7 +36,7 @@ export default function CreateMachineModal({ props }) {
     };
 
 
-    var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
+    var btnTitle = t("create"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
     const initialValues = {
         storeId: "",
@@ -143,7 +145,7 @@ export default function CreateMachineModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面id"
+                                                    label={t('store_id')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.storeId}
@@ -157,7 +159,7 @@ export default function CreateMachineModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面名稱"
+                                                    label={t('store_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.storeName}
@@ -171,7 +173,7 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="機台號碼"
+                                                label={t('machine_code')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.code}
@@ -184,7 +186,7 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="機台名稱"
+                                                label={t('machine_name')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -211,7 +213,7 @@ export default function CreateMachineModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="價格 (枚數)"
+                                                    label={t('amount_spent_per_machine')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.price}
@@ -224,7 +226,7 @@ export default function CreateMachineModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="備註"
+                                                    label={t('description')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.description}
@@ -240,21 +242,21 @@ export default function CreateMachineModal({ props }) {
 
                                             <FormControl
                                                 fullWidth>
-                                                <InputLabel id="demo-simple-select-label" >機械錶檢查</InputLabel>
+                                                <InputLabel id="demo-simple-select-label" >{t('counter_check')}</InputLabel>
                                                 <Select
                                                     sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                     labelId="demo-simple-select-label"
                                                     id="demo-simple-select"
                                                     value={counterCheck}
-                                                    label="機械錶檢查"
+                                                    label={t('counter_check')}
                                                     onChange={handleCounterCheckChange}
                                                 >
-                                                    <MenuItem value={true}>是</MenuItem>
-                                                    <MenuItem value={false}>否</MenuItem>
+                                                    <MenuItem value={true}>{t('yes')}</MenuItem>
+                                                    <MenuItem value={false}>{t('no')}</MenuItem>
                                                 </Select>
                                             </FormControl>
 
-                                            <Typography variant="h4" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>機械錶</Typography>
+                                            <Typography variant="h4" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>{t('counter_check')}</Typography>
                                             <Box>
                                                 <FormControlLabel
                                                     control={
@@ -265,7 +267,7 @@ export default function CreateMachineModal({ props }) {
                                                             color="success"
                                                         />
                                                     }
-                                                    label="機械錶"
+                                                    label={t('counter')}
                                                     style={{ color: colors.grey[100] }}
                                                 />
 

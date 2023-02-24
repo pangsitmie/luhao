@@ -18,11 +18,11 @@ import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
-
+import { useTranslation } from 'react-i18next';
 
 const StatisticList = () => {
     const { entityName } = useSelector((state) => state.entity);
-
+    const { t } = useTranslation();
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -127,7 +127,7 @@ const StatisticList = () => {
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>統計</h1>
+                <h1 className='userManagement_title'>{t('statistic')}</h1>
             </Box>
 
             {/* here */}
@@ -142,7 +142,7 @@ const StatisticList = () => {
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}>
-                    <InputBase sx={{ ml: "1rem", pr: 2 }} placeholder="輸入名稱" inputRef={searchValueRef} />
+                    <InputBase sx={{ ml: "1rem", pr: 2 }} placeholder={t('brand_name')} inputRef={searchValueRef} />
                 </Box>
 
 
@@ -161,7 +161,7 @@ const StatisticList = () => {
                     onClick={submitSearch}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
                     <Typography color={"white"} variant="h5" fontWeight="500">
-                        查詢
+                        {t('search')}
                     </Typography>
                 </Button>
 
@@ -187,7 +187,6 @@ const StatisticList = () => {
                         offset={offset}
                         onPageChange={handlePageChange}
                     />
-
                 </Box>
                 <Box
                     display="flex"
@@ -198,11 +197,11 @@ const StatisticList = () => {
                     p="15px 0"
                 >
                     <Box display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500" ml="15px">品牌名稱</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500" ml="15px">{t('brand_name')}</Typography>
                     </Box>
 
                     <Box display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500" mr="25px">統計資料</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500" mr="25px">{t('statistic')}</Typography>
                     </Box>
                 </Box>
 
@@ -244,7 +243,7 @@ const StatisticList = () => {
                                     }}
                                 >
                                     <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
-                                        查看統計
+                                        {t('details')}
                                     </Button>
                                 </Link>
                             </Box>

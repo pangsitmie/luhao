@@ -13,12 +13,11 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { GetBrandList } from "../../graphQL/Queries";
 import { areaData } from "../../data/cityData";
-import { defaultCoverURL, default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
+import { useTranslation } from 'react-i18next';
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -35,7 +34,7 @@ const checkoutSchema = yup.object().shape({
 
 export default function CreateStoreModal() {
     const isNonMobile = useMediaQuery("(min-width:600px)");
-
+    const { t } = useTranslation();
 
 
     const theme = useTheme();
@@ -56,7 +55,8 @@ export default function CreateStoreModal() {
         brandId: "null",
         brandName: "null",
     });
-    var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
+    var btnTitle = t("create_store"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+
 
 
     // ========================== CITY ==========================
@@ -159,7 +159,7 @@ export default function CreateStoreModal() {
     }, [data]);
 
 
-    const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
+    const [coverFileName, setCoverFileName] = useState('');
     const handleUploadCoverSucess = (name) => {
         setCoverFileName(name);
     };

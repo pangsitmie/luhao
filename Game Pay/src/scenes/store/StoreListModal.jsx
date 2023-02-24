@@ -19,7 +19,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Loader from "../../components/loader/Loader";
 import Error from "../../components/error/Error";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -37,7 +37,7 @@ const checkoutSchema = yup.object().shape({
 
 export default function StoreListModal({ props }) {
     const { entityName } = useSelector((state) => state.entity);
-
+    const { t } = useTranslation();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -54,7 +54,7 @@ export default function StoreListModal({ props }) {
         event.preventDefault();
     };
 
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
 
     // ========================== CITY ==========================
@@ -350,19 +350,19 @@ export default function StoreListModal({ props }) {
                                                             if (initialValues.status === "disable") {
                                                                 return (
                                                                     <Typography variant="h5" color={colors.primary[100]} >
-                                                                        停用
+                                                                        {t('disable')}
                                                                     </Typography>)
                                                             }
                                                             if (initialValues.status === "banned") {
                                                                 return (
                                                                     <Typography variant="h5" color={colors.redAccent[500]}>
-                                                                        封鎖
+                                                                        {t('banned')}
                                                                     </Typography>)
                                                             }
                                                             else {
                                                                 return (
                                                                     <Typography variant="h5" color={colors.greenAccent[500]}>
-                                                                        正常
+                                                                        {t('normal')}
                                                                     </Typography>)
                                                             }
                                                         })()}
@@ -380,7 +380,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="暱稱"
+                                                    label={t('store_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.name}
@@ -393,7 +393,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="介紹 (選填)"
+                                                    label={`${t('intro')} ${t('optional')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.intro}
@@ -414,8 +414,8 @@ export default function StoreListModal({ props }) {
                                                         label="status"
                                                         onChange={handleStatusChange}
                                                     >
-                                                        <MenuItem value={"normal"}>正常</MenuItem>
-                                                        <MenuItem value={"disable"}>停用</MenuItem>
+                                                        <MenuItem value={"normal"}>{t('normal')}</MenuItem>
+                                                        <MenuItem value={"disable"}>{t('disable')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Box>
@@ -426,7 +426,7 @@ export default function StoreListModal({ props }) {
                                                     variant="filled"
                                                     disabled={true}
                                                     type="text"
-                                                    label="品牌id"
+                                                    label={t('brand_id')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.brandId}
@@ -441,7 +441,7 @@ export default function StoreListModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="品牌名稱"
+                                                    label={t('brand_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.brandName}
@@ -463,7 +463,7 @@ export default function StoreListModal({ props }) {
                                                         <TextField
                                                             className="modal_input_textfield"
                                                             fullWidth
-                                                            label="搜索店面地點 ..."
+                                                            label={t('search_location')}
                                                             variant="filled"
                                                             type="text"
                                                             sx={{ mb: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
@@ -501,7 +501,7 @@ export default function StoreListModal({ props }) {
                                             {/* STORE ADDRESS */}
                                             <Box display={"flex"}>
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{t('county_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
@@ -520,7 +520,7 @@ export default function StoreListModal({ props }) {
                                                 </FormControl>
 
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >鄉鎮過濾</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{t('district_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
@@ -541,7 +541,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面地址"
+                                                    label={t('address')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={address}
@@ -558,7 +558,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人名稱"
+                                                    label={t('principal_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalName}
@@ -572,7 +572,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人line"
+                                                    label={t('principal_line')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalLineUrl}
@@ -588,7 +588,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人信箱"
+                                                    label={t('principal_email')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalEmail}
@@ -599,7 +599,7 @@ export default function StoreListModal({ props }) {
                                                 />
                                                 {/* PASSWORD INPUT */}
                                                 <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
+                                                    <InputLabel htmlFor="filled-adornment-password">{`${t('principal_password')} ${t('optional')}`}</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}

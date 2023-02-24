@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { useContext } from "react";
-import { ColorModeContext, tokens } from "../../theme";
 
 import PublicIcon from '@mui/icons-material/Public';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 import i18next from 'i18next';
 
 import './languageDropdown.css'
@@ -24,25 +21,25 @@ const LanguageDropdown = () => {
 
     return (
         <>
-            <button onClick={toggleSubmenu4} className="menu-item sub__menus__arrows" >
+            <IconButton onClick={toggleSubmenu4} className="menu-item sub__menus__arrows" >
                 <PublicIcon sx={{ color: "#Fefefe" }} />
                 <ul className={boxClassSubMenu4.join(' ')} >
                     <li>
-                        <NavLink onClick={() => i18next.changeLanguage('en')} activeClassName='is-active'>
+                        <NavLink onClick={() => i18next.changeLanguage('en')}>
                             <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "center", color: "#D1D1D1" }}>
                                 EN
                             </Typography>
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink onClick={() => i18next.changeLanguage('tw')} activeClassName='is-active'>
+                        <NavLink onClick={() => i18next.changeLanguage('tw')} >
                             <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "center", color: "#D1D1D1" }}>
                                 TW
                             </Typography>
                         </NavLink>
                     </li>
                 </ul>
-            </button>
+            </IconButton>
         </>
     )
 }

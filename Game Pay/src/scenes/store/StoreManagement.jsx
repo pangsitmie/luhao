@@ -26,9 +26,14 @@ import { useSelector } from "react-redux";
 import { BRAND_GetAllStores } from 'src/graphQL/BrandPrincipalQueries';
 import CreateStoreModal_B from './CreateStoreModal_B';
 import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
+import { useTranslation } from 'react-i18next';
+// const { t } = useTranslation();
+
+
 
 const StoreManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
+    const { t } = useTranslation();
 
 
     //THEME
@@ -156,7 +161,7 @@ const StoreManagement = () => {
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>店面管理</h1>
+                <h1 className='userManagement_title'>{t('store_management')}</h1>
             </Box>
 
             {/* SEARCH DIV */}
@@ -168,10 +173,12 @@ const StoreManagement = () => {
                     borderRadius="10px"
                     height={"52px"}
                     maxWidth={140}>
-                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder="品牌 或 店面名稱" inputRef={brandRef} />
+                    <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }} placeholder={`${t('brand_management')} ${t('or')} ${t('store_management')}`} inputRef={brandRef} />
                 </Box>
                 <FormControl sx={{ width: 120 }}>
-                    <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
+                    <InputLabel id="demo-simple-select-label" >
+                        {t('county_filter')}
+                    </InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
                         labelId="demo-simple-select-label"
@@ -206,7 +213,7 @@ const StoreManagement = () => {
                     onClick={submitSearch}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
                     <Typography color={"white"} variant="h5" fontWeight="500">
-                        查詢
+                        {t('search')}
                     </Typography>
                 </Button>
 
@@ -267,19 +274,19 @@ const StoreManagement = () => {
                 >
 
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">店面名稱</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('store_name')}</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('status')}</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">商品</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('products')}</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">機臺</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('machine')}</Typography>
                     </Box>
                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">資料</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('details')}</Typography>
                     </Box>
                 </Box>
                 <Box
@@ -303,25 +310,25 @@ const StoreManagement = () => {
                                     if (store.status.name === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                停用
+                                                {t('disable')}
                                             </Typography>)
                                     }
                                     else if (store.status.name === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                封鎖
+                                                {t('banned')}
                                             </Typography>)
                                     }
                                     else if (store.status.name === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                移除
+                                                {t('deleted')}
                                             </Typography>)
                                     }
                                     else {
                                         return (
                                             <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                正常
+                                                {t('normal')}
                                             </Typography>)
                                     }
                                 })()}
@@ -343,7 +350,7 @@ const StoreManagement = () => {
                                     }}
                                 >
                                     <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.5rem" }}>
-                                        商品
+                                        {t('manage')}
                                     </Button>
                                 </Link>
                             </Box>
@@ -361,7 +368,7 @@ const StoreManagement = () => {
                                     }}
                                 >
                                     <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.5rem" }}>
-                                        機台
+                                        {t('manage')}
                                     </Button>
                                 </Link>
                             </Box>

@@ -6,13 +6,12 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { CreateBrand } from "../../graphQL/Mutations";
-import { defaultCoverURL, defaultLogoURL, default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
+// import { defaultCoverURL, defaultLogoURL, default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
 
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
@@ -63,11 +62,11 @@ export default function CreateBrandModal() {
 
 
   // ========================== FILE UPLOAD ==========================
-  const [logoFileName, setLogoFileName] = useState(default_logo_360x360_filename);
+  const [logoFileName, setLogoFileName] = useState('');
   const handleUploadLogoSuccess = (name) => {
     setLogoFileName(name);
   };
-  const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
+  const [coverFileName, setCoverFileName] = useState('');
   const handleUploadCoverSucess = (name) => {
     setCoverFileName(name);
   };

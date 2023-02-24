@@ -11,7 +11,7 @@ import { GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "src/grap
 import { replaceNullWithEmptyString } from "src/utils/Utils";
 import QRCode from "qrcode";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -22,7 +22,7 @@ const checkoutSchema = yup.object().shape({
 
 export default function MachineListModal({ props }) {
     const { entityName } = useSelector((state) => state.entity);
-
+    const { t } = useTranslation();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -45,11 +45,11 @@ export default function MachineListModal({ props }) {
     };
 
 
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
     const [initialValues, setInitialValues] = useState({
         id: 0,
         UUID: "",
-        NFC: "",
+        nfc: "",
         name: "",
         code: "",
         price: 0,
@@ -106,7 +106,7 @@ export default function MachineListModal({ props }) {
                 // ...nonNullData
                 id: nonNullData.id,
                 UUID: nonNullData.uuid,
-                NFC: nonNullData.nfc,
+                nfc: nonNullData.nfc,
                 name: nonNullData.name,
                 code: nonNullData.code,
                 price: nonNullData.price,
@@ -183,7 +183,7 @@ export default function MachineListModal({ props }) {
             ],
             name: values.name,
             description: values.desc,
-            nfc: values.NFC,
+            nfc: values.nfc,
             statusId: initialValues.status === 'banned' ? null : status,
             price: parseInt(values.price),
             counterCheck: counterCheck
@@ -201,7 +201,7 @@ export default function MachineListModal({ props }) {
             ]
         }
         console.log(variables);
-        ApolloUpdateMachine({ variables });
+        // ApolloUpdateMachine({ variables });
 
 
     };
@@ -281,25 +281,25 @@ export default function MachineListModal({ props }) {
                                                         if (initialValues.status === "disable") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
-                                                                    停用
+                                                                    {t('disable')}
                                                                 </Typography>)
                                                         }
                                                         else if (initialValues.status === "banned") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    封鎖
+                                                                    {t('banned')}
                                                                 </Typography>)
                                                         }
                                                         else if (initialValues.status === "removed") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    删除
+                                                                    {t('deleted')}
                                                                 </Typography>)
                                                         }
                                                         else {
                                                             return (
                                                                 <Typography variant="h5" color={colors.greenAccent[300]} sx={{ margin: ".5rem 0" }}>
-                                                                    正常
+                                                                    {t('normal')}
                                                                 </Typography>)
                                                         }
                                                     })()}
@@ -327,7 +327,7 @@ export default function MachineListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="機台名稱"
+                                                    label={t('machine_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.name}
@@ -347,8 +347,8 @@ export default function MachineListModal({ props }) {
                                                         label="status"
                                                         onChange={handleStatusChange}
                                                     >
-                                                        <MenuItem value={"normal"}>正常</MenuItem>
-                                                        <MenuItem value={"disable"}>停用</MenuItem>
+                                                        <MenuItem value={"normal"}>{t('normal')}</MenuItem>
+                                                        <MenuItem value={"disable"}>{t('disable')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Box>
@@ -359,10 +359,10 @@ export default function MachineListModal({ props }) {
                                                 label="NFC"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.NFC}
-                                                name="NFC"
-                                                error={!!touched.NFC && !!errors.NFC}
-                                                helperText={touched.NFC && errors.NFC}
+                                                value={values.nfc}
+                                                name="nfc"
+                                                error={!!touched.nfc && !!errors.nfc}
+                                                helperText={touched.nfc && errors.nfc}
                                                 sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
                                             <TextField className="modal_input_textfield"
@@ -387,7 +387,7 @@ export default function MachineListModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="機台號碼"
+                                                    label={t('machine_code')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.code}
@@ -417,7 +417,7 @@ export default function MachineListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="機台單次花費金額"
+                                                    label={t('amount_spent_per_machine')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.price}
@@ -430,7 +430,7 @@ export default function MachineListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="備註"
+                                                    label={t('description')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.desc}
@@ -441,7 +441,7 @@ export default function MachineListModal({ props }) {
                                                 />
                                                 <FormControl
                                                     fullWidth>
-                                                    <InputLabel id="demo-simple-select-label" >機械錶檢查</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{t('counter_check')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
@@ -450,15 +450,15 @@ export default function MachineListModal({ props }) {
                                                         label="機械錶檢查"
                                                         onChange={handleCounterCheckChange}
                                                     >
-                                                        <MenuItem value={true}>是</MenuItem>
-                                                        <MenuItem value={false}>否</MenuItem>
+                                                        <MenuItem value={true}>{t('yes')}</MenuItem>
+                                                        <MenuItem value={false}>{t('no')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Box>
 
 
 
-                                            <Typography variant="h5" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>機械錶</Typography>
+                                            <Typography variant="h5" sx={{ margin: "1rem 0 .5rem 0", color: "white" }}>{t('counter_check')}</Typography>
                                             <Box>
                                                 <FormControlLabel
                                                     control={
@@ -469,7 +469,7 @@ export default function MachineListModal({ props }) {
                                                             color="success"
                                                         />
                                                     }
-                                                    label="機械錶"
+                                                    label={t('counter')}
                                                     style={{ color: colors.grey[100] }}
                                                 />
 

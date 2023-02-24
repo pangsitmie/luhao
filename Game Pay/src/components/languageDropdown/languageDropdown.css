@@ -1,13 +1,13 @@
 .sub__menus {
     position: absolute;
     display: none;
-    background: rgba(204, 39, 39, 1);
+    background: #262D3D;
     border: transparent;
     border-radius: 20px;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
     width: 150px;
-    right: 20px;
+    right: 10px;
     top: 0px;
     padding: 0;
     z-index: 1000;
@@ -74,23 +74,8 @@
         font-size: 27px;
     }
 
-    .main-nav ul.menuq2 {
-        display: block !important;
-        position: absolute;
-        left: 0;
-        z-index: 10007;
-        background-color: var(--color-bg);
-        border-bottom: 3px solid var(--color-white);
-        right: 0;
-        padding-bottom: 17px;
-        padding-top: 57px;
-    }
 
-    .main-nav .menu-item a {
-        margin: 10px 17px;
-        text-align: center;
-        color: var(--color-light);
-    }
+
 
     .main-nav ul.main-menu {
         display: none
@@ -105,26 +90,11 @@
     .sub__menus__Active {
         display: block !important;
         margin: 0 auto;
-        background: var;
         color: #1e1e1e;
-        left: 0;
-        right: 0;
+        top: 40px;
+        right: 0px !important;
     }
 
-    .sub__menus__Active2 {
-        display: block !important;
-    }
 
-    .menus__categorysss {
-        display: none;
-    }
-
-    .menus__categorysss2 {
-        display: none;
-    }
-
-    .menu-item .sub__menus__full a {
-        text-align: left;
-    }
 
 }

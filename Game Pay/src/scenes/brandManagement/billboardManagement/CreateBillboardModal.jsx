@@ -6,9 +6,9 @@ import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
 import { useLazyQuery } from "@apollo/client";
 import { CreateBillboard } from "src/graphQL/Queries";
-import { default_billboard_image_600x600_filename } from "src/data/strings";
 import LogoUpload from "src/components/Upload/LogoUpload";
 import { getImgURL } from "src/utils/Utils";
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
@@ -21,6 +21,7 @@ export default function CreateBillboardModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
+    const { t } = useTranslation();
     const [startAtDate, setStartAtDate] = useState('');
     const [endAtDate, setEndAtDate] = useState('');
 
@@ -32,7 +33,8 @@ export default function CreateBillboardModal({ props }) {
         setEndAtDate(event.target.value);
     }
 
-    var btnTitle = "新增告示牌", confirmTitle = "新增", cancelTitle = "取消";
+    // var btnTitle = "新增告示牌", confirmTitle = "新增", cancelTitle = "取消";
+    var btnTitle = t("create"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
     const initialValues = {
         title: "",
@@ -54,7 +56,7 @@ export default function CreateBillboardModal({ props }) {
 
 
     // IMAGE UPLOAD
-    const [imageFileName, setImageFileName] = useState(default_billboard_image_600x600_filename);
+    const [imageFileName, setImageFileName] = useState('');
     const handleUploadImageSucess = (name) => {
         setImageFileName(name);
     };
@@ -140,9 +142,9 @@ export default function CreateBillboardModal({ props }) {
                                             <Box display={"flex"} m={"1rem 0"}>
                                                 <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
                                                     <Typography variant="h2" sx={{ textAlign: "left", fontSize: "2rem", fontWeight: "600", color: colors.grey[200], lineHeight: "1.5" }}>
-                                                        新增
+                                                        {t('create')}
                                                         <br />
-                                                        告示牌
+                                                        {t('billboard')}
                                                     </Typography>
                                                 </Box>
                                                 <Box width={"65%"} display={"flex"} justifyContent={"flex-end"} >
@@ -155,7 +157,7 @@ export default function CreateBillboardModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="標題"
+                                                label={t('title')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.title}
@@ -168,7 +170,7 @@ export default function CreateBillboardModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="內容"
+                                                label={t('content')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.content}
@@ -182,7 +184,7 @@ export default function CreateBillboardModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="描述"
+                                                label={t('description')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.description}
@@ -194,7 +196,7 @@ export default function CreateBillboardModal({ props }) {
                                             <TextField
                                                 fullWidth
                                                 id="datetime-local"
-                                                label="開始時間"
+                                                label={t('start_time')}
                                                 type="datetime-local"
                                                 // defaultValue="2017-05-24T10:30"
                                                 value={startAtDate}
@@ -207,7 +209,7 @@ export default function CreateBillboardModal({ props }) {
                                             <TextField
                                                 fullWidth
                                                 id="datetime-local"
-                                                label="結束時間"
+                                                label={t('end_time')}
                                                 type="datetime-local"
                                                 // defaultValue="2017-05-24T10:30"
                                                 value={endAtDate}

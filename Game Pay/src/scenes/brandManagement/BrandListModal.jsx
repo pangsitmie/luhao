@@ -202,12 +202,12 @@ export default function BrandListModal({ props }) {
   }, [dataInit]);
 
   // =========================== FILE UPLOAD ===========================
-  const [logoFileName, setLogoFileName] = useState(default_logo_360x360_filename);
+  const [logoFileName, setLogoFileName] = useState('');
   const handleUploadLogoSuccess = (name) => {
     setLogoFileName(name);
   };
 
-  const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
+  const [coverFileName, setCoverFileName] = useState('');
   const handleUploadCoverSucess = (name) => {
     setCoverFileName(name);
   };
@@ -219,6 +219,8 @@ export default function BrandListModal({ props }) {
     document.body.classList.remove('active-modal')
   }
 
+  console.log(logoFileName)
+  console.log(coverFileName)
   return (
     <>
       {/* THE CONTENT OF THE BUTTON */}

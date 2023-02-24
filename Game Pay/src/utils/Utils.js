@@ -1,10 +1,14 @@
-import {
-    default_ads_image_900x360_filename,
-    default_billboard_image_600x600_filename,
-    default_cover_900x300_filename,
-    default_logo_360x360_filename
-} from "../data/strings";
+// import {
+//     default_ads_image_900x360_filename,
+//     default_billboard_image_600x600_filename,
+//     default_cover_900x300_filename,
+//     default_logo_360x360_filename
+// } from "../data/strings";
 
+import LOGO_IMG_PLACEHOLDER from "../assets/logo_img_placeholder.png";
+import COVER_IMG_PLACEHOLDER from "../assets/cover_img_placeholder900x300.png";
+import ADS_IMG_PLACEHOLDER from 'src/assets/ads_img_placeholder900x360.png';
+import BILLBOARD_IMG_PLACEHOLDER from 'src/assets/billboard_img_placeholder600x600.png';
 
 export function replaceNullWithEmptyString(obj) {
     const newObj = Object.assign({}, obj);
@@ -30,8 +34,8 @@ export function unixTimestampToDatetimeLocal(timestamp) {
 }
 
 function parseImgURL(filename) {
-    // return `https://file-test.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
-    return `https://file-qa.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
+    return `https://file-test.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
+    // return `https://file-qa.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
     // return `https://file.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
 }
 
@@ -39,13 +43,13 @@ export function getImgURL(filename, type) {
     if (filename === null || filename === undefined || filename === '' || filename === 'null')
         switch (type) {
             case 'logo':
-                return parseImgURL(default_logo_360x360_filename);
+                return LOGO_IMG_PLACEHOLDER;
             case 'cover':
-                return parseImgURL(default_cover_900x300_filename);
+                return COVER_IMG_PLACEHOLDER;
             case 'billboard':
-                return parseImgURL(default_billboard_image_600x600_filename);
+                return BILLBOARD_IMG_PLACEHOLDER;
             case 'ads':
-                return parseImgURL(default_ads_image_900x360_filename);
+                return ADS_IMG_PLACEHOLDER;
         }
     else
         return parseImgURL(filename);

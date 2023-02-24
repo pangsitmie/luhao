@@ -226,7 +226,7 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          {t('management')}
+                          {t('manage')}
                         </Typography>
                         <Item
                           title={t('user_management')}
@@ -358,7 +358,7 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          {t('management')}
+                          {t('manage')}
                         </Typography>
                         <Item
                           title={t('brand_management')}
@@ -388,13 +388,13 @@ const Sidebar = () => {
                           selected={selected}
                           setSelected={setSelected}
                         /> */}
-                        <Item
+                        {/* <Item
                           title={t('brand_free_coin')}
                           to="/brand-coins"
                           icon={<MonetizationOnIcon />}
                           selected={selected}
                           setSelected={setSelected}
-                        />
+                        /> */}
                         <Item
                           title={t('statistic')}
                           to="/statistic"
@@ -440,7 +440,7 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          {t('management')}
+                          {t('manage')}
                         </Typography>
                         <Item
                           title={t('store_management')}

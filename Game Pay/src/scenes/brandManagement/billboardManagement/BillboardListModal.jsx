@@ -13,7 +13,7 @@ import ConfirmModal from "src/components/Modal/ConfirmModal";
 import { defaultLogoURL, default_billboard_image_600x600_filename } from "src/data/strings";
 import LogoUpload from "src/components/Upload/LogoUpload";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
@@ -24,7 +24,7 @@ const checkoutSchema = yup.object().shape({
 
 export default function BillboardListModal({ props }) {
     const { entityName } = useSelector((state) => state.entity);
-
+    const { t } = useTranslation();
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -38,7 +38,8 @@ export default function BillboardListModal({ props }) {
     });
 
     //========================== INITIAL VALUES ==========================
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    // var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
     const [modal, setModal] = useState(false);
 
@@ -267,19 +268,19 @@ export default function BillboardListModal({ props }) {
                                                             if (initialValues.status === "disable") {
                                                                 return (
                                                                     <Typography variant="h5" color={colors.primary[100]} >
-                                                                        停用
+                                                                        {t('disable')}
                                                                     </Typography>)
                                                             }
                                                             if (initialValues.status === "banned") {
                                                                 return (
                                                                     <Typography variant="h5" color={colors.redAccent[500]}>
-                                                                        封鎖
+                                                                        {t('banned')}
                                                                     </Typography>)
                                                             }
                                                             else {
                                                                 return (
                                                                     <Typography variant="h5" color={colors.greenAccent[500]}>
-                                                                        正常
+                                                                        {t('normal')}
                                                                     </Typography>)
                                                             }
                                                         })()}
@@ -301,7 +302,7 @@ export default function BillboardListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="標題"
+                                                    label={t('title')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.title}
@@ -318,11 +319,11 @@ export default function BillboardListModal({ props }) {
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
                                                         value={status}
-                                                        label="status"
+                                                        label={t('status')}
                                                         onChange={handleStatusChange}
                                                     >
-                                                        <MenuItem value={"normal"}>正常</MenuItem>
-                                                        <MenuItem value={"disable"}>停用</MenuItem>
+                                                        <MenuItem value={"normal"}>{t('normal')}</MenuItem>
+                                                        <MenuItem value={"disable"}>{t('disable')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Box>
@@ -331,7 +332,7 @@ export default function BillboardListModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="內容"
+                                                label={t('content')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.content}
@@ -345,7 +346,7 @@ export default function BillboardListModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="描述"
+                                                label={t('description')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.description}
@@ -357,7 +358,7 @@ export default function BillboardListModal({ props }) {
                                             <TextField
                                                 fullWidth
                                                 id="datetime-local"
-                                                label="開始時間"
+                                                label={t('start_time')}
                                                 type="datetime-local"
                                                 // defaultValue="2017-05-24T10:30"
                                                 value={startAtDate}
@@ -370,7 +371,7 @@ export default function BillboardListModal({ props }) {
                                             <TextField
                                                 fullWidth
                                                 id="datetime-local"
-                                                label="結束時間"
+                                                label={t('end_time')}
                                                 type="datetime-local"
                                                 // defaultValue="2017-05-24T10:30"
                                                 value={endAtDate}

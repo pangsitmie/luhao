@@ -140,8 +140,8 @@ const BrandDashboard = () => {
         giftAmountTotal.push({ x, y: item.giftAmountTotal });
     }
 
-    finalData.push({ id: "總收入", color: "#219ebc", data: coinAmountTotal });
-    finalData.push({ id: "總支出", color: "#fb8500", data: giftAmountTotal });
+    finalData.push({ id: t('total_earning'), color: "#219ebc", data: coinAmountTotal });
+    finalData.push({ id: t('total_expense'), color: "#fb8500", data: giftAmountTotal });
 
 
 
@@ -273,7 +273,10 @@ const BrandDashboard = () => {
                         }}
                     >
                         <StatPercentBox
-                            title={((displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal * 100).toFixed(2) + "%")}
+                            // title={((displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal * 100).toFixed(2) + "%")}
+                            title={(!isNaN(displayStatistic.giftAmountTotal) && displayStatistic.coinAmountTotal !== 0) ?
+                                ((displayStatistic.giftAmountTotal / (displayStatistic.coinAmountTotal) * 100).toFixed(2) + "%")
+                                : "0%"}
                             subtitle={t('expense_rate')}
                             progress={(displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal).toFixed(2)}
                         />
@@ -289,7 +292,9 @@ const BrandDashboard = () => {
                         }}
                     >
                         <StatPercentBox
-                            title={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal) * 100).toFixed(2) + "%")}
+                            title={(!isNaN(displayStatistic.coinQuantityTotal) && displayStatistic.coinQuantityTotal !== 0) ?
+                                ((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal) * 100).toFixed(2) + "%")
+                                : "0%"}
                             subtitle={t('prize_rate')}
                             progress={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal)).toFixed(2))}
                         />
@@ -343,7 +348,7 @@ const BrandDashboard = () => {
                         </Box>
 
                     </Box>
-                    <Box height="250px" m="-20px 0 0 0">
+                    <Box height="250px" m="-20px 20px 0 0">
                         <LineChart isDashboard={true} data={finalData} />
                     </Box>
                 </Box>
