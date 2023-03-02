@@ -56,7 +56,7 @@ export default function BrandListModal({ props }) {
   });
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+  var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
   //  confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
 
   const [modal, setModal] = useState(false); //open or close modal
@@ -218,9 +218,6 @@ export default function BrandListModal({ props }) {
   } else {
     document.body.classList.remove('active-modal')
   }
-
-  console.log(logoFileName)
-  console.log(coverFileName)
   return (
     <>
       {/* THE CONTENT OF THE BUTTON */}
@@ -329,8 +326,8 @@ export default function BrandListModal({ props }) {
                             label="status"
                             onChange={handleStatusChange}
                           >
-                            <MenuItem value={"normal"}>正常</MenuItem>
-                            <MenuItem value={"disable"}>停用</MenuItem>
+                            <MenuItem value={"normal"}>{t('normal')}</MenuItem>
+                            <MenuItem value={"disable"}>{t('disable')}</MenuItem>
                           </Select>
                         </FormControl>
                       </Box>
@@ -368,7 +365,7 @@ export default function BrandListModal({ props }) {
 
                         {/* PASSWORD INPUT */}
                         <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                          <InputLabel htmlFor="filled-adornment-password">{t("principal_password")} (不必要)</InputLabel>
+                          <InputLabel htmlFor="filled-adornment-password">{t("principal_password")} {t('optional')}</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}
                             onChange={handleChange}

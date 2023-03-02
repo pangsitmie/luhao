@@ -11,8 +11,7 @@ import { format } from 'date-fns';
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import CoverUpload from "../../components/Upload/CoverUpload";
-import { default_ads_image_900x360_filename } from "../../data/strings";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     url: yup.string().required("required"),
@@ -24,11 +23,12 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateAdsModal() {
+    const { t } = useTranslation();
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    var btnTitle = "新增", confirmTitle = "新增";
+    var btnTitle = t('create'), confirmTitle = t('confirm');
     const [modal, setModal] = useState(false); //open or close modal
 
 
@@ -157,7 +157,7 @@ export default function CreateAdsModal() {
                                             <Box display={"flex"} m={"1rem 0"}>
                                                 <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
                                                     <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.8rem", fontWeight: "600", color: colors.grey[200], lineHeight: "1.5" }}>
-                                                        新增<br /> 廣告
+                                                        {t('create')}<br /> {t('ads')}
                                                     </Typography>
                                                 </Box>
                                                 <Box width={"65%"}>
@@ -182,6 +182,7 @@ export default function CreateAdsModal() {
                                                     onChange={handleChange}
                                                     value={values.url}
                                                     name="url"
+                                                    required
                                                     error={!!touched.url && !!errors.url}
                                                     helperText={touched.url && errors.url}
                                                     sx={{ margin: "0 1rem  1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -197,19 +198,16 @@ export default function CreateAdsModal() {
                                                         label="typeId"
                                                         onChange={handleTypeIdChange}
                                                     >
-                                                        <MenuItem value={"banner"}>banner</MenuItem>
-                                                        <MenuItem value={"placement"}>placement</MenuItem>
+                                                        <MenuItem value={"banner"}>{t('banner')}</MenuItem>
+                                                        <MenuItem value={"placement"}>{t('placement')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Box>
-
-
-
                                             <TextField
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="描述"
+                                                label={t('description')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.description}
@@ -221,7 +219,7 @@ export default function CreateAdsModal() {
                                             <TextField
                                                 fullWidth
                                                 id="datetime-local"
-                                                label="開始時間點"
+                                                label={t('start_time')}
                                                 type="datetime-local"
                                                 // defaultValue="2017-05-24T10:30"
                                                 value={startAtDate}
@@ -234,7 +232,7 @@ export default function CreateAdsModal() {
                                             <TextField
                                                 fullWidth
                                                 id="datetime-local"
-                                                label="過期時間"
+                                                label={t('end_time')}
                                                 type="datetime-local"
                                                 // defaultValue="2017-05-24T10:30"
                                                 value={endAtDate}

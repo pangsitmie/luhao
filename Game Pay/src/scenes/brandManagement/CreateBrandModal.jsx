@@ -12,7 +12,7 @@ import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import { useTranslation } from 'react-i18next';
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -28,6 +28,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateBrandModal() {
+  const { t } = useTranslation();
   //THEME
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -47,7 +48,8 @@ export default function CreateBrandModal() {
   };
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
+  var btnTitle = t("create_brand"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -174,11 +176,12 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="品牌名稱"
+                          label={t('brand_name')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.name}
                           name="name"
+                          required // add the required prop
                           error={!!touched.name && !!errors.name}
                           helperText={touched.name && errors.name}
                           sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
@@ -187,11 +190,12 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="統一編號"
+                          label={t('vat_number')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.vatNumber}
                           name="vatNumber"
+                          required // add the required prop
                           error={!!touched.vatNumber && !!errors.vatNumber}
                           helperText={touched.vatNumber && errors.vatNumber}
                           sx={{ margin: "0 0rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -205,7 +209,7 @@ export default function CreateBrandModal() {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="品牌簡介 (選填)"
+                        label= {`${t('intro')} ${t('optional')}`}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.intro}
@@ -219,11 +223,12 @@ export default function CreateBrandModal() {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="負責人名稱"
+                        label={t('principal_name')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.principalName}
                         name="principalName"
+                        required // add the required prop
                         error={!!touched.principalName && !!errors.principalName}
                         helperText={touched.principalName && errors.principalName}
                         sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -234,11 +239,12 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人電話"
+                          label={t('principal_phone')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalPhone}
                           name="principalPhone"
+                          required // add the required prop
                           error={!!touched.principalPhone && !!errors.principalPhone}
                           helperText={touched.principalPhone && errors.principalPhone}
                           sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -247,11 +253,12 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人Line"
+                          label={t('principal_line')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalLineUrl}
                           name="principalLineUrl"
+                          required // add the required prop
                           error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                           helperText={touched.principalLineUrl && errors.principalLineUrl}
                           sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -263,18 +270,23 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="負責人電子信箱 (選填)"
+                          label={`${t('principal_email')} ${t('optional')}`}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalEmail}
                           name="principalEmail"
+                          required // add the required prop
                           error={!!touched.principalEmail && !!errors.principalEmail}
                           helperText={touched.principalEmail && errors.principalEmail}
                           sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         {/* PASSWORD INPUT */}
-                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                          <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+                        <FormControl 
+                          fullWidth variant="filled"                             
+                          required // add the required prop
+                          sx={{ marginBottom: "1rem", 
+                          backgroundColor: colors.primary[400], borderRadius: "5px" }} >
+                          <InputLabel htmlFor="filled-adornment-password">{t('principal_password')}</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}
                             onChange={handleChange}
@@ -305,11 +317,12 @@ export default function CreateBrandModal() {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="品牌專屬幣名稱"
+                        label={t('brand_coin_name')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.brandCoinName}
                         name="brandCoinName"
+                        required // add the required prop
                         error={!!touched.brandCoinName && !!errors.brandCoinName}
                         helperText={touched.brandCoinName && errors.brandCoinName}
                         sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}

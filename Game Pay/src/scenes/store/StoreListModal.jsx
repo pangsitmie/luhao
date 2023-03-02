@@ -468,7 +468,7 @@ export default function StoreListModal({ props }) {
                                                             type="text"
                                                             sx={{ mb: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
-                                                                placeholder: '搜索店面地點 ...',
+                                                                placeholder: t('search_location'),
                                                                 className: 'location-search-input',
                                                             })}
                                                         />
@@ -546,7 +546,6 @@ export default function StoreListModal({ props }) {
                                                     onChange={handleChange}
                                                     value={address}
                                                     name="address"
-                                                    required // add the required prop
                                                     error={!!touched.address && !!errors.address}
                                                     helperText={touched.address && errors.address}
                                                     sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}

@@ -132,7 +132,7 @@ const PartnerManagement = () => {
                         <MenuItem value={"停用"}>停用</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 100 }} >
+                {/* <FormControl sx={{ minWidth: 100 }} >
                     <InputLabel id="demo-simple-select-label" >審核</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -147,7 +147,7 @@ const PartnerManagement = () => {
                         <MenuItem value={"待審核"}>待審核</MenuItem>
                         <MenuItem value={"封鎖"}>封鎖</MenuItem>
                     </Select>
-                </FormControl>
+                </FormControl> */}
 
                 {/* SEARCH BTN */}
                 <Button sx={{

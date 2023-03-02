@@ -10,12 +10,13 @@ import { defaultCoverURL, defaultLogoURL } from "../../data/strings";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import { GetCurrentVersion } from "../../graphQL/Queries";
-
+import { useTranslation } from 'react-i18next';
 const checkoutSchema = yup.object().shape({
     // android: yup.string().required("請輸入版本號"),
     // ios: yup.string().required("請輸入版本號"),
 });
 const AuditVersion = () => {
+    const { t } = useTranslation();
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -71,10 +72,10 @@ const AuditVersion = () => {
             <div className="container">
                 <div className="box">
                     <Typography variant="h3" sx={{ mt: "5px", fontSize: "1.5rem", fontWeight: "500", color: colors.grey[200] }}>
-                        Audit System Version
+                        Audit System {t('version')}
                     </Typography>
                     <Typography variant="h3" sx={{ fontSize: ".9rem", fontWeight: "500", color: colors.grey[200] }}>
-                        伺服器版本: {initialValues.server}
+                        {t('server_version')}: {initialValues.server}
                     </Typography>
                     <div>
                         <Formik
@@ -99,7 +100,7 @@ const AuditVersion = () => {
                                             fullWidth
                                             variant="filled"
                                             type="text"
-                                            label="Android 版本號"
+                                            label={`Android ${t('version')}`}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             value={values.android}
@@ -115,7 +116,7 @@ const AuditVersion = () => {
                                             fullWidth
                                             variant="filled"
                                             type="text"
-                                            label="IOS 版本號"
+                                            label={`IOS ${t('version')}`}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             value={values.ios}
@@ -127,7 +128,7 @@ const AuditVersion = () => {
                                     </Box>
                                     <Box display="flex" justifyContent="center" paddingTop={"2rem"}>
                                         <button className='btn_right_arrow' type="submit">
-                                            Update
+                                            {t('update')}
                                             <div className="arrow-wrapper">
                                                 <div className="arrow"></div>
                                             </div>

@@ -6,12 +6,13 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard/Dashboard";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import { ErrorProvider, useError} from './components/provider/ErrorContext';
 
 //APOLLO
 
 
 // SCENES
-import UserManagement from "src/scenes/userManagement/UserManagement";
+import UserManagement from "src/scenes/user/UserManagement";
 import BrandManagement from "src/scenes/brandManagement/BrandManagement";
 // import StoreManagement from "./scenes/storeManagement/StoreManagement";
 import CommodityManagement from "src/scenes/store/commodity/CommodityManagement";
@@ -39,6 +40,7 @@ import RewardManagement from "./scenes/store/reward/RewardManagement";
 import ReviewManagement from "./scenes/review/ReviewManagement";
 
 
+
 const StoreManagement = lazy(() => import('./scenes/store/StoreManagement'));
 // const MachineManagement = lazy(() => import('./scenes/machineManagement/MachineManagement'));
 
@@ -62,6 +64,7 @@ function App() {
     }
   }, []);
 
+  
   const [isPortrait, setIsPortrait] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 

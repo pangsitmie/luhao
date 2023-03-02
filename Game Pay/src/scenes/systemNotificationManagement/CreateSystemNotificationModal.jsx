@@ -6,7 +6,7 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { CreateSystemNotification } from "../../graphQL/Mutations";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
@@ -16,6 +16,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateSystemNotificationModal() {
+  const { t } = useTranslation();
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -29,7 +30,7 @@ export default function CreateSystemNotificationModal() {
   };
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = "新增", confirmTitle = "新增", cancelTitle = "取消";
+  var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
@@ -142,11 +143,12 @@ export default function CreateSystemNotificationModal() {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="標題"
+                        label={t('title')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.title}
                         name="title"
+                        required
                         error={!!touched.title && !!errors.title}
                         helperText={touched.title && errors.title}
                         sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
@@ -159,11 +161,12 @@ export default function CreateSystemNotificationModal() {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="内容"
+                        label={t('content')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.content}
                         name="content"
+                        required
                         error={!!touched.content && !!errors.content}
                         helperText={touched.content && errors.content}
                         sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -173,11 +176,12 @@ export default function CreateSystemNotificationModal() {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="備註"
+                        label={t('comments')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.comments}
                         name="comments"
+                        required
                         error={!!touched.comments && !!errors.comments}
                         helperText={touched.comments && errors.comments}
                         sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -186,7 +190,7 @@ export default function CreateSystemNotificationModal() {
                       <TextField
                         fullWidth
                         id="datetime-local"
-                        label="排程時間"
+                        label={t('trigger_at_time')}
                         type="datetime-local"
                         // defaultValue="2017-05-24T10:30"
                         value={triggerAtDate}
@@ -199,7 +203,7 @@ export default function CreateSystemNotificationModal() {
                       <TextField
                         fullWidth
                         id="datetime-local"
-                        label="過期時間"
+                        label={t('expire_at_time')}
                         type="datetime-local"
                         // defaultValue="2017-05-24T10:30"
                         value={expireAtDate}
@@ -208,17 +212,10 @@ export default function CreateSystemNotificationModal() {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                      />
-
-
-
+                      />  
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                          {confirmTitle}
-                        </Typography>
-                      </Button>
+                      <button className="my-button" type="submit">{confirmTitle}</button>
                     </Box>
                   </form>
                 )}

@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, {useContext} from 'react';
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import LoginProvider from "./LoginProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './i18n';
+// import { ErrorProvider } from './components/provider/ErrorContext';
 
 //APOLLO
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, useQuery, gql } from '@apollo/client';
 
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-
 
 //REDUX
 import store from './redux/store'
@@ -20,46 +20,13 @@ import { Provider } from 'react-redux'
 
 let originalQuery;
 let originalVariables;
-// =====================new error link havent try ======
-
-// const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-//   if(!operation) return;
-//   if (graphQLErrors) {
-//     const errorPromises = graphQLErrors.map(({ message, location, path }) => {
-//         //... the rest of the code
-//     });
-//     Promise.all(errorPromises);
-//   }
-// });
-
-// const client = new ApolloClient({
-//   link: errorLink.concat(httpLink),
-//   cache: new InMemoryCache()
-// });
-
-// ===================== end  =====================
-
-
-// REDUX STORE
-
-
-// import store from './redux/store';
-
-// STORE -> GLOBAL STATE
-
-// ACTION -> DESCRIBE WHAT YOU WANT TO DO
-
-// REDUCER -> DESCRIBE HOW YOUR ACTIONS TRANSFORM YOUR STATE INTO THE NEXT STATE
-
-
-// DISPATCH -> EXECUTE YOUR ACTION
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-  if (!operation)
+  if (!operation){
     return;
+  }
   if (graphQLErrors) {
     graphQLErrors.map(async ({ message, location, path }) => {
-
       if (message === "Token過期") {
         console.log("TOKEN EXPIRES");
 
@@ -103,8 +70,10 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         client.query({ query: originalQuery, variables: originalVariables });
       }
       else {
-        alert(`Error: ${message}`)
-      }
+        // setErrorMessage(message);
+        alert(message);
+        //HOW TO MAKE THIS ERROR MESSSAGE TO BE DISPLAYED IN CUSTOM COMPONENET
+        }
     })
   }
 });
@@ -138,20 +107,28 @@ const client = new ApolloClient({
   link: authLink.concat(link)
 });
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <React.StrictMode>
-          <Routes>
-            <Route exact path="/*" element={<App />} />
-            <Route path="/login/*" element={<LoginProvider />} />
-          </Routes>
-        </React.StrictMode>
-      </BrowserRouter>
-    </ApolloProvider>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <React.StrictMode>
+            <Routes>
+              <Route exact path="/*" element={<App />} />
+              <Route path="/login/*" element={<LoginProvider />} />
+            </Routes>
+          </React.StrictMode>
+        </BrowserRouter>
+      </ApolloProvider>
   </Provider>
-
 );
+
+
+
+
+
+
+
+
 

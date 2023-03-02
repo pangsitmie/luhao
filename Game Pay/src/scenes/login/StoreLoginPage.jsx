@@ -179,7 +179,7 @@ const StoreLoginPage = () => {
                                     </Box>
                                     <Box display="flex" justifyContent="center" >
                                         <button className='btn_right_arrow' type="submit">
-                                            登入
+                                            Login
                                             <div className="arrow-wrapper">
                                                 <div className="arrow"></div>
                                             </div>

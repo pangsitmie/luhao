@@ -36,7 +36,7 @@ export default function CreateMachineModal({ props }) {
     };
 
 
-    var btnTitle = t("create"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("add_new"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
     const initialValues = {
         storeId: "",
@@ -307,12 +307,7 @@ export default function CreateMachineModal({ props }) {
 
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "8rem", padding: ".55rem 1rem", margin: ".5rem .5rem 0 .5rem", borderRadius: "8px", background: colors.blueAccent[400] }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                    {confirmTitle}
-                                                </Typography>
-                                            </Button>
+                                        <button className="my-button" type="submit">{confirmTitle}</button>
                                         </Box>
                                     </form>
                                 )}

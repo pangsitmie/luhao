@@ -223,8 +223,6 @@ export default function CreateStoreModal() {
                     <Box onClick={toggleModal} className="overlay"></Box>
                     <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
-
-
                             <Formik
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
@@ -260,7 +258,8 @@ export default function CreateStoreModal() {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="品牌id"
+                                                    label={t('brand_id')}
+                                                    required // add the required prop
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={brandId}
@@ -274,17 +273,18 @@ export default function CreateStoreModal() {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
-                                                    label="品牌名稱"
+                                                    label={t('brand_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={brandName}
                                                     name="brandName"
+                                                    required // add the required prop
                                                     error={!!touched.brandName && !!errors.brandName}
                                                     helperText={touched.brandName && errors.brandName}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >品牌過濾</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{t('brand_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
                                                         labelId="demo-simple-select-label"
@@ -311,11 +311,12 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="暱稱"
+                                                    label={t('name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.name}
                                                     name="name"
+                                                    required // add the required prop
                                                     error={!!touched.name && !!errors.name}
                                                     helperText={touched.name && errors.name}
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
@@ -324,7 +325,7 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面介紹"
+                                                    label={`${t('intro')} ${t('optional')} `}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.intro}
@@ -347,12 +348,12 @@ export default function CreateStoreModal() {
                                                         <TextField
                                                             className="modal_input_textfield"
                                                             fullWidth
-                                                            label="搜索店面地點 ..."
+                                                            label={t('search_location')}
                                                             variant="filled"
                                                             type="text"
                                                             sx={{ margin: "1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
-                                                                placeholder: '搜索店面地點 ...',
+                                                                placeholder: t('search_location'),
                                                                 className: 'location-search-input',
                                                             })}
                                                         />
@@ -388,8 +389,8 @@ export default function CreateStoreModal() {
                                             {/* STORE ADDRESS */}
                                             <Box display={"flex"}>
                                                 {/* CITYFILTER */}
-                                                <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >縣市過濾</InputLabel>
+                                                <FormControl required  sx={{ minWidth: 150, height: "100%" }}>
+                                                    <InputLabel id="demo-simple-select-label" >{t('county_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
@@ -407,8 +408,8 @@ export default function CreateStoreModal() {
                                                     </Select>
                                                 </FormControl>
 
-                                                <FormControl sx={{ minWidth: 150, height: "100%" }}>
-                                                    <InputLabel id="demo-simple-select-label" >鄉鎮過濾</InputLabel>
+                                                <FormControl required sx={{ minWidth: 150, height: "100%" }}>
+                                                    <InputLabel id="demo-simple-select-label" >{t('district_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
@@ -429,7 +430,7 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="店面地址"
+                                                    label={t('address')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={address}
@@ -446,11 +447,12 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人名稱"
+                                                    label={t('principal_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalName}
                                                     name="principalName"
+                                                    required
                                                     error={!!touched.principalName && !!errors.principalName}
                                                     helperText={touched.principalName && errors.principalName}
                                                     sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -459,19 +461,24 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人賬號"
+                                                    label={t('principal_account')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalAccount}
                                                     name="principalAccount"
+                                                    required
                                                     error={!!touched.principalAccount && !!errors.principalAccount}
                                                     helperText={touched.principalAccount && errors.principalAccount}
                                                     sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
 
                                                 {/* PASSWORD INPUT */}
-                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">負責人密碼 (不必要)</InputLabel>
+                                                <FormControl 
+                                                fullWidth variant="filled"                             
+                                                required // add the required prop
+                                                sx={{ marginBottom: "1rem", 
+                                                backgroundColor: colors.primary[400], borderRadius: "5px" }} >
+                                                    <InputLabel htmlFor="filled-adornment-password">{t('principal_password')}</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}
@@ -499,12 +506,11 @@ export default function CreateStoreModal() {
                                             </Box>
 
                                             <Box display={"flex"}>
-
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人信箱 (選填)"
+                                                    label={`${t('principal_email')} ${t('optional')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalEmail}
@@ -517,11 +523,12 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label="負責人line"
+                                                    label={t('principal_line')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalLineUrl}
                                                     name="principalLineUrl"
+                                                    required
                                                     error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                                                     helperText={touched.principalLineUrl && errors.principalLineUrl}
                                                     sx={{ margin: " 0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}

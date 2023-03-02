@@ -6,7 +6,7 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { ManagerCreateCurrencyReward } from "../../graphQL/Mutations";
-
+import { useTranslation } from 'react-i18next';
 
 
 const checkoutSchema = yup.object().shape({
@@ -27,12 +27,13 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateSystemCoinModal() {
+  const { t } = useTranslation();
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = "新增", confirmTitle = "新增", deleteTitle = "取消";
+  var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -224,7 +225,7 @@ export default function CreateSystemCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="標題"
+                          label={t('title')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.title}
@@ -237,7 +238,7 @@ export default function CreateSystemCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="備註"
+                          label={t('description')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.comment}
@@ -255,7 +256,7 @@ export default function CreateSystemCoinModal() {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="内容"
+                        label={t('content')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.content}
@@ -269,7 +270,7 @@ export default function CreateSystemCoinModal() {
                         <TextField
                           fullWidth
                           id="datetime-local"
-                          label="排程時間"
+                          label={t('trigger_at_time')}
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={triggerAtDate}
@@ -286,7 +287,7 @@ export default function CreateSystemCoinModal() {
                         <TextField
                           fullWidth
                           id="datetime-local"
-                          label="過期時間"
+                          label={t('expire_at_time')}
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={expireAtDate}
@@ -302,17 +303,29 @@ export default function CreateSystemCoinModal() {
                       </Box>
 
                       <Typography variant="h4" sx={{ m: "1rem 0", textAlign: "center", fontSize: "1rem", fontWeight: "600", color: "#cecece" }}>
-                        Reward
+                        {t('reward')}
                       </Typography>
 
-
+                      <TextField
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label={t('reward_description')}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.rewardDescription}
+                        name="rewardDescription"
+                        error={!!touched.rewardDescription && !!errors.rewardDescription}
+                        helperText={touched.rewardDescription && errors.rewardDescription}
+                        sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                      />
 
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="數量"
+                          label={t('amount')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.currencyAmount}
@@ -325,7 +338,7 @@ export default function CreateSystemCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="最大發送次數"
+                          label={t('currency_limit')}
                           placeholder="Null是不限制 或 1~60"
                           onBlur={handleBlur}
                           onChange={handleChange}
@@ -339,7 +352,7 @@ export default function CreateSystemCoinModal() {
                           fullWidth
                           variant="filled"
                           type="number"
-                          label="獎勵使用期限"
+                          label={t('currency_days_limit')}
                           placeholder="Null是不限制"
                           onBlur={handleBlur}
                           onChange={handleChange}
@@ -351,19 +364,7 @@ export default function CreateSystemCoinModal() {
                         />
                       </Box>
 
-                      <TextField
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="獎勵描述"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.rewardDescription}
-                        name="rewardDescription"
-                        error={!!touched.rewardDescription && !!errors.rewardDescription}
-                        helperText={touched.rewardDescription && errors.rewardDescription}
-                        sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                      />
+                      
 
 
 
@@ -371,7 +372,7 @@ export default function CreateSystemCoinModal() {
                         <TextField
                           fullWidth
                           id="datetime-local"
-                          label="獎勵開始時間"
+                          label={t('start_time')}
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={startAtDate}
@@ -387,7 +388,7 @@ export default function CreateSystemCoinModal() {
                         <TextField
                           fullWidth
                           id="datetime-local"
-                          label="獎勵結束時間"
+                          label={t('end_time')}
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={endAtDate}
@@ -405,7 +406,7 @@ export default function CreateSystemCoinModal() {
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button className="my-button" type="submit">{confirmTitle}</Button>
+                      <button className="my-button" type="submit">{confirmTitle}</button>
                     </Box>
                   </form>
                 )}

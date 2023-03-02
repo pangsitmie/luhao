@@ -3,10 +3,11 @@ import React from "react";
 import GamePayVersion from "./GamePayVersion";
 import { tokens } from "../../theme";
 import AuditVersion from "./AuditVersion";
-
+import { useTranslation } from 'react-i18next';
 
 
 const VersionManagement = () => {
+    const { t } = useTranslation();
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -15,7 +16,7 @@ const VersionManagement = () => {
         <Box p={2}>
             <Box>
                 <Typography variant="h2" sx={{ mb: "2rem", fontSize: "2.8rem", fontWeight: "bold" }}>
-                    版本管控
+                    {t('version_control')}
                 </Typography>
             </Box>
             <Box width={"100%"} display={"flex"} >

@@ -9,18 +9,19 @@ import { tokens } from "../../theme";
 import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
 import { replaceNullWithEmptyString } from "../../utils/Utils";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({});
 
 
 export default function SystemCoinListModal({ props }) {
+  const { t } = useTranslation();
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = "詳細資料", deleteTitle = "刪除";
+  var btnTitle = t("details"), deleteTitle = t("delete");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -66,16 +67,16 @@ export default function SystemCoinListModal({ props }) {
         comment: props.comment,
         rewardId: props.rewardId,
         triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
-        expireAtDate: props.notification.expireAt === null ? "無" : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+        expireAtDate: props.notification.expireAt === null ? t("none") : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         currencyID: props.notification.reward.content.currency.id,
         currencyName: props.notification.reward.content.currency.name,
         currencyAmount: props.notification.reward.content.amount,
-        receiveDaysOverdue: props.notification.reward.receiveDaysOverdue === null ? "無" : props.notification.reward.receiveDaysOverdue,
-        rewardLimit: props.notification.reward.limit === null ? "無" : props.notification.reward.limit,
-        rewardDescription: props.notification.reward.description === null ? "無" : props.notification.reward.description,
+        receiveDaysOverdue: props.notification.reward.receiveDaysOverdue === null ? t("none"): props.notification.reward.receiveDaysOverdue,
+        rewardLimit: props.notification.reward.limit === null ? t("none") : props.notification.reward.limit,
+        rewardDescription: props.notification.reward.description === null ? t("none") : props.notification.reward.description,
         rewardStatus: props.notification.reward.status.name,
-        startAt: props.notification.reward.startAt === null ? "無" : format(new Date(props.notification.reward.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
-        endAt: props.notification.reward.endAt === null ? "無" : format(new Date(props.notification.reward.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+        startAt: props.notification.reward.startAt === null ? t("none"): format(new Date(props.notification.reward.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+        endAt: props.notification.reward.endAt === null ? t("none") : format(new Date(props.notification.reward.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
       });
     }
   }, [props]);
@@ -148,7 +149,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="標題"
+                          label={t('title')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.title}
@@ -162,7 +163,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="備註"
+                          label={t('description')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.comment}
@@ -181,7 +182,7 @@ export default function SystemCoinListModal({ props }) {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="内容"
+                        label={t('content')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.content}
@@ -197,7 +198,7 @@ export default function SystemCoinListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="排程時間點"
+                          label={t('trigger_at_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.triggerAtDate}
@@ -211,7 +212,7 @@ export default function SystemCoinListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="過期時間"
+                          label={t('expire_at_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.expireAtDate}
@@ -223,7 +224,7 @@ export default function SystemCoinListModal({ props }) {
                       </Box>
 
                       <Typography variant="h4" sx={{ m: "1rem 0", textAlign: "center", fontSize: "1rem", fontWeight: "600", color: "#cecece" }}>
-                        Reward
+                        {t('reward')}
                       </Typography>
 
                       <Box display={"flex"} justifyContent={"space-between"}>
@@ -232,7 +233,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="貨幣名稱"
+                          label={t('currency_name')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.currencyName}
@@ -249,7 +250,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="數量"
+                          label={t('amount')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.currencyAmount}
@@ -263,7 +264,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="最大發送次數"
+                          label={t('currency_limit')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardLimit}
@@ -277,7 +278,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="number"
-                          label="獎勵使用期限"
+                          label={t('currency_days_limit')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.receiveDaysOverdue}
@@ -294,7 +295,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="獎勵描述"
+                          label={t('reward_description')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardDescription}
@@ -308,7 +309,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="獎勵狀態"
+                          label={t('reward_status')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardStatus}
@@ -325,7 +326,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="獎勵開始時間"
+                          label={t('start_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.startAt}
@@ -339,7 +340,7 @@ export default function SystemCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="獎勵結束時間"
+                          label={t('end_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.endAt}

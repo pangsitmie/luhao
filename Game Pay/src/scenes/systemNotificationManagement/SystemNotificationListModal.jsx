@@ -7,7 +7,7 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
@@ -19,11 +19,13 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function SystemNotificationListModal({ props }) {
+  const { t } = useTranslation();
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  var btnTitle = "詳細", deleteTitle = "刪除";
+  var btnTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+
   const [modal, setModal] = useState(false); //open or close modal
 
 
@@ -38,7 +40,7 @@ export default function SystemNotificationListModal({ props }) {
   });
 
   useEffect(() => {
-    const expireAtDate = props.expireAt === null ? "無" : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss');
+    const expireAtDate = props.expireAt === null ? t('none') : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss');
 
     setInitialValues({
       title: props.notification.title,
@@ -122,7 +124,7 @@ export default function SystemNotificationListModal({ props }) {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="標題"
+                        label={t('title')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.title}
@@ -140,7 +142,7 @@ export default function SystemNotificationListModal({ props }) {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="内容"
+                        label={t('content')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.content}
@@ -155,7 +157,7 @@ export default function SystemNotificationListModal({ props }) {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="備註"
+                        label={t('comments')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.comments}
@@ -169,7 +171,7 @@ export default function SystemNotificationListModal({ props }) {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="排程時間點"
+                        label={t('trigger_at_time')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.triggerAtDate}
@@ -183,7 +185,7 @@ export default function SystemNotificationListModal({ props }) {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label="過期時間"
+                        label={t('expire_at_time')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.expireAtDate}
@@ -194,7 +196,7 @@ export default function SystemNotificationListModal({ props }) {
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <button onClick={handleDelete} class="btn_delete noselect"><span class="text">移除</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
+                      <button onClick={handleDelete} class="btn_delete noselect"><span class="text">{t('delete')}</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                     </Box>
                   </form>
                 )}

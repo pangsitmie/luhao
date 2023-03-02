@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { tokens } from "../../theme";
 
 import PublicIcon from '@mui/icons-material/Public';
 import { NavLink } from 'react-router-dom';
@@ -8,6 +9,10 @@ import i18next from 'i18next';
 
 import './languageDropdown.css'
 const LanguageDropdown = () => {
+    //THEME
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     const [isMenuSubMenu4, setMenuSubMenu4] = useState(false);
     const toggleSubmenu4 = () => {
         setMenuSubMenu4(isMenuSubMenu4 === false ? true : false);
@@ -22,7 +27,7 @@ const LanguageDropdown = () => {
     return (
         <>
             <IconButton onClick={toggleSubmenu4} className="menu-item sub__menus__arrows" >
-                <PublicIcon sx={{ color: "#Fefefe" }} />
+                <PublicIcon />
                 <ul className={boxClassSubMenu4.join(' ')} >
                     <li>
                         <NavLink onClick={() => i18next.changeLanguage('en')}>

@@ -692,9 +692,9 @@ query GetBrand($args: [BrandArgs!]!) {
 }
 `
 export const GetBrandStatistic = gql`
-query GetBrandStatistic($args: [BrandArgs!]!, $startAt: Int, $endAt: Int) {
+query GetBrandStatistic($args: [BrandArgs!]!, $startAt: Int, $endAt: Int, $timeGranularity: EStatisticsTotalTimeGranularity) {
   getBrand(args: $args) {
-    getStatisticsTotal(startAt: $startAt, endAt: $endAt) {
+    getStatisticsTotal(startAt: $startAt, endAt: $endAt, timeGranularity: $timeGranularity) {
       coinAmountTotal
       coinQuantityTotal
       giftAmountTotal
@@ -705,9 +705,9 @@ query GetBrandStatistic($args: [BrandArgs!]!, $startAt: Int, $endAt: Int) {
 `
 
 export const GetStoreStatistic = gql`
-query GetStore($args: [StoreArgs!]!, $startAt: Int, $endAt: Int) {
+query GetStore($args: [StoreArgs!]!, $startAt: Int, $endAt: Int, $timeGranularity: EStatisticsTotalTimeGranularity) {
   getStore(args: $args) {
-    getStatisticsTotal(startAt: $startAt, endAt: $endAt) {
+    getStatisticsTotal(startAt: $startAt, endAt: $endAt, timeGranularity: $timeGranularity) {
       coinAmountTotal
       coinQuantityTotal
       giftAmountTotal

@@ -338,7 +338,7 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px" }}
                         >
-                          Version 1.0
+                          Ver 1.0
                         </Typography>
                       </>
                     );
@@ -421,7 +421,7 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px" }}
                         >
-                          Version 1.0
+                          Ver 1.0
                         </Typography>
                       </>
                     );
@@ -489,7 +489,7 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px" }}
                         >
-                          Version 1.0
+                          Ver 1.0
                         </Typography>
                       </>
                     );
@@ -501,7 +501,6 @@ const Sidebar = () => {
           </Box>
         </Menu>
         <Copy />
-        <a href="https://roundbytes.com/" rel="dofollow"></a>
       </ProSidebar>
     </Box>
   );

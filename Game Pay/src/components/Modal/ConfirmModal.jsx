@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { useLazyQuery } from '@apollo/client'
 import { BanMember, BanBrand, BanStore, BanBillboard, BanMachine, BanAds } from "../../graphQL/Queries";
 import "./ConfirmModal.css";
-
+import { useTranslation } from 'react-i18next';
 
 
 const checkoutSchema = yup.object().shape({
@@ -14,6 +14,7 @@ const checkoutSchema = yup.object().shape({
 });
 
 export default function ConfirmModal({ props }) {
+    const { t } = useTranslation();
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -188,7 +189,7 @@ export default function ConfirmModal({ props }) {
 
     return (
         <>
-            <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "2px solid #e36414" }}>封鎖</Button>
+            <Button onClick={toggleModal} className="btn-modal" sx={{ color: colors.primary[100], border: "2px solid #e36414" }}>{t('ban')}</Button>
 
 
             {modal && (
@@ -227,11 +228,8 @@ export default function ConfirmModal({ props }) {
                             </Box>
 
                             <Box display={"flex"} justifyContent={"center"} padding={".5rem 0 0 0"}>
-                                <button className="my-button" onClick={handleBan}>確認</button>
+                                <button className="my-button" onClick={handleBan}>{t('confirm')}</button>
                             </Box>
-
-
-
                         </Box>
                     </div>
                 </div>

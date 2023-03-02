@@ -10,7 +10,7 @@ import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } f
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { default_ads_image_900x360_filename } from "../../data/strings";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     url: yup.string().required("required"),
@@ -19,11 +19,13 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function AdsListModal({ props }) {
+    const { t } = useTranslation();
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+
     const [modal, setModal] = useState(false); //open or close modal
 
 
@@ -236,10 +238,10 @@ export default function AdsListModal({ props }) {
                                             <Box display={"flex"} m={"1rem 0"}>
                                                 <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
                                                     <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.8rem", fontWeight: "600", color: colors.grey[200], lineHeight: "1.5" }}>
-                                                        修改廣告
+                                                        {t('update_ads')}
                                                     </Typography>
                                                     <Typography variant="h5" sx={{ mt: ".5rem", textAlign: "left", fontSize: ".9rem", fontWeight: "600", color: colors.grey[200], lineHeight: "1.5" }}>
-                                                        {values.type === "banner" ? "系統橫幅 - (B)" : "系統插入 - (P)"}
+                                                        {values.type === "banner" ? `${t('banner')} - (B)` : `${t('placement')} - (P)`}
                                                     </Typography>
                                                 </Box>
                                                 <Box width={"65%"}>
@@ -276,8 +278,8 @@ export default function AdsListModal({ props }) {
                                                         label="status"
                                                         onChange={handleStatusChange}
                                                     >
-                                                        <MenuItem value={"normal"}>正常</MenuItem>
-                                                        <MenuItem value={"disable"}>停用</MenuItem>
+                                                        <MenuItem value={"normal"}>{t('normal')}</MenuItem>
+                                                        <MenuItem value={"disable"}>{t('disable')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Box>
@@ -285,7 +287,7 @@ export default function AdsListModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="描述"
+                                                label={t('description')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.description}
@@ -297,7 +299,7 @@ export default function AdsListModal({ props }) {
                                             <TextField
                                                 fullWidth
                                                 id="datetime-local"
-                                                label="開始時間"
+                                                label={t('start_time')}
                                                 type="datetime-local"
                                                 // defaultValue="2017-05-24T10:30"
                                                 value={startAtDate}
@@ -310,7 +312,7 @@ export default function AdsListModal({ props }) {
                                             <TextField
                                                 fullWidth
                                                 id="datetime-local"
-                                                label="結束時間"
+                                                label={t('end_time')}
                                                 type="datetime-local"
                                                 // defaultValue=""
                                                 value={endAtDate}

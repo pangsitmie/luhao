@@ -19,19 +19,16 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { setBrand, setCompany, setStore } from "../../redux/entity";
+import { useTranslation } from 'react-i18next';
+
 
 const checkoutSchema = yup.object().shape({
     account: yup.string().required("required"),
     password: yup.string().required("required").nullable(),
 });
 
-
-
-
 const Login = () => {
-    // REDUX STORE
-    const { entityName } = useSelector((state) => state.entity);
-    const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     //========================== THEME ==========================
     const theme = useTheme();
@@ -63,7 +60,7 @@ const Login = () => {
     // if login success we want to get the access token
     useEffect(() => {
         if (dataManager) {
-            console.log("LOGIN TOKEN: " + dataManager.managerLogin);
+            // console.log("LOGIN TOKEN: " + dataManager.managerLogin);
             localStorage.setItem('login_token', dataManager.managerLogin);
             setIsLogin(true);
 
@@ -177,7 +174,7 @@ const Login = () => {
                                     </Box>
                                     <Box display="flex" justifyContent="center" >
                                         <button className='btn_right_arrow' type="submit">
-                                            登入
+                                            Login
                                             <div className="arrow-wrapper">
                                                 <div className="arrow"></div>
                                             </div>

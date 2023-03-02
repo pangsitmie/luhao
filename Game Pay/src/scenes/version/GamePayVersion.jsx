@@ -9,7 +9,7 @@ import { UpdateGamePayVersion } from "../../graphQL/Mutations";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import { GetCurrentVersion } from "../../graphQL/Queries";
-
+import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     // android: yup.string().required("請輸入版本號"),
@@ -17,6 +17,7 @@ const checkoutSchema = yup.object().shape({
 });
 
 const GamePayVersion = () => {
+    const { t } = useTranslation();
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -72,10 +73,10 @@ const GamePayVersion = () => {
                 <Box className="box"
                     border={"1px solid #111"}>
                     <Typography variant="h3" sx={{ mt: "5px", fontSize: "1.5rem", fontWeight: "500", color: colors.grey[200] }}>
-                        Game Pay Version
+                        Game Pay {t('version')}
                     </Typography>
                     <Typography variant="h3" sx={{ fontSize: ".9rem", fontWeight: "500", color: colors.grey[200] }}>
-                        伺服器版本: {initialValues.server}
+                        {t('server_version')}: {initialValues.server}
                     </Typography>
                     <div>
                         <Formik
@@ -100,7 +101,7 @@ const GamePayVersion = () => {
                                             fullWidth
                                             variant="filled"
                                             type="text"
-                                            label="Android 版本號"
+                                            label={`Android ${t('version')}`}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             value={values.android}
@@ -116,7 +117,7 @@ const GamePayVersion = () => {
                                             fullWidth
                                             variant="filled"
                                             type="text"
-                                            label="IOS 版本號"
+                                            label={`IOS ${t('version')}`}
                                             onBlur={handleBlur}
                                             onChange={handleChange}
                                             value={values.ios}
@@ -128,7 +129,7 @@ const GamePayVersion = () => {
                                     </Box>
                                     <Box display="flex" justifyContent="center" paddingTop={"2rem"}>
                                         <button className='btn_right_arrow' type="submit">
-                                            Update
+                                            {t('update')}
                                             <div className="arrow-wrapper">
                                                 <div className="arrow"></div>
                                             </div>

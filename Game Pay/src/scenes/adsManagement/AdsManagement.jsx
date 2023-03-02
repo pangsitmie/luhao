@@ -20,8 +20,9 @@ import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
-
+import { useTranslation } from 'react-i18next';
 const AdsManagement = () => {
+    const { t } = useTranslation();
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -75,14 +76,14 @@ const AdsManagement = () => {
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>系統廣告</h1>
+                <h1 className='userManagement_title'>{t('system_ads')}</h1>
             </Box>
 
             {/* SEARCH DIV */}
             <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <FormControl sx={{ width: 140 }} >
-                    <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
+                    <InputLabel id="demo-simple-select-label" >{t('status')}</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                         labelId="demo-simple-select-label"
@@ -91,13 +92,13 @@ const AdsManagement = () => {
                         label="Status"
                         onChange={handleStatusChange}
                     >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"正常"}>正常</MenuItem>
-                        <MenuItem value={"停用"}>停用</MenuItem>
+                        <MenuItem value={"無"}>{t('none')}</MenuItem>
+                        <MenuItem value={"正常"}>{t('normal')}</MenuItem>
+                        <MenuItem value={"停用"}>{t('disable')}</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl sx={{ width: 140 }} >
-                    <InputLabel id="demo-simple-select-label" >審核</InputLabel>
+                    <InputLabel id="demo-simple-select-label" >{t('review')}</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                         labelId="demo-simple-select-label"
@@ -106,10 +107,10 @@ const AdsManagement = () => {
                         label="Review"
                         onChange={handleReviewChange}
                     >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"通過"}>通過</MenuItem>
-                        <MenuItem value={"待審核"}>待審核</MenuItem>
-                        <MenuItem value={"封鎖"}>封鎖</MenuItem>
+                        <MenuItem value={"無"}>{t('none')}</MenuItem>
+                        <MenuItem value={"通過"}>{t('pass')}</MenuItem>
+                        <MenuItem value={"待審核"}>{t('pending')}</MenuItem>
+                        <MenuItem value={"封鎖"}>{t('banned')}</MenuItem>
                     </Select>
                 </FormControl>
                 {/* SEARCH BTN */}
@@ -127,7 +128,7 @@ const AdsManagement = () => {
                     onClick={() => { }}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
                     <Typography color={"white"} variant="h5" fontWeight="500">
-                        查詢
+                        {t('search')}
                     </Typography>
                 </Button>
                 <Box
@@ -184,19 +185,19 @@ const AdsManagement = () => {
                     p="10px"
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">廣告類型</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('ads_type')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('start_time')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">結束時間</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('end_time')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('status')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('details')}</Typography>
                     </Box>
                 </Box>
                 <Box
@@ -215,12 +216,12 @@ const AdsManagement = () => {
                             borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type === "banner" ? "系統橫幅 - (B)" : "系統插入 - (P)"}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type === "banner" ? `${t('banner')} - (B)` : `${t('placement')} - (P)`}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {item.endAt === null ? (
                                     <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem" }}>
-                                        無
+                                        {t('none')}
                                     </Typography>
                                 ) : (
                                     format(new Date(item.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
@@ -231,25 +232,25 @@ const AdsManagement = () => {
                                     if (item.status.name === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                停用
+                                                {t('disable')}
                                             </Typography>)
                                     }
                                     else if (item.status.name === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                封鎖
+                                                {t('banned')}
                                             </Typography>)
                                     }
                                     else if (item.status.name === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                移除
+                                                {t('removed')}
                                             </Typography>)
                                     }
                                     else {
                                         return (
                                             <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                正常
+                                                {t('normal')}
                                             </Typography>)
                                     }
                                 })()}

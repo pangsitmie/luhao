@@ -44,11 +44,13 @@ const FinanceStatistic = () => {
         setEndAtDate(event.target.value);
     }
 
-    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getCurrentDate());
+    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getToday6amEpoch());
     const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
     const [displayHour, setDisplayHour] = useState(true);
 
     useEffect(() => {
+        // console.log("startAtDateEpoch", startAtDateEpoch);
+        // console.log("endAtDateEpoch", endAtDateEpoch);
         const epochDifference = endAtDateEpoch - startAtDateEpoch;
         // console.log(epochDifference);
         setDisplayHour(epochDifference < 604800);
@@ -310,6 +312,13 @@ const FinanceStatistic = () => {
                     </Select>
                 </FormControl>
             </Box>
+
+            <Box>
+                <Typography variant="h6" sx={{ fontSize: "12px" }} mb={"1rem"}>
+                    * {t('data_shown_text')}
+                </Typography>
+            </Box>
+
             <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
                 <Button
                     sx={{
@@ -524,9 +533,10 @@ const getCurrentDate = () => {
 }
 const getYesterdayDate = () => {
     const date = new Date()
+    date.setDate(date.getDate() - 1) // subtract 1 day from current date
     const year = date.getFullYear()
     const month = ("0" + (date.getMonth() + 1)).slice(-2)
-    const day = ("0" + (date.getDate() - 1)).slice(-2)
+    const day = ("0" + date.getDate()).slice(-2)
 
     const hour = ("0" + date.getHours()).slice(-2)
     const minute = ("0" + date.getMinutes()).slice(-2)
@@ -539,11 +549,15 @@ const getTodayEpoch = () => {
 const getCurrentEpoch = () => {
     return Math.floor(new Date().getTime() / 1000);
 }
+const getToday6amEpoch = () => {
+    return (new Date(getCurrentDate() + " 06:00:00").getTime() / 1000);
+}
 const getWeekAgoDate = () => {
     const date = new Date()
+    date.setDate(date.getDate() - 7) // subtract 7 days from current date
     const year = date.getFullYear()
     const month = ("0" + (date.getMonth() + 1)).slice(-2)
-    const day = ("0" + (date.getDate() - 7)).slice(-2)
+    const day = ("0" + date.getDate()).slice(-2)
 
     const hour = ("0" + date.getHours()).slice(-2)
     const minute = ("0" + date.getMinutes()).slice(-2)

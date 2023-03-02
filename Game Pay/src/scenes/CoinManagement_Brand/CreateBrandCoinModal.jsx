@@ -11,6 +11,7 @@ import { GetBrandList } from "../../graphQL/Queries";
 import { BRAND_CreateCurrencyReward } from "src/graphQL/BrandPrincipalMutations";
 import { useDispatch, useSelector } from "react-redux";
 import { BRAND_GetBrandCurrencyList, BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -33,6 +34,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateBrandCoinModal() {
+  const { t } = useTranslation();
   const { entityName } = useSelector((state) => state.entity);
 
   //========================== THEME ==========================
@@ -40,7 +42,7 @@ export default function CreateBrandCoinModal() {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = "新增", confirmTitle = "新增", deleteTitle = "取消";
+  var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -276,7 +278,7 @@ export default function CreateBrandCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="標題"
+                          label={t('title')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.title}
@@ -289,7 +291,7 @@ export default function CreateBrandCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="備註"
+                          label={t('description')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.comment}
@@ -307,7 +309,7 @@ export default function CreateBrandCoinModal() {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="内容"
+                        label={t('content')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.content}
@@ -321,7 +323,7 @@ export default function CreateBrandCoinModal() {
                         <TextField
                           fullWidth
                           id="datetime-local"
-                          label="排程時間"
+                          label={t('trigger_at_time')}
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={triggerAtDate}
@@ -335,7 +337,7 @@ export default function CreateBrandCoinModal() {
                         <TextField
                           fullWidth
                           id="datetime-local"
-                          label="過期時間"
+                          label={t('expire_at_time')}
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={expireAtDate}
@@ -348,14 +350,14 @@ export default function CreateBrandCoinModal() {
                       </Box>
 
                       <Typography variant="h4" sx={{ m: "1rem 0", textAlign: "center", fontSize: "1rem", fontWeight: "600", color: "#cecece" }}>
-                        Reward
+                      {t('reward')}
                       </Typography>
 
 
 
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <FormControl sx={{ minWidth: 165, height: "100%" }}>
-                          <InputLabel id="demo-simple-select-label" >品牌過濾</InputLabel>
+                          <InputLabel id="demo-simple-select-label" >{t('brand_filter')}</InputLabel>
                           <Select
                             sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto" }}
                             labelId="demo-simple-select-label"
@@ -379,7 +381,7 @@ export default function CreateBrandCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="獎勵描述"
+                          label={t('reward_description')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardDescription}
@@ -395,7 +397,7 @@ export default function CreateBrandCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="數量"
+                          label={t('amount')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.currencyAmount}
@@ -408,7 +410,7 @@ export default function CreateBrandCoinModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="最大發送次數"
+                          label={t('currency_limit')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardLimit}
@@ -421,7 +423,7 @@ export default function CreateBrandCoinModal() {
                           fullWidth
                           variant="filled"
                           type="number"
-                          label="獎勵使用期限"
+                          label={t('currency_days_limit')}
                           placeholder="Null是不限制"
                           onBlur={handleBlur}
                           onChange={handleChange}
@@ -438,7 +440,7 @@ export default function CreateBrandCoinModal() {
                         <TextField
                           fullWidth
                           id="datetime-local"
-                          label="獎勵開始時間"
+                          label={t('start_time')}
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={startAtDate}
@@ -451,7 +453,7 @@ export default function CreateBrandCoinModal() {
                         <TextField
                           fullWidth
                           id="datetime-local"
-                          label="獎勵結束時間"
+                          label={t('end_time')}
                           type="datetime-local"
                           // defaultValue="2017-05-24T10:30"
                           value={endAtDate}

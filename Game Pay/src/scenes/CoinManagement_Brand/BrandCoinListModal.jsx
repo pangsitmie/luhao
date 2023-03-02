@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { replaceNullWithEmptyString } from "../../utils/Utils";
 import { BRAND_DeleteNotification } from "src/graphQL/BrandPrincipalQueries";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from 'react-i18next';
 
 
 const checkoutSchema = yup.object().shape({
@@ -22,6 +23,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function BrandCoinListModal({ props }) {
+  const { t } = useTranslation();
   const { entityName } = useSelector((state) => state.entity);
 
   //========================== THEME ==========================
@@ -29,7 +31,7 @@ export default function BrandCoinListModal({ props }) {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = "詳細資料", deleteTitle = "刪除";
+  var btnTitle = t("details"), deleteTitle = t("delete");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -203,7 +205,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="標題"
+                          label={t('title')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.title}
@@ -217,7 +219,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="備註"
+                          label={t('description')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.comment}
@@ -236,7 +238,7 @@ export default function BrandCoinListModal({ props }) {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label="内容"
+                        label={t('content')}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.content}
@@ -252,7 +254,7 @@ export default function BrandCoinListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="排程時間點"
+                          label={t('trigger_at_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.triggerAtDate}
@@ -266,7 +268,7 @@ export default function BrandCoinListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label="過期時間"
+                          label={t('expire_at_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.expireAtDate}
@@ -278,7 +280,7 @@ export default function BrandCoinListModal({ props }) {
                       </Box>
 
                       <Typography variant="h4" sx={{ m: "1rem 0", textAlign: "center", fontSize: "1rem", fontWeight: "600", color: "#cecece" }}>
-                        Reward
+                        {t('reward')}
                       </Typography>
 
                       <Box display={"flex"} justifyContent={"space-between"}>
@@ -287,7 +289,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="屬於品牌 ID"
+                          label={t('brand_id')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.belongToId}
@@ -301,7 +303,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="貨幣 ID"
+                          label={t('currency_id')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.currencyID}
@@ -315,7 +317,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="貨幣名稱"
+                          label={t('currency_name')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.currencyName}
@@ -332,7 +334,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="數量"
+                          label={t('amount')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.currencyAmount}
@@ -346,7 +348,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="限定數量"
+                          label={t('currency_limit')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardLimit}
@@ -360,7 +362,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="number"
-                          label="獎勵使用期限"
+                          label={t('currency_days_limit')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.receiveDaysOverdue}
@@ -377,7 +379,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="獎勵描述"
+                          label={t('reward_description')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardDescription}
@@ -391,7 +393,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="獎勵狀態"
+                          label={t('reward_status')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.rewardStatus}
@@ -408,7 +410,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="獎勵開始時間"
+                          label={t('start_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.startAt}
@@ -422,7 +424,7 @@ export default function BrandCoinListModal({ props }) {
                           disabled={true}
                           variant="filled"
                           type="text"
-                          label="獎勵結束時間"
+                          label={t('end_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.endAt}

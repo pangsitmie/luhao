@@ -17,9 +17,10 @@ import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
-
+import { useTranslation } from 'react-i18next';
 
 const SystemCoinManagement = () => {
+    const { t } = useTranslation();
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -95,7 +96,7 @@ const SystemCoinManagement = () => {
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>系統免費幣發送</h1>
+                <h1 className='userManagement_title'>{t('system_free_coin')}</h1>
             </Box>
             {/* SEARCH DIV */}
             <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
@@ -106,7 +107,7 @@ const SystemCoinManagement = () => {
                     borderRadius="10px"
                     height={"52px"}
                     maxWidth={130}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="開始時間" inputRef={searchValueRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder={t('start_time')} inputRef={searchValueRef} />
                 </Box>
                 <Box
                     display="flex"
@@ -114,7 +115,7 @@ const SystemCoinManagement = () => {
                     borderRadius="10px"
                     height={"52px"}
                     maxWidth={130}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="結束時間" inputRef={searchValueRef} />
+                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder={t('end_time')} inputRef={searchValueRef} />
                 </Box>
                 {/* <FormControl sx={{ minWidth: 100 }} >
                     <InputLabel id="demo-simple-select-label" >審核</InputLabel>
@@ -207,19 +208,19 @@ const SystemCoinManagement = () => {
 
 
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">標題</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('title')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">開始時間</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('start_time')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">結束時間</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('end_time')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('status')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">刪除</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('details')}</Typography>
                     </Box>
                 </Box>
                 <Box
@@ -246,7 +247,7 @@ const SystemCoinManagement = () => {
                                     <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                         {(() => {
                                             if (item.notification.expireAt === null) {
-                                                return "無"
+                                                return t('none')
                                             }
                                             else {
                                                 return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
@@ -258,26 +259,25 @@ const SystemCoinManagement = () => {
                                             if (item.status.name === "done") {
                                                 return (
                                                     <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                        完成
+                                                        {t('done')}
                                                     </Typography>)
                                             }
                                             else if (item.status.name === "failed") {
                                                 return (
                                                     <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                        失敗
+                                                        {t('failed')}
                                                     </Typography>)
                                             }
                                             else {
                                                 return (
                                                     <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                        正常
+                                                        {t('normal')}
                                                     </Typography>)
                                             }
                                         })()}
                                     </Box>
 
                                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {/* FIXME: change title to delete */}
                                         <SystemCoinListModal props={item} />
                                     </Box>
                                 </Box>
