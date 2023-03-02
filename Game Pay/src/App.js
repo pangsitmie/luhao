@@ -1,15 +1,19 @@
 import React, { lazy, Suspense } from "react";
 import { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard/Dashboard";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import { ErrorProvider, useError} from './components/provider/ErrorContext';
-
-//APOLLO
-
+import { ErrorProvider, useError } from "./components/provider/ErrorContext";
+import { useTranslation } from "react-i18next";
 
 // SCENES
 import UserManagement from "src/scenes/user/UserManagement";
@@ -39,15 +43,11 @@ import StoreDashboard from "./scenes/dashboard/StoreDashboard";
 import RewardManagement from "./scenes/store/reward/RewardManagement";
 import ReviewManagement from "./scenes/review/ReviewManagement";
 
-
-
-const StoreManagement = lazy(() => import('./scenes/store/StoreManagement'));
+const StoreManagement = lazy(() => import("./scenes/store/StoreManagement"));
 // const MachineManagement = lazy(() => import('./scenes/machineManagement/MachineManagement'));
 
-
-
-
 function App() {
+  const { t } = useTranslation();
   // REDUX STORE
   const { entityName } = useSelector((state) => state.entity);
   const dispatch = useDispatch();
@@ -58,28 +58,30 @@ function App() {
   //check if token is null if null navigate to login
   const navigate = useNavigate();
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
     }
   }, []);
 
-  
   const [isPortrait, setIsPortrait] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
-    setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent));
+    setIsMobile(
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        userAgent
+      )
+    );
   }, []);
-
 
   useEffect(() => {
     const handleOrientationChange = () => {
       setIsPortrait(window.orientation === 0 || window.orientation === 180);
     };
 
-    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener("orientationchange", handleOrientationChange);
 
     // If isPortrait is null, set it based on the initial orientation
     if (isPortrait === null) {
@@ -87,33 +89,28 @@ function App() {
     }
 
     return () => {
-      window.removeEventListener('orientationchange', handleOrientationChange);
+      window.removeEventListener("orientationchange", handleOrientationChange);
     };
   }, [isPortrait]);
-
-  // useEffect(() => {
-  //   console.log("ismoible: ", isMobile);
-  //   console.log("ispotrait: ", isPortrait);
-  // }, [isMobile, isPortrait]);
-
 
   return (
     <React.Fragment>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {(isMobile && isPortrait) && (
+          {isMobile && isPortrait && (
             <div className="rotate-screen">
-              <p>請將手機調成橫向。</p>
+              <Typography variant="h4" component="h4" gutterBottom>
+                {t("please_rotate_your_device")}
+              </Typography>
             </div>
           )}
-          <div className={` ${isMobile && isPortrait ? 'hidden' : 'app'}`}>
+          <div className={` ${isMobile && isPortrait ? "hidden" : "app"}`}>
             <Sidebar isSidebar={isSidebar} />
             <main className="content">
               <Topbar setIsSidebar={setIsSidebar} />
               <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
-
                   <Route path="/404" element={<NotFound />} />
                   <Route path="*" element={<Navigate to="/404" />} />
 
@@ -123,28 +120,67 @@ function App() {
                       <Route exact path="/" element={<Dashboard />} />
                       <Route path="/dashboard" element={<Dashboard />} />
 
-                      <Route path="/user-management" element={<UserManagement />} />
-                      <Route path="/brand-management" element={<BrandManagement />} />
+                      <Route
+                        path="/user-management"
+                        element={<UserManagement />}
+                      />
+                      <Route
+                        path="/brand-management"
+                        element={<BrandManagement />}
+                      />
 
                       {/* MANAGEMENT */}
-                      <Route path="/billboard-management" element={<BillboardManagement />} />
-                      <Route path="/store-management" element={<StoreManagement />} />
-                      <Route path="/commodity-management" element={<CommodityManagement />} />
-                      <Route path="/reward-management" element={<RewardManagement />} />
-                      <Route path="/machine-management" element={<MachineManagement />} />
+                      <Route
+                        path="/billboard-management"
+                        element={<BillboardManagement />}
+                      />
+                      <Route
+                        path="/store-management"
+                        element={<StoreManagement />}
+                      />
+                      <Route
+                        path="/commodity-management"
+                        element={<CommodityManagement />}
+                      />
+                      <Route
+                        path="/reward-management"
+                        element={<RewardManagement />}
+                      />
+                      <Route
+                        path="/machine-management"
+                        element={<MachineManagement />}
+                      />
                       <Route path="/system-ads" element={<AdsManagement />} />
                       <Route path="/partner" element={<PartnerManagement />} />
-                      <Route path="/partner-ads" element={<PartnerAdsManagement />} />
+                      <Route
+                        path="/partner-ads"
+                        element={<PartnerAdsManagement />}
+                      />
 
                       {/* NOTIFICATION */}
-                      <Route path="/system-notification" element={<SystemNotificationManagement />} />
-                      <Route path="/system-coins" element={<SystemCoinManagement />} />
-                      <Route path="/brand-coins" element={<BrandCoinManagement />} />
+                      <Route
+                        path="/system-notification"
+                        element={<SystemNotificationManagement />}
+                      />
+                      <Route
+                        path="/system-coins"
+                        element={<SystemCoinManagement />}
+                      />
+                      <Route
+                        path="/brand-coins"
+                        element={<BrandCoinManagement />}
+                      />
 
                       {/* STATISTIC */}
                       <Route path="/statistic" element={<StatisticList />} />
-                      <Route path="/statistic-management" element={<StatisticManagement />} />
-                      <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
+                      <Route
+                        path="/statistic-management"
+                        element={<StatisticManagement />}
+                      />
+                      <Route
+                        path="/statistic-management/finance"
+                        element={<FinanceStatistic />}
+                      />
 
                       <Route path="/promotion" element={<Promotion />} />
                       {/* SYSTEM */}
@@ -158,18 +194,45 @@ function App() {
                       <Route exact path="/" element={<BrandDashboard />} />
                       <Route path="/dashboard" element={<BrandDashboard />} />
 
-                      <Route path="/brand-management" element={<BrandManagement />} />
-                      <Route path="/billboard-management" element={<BillboardManagement />} />
-                      <Route path="/store-management" element={<StoreManagement />} />
-                      <Route path="/commodity-management" element={<CommodityManagement />} />
-                      <Route path="/reward-management" element={<RewardManagement />} />
-                      <Route path="/machine-management" element={<MachineManagement />} />
-                      <Route path="/brand-coins" element={<BrandCoinManagement />} />
+                      <Route
+                        path="/brand-management"
+                        element={<BrandManagement />}
+                      />
+                      <Route
+                        path="/billboard-management"
+                        element={<BillboardManagement />}
+                      />
+                      <Route
+                        path="/store-management"
+                        element={<StoreManagement />}
+                      />
+                      <Route
+                        path="/commodity-management"
+                        element={<CommodityManagement />}
+                      />
+                      <Route
+                        path="/reward-management"
+                        element={<RewardManagement />}
+                      />
+                      <Route
+                        path="/machine-management"
+                        element={<MachineManagement />}
+                      />
+                      <Route
+                        path="/brand-coins"
+                        element={<BrandCoinManagement />}
+                      />
 
                       {/* STATISTIC */}
                       <Route path="/statistic" element={<StatisticList />} />
-                      <Route path="/statistic-management" element={<StatisticManagement />} />
-                      <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
+                      <Route
+                        path="/statistic-management"
+                        element={<StatisticManagement />}
+                      />
+                      <Route
+                        path="/statistic-management/finance"
+                        element={<FinanceStatistic />}
+                      />
 
                       {/* REVIEW */}
                       <Route path="/review" element={<ReviewManagement />} />
@@ -179,15 +242,33 @@ function App() {
                       <Route exact path="/" element={<StoreDashboard />} />
                       <Route path="/dashboard" element={<StoreDashboard />} />
 
-                      <Route path="/store-management" element={<StoreManagement />} />
-                      <Route path="/commodity-management" element={<CommodityManagement />} />
-                      <Route path="/reward-management" element={<RewardManagement />} />
-                      <Route path="/machine-management" element={<MachineManagement />} />
+                      <Route
+                        path="/store-management"
+                        element={<StoreManagement />}
+                      />
+                      <Route
+                        path="/commodity-management"
+                        element={<CommodityManagement />}
+                      />
+                      <Route
+                        path="/reward-management"
+                        element={<RewardManagement />}
+                      />
+                      <Route
+                        path="/machine-management"
+                        element={<MachineManagement />}
+                      />
 
                       {/* STATISTIC */}
                       <Route path="/statistic" element={<StatisticList />} />
-                      <Route path="/statistic-management" element={<StatisticManagement />} />
-                      <Route path="/statistic-management/finance" element={<FinanceStatistic />} />
+                      <Route
+                        path="/statistic-management"
+                        element={<StatisticManagement />}
+                      />
+                      <Route
+                        path="/statistic-management/finance"
+                        element={<FinanceStatistic />}
+                      />
 
                       {/* REVIEW */}
                       <Route path="/review" element={<ReviewManagement />} />
@@ -196,12 +277,9 @@ function App() {
                     <Navigate to="/404" />
                   )}
                 </Routes>
-
               </Suspense>
             </main>
-
           </div>
-
         </ThemeProvider>
       </ColorModeContext.Provider>
     </React.Fragment>

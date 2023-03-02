@@ -258,11 +258,7 @@ const StatisticManagement = () => {
                 </FormControl>
             </Box>
 
-            <Box>
-                <Typography variant="h6" sx={{ fontSize: "12px" }} mb={"1rem"}>
-                    * {t('data_shown_text')}
-                </Typography>
-            </Box>
+
 
             <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
                 <Button
@@ -330,10 +326,11 @@ const StatisticManagement = () => {
                     backdropFilter: "blur(20px)",
                 }}>
 
-                <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
-                    <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
+                <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} >
+                    <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "bold", m: "0 0 0 10px" }}>
                         {t('finance')}
                     </Typography>
+
                     <Box display={"flex"} alignItems={"center"} justifyContent={"center"} gap={".5rem"}>
                         <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
                             {t('details')}
@@ -350,7 +347,11 @@ const StatisticManagement = () => {
                         </Link>
                     </Box>
                 </Box>
-
+                <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
+                    <Typography variant="h6" sx={{ textTransform: "none", color: colors.grey[100], fontWeight: "500", m: "0 0 0 10px" }}>
+                        {t('data_shown_text')}*
+                    </Typography>
+                </Box>
                 {/* GRID & CHARTS */}
                 <Box
                     display="grid"
@@ -551,7 +552,7 @@ const StatisticManagement = () => {
                     backdropFilter: "blur(20px)",
                 }}>
                 <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
-                    <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "500", m: "0 0 0 12px" }}>
+                    <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "bold", m: "0 0 0 10px" }}>
                         {t('users')}
                     </Typography>
                     <Link

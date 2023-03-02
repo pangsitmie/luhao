@@ -74,7 +74,7 @@ const BrandDashboard = () => {
         setEndAtDate(event.target.value);
     }
 
-    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getCurrentDate());
+    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getToday6amEpoch());
     const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
 
     const [displayStatistic, setDisplayStatistic] = useState({});
@@ -397,8 +397,10 @@ const getCurrentDate = () => {
     const month = ("0" + (date.getMonth() + 1)).slice(-2)
     const day = ("0" + date.getDate()).slice(-2)
 
-
     return `${year}-${month}-${day}`
+}
+const getToday6amEpoch = () => {
+    return (new Date(getCurrentDate() + " 06:00:00").getTime() / 1000);
 }
 
 const getTodayEpoch = () => {

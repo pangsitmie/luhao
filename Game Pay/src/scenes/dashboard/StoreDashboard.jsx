@@ -73,7 +73,7 @@ const StoreDashboard = () => {
     }
 
 
-    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getCurrentDate());
+    const [startAtDateEpoch, setStartAtDateEpoch] = useState(getToday6amEpoch());
     const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
 
     const [displayStatistic, setDisplayStatistic] = useState({});
@@ -401,17 +401,6 @@ const getTodayEpoch = () => {
 const getCurrentEpoch = () => {
     return Math.floor(new Date().getTime() / 1000);
 }
-
-const getWeekAgoDate = () => {
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = ("0" + (date.getMonth() + 1)).slice(-2)
-    const day = ("0" + (date.getDate() - 7)).slice(-2)
-
-    const hour = ("0" + date.getHours()).slice(-2)
-    const minute = ("0" + date.getMinutes()).slice(-2)
-
-    return `${year}-${month}-${day}`
+const getToday6amEpoch = () => {
+    return (new Date(getCurrentDate() + " 06:00:00").getTime() / 1000);
 }
-
-

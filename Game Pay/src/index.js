@@ -1,40 +1,53 @@
-import React, {useContext} from 'react';
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import LoginProvider from "./LoginProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import './i18n';
-// import { ErrorProvider } from './components/provider/ErrorContext';
+import "./i18n";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //APOLLO
-import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, useQuery, gql } from '@apollo/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from,
+  useQuery,
+  gql,
+} from "@apollo/client";
 
-import { setContext } from '@apollo/client/link/context';
-import { onError } from '@apollo/client/link/error';
+import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
 
 //REDUX
-import store from './redux/store'
-import { Provider } from 'react-redux'
-
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
 let originalQuery;
 let originalVariables;
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-  if (!operation){
+  if (!operation) {
     return;
   }
+
   if (graphQLErrors) {
-    graphQLErrors.map(async ({ message, location, path }) => {
+    graphQLErrors.map(async ({ message, location, path, extensions }) => {
+      console.log("ERROR DESC:");
+      console.log(extensions.description);
+
+      console.log("ERROR PATH:" + path);
       if (message === "Token過期") {
         console.log("TOKEN EXPIRES");
 
         originalQuery = operation.query;
         originalVariables = operation.variables;
 
-        const login_token = localStorage.getItem('login_token');
-        localStorage.removeItem('token');
+        const login_token = localStorage.getItem("login_token");
+        localStorage.removeItem("token");
 
         // Create the query document
         const query = gql`
@@ -52,10 +65,10 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         });
 
         const newToken = data.getManagerAccessToken;
-        console.log("NEW TOKEN: ")
+        console.log("NEW TOKEN: ");
         console.log(newToken);
         // Store the new token in local storage
-        localStorage.setItem('token', newToken);
+        localStorage.setItem("token", newToken);
 
         client.link = authLink = setContext((_, { headers }) => {
           return {
@@ -68,26 +81,36 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
         // Re-execute the original query with the updated token and original variables
         client.query({ query: originalQuery, variables: originalVariables });
-      }
-      else {
-        // setErrorMessage(message);
-        alert(message);
-        //HOW TO MAKE THIS ERROR MESSSAGE TO BE DISPLAYED IN CUSTOM COMPONENET
+      } else {
+        if (extensions.description[0]) {
+          const { constraints } = extensions.description[0];
+          const errorMessage = constraints && constraints.matches;
+
+          if (errorMessage) {
+            toast.error(errorMessage);
+          } else {
+            toast.error(extensions.description);
+          }
+        } else {
+          toast.error(message);
         }
-    })
+      }
+    });
   }
 });
 
 const link = from([
   errorLink,
-  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" })
+  new HttpLink({
+    // uri: "https://market-test.cloudprogrammingonline.com/graphql/",
+  }),
   // new HttpLink({ uri: "https://market-qa.cloudprogrammingonline.com/graphql/" })
-  // new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" })
+  new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
 ]);
 
 let authLink = setContext((_, { headers }) => {
   // Get the access token from local storage
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   // Return the headers to the context, including the authorization header if the token is not null
   return {
@@ -104,31 +127,22 @@ const client = new ApolloClient({
   // link: link
 
   //Use this if you want to use authLink
-  link: authLink.concat(link)
+  link: authLink.concat(link),
 });
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-      <ApolloProvider client={client}>
-        <BrowserRouter>
-          <React.StrictMode>
-            <Routes>
-              <Route exact path="/*" element={<App />} />
-              <Route path="/login/*" element={<LoginProvider />} />
-            </Routes>
-          </React.StrictMode>
-        </BrowserRouter>
-      </ApolloProvider>
+    <ApolloProvider client={client}>
+      <ToastContainer />
+      <BrowserRouter>
+        <React.StrictMode>
+          <Routes>
+            <Route exact path="/*" element={<App />} />
+            <Route path="/login/*" element={<LoginProvider />} />
+          </Routes>
+        </React.StrictMode>
+      </BrowserRouter>
+    </ApolloProvider>
   </Provider>
 );
-
-
-
-
-
-
-
-
-

@@ -232,6 +232,17 @@ const FinanceStatistic = () => {
     finalData.push({ id: t('total_expense'), color: "#fb8500", data: giftAmountTotal });
     finalData.push({ id: t('total_prize'), color: "#ffb703", data: giftQuantityTotal });
 
+    const [totalEarning, setTotalEarning] = useState(0);
+
+    useEffect(() => {
+        let total = 0;
+        lineData.forEach((item) => {
+            total += item.coinAmountTotal;
+        });
+        setTotalEarning(total);
+    }, [lineData]);
+
+
 
     const handleClick = (selected) => {
         setPeriod(selected);
@@ -313,11 +324,6 @@ const FinanceStatistic = () => {
                 </FormControl>
             </Box>
 
-            <Box>
-                <Typography variant="h6" sx={{ fontSize: "12px" }} mb={"1rem"}>
-                    * {t('data_shown_text')}
-                </Typography>
-            </Box>
 
             <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
                 <Button
@@ -400,16 +406,18 @@ const FinanceStatistic = () => {
                                 variant="h5"
                                 fontWeight="600"
                                 color={colors.grey[100]}
-                                mb="10px"
                             >
-                                總收入 - Mock Data
+                                總收入 (NTD)
+                            </Typography>
+                            <Typography variant="h6" sx={{ textTransform: "none", color: colors.grey[100], fontWeight: "500", mb: "10px" }}>
+                                {t('data_shown_text')}*
                             </Typography>
                             <Typography
                                 variant="h3"
                                 fontWeight="bold"
                                 color={colors.primary[100]}
                             >
-                                NTD 10,000,000
+                                {currencyFormatter(totalEarning)}
                             </Typography>
                         </Box>
                         <Box

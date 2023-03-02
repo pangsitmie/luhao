@@ -1,18 +1,30 @@
-import React, { useContext } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
-const ErrorContext = React.createContext();
+// Create a new context for handling errors
+const ErrorContext = createContext(null);
 
-export function ErrorProvider({ children }) {
-  const [errorMessage, setErrorMessage] = React.useState(null);
+// ErrorProvider component that wraps the entire application
+export const ErrorProvider = ({ children }) => {
+  const [errors, setErrors] = useState([]);
+
+  // useErrorHandler hook to consume GraphQL errors and log them to console
+  const useErrorHandler = () => {
+    const handleError = (error) => {
+      setErrors((prevErrors) => [...prevErrors, error]);
+      console.error(error);
+    };
+
+    return { handleError };
+  };
 
   return (
-    <ErrorContext.Provider value={{ errorMessage, setErrorMessage }}>
+    <ErrorContext.Provider value={{ errors, useErrorHandler }}>
       {children}
     </ErrorContext.Provider>
   );
-}
+};
 
-export function useError() {
-  const { errorMessage, setErrorMessage } = useContext(ErrorContext);
-  return { errorMessage, setErrorMessage };
-}
+// Custom hook to consume the error context
+export const useErrorContext = () => {
+  return useContext(ErrorContext);
+};
