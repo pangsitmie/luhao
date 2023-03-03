@@ -31,7 +31,7 @@ export default function BrandCoinListModal({ props }) {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = t("details"), deleteTitle = t("delete");
+  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -137,28 +137,6 @@ export default function BrandCoinListModal({ props }) {
 
 
   const handleFormSubmit = (values) => {
-    console.log("SEND CREATE NOTIFICATION REQUEST");
-    console.log(values);
-    const triggerAtDateObj = new Date(triggerAtDate);
-    const expireAtDateObj = new Date(expireAtDate);
-
-    const triggerAtUnix = triggerAtDateObj.getTime() / 1000;
-    const expireAtUnix = expireAtDateObj.getTime() / 1000;
-
-
-    // ApolloCreateNotification({
-    //   variables: {
-    //     comment: values.comments,
-    //     triggerAt: triggerAtUnix,
-    //     notification: {
-    //       type: notifType,
-    //       title: values.title,
-    //       content: values.content,
-    //       expireAt: expireAtUnix,
-    //       rewardId: null
-    //     }
-    //   }
-    // });
   };
 
 
@@ -181,7 +159,7 @@ export default function BrandCoinListModal({ props }) {
           <Box className="modal-content" backgroundColor={colors.primary[500]}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
-                {btnTitle}
+                {modalTitle}
               </Typography>
 
               <Formik

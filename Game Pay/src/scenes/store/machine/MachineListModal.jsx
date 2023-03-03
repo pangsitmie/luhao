@@ -45,7 +45,7 @@ export default function MachineListModal({ props }) {
     };
 
 
-    var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
     const [initialValues, setInitialValues] = useState({
         id: 0,
         UUID: "",
@@ -275,7 +275,7 @@ export default function MachineListModal({ props }) {
                                             <Box display={"flex"} >
                                                 <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
                                                     <Typography variant="h2" sx={{ fontSize: "2rem", fontWeight: "600", color: colors.grey[200] }}>
-                                                        {btnTitle}
+                                                        {modalTitle}
                                                     </Typography>
                                                     {(() => {
                                                         if (initialValues.status === "disable") {

@@ -194,14 +194,14 @@ const StatisticList = () => {
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
                     background={colors.grey[300]}
-                    p="15px 0"
+                    p="10px"
                 >
                     <Box display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500" ml="15px">{t('brand_name')}</Typography>
                     </Box>
 
                     <Box display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500" mr="25px">{t('statistic')}</Typography>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500" mr="25px">{t('statistic_info')}</Typography>
                     </Box>
                 </Box>
 
@@ -219,10 +219,9 @@ const StatisticList = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`3px solid ${colors.primary[500]}`}
-                            p="10px 0"
+                            borderBottom={i === brands.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                            p="10px"
                         >
-
                             <Box display="flex" alignItems={"center"} justifyContent={"center"} m={"0 15px"}>
                                 <Typography color={colors.grey[100]} variant="h5" fontWeight="500">
                                     {brand.name}
@@ -243,7 +242,7 @@ const StatisticList = () => {
                                     }}
                                 >
                                     <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>
-                                        {t('details')}
+                                        {t('view')}
                                     </Button>
                                 </Link>
                             </Box>

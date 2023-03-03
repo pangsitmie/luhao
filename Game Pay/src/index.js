@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -15,7 +15,6 @@ import {
   ApolloProvider,
   HttpLink,
   from,
-  useQuery,
   gql,
 } from "@apollo/client";
 
@@ -101,11 +100,9 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({
-    // uri: "https://market-test.cloudprogrammingonline.com/graphql/",
-  }),
-  // new HttpLink({ uri: "https://market-qa.cloudprogrammingonline.com/graphql/" })
-  new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
+  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" }),
+  // new HttpLink({uri: "https://market-qa.cloudprogrammingonline.com/graphql/"}),
+  // new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
 ]);
 
 let authLink = setContext((_, { headers }) => {

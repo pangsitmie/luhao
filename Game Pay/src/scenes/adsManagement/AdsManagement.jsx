@@ -202,7 +202,7 @@ const AdsManagement = () => {
                 </Box>
                 <Box
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
+                    borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}
                 >
@@ -213,7 +213,7 @@ const AdsManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`3px solid ${colors.primary[500]}`}
+                            borderBottom={i === ads.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type === "banner" ? `${t('banner')} - (B)` : `${t('placement')} - (P)`}</Box>

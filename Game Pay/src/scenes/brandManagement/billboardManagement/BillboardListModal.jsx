@@ -38,8 +38,7 @@ export default function BillboardListModal({ props }) {
     });
 
     //========================== INITIAL VALUES ==========================
-    // var btnTitle = "修改", confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
-    var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
 
     const [modal, setModal] = useState(false);
 
@@ -260,7 +259,7 @@ export default function BillboardListModal({ props }) {
                                             <Box display={"flex"} m={"1rem 0"}>
                                                 <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
                                                     <Typography variant="h2" sx={{ mb: "10px", fontSize: "2rem", fontWeight: "600", color: "white" }}>
-                                                        {btnTitle}
+                                                        {modalTitle}
                                                     </Typography>
 
                                                     <Box textAlign="center" display={"flex"} >

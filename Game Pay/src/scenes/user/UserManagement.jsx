@@ -193,7 +193,7 @@ const UserManagement = () => {
 
                 <Box
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
+                    borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}
                 >
@@ -203,7 +203,7 @@ const UserManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`3px solid ${colors.primary[500]}`}
+                            borderBottom={i === members.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.profile.nickname}</Box>

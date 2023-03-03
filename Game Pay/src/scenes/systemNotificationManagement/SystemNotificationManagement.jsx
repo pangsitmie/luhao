@@ -223,20 +223,26 @@ const SystemNotificationManagement = () => {
                 </Box>
                 <Box
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
+                    borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}
                 >
                     {/* MAP DATA */}
                     {notifications.map((item, i) => {
                         if (item.notification.type === "system") {
+                            // Keep track of the index of the last systemFree item
+                            const lastNotificationIndex = notifications.reduce(
+                                (lastIndex, currentItem, currentIndex) =>
+                                    currentItem.notification.type === "system"
+                                        ? currentIndex : lastIndex, -1
+                            );
                             return (
                                 <Box
                                     key={`${item.id}-${i}`}
                                     display="flex"
                                     justifyContent="space-between"
                                     alignItems="center"
-                                    borderBottom={`3px solid ${colors.primary[500]}`}
+                                    borderBottom={i === lastNotificationIndex ? "none" : `3px solid ${colors.primary[500]}`}
                                     p="10px"
                                 >
                                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>

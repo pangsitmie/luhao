@@ -225,20 +225,29 @@ const SystemCoinManagement = () => {
                 </Box>
                 <Box
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
+                    borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}
                 >
                     {/* MAP DATA */}
                     {notifications.map((item, i) => {
+                        // Check if the item is type systemFree
                         if (item.notification.reward.content.currency.type === "systemFree") {
+                            // Keep track of the index of the last systemFree item
+                            const lastSystemFreeIndex = notifications.reduce(
+                                (lastIndex, currentItem, currentIndex) =>
+                                    currentItem.notification.reward.content.currency.type === "systemFree"
+                                        ? currentIndex : lastIndex, -1
+                            );
                             return (
                                 <Box
                                     key={`${item.id}-${i}`}
                                     display="flex"
                                     justifyContent="space-between"
                                     alignItems="center"
-                                    borderBottom={`3px solid ${colors.primary[500]}`}
+                                    borderBottom={
+                                        i === lastSystemFreeIndex ? "none" : `3px solid ${colors.primary[500]}`
+                                    }
                                     p="10px"
                                 >
                                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>

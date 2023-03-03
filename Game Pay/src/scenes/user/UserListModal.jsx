@@ -21,7 +21,7 @@ export default function UserListModal({ props }) {
   const colors = tokens(theme.palette.mode);
   const [modal, setModal] = useState(false);
 
-  var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("unban");
+  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
 
   const initialValues = {
@@ -143,7 +143,7 @@ export default function UserListModal({ props }) {
                       <Box display={"flex"} m={"1rem 0"}>
                         <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
                           <Typography variant="h2" sx={{ textAlign: "left", fontSize: "2rem", fontWeight: "600", color: "white", mt: "1rem" }}>
-                            {t('users')}
+                            {modalTitle}
                           </Typography>
                           <Box textAlign="left">
                             {(() => {

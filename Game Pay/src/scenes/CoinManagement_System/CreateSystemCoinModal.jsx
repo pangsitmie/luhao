@@ -55,28 +55,16 @@ export default function CreateSystemCoinModal() {
   const [expireAtDate, setExpireAtDate] = useState('');
   function handleExpireAtDateChange(event) {
     setExpireAtDate(event.target.value);
-    // setInitialValues({
-    //   ...initialValues,
-    //   expireAt: event.target.value
-    // });
   }
 
   const [startAtDate, setStartAtDate] = useState('');
   function handleStartAtDateChange(event) {
     setStartAtDate(event.target.value);
-    // setInitialValues({
-    //   ...initialValues,
-    //   startAt: event.target.value
-    // });
   }
 
   const [endAtDate, setEndAtDate] = useState('');
   function handleEndAtDateChange(event) {
     setEndAtDate(event.target.value);
-    // setInitialValues({
-    //   ...initialValues,
-    //   endAt: event.target.value
-    // });
   }
 
   //========================== INITIAL VALUES ==========================
@@ -364,7 +352,7 @@ export default function CreateSystemCoinModal() {
                         />
                       </Box>
 
-                      
+
 
 
 

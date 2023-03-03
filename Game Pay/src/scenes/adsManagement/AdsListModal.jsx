@@ -24,7 +24,7 @@ export default function AdsListModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
     const [modal, setModal] = useState(false); //open or close modal
 
@@ -238,7 +238,7 @@ export default function AdsListModal({ props }) {
                                             <Box display={"flex"} m={"1rem 0"}>
                                                 <Box width={"35%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
                                                     <Typography variant="h2" sx={{ textAlign: "left", fontSize: "1.8rem", fontWeight: "600", color: colors.grey[200], lineHeight: "1.5" }}>
-                                                        {t('update_ads')}
+                                                        {modalTitle}
                                                     </Typography>
                                                     <Typography variant="h5" sx={{ mt: ".5rem", textAlign: "left", fontSize: ".9rem", fontWeight: "600", color: colors.grey[200], lineHeight: "1.5" }}>
                                                         {values.type === "banner" ? `${t('banner')} - (B)` : `${t('placement')} - (P)`}

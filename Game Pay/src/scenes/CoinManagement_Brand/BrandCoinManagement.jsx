@@ -259,13 +259,19 @@ const BrandCoinManagement = () => {
                     {/* MAP DATA */}
                     {notifications.map((item, i) => {
                         if (item.notification.reward.content.currency.type === "brand") {
+                            // Keep track of the index of the last systemFree item
+                            const lastBrandCoinIndex = notifications.reduce(
+                                (lastIndex, currentItem, currentIndex) =>
+                                    currentItem.notification.reward.content.currency.type === "brand"
+                                        ? currentIndex : lastIndex, -1
+                            );
                             return (
                                 <Box
                                     key={`${item.id}-${i}`}
                                     display="flex"
                                     justifyContent="space-between"
                                     alignItems="center"
-                                    borderBottom={`3px solid ${colors.primary[500]}`}
+                                    borderBottom={i === lastBrandCoinIndex ? "none" : `3px solid ${colors.primary[500]}`}
                                     p="10px"
                                 >
                                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
@@ -297,7 +303,7 @@ const BrandCoinManagement = () => {
                                             else {
                                                 return (
                                                     <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                                                                                {t('normal')}
+                                                        {t('normal')}
 
                                                     </Typography>)
                                             }

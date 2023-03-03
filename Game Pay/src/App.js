@@ -12,13 +12,12 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard/Dashboard";
 import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import { ErrorProvider, useError } from "./components/provider/ErrorContext";
 import { useTranslation } from "react-i18next";
 
 // SCENES
 import UserManagement from "src/scenes/user/UserManagement";
 import BrandManagement from "src/scenes/brandManagement/BrandManagement";
-// import StoreManagement from "./scenes/storeManagement/StoreManagement";
+import StoreManagement from "src/scenes/store/StoreManagement";
 import CommodityManagement from "src/scenes/store/commodity/CommodityManagement";
 import MachineManagement from "src/scenes/store/machine/MachineManagement";
 import SystemNotificationManagement from "src/scenes/systemNotificationManagement/SystemNotificationManagement";
@@ -33,17 +32,18 @@ import StatisticManagement from "src/scenes/statistics/StatisticManagement";
 import FinanceStatistic from "src/scenes/statistics/FinanceStatistic";
 import PartnerAdsManagement from "src/scenes/partnerAds/PartnerAdsManagement";
 import PartnerManagement from "src/scenes/partner/PartnerManagement";
-
-// REDUX
-import { useDispatch, useSelector } from "react-redux";
-import { setBrand, setCompany, setStore } from "./redux/entity";
 import NotFound from "./components/404/NotFound";
 import BrandDashboard from "./scenes/dashboard/BrandDashboard";
 import StoreDashboard from "./scenes/dashboard/StoreDashboard";
 import RewardManagement from "./scenes/store/reward/RewardManagement";
 import ReviewManagement from "./scenes/review/ReviewManagement";
 
-const StoreManagement = lazy(() => import("./scenes/store/StoreManagement"));
+// REDUX
+import { useDispatch, useSelector } from "react-redux";
+import RechargeManagement from "./scenes/recharge/RechargeManagement";
+// import { setBrand, setCompany, setStore } from "./redux/entity";
+
+// const StoreManagement = lazy(() => import("./scenes/store/StoreManagement"));
 // const MachineManagement = lazy(() => import('./scenes/machineManagement/MachineManagement'));
 
 function App() {
@@ -60,7 +60,8 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/login");
+      navigate("/login/");
+      navigate(`/login/${entityName}/`);
     }
   }, []);
 
@@ -143,24 +144,24 @@ function App() {
                         element={<CommodityManagement />}
                       />
                       <Route
-                        path="/reward-management"
-                        element={<RewardManagement />}
-                      />
-                      <Route
                         path="/machine-management"
                         element={<MachineManagement />}
                       />
-                      <Route path="/system-ads" element={<AdsManagement />} />
-                      <Route path="/partner" element={<PartnerManagement />} />
-                      <Route
-                        path="/partner-ads"
-                        element={<PartnerAdsManagement />}
-                      />
 
                       {/* NOTIFICATION */}
+                      <Route path="/system-notification" element={<SystemNotificationManagement />} />
+                      <Route path="/system-ads" element={<AdsManagement />} />
+                      <Route path="/partner" element={<PartnerManagement />} />
+                      <Route path="/partner-ads" element={<PartnerAdsManagement />} />
+
+                      {/* FINANCE */}
                       <Route
-                        path="/system-notification"
-                        element={<SystemNotificationManagement />}
+                        path="/recharge-management"
+                        element={<RechargeManagement />}
+                      />
+                      <Route
+                        path="/reward-management"
+                        element={<RewardManagement />}
                       />
                       <Route
                         path="/system-coins"

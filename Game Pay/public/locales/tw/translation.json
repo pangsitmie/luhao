@@ -76,6 +76,7 @@
     "brand_coin_name": "品牌專屬幣名稱",
     "optional": "(選填)",
     "or": "或",
+    "view": "查看",
     "================store================": "================store================",
     "store": "店家",
     "intro": "介紹",
@@ -155,9 +156,15 @@
     "currency_days_limit": "獎勵使用期限",
     "reward_description": "獎勵描述",
     "reward_status": "獎勵狀態",
-    "currency_id": "貨幣ID"
-
-
-
+    "currency_id": "貨幣ID",
+    "================recharge================": "================recharge================",
+    "recharge": "儲值",
+    "recharge_management": "儲值管理",
+    "recharge_type": "儲值類型",
+    "recharge_item": "儲值品項",
+    "permanent": "常駐",
+    "limited": "限時",
+    "bonus_reward": "額外獎勵",
+    "recharge_history": "儲值紀錄"
 
 }

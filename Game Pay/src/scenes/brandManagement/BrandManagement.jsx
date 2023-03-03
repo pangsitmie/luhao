@@ -23,7 +23,6 @@ import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-// const { t } = useTranslation();
 
 const BrandManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
@@ -273,7 +272,7 @@ const BrandManagement = () => {
                 {/* here */}
                 <Box
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
+                    borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}
                 >
@@ -284,7 +283,7 @@ const BrandManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`3px solid ${colors.primary[500]}`}
+                            borderBottom={i === brands.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>

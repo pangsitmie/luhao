@@ -8,13 +8,11 @@ import { tokens } from "../../theme";
 import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand, } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
-import { default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-// const { t } = useTranslation();
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -23,8 +21,8 @@ const checkoutSchema = yup.object().shape({
   // intro: yup.string().required("required"),
   principalName: yup.string().required("required"),
   principalLineUrl: yup.string().required("required"),
-  principalPassword: yup.string().matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"), principalLineUrl: yup.string().required("required"),
-
+  principalPassword: yup.string().matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"),
+  principalLineUrl: yup.string().required("required"),
   vatNumber: yup.string().required("required"),
   brandCoinName: yup.string().required("required"),
 });
@@ -56,8 +54,7 @@ export default function BrandListModal({ props }) {
   });
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = t("update"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
-  //  confirmTitle = "更新", deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
 
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
@@ -247,7 +244,7 @@ export default function BrandListModal({ props }) {
                   <form onSubmit={handleSubmit}>
                     <Box>
                       <Typography variant="h2" sx={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
-                        {btnTitle}
+                        {modalTitle}
                       </Typography>
 
                       <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>

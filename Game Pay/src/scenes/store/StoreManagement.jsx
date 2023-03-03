@@ -291,7 +291,7 @@ const StoreManagement = () => {
                 </Box>
                 <Box
                     backgroundColor={colors.primary[400]}
-                    borderRadius="10px"
+                    borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}
                 >
@@ -301,7 +301,7 @@ const StoreManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={`3px solid ${colors.primary[500]}`}
+                            borderBottom={i === stores.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>

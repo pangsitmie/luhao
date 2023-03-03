@@ -349,7 +349,7 @@ const StatisticManagement = () => {
                 </Box>
                 <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
                     <Typography variant="h6" sx={{ textTransform: "none", color: colors.grey[100], fontWeight: "500", m: "0 0 0 10px" }}>
-                        {t('data_shown_text')}*
+                        {t('data_shown_text')}
                     </Typography>
                 </Box>
                 {/* GRID & CHARTS */}
@@ -635,9 +635,6 @@ const StatisticManagement = () => {
                             }
                         />
                     </Box>
-
-
-
                 </Box>
             </Box>
         </Box >

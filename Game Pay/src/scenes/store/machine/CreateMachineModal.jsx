@@ -35,7 +35,6 @@ export default function CreateMachineModal({ props }) {
         setCountersToggle(event.target.checked);
     };
 
-
     var btnTitle = t("add_new"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
     const initialValues = {
@@ -307,7 +306,7 @@ export default function CreateMachineModal({ props }) {
 
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                        <button className="my-button" type="submit">{confirmTitle}</button>
+                                            <button className="my-button" type="submit">{confirmTitle}</button>
                                         </Box>
                                     </form>
                                 )}

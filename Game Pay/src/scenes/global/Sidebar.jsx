@@ -34,6 +34,7 @@ import { BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
 import { useQuery } from "@apollo/client";
 import { STORE_GetStoreInfo } from "src/graphQL/StorePrincipalQueries";
 import { getImgURL } from "src/utils/Utils";
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 // translate
 import { useTranslation } from 'react-i18next';
@@ -246,6 +247,13 @@ const Sidebar = () => {
                           title={t('store_management')}
                           to="/store-management"
                           icon={<StoreIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
+                        <Item
+                          title={t('recharge_management')}
+                          to="/recharge-management"
+                          icon={<PaymentsIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
