@@ -1,16 +1,24 @@
 .hero_bg {
     position: absolute;
+    z-index: -3;
+    width: 80%;
+    top: -100px;
+    right: 0px;
+}
+.rec{
+    position: absolute;
     z-index: -1;
     width: 100%;
-    top: -130px;
-    right: 0px;
+    top: 0px;
+    right: 50px;
 }
 
 .main_hero_front {
     position: absolute;
-    z-index: -1;
-    top: -150px;
-    width: 90%;
+    z-index: -2;
+    top: -120px;
+    right: -100px;
+    width: 70%;
 }
 
 .threeD {
@@ -51,15 +59,6 @@
         1px 25px 35px rgba(16, 16, 16, 0.2),
         1px 30px 60px rgba(16, 16, 16, 0.4);
 }
-
-/* .threeD:hover {
-    transition: 0.3s;
-    transform: scale(1.1)translate(-50%, -50%);
-    text-shadow: 1px -1px 0 grey, 1px -2px 0 grey, 1px -3px 0 grey,
-        1px -4px 0 grey, 1px -5px 0 grey, 1px -6px 0 grey, 1px -7px 0 grey,
-        1px -8px 0 grey, 5px -13px 15px black, 5px -13px 25px #808080;
-} */
-
 
 
 
@@ -149,14 +148,30 @@
 
 /* FIND YOUR FAV BRANDS */
 .fav_brands {
-    background-image: url('src/assets/Vector.png');
-    background-color: #fff;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 850px;
-    display: grid;
-    grid-template-columns: 50% 40%;
-    gap: 10%;
+    height: 120vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.wave_brand1{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80%;
+}
+.wave_brand2{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80%;
+}
+.shop_brand_img{
+    position: absolute;
+    bottom: 20px;
+    left: 100px;
+    width: 400px;
+    z-index: 10;
 }
 
 

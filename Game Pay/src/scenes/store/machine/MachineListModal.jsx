@@ -201,9 +201,7 @@ export default function MachineListModal({ props }) {
             ]
         }
         console.log(variables);
-        // ApolloUpdateMachine({ variables });
-
-
+        ApolloUpdateMachine({ variables });
     };
 
     // ===================== BAN MACHINE QUERY =====================

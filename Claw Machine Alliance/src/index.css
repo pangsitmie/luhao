@@ -130,12 +130,13 @@ span {
 .btn_transparent {
   width: 240px;
   background-color: transparent;
-  border-radius: 25px;
-  padding: 1em 1.5em;
+  border-radius: 50px;
+  padding: 1.2em 1.5em;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   border: 1px solid #4B4B4B;
   box-shadow: 0 0 0 0 #181818;
+  z-index: 100000;
 }
 
 .btn_transparent_full {
@@ -147,18 +148,18 @@ span {
   color: #fff;
   transition: all 0.3s ease-in-out;
   border: 1px solid #fff;
-  box-shadow: 0 0 0 0 #1f1f1f;
+  box-shadow: 0 0 0 0 #111;
 }
 
 .btn_transparent:hover,
 .btn_transparent_full:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 2px 0 #1f1f1f;
+  box-shadow: 0 5px 2px 0 #111;
 }
 
 .btn_transparent:active {
   transform: translateY(2px) translateX(1px);
-  box-shadow: 0 0 0 0 #1f1f1f;
+  box-shadow: 0 0 0 0 #111;
 }
 
 

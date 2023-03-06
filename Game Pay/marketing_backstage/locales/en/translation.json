@@ -76,6 +76,7 @@
     "brand_coin_name": "Brand Coin Name",
     "optional": "(Optional)",
     "or": "or",
+    "view": "View",
     "================store================": "================store================",
     "store": "Store",
     "intro": "Intro",
@@ -155,7 +156,18 @@
     "currency_days_limit": "Currency Days Limit",
     "reward_description": "Reward Description",
     "reward_status": "Reward Status",
-    "currency_id": "Currency ID"
+    "currency_id": "Currency ID",
+    "================recharge================": "================recharge================",
+    "recharge": "Recharge",
+    "recharge_management": "Recharge",
+    "recharge_type": "Recharge Type",
+    "recharge_item": "Recharge Item",
+    "permanent": "Permanent",
+    "limited": "Limited",
+    "bonus_reward": "Bonus Reward",
+    "recharge_history": "Recharge History"
+
+
     
 
 
