@@ -16,7 +16,7 @@ const SelectedCityPopup = (props) => {
     const { selectedCity } = props;
     return (
         <Box backgroundColor={"#FFFFFF"} borderRadius={"20px"} p={"2rem"} boxShadow={"0px 8px 15px rgba(0, 0, 0, 0.2)"}>
-            <Typography variant="h3" sx={{ color: "#639E23", mb: "1.5rem", textAlign: "left", textTransform: "capitalize" }}>
+            <Typography variant="h3" sx={{ color: "#111", mb: "1.5rem", textAlign: "left", textTransform: "capitalize" }}>
                 {t(selectedCity)}
             </Typography>
 

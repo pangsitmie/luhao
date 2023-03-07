@@ -4,10 +4,9 @@ import './copy.css'
 const Copy = () => {
     return (
         <div className='copy_container'>
-            建議使用Chrome、Firefox、Safari最新版本瀏覽
-            採用全球最先進SSL 256bit 傳輸加密機制
+            Please use Chrome or Safari for the best experience.
             <br />
-            <span class="black">Design by <a class="black" href="https://roundbytes.com" rel="dofollow">Round Bytes</a></span>
+            <span className="black">Design by <a className="black" href="https://roundbytes.com">Round Bytes</a></span>
         </div>
     )
 }

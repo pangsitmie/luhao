@@ -1,0 +1,17 @@
+.wave_exhibition{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 52%;
+    height: auto;
+    z-index: 1;
+}
+.globe{
+    position: absolute;
+    top: 0px;
+    right: -10%;
+    width: 60%;
+    height: auto;
+    z-index: 1;
+}
+

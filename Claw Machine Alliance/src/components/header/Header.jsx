@@ -22,11 +22,8 @@ const Header = () => {
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(location.pathname);
 
-
-
-
     return (
-        <Box display="flex" justifyContent="space-between" height={"100px"} className={"header"}>
+        <Box display={currentPage === "/exhibition/2023" ? "none" : "flex"} justifyContent="space-between" height={"100px"} className={"header"} >
             <Box>
 
             </Box>

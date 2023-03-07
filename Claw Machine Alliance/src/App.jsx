@@ -14,7 +14,8 @@ import About from "./pages/about/About";
 import NotFound from "./components/404/NotFound";
 import Fengjia from "./pages/places/Fengjia";
 import DDL from "./pages/places/DDL";
-// import Copy from "./components/copy/Copy";
+import Exhibition23 from "./pages/exhibition/2023/Exhibition23";
+import Copy from "./components/copy/Copy";
 
 
 function App() {
@@ -36,9 +37,12 @@ function App() {
           <Route exact path="/about" element={<About />} />
           <Route exact path="/fengjia" element={<Fengjia />} />
           <Route exact path="/duoduolong" element={<DDL />} />
+
+          {/* exhibition */}
+          <Route exact path="/exhibition/2023" element={<Exhibition23 />} />
         </Routes>
         <Footer />
-        {/* <Copy /> */}
+        <Copy />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

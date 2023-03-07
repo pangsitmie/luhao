@@ -179,7 +179,7 @@ const Main = () => {
 
 
             {/* STORE CAROUSEL */}
-            <Box p={"0 0rem 2rem 0rem"} position={"relative"} sx={{ background: "linear-gradient(180deg, #0057D9, #111116)" }} >
+            <Box p={"0 0rem 2rem 0rem"} position={"relative"} sx={{ background: "linear-gradient(180deg, #0057D9, #111)" }} >
                 <Box>
                     <Typography variant="h1" sx={{ textTransform: "capitalize", color: "#FFFFFF", textAlign: "center", mb: "4rem" }} >
                         {t('locations')}
