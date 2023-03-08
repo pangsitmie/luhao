@@ -29,6 +29,12 @@ body,
   background-color: #111 !important;
 }
 
+.grid_5050 {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 1rem;
+}
+
 a,
 a:link,
 a:visited,
@@ -91,7 +97,8 @@ span {
 .yellow {
   color: #ffaf25;
 }
-.blue{
+
+.blue {
   color: #0057D9;
 }
 
@@ -184,21 +191,24 @@ span {
   opacity: 0;
   transition: opacity 10s;
 }
+
 /* btn svg */
-.button_svg{
+.button_svg {
   font-family: inherit;
-  font-size: 20px;
+  font-size: 16px;
   background: #111;
   color: #fff;
-  padding: 0.7em 1.8em;
+  padding: 0.8rem 1.8rem;
+  padding-left: 1.5;
   display: flex;
   align-items: center;
   border: none;
-  border-radius: 60px;
+  border-radius: 62px;
   overflow: hidden;
   transition: all 0.2s;
   cursor: pointer;
 }
+
 .button_svg span {
   display: block;
   margin-left: 0.3em;

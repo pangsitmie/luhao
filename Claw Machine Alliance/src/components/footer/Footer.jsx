@@ -9,11 +9,11 @@ const Footer = () => {
     return (
         <footer>
             <div className='contact_container'>
-                <Box display={"flex"} alignItems={"center"} >
-                    <img width={"100%"} height={"50px"} src={FOOTER_LOGO} alt="" />
+                <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                    <img width={"300px"} height={"40px"} src={FOOTER_LOGO} alt="" />
                 </Box>
                 <div className="footer__socials">
-                    <Box display={"flex"} alignItems={"center"} >
+                    <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
                         <Typography variant="h5" sx={{ fontSize: "14px", color: "#FFF" }}>
                             gcvtaichungoffice@gmail.com
                         </Typography>

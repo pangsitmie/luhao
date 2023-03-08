@@ -37,13 +37,13 @@ footer a {
 }
 
 .footer__socials a {
-    background-color: #423e4b;
+    background-color: #111;
     /* background: linear-gradient(to right, #8B287B, #22305D); */
     color: var(--color-white);
     padding: .7rem;
     border-radius: 1rem;
     display: flex;
-    border: 1px solid transparent;
+    border: 1px solid #dadada;
     transition: var(--transition);
 }
 
@@ -52,7 +52,6 @@ footer a {
     /* background: linear-gradient(to right, #8B287B, #22305D); */
     color: var(--color-white);
     text-align: center;
-
     font-size: .8rem;
     border: 1px solid var(--color-white);
     transition: var(--transition);
@@ -86,12 +85,8 @@ footer a {
     }
 
     .footer__socials__icons {
-        padding: 2rem 0rem;
+        padding: 1rem 0rem;
         display: flex;
         justify-content: center;
-    }
-
-    .footer_menu {
-        display: none;
     }
 }

@@ -1,11 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.fed30934.css",
-    "main.js": "/static/js/main.c9cdd20f.js",
+    "main.css": "/static/css/main.6c77de8e.css",
+    "main.js": "/static/js/main.28f0e76a.js",
     "static/media/ddl_video.mp4": "/static/media/ddl_video.6ec41d27431d3d909518.mp4",
     "static/media/fengjia_video.mp4": "/static/media/fengjia_video.9a43e3da2eb97ab3d44a.mp4",
     "static/media/space_bg1.png": "/static/media/space_bg1.ed411a8c39fd0822f4cb.png",
     "static/media/hero_bg1.png": "/static/media/hero_bg1.60fe4a23eea96bd24b51.png",
+    "static/media/exhibition_claw_machine.gif": "/static/media/exhibition_claw_machine.db95a774b6adec9ce67f.gif",
     "static/media/gradient_bg.png": "/static/media/gradient_bg.76f16b47670f337996aa.png",
     "static/media/taichung_park_map.png": "/static/media/taichung_park_map.f7cbcc0d7f98a34713b7.png",
     "static/media/taichung_theater_map.png": "/static/media/taichung_theater_map.408933661ec99cbcb449.png",
@@ -23,6 +24,7 @@
     "static/media/duoduolong2.jpg": "/static/media/duoduolong2.91a30728efe639aa4979.jpg",
     "static/media/fengjia.jpeg": "/static/media/fengjia.1c47294d85ec1c76f0c7.jpeg",
     "static/media/yellow_top1.png": "/static/media/yellow_top1.9d8641e15624c62d424f.png",
+    "static/media/globe.png": "/static/media/globe.202e5cc625cf7948f9c5.png",
     "static/media/taichung_page_slice.png": "/static/media/taichung_page_slice.9f66a035a016229e99a7.png",
     "static/media/map1.png": "/static/media/map1.707e6b4977ff45527efb.png",
     "static/media/fengjia_detail_img.png": "/static/media/fengjia_detail_img.868205e6b92af73aa4b3.png",
@@ -56,9 +58,10 @@
     "static/media/map_vector.png": "/static/media/map_vector.617b170a44c8365eeae8.png",
     "static/media/taichung_theater.jpeg": "/static/media/taichung_theater.d15c64356c2f27bc18b7.jpeg",
     "static/media/green_map.png": "/static/media/green_map.af2d846f720b2d7310fe.png",
-    "static/media/Vector.png": "/static/media/Vector.0c9321234b24ccbb936a.png",
+    "static/media/wave_exhibition.png": "/static/media/wave_exhibition.8199ba5b872817d9a664.png",
     "static/media/tiktok_icon.png": "/static/media/tiktok_icon.eed6e3727f90d2dc4f7e.png",
     "static/media/yellow_bottom.png": "/static/media/yellow_bottom.d52b4594808041e8a9a4.png",
+    "static/media/rec.png": "/static/media/rec.1123f4d336b462709f59.png",
     "static/media/taichung_slice.png": "/static/media/taichung_slice.67c3e01608bbecfaf179.png",
     "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
@@ -66,11 +69,11 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "static/media/getFetch.cjs": "/static/media/getFetch.40f37ddea2378391108f.cjs",
-    "main.fed30934.css.map": "/static/css/main.fed30934.css.map",
-    "main.c9cdd20f.js.map": "/static/js/main.c9cdd20f.js.map"
+    "main.6c77de8e.css.map": "/static/css/main.6c77de8e.css.map",
+    "main.28f0e76a.js.map": "/static/js/main.28f0e76a.js.map"
   },
   "entrypoints": [
-    "static/css/main.fed30934.css",
-    "static/js/main.c9cdd20f.js"
+    "static/css/main.6c77de8e.css",
+    "static/js/main.28f0e76a.js"
   ]
 }

@@ -6,7 +6,7 @@ const Copy = () => {
         <div className='copy_container'>
             Please use Chrome or Safari for the best experience.
             <br />
-            <span className="black">Design by <a className="black" href="https://roundbytes.com">Round Bytes</a></span>
+            {/* <span className="black">Design by <a className="black" href="https://roundbytes.com">Round Bytes</a></span> */}
         </div>
     )
 }
