@@ -40,7 +40,7 @@ import ReviewManagement from "./scenes/review/ReviewManagement";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
-import RechargeManagement from "./scenes/recharge/RechargeManagement";
+import DepositManagement from "./scenes/deposit/DepositManagement";
 // import { setBrand, setCompany, setStore } from "./redux/entity";
 
 // const StoreManagement = lazy(() => import("./scenes/store/StoreManagement"));
@@ -156,8 +156,8 @@ function App() {
 
                       {/* FINANCE */}
                       <Route
-                        path="/recharge-management"
-                        element={<RechargeManagement />}
+                        path="/deposit-management"
+                        element={<DepositManagement />}
                       />
                       <Route
                         path="/reward-management"

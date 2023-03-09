@@ -28,7 +28,7 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function RechargeListModal({ props }) {
+export default function DepositListModal({ props }) {
     const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
 
@@ -319,7 +319,7 @@ export default function RechargeListModal({ props }) {
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
                                                         value={typeId}
-                                                        label={t('recharge_type')}
+                                                        label={t('deposit_type')}
                                                         onChange={handleTypeIdChange}
                                                     >
                                                         <MenuItem value={0}>{t('permanent')}</MenuItem>
@@ -474,7 +474,7 @@ export default function RechargeListModal({ props }) {
                             <Box mt={"2rem"}>
                                 <Box>
                                     <Typography variant="h4" sx={{ textAlign: "center", mb: "1rem", fontWeight: "600", color: colors.grey[200] }}>
-                                        {t('recharge_history')}
+                                        {t('deposit_history')}
                                     </Typography>
                                 </Box>
                                 <Box

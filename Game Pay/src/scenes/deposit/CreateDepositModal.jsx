@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { CreateBrand } from "../../graphQL/Mutations";
+import { CreateDepositItem } from "../../graphQL/Mutations";
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -15,16 +15,11 @@ const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
-    vatNumber: yup.string().required("required"),
-    principalName: yup.string().required("required"),
-    principalPassword: yup.string().required("required").matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"), principalLineUrl: yup.string().required("required"),
-    principalEmail: yup.string().email("invalid email"),
-    principalPhone: yup.string().required("required"),
-    brandCoinName: yup.string().required("required"),
+
 });
 
 
-export default function CreateRechargeModal() {
+export default function CreateDepositModal() {
     const { t } = useTranslation();
     //THEME
     const theme = useTheme();
@@ -33,15 +28,10 @@ export default function CreateRechargeModal() {
     //========================== INITIAL VALUES ==========================
     const initialValues = {
         name: "",
-        intro: "",
-        vatNumber: "",
-
-        principalName: "",
-        principalPassword: "",
-        principalLineUrl: "https://lin.ee/",
-        principalEmail: "",
-        principalPhone: "",
-        brandCoinName: "",
+        price: 0,
+        walletValue: 0,
+        description: "",
+        maxPurchaseNum: 0,
     };
 
     // ========================== STATES AND HANDLERS ==========================
@@ -51,14 +41,6 @@ export default function CreateRechargeModal() {
     const toggleModal = () => {
         setModal(!modal);
     };
-
-    //  ========================== PASSWORD VISIBILITY ==========================
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
 
     // 0 = permanent, 1 = limited
     const [typeId, setTypeId] = useState(0);
@@ -78,13 +60,12 @@ export default function CreateRechargeModal() {
 
 
     //========================== GRAPHQL ==========================
-    const [ApolloCreateBrand, { loading, error, data: brandData }] = useMutation(CreateBrand);
+    const [ApolloCreateDepositItem, { loading, error, data }] = useMutation(CreateDepositItem);
     useEffect(() => {
-        if (brandData) {
-            console.log(brandData.createBrand.id);
+        if (data) {
             window.location.reload();
         }
-    }, [brandData]);
+    }, [data]);
 
 
 
@@ -92,31 +73,47 @@ export default function CreateRechargeModal() {
 
     // ========================== FUNCTIONS ==========================
     const handleFormSubmit = (values) => {
-        console.log("SEND CREATE BRAND API REQUEST");
+        console.log("create deposit item started");
+        const startAtDateObj = new Date(startAtDate);
+        const endAtDateObj = new Date(endAtDate);
+
+        let startAtUnix = startAtDateObj.getTime() / 1000;
+        let endAtUnix = endAtDateObj.getTime() / 1000;
+        let nowUnix = Math.floor(Date.now() / 1000);
 
         const variables = {
+            type: typeId === 0 ? "standing" : "limited",
             name: values.name,
-            vatNumber: values.vatNumber,
-            brandCoinName: values.brandCoinName,
-            principal: {
-                name: values.principalName,
-                password: values.principalPassword,
-                lineUrl: values.principalLineUrl,
-                phone: {
-                    country: "tw",
-                    number: values.principalPhone
-                }
-            },
+            price: parseInt(values.price),
+            walletValue: parseInt(values.walletValue),
+
         };
 
-        if (values.intro !== "") {
-            variables.intro = values.intro;
+        if (values.description !== "") {
+            variables.description = values.description;
         }
-        if (values.principalEmail !== "") {
-            variables.principal.email = values.principalEmail;
+
+        //check if startAtUnix is filled
+        if (isNaN(startAtUnix)) {
+            startAtUnix = nowUnix;
+        }
+        //insert startAtUnix to variables
+        variables.startAt = startAtUnix;
+        //insert endAtUnix to variables if it is selected
+        if (!isNaN(endAtUnix)) {
+            variables.endAt = endAtUnix;
+        }
+        if (values.description !== '') {
+            variables.description = values.description;
+        }
+
+        // console.log(variables);
+        if (endAtUnix < startAtUnix) {
+            alert("End date must be greater than start date");
+            return;
         }
         console.log(variables);
-        ApolloCreateBrand({ variables });
+        ApolloCreateDepositItem({ variables });
     };
 
     // ========================== MODAL TOGGLE ==========================
@@ -139,7 +136,7 @@ export default function CreateRechargeModal() {
                     <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
                             <Typography variant="h2" sx={{ mb: "25px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
-                                {btnTitle} {t('recharge_item')}
+                                {btnTitle} {t('deposit_item')}
                             </Typography>
 
                             <Formik
@@ -200,8 +197,8 @@ export default function CreateRechargeModal() {
                                                 label={`${t('description')} ${t('optional')}`}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.intro}
-                                                name="intro"
+                                                value={values.description}
+                                                name="description"
                                                 error={!!touched.intro && !!errors.intro}
                                                 helperText={touched.intro && errors.intro}
                                                 sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -216,8 +213,8 @@ export default function CreateRechargeModal() {
                                                     label={t('amount')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principalPhone}
-                                                    name="principalPhone"
+                                                    value={values.walletValue}
+                                                    name="walletValue"
                                                     required // add the required prop
                                                     error={!!touched.principalPhone && !!errors.principalPhone}
                                                     helperText={touched.principalPhone && errors.principalPhone}
@@ -230,8 +227,8 @@ export default function CreateRechargeModal() {
                                                     label={t('price')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principalPhone}
-                                                    name="principalPhone"
+                                                    value={values.price}
+                                                    name="price"
                                                     required // add the required prop
                                                     error={!!touched.principalPhone && !!errors.principalPhone}
                                                     helperText={touched.principalPhone && errors.principalPhone}
@@ -244,8 +241,8 @@ export default function CreateRechargeModal() {
                                                     label={t('bonus_reward')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principalPhone}
-                                                    name="principalPhone"
+                                                    value={values.reward}
+                                                    name="reward"
                                                     required // add the required prop
                                                     error={!!touched.principalPhone && !!errors.principalPhone}
                                                     helperText={touched.principalPhone && errors.principalPhone}

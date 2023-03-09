@@ -150,3 +150,31 @@ mutation ManagerCreateCurrencyReward(
   }
 }
 `
+
+
+// deposit
+export const CreateDepositItem = gql`
+mutation CreateDepositItem(
+  $type: EDepositItemType!
+  $name: String!
+  $price: Int!
+  $walletValue: Int!
+  $description: String
+  $startAt: Int
+  $endAt: Int
+  $maxPurchaseNum: Int
+  $reward: DepositRewardArgs
+) {
+  createDepositItem(
+    type: $type
+    name: $name
+    price: $price
+    walletValue: $walletValue
+    description: $description
+    startAt: $startAt
+    endAt: $endAt
+    maxPurchaseNum: $maxPurchaseNum
+    reward: $reward
+  )
+}
+`

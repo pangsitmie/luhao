@@ -820,3 +820,22 @@ query GetCommodity($args: [CommodityArgs!]!, $name: String, $price: Int, $stock:
   }
 }
 `
+
+// ========================= DEPOSIT =========================
+export const GetDepositList = gql`
+query ManagerGetDepositItems(
+  $specifyType: EDepositItemType
+  $limit: Int
+  $offset: Int
+) {
+  managerGetDepositItems(
+    specifyType: $specifyType
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    name
+    walletValue
+  }
+}
+`

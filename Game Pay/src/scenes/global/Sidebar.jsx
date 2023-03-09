@@ -251,8 +251,8 @@ const Sidebar = () => {
                           setSelected={setSelected}
                         />
                         <Item
-                          title={t('recharge_management')}
-                          to="/recharge-management"
+                          title={t('deposit_management')}
+                          to="/deposit-management"
                           icon={<PaymentsIcon />}
                           selected={selected}
                           setSelected={setSelected}

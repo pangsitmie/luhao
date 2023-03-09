@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 // QUERIES
 import { useQuery } from '@apollo/client'
-import { GetAllBrands } from '../../graphQL/Queries'
-import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries';
+import { GetDepositList } from '../../graphQL/Queries'
+// import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries';
 
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
@@ -21,10 +21,10 @@ import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import RechargeListModal from './RechargeListModal';
-import CreateRechargeModal from './CreateRechargeModal';
+import DepositListModal from './DepositListModal';
+import CreateDepositModal from './CreateDepositModal';
 
-const RechargeManagement = () => {
+const DepositManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
 
@@ -56,19 +56,6 @@ const RechargeManagement = () => {
 
     //========================== GRAPHQL ==========================
 
-    let BRAND_INIT_QUERY;
-    switch (entityName) {
-        case 'company':
-            BRAND_INIT_QUERY = GetAllBrands;
-            break;
-        case 'brand':
-            BRAND_INIT_QUERY = BRAND_GetAllBrands;
-            break;
-        default:
-            break;
-    }
-
-
 
 
     // PAGINATION
@@ -79,28 +66,38 @@ const RechargeManagement = () => {
         setOffset(offset);
     }
 
-    const [initBrands, setInitBrands] = useState([]);
-    const [brands, setBrands] = useState([]);
+    const [initStandingItems, setInitStandingItems] = useState([]);
+    const [standingItems, setStandingItems] = useState([]);
+    const [initLimitedItems, setInitLimitedItems] = useState([]);
+    const [limitedItems, setLimitedItems] = useState([]);
 
-    const { loading, error, data } = useQuery(BRAND_INIT_QUERY, {
-        variables: { limit, offset }
+
+    const { loading: loadingStanding, error: errorStanding, data: dataStanding } = useQuery(GetDepositList, {
+        variables: {
+            specifyType: "standing",
+        }
     });
     useEffect(() => {
-        if (data) {
-            switch (entityName) {
-                case 'company':
-                    setInitBrands(data.managerGetBrands); //all brand datas
-                    setBrands(data.managerGetBrands); //datas for display
-                    break;
-                case 'brand':
-                    setInitBrands(data.getBrandPrincipal.brands); //all brand datas
-                    setBrands(data.getBrandPrincipal.brands); //datas for display
-                    break;
-                default:
-                    break;
-            }
+        if (dataStanding) {
+            console.log(dataStanding)
+            setInitStandingItems(dataStanding.managerGetDepositItems || []); //all brand datas
+            setStandingItems(dataStanding.managerGetDepositItems || []); //datas for display   
         }
-    }, [data, offset]);
+    }, [dataStanding]);
+
+
+    const { loading: loadingLimited, error: errorLimited, data: dataLimited } = useQuery(GetDepositList, {
+        variables: {
+            specifyType: "limited",
+        }
+    });
+    useEffect(() => {
+        if (dataLimited) {
+            console.log(dataLimited)
+            setInitLimitedItems(dataLimited.managerGetDepositItems); //all brand datas
+            setLimitedItems(dataLimited.managerGetDepositItems); //datas for display         
+        }
+    }, [dataLimited]);
 
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
@@ -110,10 +107,10 @@ const RechargeManagement = () => {
         //CALL SEARCH FUNCTION
         let value = searchValueRef.current.value;
         if (value.length > 2) {
-            let search = arraySearch(brands, value);
-            setBrands(search)
+            let search = arraySearch(limitedItems, value);
+            setStandingItems(search)
         } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setBrands(initBrands)
+            setStandingItems(initStandingItems)
         }
     };
 
@@ -127,14 +124,14 @@ const RechargeManagement = () => {
         })
     }
 
-    if (loading) return <Loader />;
-    if (error) return <Error />;
+    if (loadingStanding, errorLimited) return <Loader />;
+    if (errorStanding, errorLimited) return <Error />;
     // ========================== RETURN ==========================
     return (
         // here
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>{t("recharge_management")}</h1>
+                <h1 className='userManagement_title'>{t("deposit_management")}</h1>
             </Box>
 
             {/* SEARCH DIV */}
@@ -190,7 +187,7 @@ const RechargeManagement = () => {
                     marginLeft={"auto"}
                     height={"52px"}
                 >
-                    <CreateRechargeModal />
+                    <CreateDepositModal />
                 </Box>
 
 
@@ -239,19 +236,19 @@ const RechargeManagement = () => {
                         overflow={"auto"}
                     >
                         {/* MAP DATA */}
-                        {brands.map((brand, i) => (
+                        {standingItems.map((item, i) => (
                             <Box
-                                key={`${brand.id}-${i}`}
+                                key={`${item.id}-${i}`}
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"
-                                borderBottom={i === brands.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                borderBottom={i === standingItems.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                                 p="10px"
                             >
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>COIN</Box>
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>100</Box>
+                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
+                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.walletValue}</Box>
                                 <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                    <RechargeListModal props={brand} />
+                                    <DepositListModal props={item} />
                                 </Box>
                             </Box>
                         ))}
@@ -298,19 +295,19 @@ const RechargeManagement = () => {
                         overflow={"auto"}
                     >
                         {/* MAP DATA */}
-                        {brands.map((brand, i) => (
+                        {limitedItems.map((item, i) => (
                             <Box
-                                key={`${brand.id}-${i}`}
+                                key={`${item.id}-${i}`}
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"
-                                borderBottom={i === brands.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                borderBottom={i === limitedItems.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                                 p="10px"
                             >
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>LIMITED COIN</Box>
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>100</Box>
+                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
+                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.walletValue}</Box>
                                 <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                    <RechargeListModal props={brand} />
+                                    <DepositListModal props={item} />
                                 </Box>
                             </Box>
                         ))}
@@ -323,4 +320,4 @@ const RechargeManagement = () => {
     )
 }
 
-export default RechargeManagement
+export default DepositManagement
