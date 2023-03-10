@@ -3,15 +3,15 @@
     display: none;
     background: #262D3D;
     border: transparent;
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
     width: 150px;
     right: 10px;
     top: 0px;
     padding: 0;
     z-index: 1000;
-    box-shadow: 0 10px 12px rgb(22 33 39 / 25%);
+    box-shadow: 0 0px 10px rgba(112, 112, 112, 0.5);
 }
 
 .menu-item {
@@ -21,6 +21,7 @@
     background-color: transparent;
     border: 0;
     border-radius: 50%;
+    transition: all 0.5s ease-in-out;
 }
 
 .menu-item:hover {
@@ -52,7 +53,6 @@
         display: block;
         z-index: 1000000;
         background-color: transparent;
-
     }
 }
 
@@ -68,14 +68,12 @@
         cursor: pointer;
         position: relative;
         z-index: 10037;
+
     }
 
     .main-nav .menubar__button svg {
         font-size: 27px;
     }
-
-
-
 
     .main-nav ul.main-menu {
         display: none

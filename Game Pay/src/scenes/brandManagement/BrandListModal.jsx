@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand, } from "../../graphQL/Queries";
+import { GetBrand, ManagerUpdateBrand, RemoveBrand, UnbanBrand, } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import LogoUpload from "../../components/Upload/LogoUpload";
@@ -75,7 +75,7 @@ export default function BrandListModal({ props }) {
   //========================== GRAPHQL ==========================
 
   // ============ UPDATE BRAND ============
-  const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(UpdateBrand);
+  const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(ManagerUpdateBrand);
   // ============ REMOVE BRAND ============
   const [ApolloRemoveBrand, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveBrand);
   const handleDelete = (e) => {

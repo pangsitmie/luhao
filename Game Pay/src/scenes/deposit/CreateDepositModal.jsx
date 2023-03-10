@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, FilledInput, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -25,6 +25,11 @@ export default function CreateDepositModal() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
+    const [rewardToggle, setRewardToggle] = useState(false);
+    const handleRewardToggleChange = (event) => {
+        setRewardToggle(event.target.checked);
+    };
+
     //========================== INITIAL VALUES ==========================
     const initialValues = {
         name: "",
@@ -32,6 +37,8 @@ export default function CreateDepositModal() {
         walletValue: 0,
         description: "",
         maxPurchaseNum: 0,
+        reward: 0,
+        receiveDaysOverdue: 0,
     };
 
     // ========================== STATES AND HANDLERS ==========================
@@ -42,7 +49,7 @@ export default function CreateDepositModal() {
         setModal(!modal);
     };
 
-    // 0 = permanent, 1 = limited
+    // 0 = standing, 1 = limited
     const [typeId, setTypeId] = useState(0);
     const handleTypeIdChange = (event) => {
         setTypeId(event.target.value);
@@ -68,9 +75,6 @@ export default function CreateDepositModal() {
     }, [data]);
 
 
-
-
-
     // ========================== FUNCTIONS ==========================
     const handleFormSubmit = (values) => {
         console.log("create deposit item started");
@@ -86,12 +90,21 @@ export default function CreateDepositModal() {
             name: values.name,
             price: parseInt(values.price),
             walletValue: parseInt(values.walletValue),
-
         };
 
         if (values.description !== "") {
             variables.description = values.description;
         }
+        if (values.maxPurchaseNum !== "") {
+            variables.maxPurchaseNum = parseInt(values.maxPurchaseNum);
+        }
+        if (rewardToggle) {
+            variables.reward = {
+                amount: parseInt(values.reward),
+                receiveDaysOverdue: parseInt(values.receiveDaysOverdue)
+            };
+        }
+
 
         //check if startAtUnix is filled
         if (isNaN(startAtUnix)) {
@@ -153,7 +166,7 @@ export default function CreateDepositModal() {
                                     handleSubmit,
                                 }) => (
                                     <form onSubmit={handleSubmit}>
-                                        <Box color={"black"}>
+                                        <Box >
                                             <Box display={"flex"} justifyContent={"space-between"}>
                                                 <TextField className="modal_input_textfield"
                                                     fullWidth
@@ -171,9 +184,8 @@ export default function CreateDepositModal() {
                                                 />
 
                                                 <FormControl sx={{ minWidth: 150 }} >
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{typeId === 0 ? "standing" : "limited"}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -181,7 +193,7 @@ export default function CreateDepositModal() {
                                                         label={t('recharge_type')}
                                                         onChange={handleTypeIdChange}
                                                     >
-                                                        <MenuItem value={0}>{t('permanent')}</MenuItem>
+                                                        <MenuItem value={0}>{t('standing')}</MenuItem>
                                                         <MenuItem value={1}>{t('limited')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
@@ -209,7 +221,7 @@ export default function CreateDepositModal() {
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
-                                                    type="text"
+                                                    type="number"
                                                     label={t('amount')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -223,7 +235,7 @@ export default function CreateDepositModal() {
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
-                                                    type="text"
+                                                    type="number"
                                                     label={t('price')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -237,20 +249,20 @@ export default function CreateDepositModal() {
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
-                                                    type="text"
-                                                    label={t('bonus_reward')}
+                                                    type="number"
+                                                    label={t('max_purchase_number')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.reward}
-                                                    name="reward"
+                                                    value={values.maxPurchaseNum}
+                                                    name="maxPurchaseNum"
                                                     required // add the required prop
-                                                    error={!!touched.principalPhone && !!errors.principalPhone}
-                                                    helperText={touched.principalPhone && errors.principalPhone}
+                                                    error={!!touched.maxPurchaseNum && !!errors.maxPurchaseNum}
+                                                    helperText={touched.maxPurchaseNum && errors.maxPurchaseNum}
                                                     sx={{ margin: "0rem 0 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-                                            </Box>
 
-                                            <Box display={typeId === 1 ? "block" : "none"}>
+                                            </Box>
+                                            <Box display={typeId === 1 ? "flex" : "none"}>
                                                 <TextField
                                                     fullWidth
                                                     id="datetime-local"
@@ -284,6 +296,53 @@ export default function CreateDepositModal() {
                                                     }}
                                                 />
                                             </Box>
+                                            {/* rewards */}
+                                            <Box>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={rewardToggle}
+                                                            onChange={handleRewardToggleChange}
+                                                            name="rewardToggle"
+                                                            color="success"
+                                                        />
+                                                    }
+                                                    label={t('bonus_reward')}
+                                                    style={{ color: colors.grey[100] }}
+                                                />
+                                            </Box>
+                                            <Box display={rewardToggle ? "block" : "none"}>
+                                                <Box display={"flex"} >
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="filled"
+                                                        type="number"
+                                                        label={t('bonus_reward')}
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.reward}
+                                                        name="reward"
+                                                        error={!!touched.principalPhone && !!errors.principalPhone}
+                                                        helperText={touched.principalPhone && errors.principalPhone}
+                                                        sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                    />
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="filled"
+                                                        type="number"
+                                                        label={t('receive_days_overdue')}
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.receiveDaysOverdue}
+                                                        name="receiveDaysOverdue"
+                                                        error={!!touched.receiveDaysOverdue && !!errors.receiveDaysOverdue}
+                                                        helperText={touched.receiveDaysOverdue && errors.receiveDaysOverdue}
+                                                        sx={{ margin: "0rem 0 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                    />
+                                                </Box>
+                                            </Box>
+
+
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
                                             <button className="my-button" type="submit">{confirmTitle}</button>

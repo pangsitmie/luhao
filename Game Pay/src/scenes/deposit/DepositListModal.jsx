@@ -1,37 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, FilledInput, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { useQuery, useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { GetBrand, UpdateBrand, RemoveBrand, UnbanBrand, GetAllBrands, } from "../../graphQL/Queries";
+import { GetDepositItem, UpdateDepositItem, RemoveBrand, } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
-import LogoUpload from "../../components/Upload/LogoUpload";
-import CoverUpload from "../../components/Upload/CoverUpload";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
+import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
-    // intro: yup.string().required("required"),
-    principalName: yup.string().required("required"),
-    principalLineUrl: yup.string().required("required"),
-    principalPassword: yup.string().matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"),
-    principalLineUrl: yup.string().required("required"),
-    vatNumber: yup.string().required("required"),
-    brandCoinName: yup.string().required("required"),
 });
 
 
 export default function DepositListModal({ props }) {
-    const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
 
+    const [rewardToggle, setRewardToggle] = useState(false);
+    const handleRewardToggleChange = (event) => {
+        setRewardToggle(event.target.checked);
+    };
 
     //========================== THEME ==========================
     const theme = useTheme();
@@ -45,17 +37,17 @@ export default function DepositListModal({ props }) {
     //========================== INITIAL VALUES ==========================
     const [initialValues, setInitialValues] = useState({
         id: -1,
-        status: "",
-        statusDesc: "",
+        type: "",
         name: "",
-        intro: "",
-        principalName: "",
-        principaPhone: "",
-        principalPassword: "",
-        principalLineUrl: "",
-        principalEmail: "",
-        vatNumber: "",
-        brandCoinName: "",
+        price: "",
+        walletValue: "",
+        description: "",
+        createdAt: "",
+        startAt: "",
+        endAt: "",
+        maxPurchaseNum: "",
+        reward: 0,
+        receiveDaysOverdue: 0,
     });
 
     // ========================== STATES AND HANDLERS ==========================
@@ -81,103 +73,58 @@ export default function DepositListModal({ props }) {
     const handleStatusChange = (event) => {
         setStatus(event.target.value);
     };
-
-    const [limit, setLimit] = useState(5);
-    const [offset, setOffset] = useState(0);
     const [items, setItems] = useState([]);
-    const { loading, error, data } = useQuery(GetAllBrands, {
-        variables: { limit, offset }
-    });
-    useEffect(() => {
-        if (data) {
-            setItems(data.managerGetBrands); //datas for display
-        }
-    }, [data, offset]);
+
+
 
     //========================== GRAPHQL ==========================
 
     // ============ UPDATE BRAND ============
-    const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(UpdateBrand);
+    const [ApolloUpdateDepositItem, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(UpdateDepositItem);
     // ============ REMOVE BRAND ============
-    const [ApolloRemoveBrand, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveBrand);
+    // const [ApolloRemoveDepositItem, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveBrand);
     const handleDelete = (e) => {
-        var result = window.confirm("Are you sure you want to delete this brand?");
-        if (result) {
-            ApolloRemoveBrand({
-                variables: {
-                    args: [
-                        {
-                            id: props.id
-                        }
-                    ]
-                }
-            })
-        }
+        var result = window.confirm("Are you sure you want to delete this item?");
+        // if (result) {
+        //     ApolloRemoveDepositItem({
+        //         variables: {
+        //             args: [
+        //                 {
+        //                     id: props.id
+        //                 }
+        //             ]
+        //         }
+        //     })
+        // }
     };
-    // ============ UNBAN BRAND ============
-    const [ApolloUnBanMachine, { loading: loadingUnBan, error: errorUnBan, data: dataUnBan }] = useLazyQuery(UnbanBrand);
-    const handleUnBan = (e) => {
-        var result = window.confirm("Are you sure you want to unban this machine?");
-        if (result) {
-            ApolloUnBanMachine({
-                variables: {
-                    args: [
-                        {
-                            id: props.id
-                        }
-                    ],
-                }
-            })
-        }
-    }
+
 
     useEffect(() => {
         if (dataUpdate) {
             window.location.reload();
         }
-        if (dataRemove) {
-            window.location.reload();
-        }
-        if (dataUnBan) {
-            window.location.reload();
-        }
-    }, [dataUpdate, dataRemove, dataUnBan]);
+        // if (dataRemove) {
+        //     window.location.reload();
+        // }
+    }, [dataUpdate]);
 
     const handleFormSubmit = (values) => {
         const variables = {
             args: [
                 {
-                    id: values.id
+                    id: props.id
                 }
             ],
             name: values.name,
-            vatNumber: values.vatNumber,
-            logo: logoFileName,
-            cover: coverFileName,
-            principal: {
-                name: values.principalName,
-                lineUrl: values.principalLineUrl,
-            },
-            currencyName: values.brandCoinName,
+            description: values.description,
+            statusId: status,
         };
-        if (values.intro !== "") {
-            variables.intro = values.intro;
-        }
-        if (values.principalEmail !== "") {
-            variables.principal.email = values.principalEmail;
-        }
-        if (values.principalPassword !== "") {
-            variables.principal.password = values.principalPassword;
-        }
-        if (initialValues.status !== "banned") {
-            variables.statusId = status;
-        }
-
-        ApolloUpdateBrand({ variables });
+        console.log(variables);
+        ApolloUpdateDepositItem({ variables });
     };
 
     // INITIAL VALUES FROM GET BRAND QUERY
-    const { loading: loadingInit, error: errorInit, data: dataInit } = useQuery(GetBrand
+    const { loading: loadingInit, error: errorInit, data: dataInit } = useQuery(GetDepositItem
         , {
             variables: {
                 args: [
@@ -190,46 +137,41 @@ export default function DepositListModal({ props }) {
     );
     useEffect(() => {
         if (dataInit) {
-            const nonNullData = replaceNullWithEmptyString(dataInit.getBrand[0]);
-
+            const nonNullData = replaceNullWithEmptyString(dataInit.getDepositItem[0]);
+            // console.log(nonNullData);
             setInitialValues({
-                id: props.id,
-                status: nonNullData.status.name,
+                id: nonNullData.id,
+                type: nonNullData.type,
                 name: nonNullData.name,
-                vatNumber: nonNullData.vatNumber,
-                intro: nonNullData.intro,
-                principalName: nonNullData.principal.name,
-                principaPhone: nonNullData.principal.phone.number,
-                principalLineUrl: nonNullData.principal.lineUrl,
-                principalEmail: nonNullData.principal.email,
-                //password doesnt have initial value
-                brandCoinName: nonNullData.currency.name,
+                price: nonNullData.price,
+                walletValue: nonNullData.walletValue,
+                description: nonNullData.description,
+                reward: nonNullData.reward !== "" ? nonNullData.reward.content.amount : "",
+                receiveDaysOverdue: nonNullData.reward !== "" ? nonNullData.reward.receiveDaysOverdue : "",
+                createdAt: nonNullData.createdAt,
+                startAt: nonNullData.startAt,
+                endAt: nonNullData.endAt,
+                maxPurchaseNum: nonNullData.maxPurchaseNum,
             });
 
-            if (nonNullData.logo !== null || (nonNullData.logo !== "null")) {
-                setLogoFileName(nonNullData.logo);
-            }
-            if (nonNullData.cover !== null || (nonNullData.cover !== "null")) {
-                setCoverFileName(nonNullData.cover);
-            }
-            //set status only if not banned
-            if (nonNullData.status.name !== "banned") {
-                setStatus(nonNullData.status.name)
+
+            setTypeId(nonNullData.type === "standing" ? 0 : 1);
+            setStatus(nonNullData.status.name);
+            setRewardToggle(nonNullData.reward !== "");
+
+
+            const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
+            setStartAtDate(startAtDateTimeLocal);
+
+            if (nonNullData.endAt !== "") {
+                const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
+                setEndAtDate(endAtDateTimeLocal);
             }
 
         }
     }, [dataInit]);
 
-    // =========================== FILE UPLOAD ===========================
-    const [logoFileName, setLogoFileName] = useState('');
-    const handleUploadLogoSuccess = (name) => {
-        setLogoFileName(name);
-    };
 
-    const [coverFileName, setCoverFileName] = useState('');
-    const handleUploadCoverSucess = (name) => {
-        setCoverFileName(name);
-    };
 
     //========================== RENDER ==========================
     if (modal) {
@@ -271,16 +213,10 @@ export default function DepositListModal({ props }) {
 
                                             <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
                                                 {(() => {
-                                                    if (initialValues.status === "disable") {
+                                                    if (status === "disable") {
                                                         return (
                                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                                 {t("disable")}
-                                                            </Typography>)
-                                                    }
-                                                    if (initialValues.status === "banned") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                {t("banned")}
                                                             </Typography>)
                                                     }
                                                     else {
@@ -292,11 +228,7 @@ export default function DepositListModal({ props }) {
                                                 })()}
                                             </Box>
 
-                                            {/* UPLOAD LOGO & COVER BOX */}
-
-
                                             <Box display={"flex"} justifyContent={"space-between"}>
-
                                                 <TextField className="modal_input_textfield"
                                                     fullWidth
                                                     variant="filled"
@@ -311,19 +243,34 @@ export default function DepositListModal({ props }) {
                                                     helperText={touched.name && errors.name}
                                                     sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
+                                                <TextField className="modal_input_textfield"
+                                                    disabled={true}
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label={t('deposit_type')}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.type}
+                                                    name="type"
+                                                    required // add the required prop
+                                                    error={!!touched.type && !!errors.type}
+                                                    helperText={touched.type && errors.type}
+                                                    sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                />
+
                                                 <FormControl sx={{ minWidth: 150 }} >
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{status}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
-                                                        value={typeId}
-                                                        label={t('deposit_type')}
-                                                        onChange={handleTypeIdChange}
+                                                        value={status}
+                                                        label="status"
+                                                        onChange={handleStatusChange}
                                                     >
-                                                        <MenuItem value={0}>{t('permanent')}</MenuItem>
-                                                        <MenuItem value={1}>{t('limited')}</MenuItem>
+                                                        <MenuItem value={"normal"}>{t('normal')}</MenuItem>
+                                                        <MenuItem value={"disable"}>{t('disable')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Box>
@@ -338,59 +285,62 @@ export default function DepositListModal({ props }) {
                                                 label={`${t('description')} ${t('optional')}`}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.intro}
-                                                name="intro"
-                                                error={!!touched.intro && !!errors.intro}
-                                                helperText={touched.intro && errors.intro}
+                                                value={values.description}
+                                                name="description"
+                                                error={!!touched.description && !!errors.description}
+                                                helperText={touched.description && errors.description}
                                                 sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
                                             <Box display={"flex"} justifyContent={"space-between"} >
                                                 <TextField
+                                                    disabled={true}
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
                                                     label={t('amount')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principalPhone}
-                                                    name="principalPhone"
+                                                    value={values.walletValue}
+                                                    name="walletValue"
                                                     required // add the required prop
-                                                    error={!!touched.principalPhone && !!errors.principalPhone}
-                                                    helperText={touched.principalPhone && errors.principalPhone}
+                                                    error={!!touched.walletValue && !!errors.walletValue}
+                                                    helperText={touched.walletValue && errors.walletValue}
                                                     sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
+                                                    disabled={true}
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
                                                     label={t('price')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principalPhone}
-                                                    name="principalPhone"
+                                                    value={values.price}
+                                                    name="price"
                                                     required // add the required prop
-                                                    error={!!touched.principalPhone && !!errors.principalPhone}
-                                                    helperText={touched.principalPhone && errors.principalPhone}
+                                                    error={!!touched.price && !!errors.price}
+                                                    helperText={touched.price && errors.price}
                                                     sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
+                                                    disabled={true}
                                                     fullWidth
                                                     variant="filled"
-                                                    type="text"
-                                                    label={t('bonus_reward')}
+                                                    type="number"
+                                                    label={t('max_purchase_number')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
-                                                    value={values.principalPhone}
-                                                    name="principalPhone"
+                                                    value={values.maxPurchaseNum}
+                                                    name="maxPurchaseNum"
                                                     required // add the required prop
-                                                    error={!!touched.principalPhone && !!errors.principalPhone}
-                                                    helperText={touched.principalPhone && errors.principalPhone}
+                                                    error={!!touched.maxPurchaseNum && !!errors.maxPurchaseNum}
+                                                    helperText={touched.maxPurchaseNum && errors.maxPurchaseNum}
                                                     sx={{ margin: "0rem 0 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
-
-                                            <Box display={typeId === 1 ? "block" : "none"}>
+                                            <Box display={typeId === 1 ? "flex" : "none"}>
                                                 <TextField
+                                                    disabled={true}
                                                     fullWidth
                                                     id="datetime-local"
                                                     label={t('start_time')}
@@ -407,6 +357,7 @@ export default function DepositListModal({ props }) {
                                                     }}
                                                 />
                                                 <TextField
+                                                    disabled={true}
                                                     fullWidth
                                                     id="datetime-local"
                                                     label={t('end_time')}
@@ -423,8 +374,57 @@ export default function DepositListModal({ props }) {
                                                     }}
                                                 />
                                             </Box>
+                                            {/* rewards */}
+                                            <Box display={"flex"}>
+                                                <FormControlLabel
+                                                    disabled={true}
+                                                    control={
+                                                        <Checkbox
+                                                            checked={rewardToggle}
+                                                            onChange={handleRewardToggleChange}
+                                                            name="rewardToggle"
+                                                            color="success"
+                                                        />
+                                                    }
+                                                    label={t('bonus_reward')}
+                                                    sx={{ color: colors.grey[100] }}
+                                                    style={{ textAlign: "left" }}
+                                                />
+                                            </Box>
 
 
+                                            <Box display={rewardToggle ? "block" : "none"}>
+                                                <Box display={"flex"} >
+                                                    <TextField
+                                                        disabled={true}
+                                                        fullWidth
+                                                        variant="filled"
+                                                        type="number"
+                                                        label={t('bonus_reward')}
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.reward}
+                                                        name="reward"
+                                                        error={!!touched.principalPhone && !!errors.principalPhone}
+                                                        helperText={touched.principalPhone && errors.principalPhone}
+                                                        sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                    />
+                                                    <TextField
+                                                        disabled={true}
+                                                        fullWidth
+                                                        variant="filled"
+                                                        type="number"
+                                                        label={t('receive_days_overdue')}
+                                                        onBlur={handleBlur}
+                                                        onChange={handleChange}
+                                                        value={values.receiveDaysOverdue}
+                                                        name="receiveDaysOverdue"
+                                                        error={!!touched.receiveDaysOverdue && !!errors.receiveDaysOverdue}
+                                                        helperText={touched.receiveDaysOverdue && errors.receiveDaysOverdue}
+                                                        sx={{ margin: "0rem 0 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                    />
+                                                </Box>
+                                            </Box>
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
                                             <Button onClick={handleDelete} id={values.id} variant="contained" sx={{
@@ -439,21 +439,6 @@ export default function DepositListModal({ props }) {
                                                     {deleteTitle}
                                                 </Typography>
                                             </Button>
-
-                                            {entityName === 'company' ? (
-                                                values.status === "banned" ? (
-                                                    <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
-                                                        backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
-                                                    }}>
-                                                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                            {unbanTitle}
-                                                        </Typography>
-                                                    </Button>
-                                                ) : (
-                                                    <ConfirmModal props={{ type: "brand", id: props.id }} />
-                                                )
-                                            ) : null}
-
 
 
                                             <Button type="submit" color="success" sx={{

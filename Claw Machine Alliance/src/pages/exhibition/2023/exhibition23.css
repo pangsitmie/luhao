@@ -1,17 +1,34 @@
+.exhibition_hero {
+    position: relative;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    padding: 10% 10% 0;
+    overflow: hidden;
+}
+
+.exhibition_claw_machine_img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .wave_exhibition {
     position: absolute;
     top: 0px;
     right: 0px;
-    width: 52%;
+    width: 50%;
     height: auto;
     z-index: 1;
 }
 
+
+
 .globe {
     position: absolute;
-    top: 0px;
+    top: -50px;
     right: -10%;
-    width: 60%;
+    width: 40%;
     height: auto;
     z-index: 1;
 }
@@ -30,21 +47,20 @@
 .exhibition_topic_container {
     display: flex;
     justify-content: center;
-    background-color: #F2F2F2;
+    background-color: #1F57A7;
     flex-direction: column;
-    padding: 8rem 15%;
-    gap: 2.5rem;
+    padding: 2rem 15% 5rem;
+    gap: .5rem;
 }
 
 .exhibition_topic {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60%;
+    width: 100%;
     padding: 1.2rem;
     border-radius: 52px;
-    box-shadow: 0 10px 10px rgba(170, 170, 170, 0.55);
-
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.65);
 }
 
 .exhibition23_speaker_list_item {
@@ -53,8 +69,17 @@
     gap: 1rem;
 }
 
+.exhibition23_speaker_list_item h5 {
+    color: #111;
+}
+
+.check_circle_icon {
+    color: #111;
+}
+
 .flex_media {
     display: flex;
+    align-items: center;
     justify-content: center;
     gap: 2rem;
 }
@@ -67,19 +92,24 @@
 }
 
 .exhibition_speaker_right_container {
-    width: 60%;
-    background-color: #111;
+    width: 100%;
+    background-color: #cecece;
     border-radius: 25px;
     padding: 2rem;
 }
 
 @media screen and (max-width: 768px) {
+    .exhibition_hero {
+        height: 100%;
+        padding: 25% 10% 0;
+    }
+
     .exhibition_topic {
         width: 85%;
     }
 
     .exhibition_topic_container {
-        padding: 8rem 10%;
+        padding: 10%;
     }
 
     .exhibition_topic h4 {
@@ -88,6 +118,12 @@
 
     .flex_media {
         flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
+    .exhibition_claw_machine_img {
+        margin-top: -5rem;
     }
 
     .exhibition_speaker_left_container {
@@ -98,18 +134,31 @@
         width: 100%;
     }
 
+    h1 {
+        font-size: 40px !important;
+        letter-spacing: 0 !important;
+    }
+
     h2 {
-        font-size: 35px !important;
+        font-size: 32px !important;
+    }
+
+    h3 {
+        font-size: 24px !important;
+    }
+
+    h4 {
+        font-size: 20px !important;
     }
 
     .wave_exhibition {
-        width: 80%;
+        width: 50%;
     }
 
     .globe {
         top: -160px;
         right: -100px;
-        width: 90%;
+        width: 70%;
     }
 }
 

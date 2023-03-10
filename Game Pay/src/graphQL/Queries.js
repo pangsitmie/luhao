@@ -138,10 +138,29 @@ query GetBrand($args: [BrandArgs!]!) {
   }
 }
 `
-export const UpdateBrand = gql`
-query GetBrand($args: [BrandArgs!]!, $name: String, $vatNumber: String, $intro: String, $currencyName: String, $principal: UpdateBrandPrincipalArgs, $statusId: EUpdateBrandStatus, $cover: String, $logo: String) {
+export const ManagerUpdateBrand = gql`
+query GetBrand(
+  $args: [BrandArgs!]!
+  $name: String
+  $vatNumber: String
+  $cover: String
+  $logo: String
+  $currencyName: String
+  $principal: PatchBrandPrincipalArgs
+  $statusId: EUpdateBrandStatus
+  $intro: String
+) {
   getBrand(args: $args) {
-    update(name: $name, vatNumber: $vatNumber, intro: $intro, currencyName: $currencyName, principal: $principal, statusId: $statusId, cover: $cover, logo: $logo)
+    updateForManager(
+      name: $name
+      vatNumber: $vatNumber
+      cover: $cover
+      logo: $logo
+      currencyName: $currencyName
+      principal: $principal
+      statusId: $statusId
+      intro: $intro
+    )
   }
 }
 `
@@ -838,4 +857,50 @@ query ManagerGetDepositItems(
     walletValue
   }
 }
+`
+
+export const GetDepositItem = gql`
+query GetDepositItem($args: [DepositItemArgs!]!) {
+  getDepositItem(args: $args) {
+    id
+    type
+    name
+    price
+    walletValue
+    description
+    createdAt
+    startAt
+    endAt
+    maxPurchaseNum
+    reward {
+      id
+      receiveDaysOverdue
+      content {
+        ... on CurrencyReward {
+          id
+          amount
+        }
+      }
+    }
+    status {
+      id
+      name
+    }
+  }
+}
+`
+
+
+export const UpdateDepositItem = gql`
+query GetDepositItem(
+  $args: [DepositItemArgs!]!,
+  $name: String,
+  $description: String,
+  $statusId: EUpdateDepositItemStatus
+) {
+  getDepositItem(args: $args) {
+    update(name: $name, description: $description, statusId: $statusId)
+  }
+}
+
 `

@@ -18,11 +18,11 @@ const Topbar = () => {
       </div>
       {/* ICONS */}
       <Box display="flex" justifyContent={"center"}>
-        {/* <Link to="/review">
+        <Link to="/review">
           <IconButton>
             <NotificationsOutlinedIcon />
           </IconButton>
-        </Link> */}
+        </Link>
         {/* <IconButton>
           <SettingsOutlinedIcon />
         </IconButton> */}

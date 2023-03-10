@@ -194,12 +194,11 @@ span {
 
 /* btn svg */
 .button_svg {
-  font-family: inherit;
   font-size: 16px;
   background: #111;
   color: #fff;
   padding: 0.8rem 1.8rem;
-  padding-left: 1.5;
+  padding-left: 1.7rem;
   display: flex;
   align-items: center;
   border: none;
@@ -214,6 +213,7 @@ span {
   margin-left: 0.3em;
   transition: all 0.3s ease-in-out;
   color: #fff;
+  font-weight: 600;
 }
 
 .button_svg svg {
@@ -227,7 +227,7 @@ span {
 }
 
 .button_svg:hover svg {
-  transform: translateX(2em) rotate(45deg) scale(1.1);
+  transform: translateX(2.65em) rotate(45deg) scale(1.1);
 }
 
 .button_svg:hover span {
