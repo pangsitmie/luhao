@@ -609,7 +609,7 @@ export const exhibition2023Companies = [
         data: [
             {
                 id: 0,
-                name: "台中市自動販賣商同業公會",
+                name: "台灣數位休閒娛樂產業協會",
                 details: {
                     phone: "04-2331-8888",
                     address: "台中市北區中清路一段 1 號",
@@ -645,7 +645,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 4,
-                name: "台中自動販賣機職業工會",
+                name: "桃園市自動販賣商業同業公會",
                 details: {
                     phone: "04-2331-8888",
                     address: "台中市北區中清路一段 1 號",
@@ -654,7 +654,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 5,
-                name: "彰化縣自動販賣商業同業公會",
+                name: "台中市自動販賣職業工會",
                 details: {
                     phone: "04-2331-8888",
                     address: "台中市北區中清路一段 1 號",
@@ -663,7 +663,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 6,
-                name: "新竹市自動販賣商業同業公會",
+                name: "彰化縣自動販賣商業同業公會",
                 details: {
                     phone: "04-2331-8888",
                     address: "台中市北區中清路一段 1 號",
@@ -672,6 +672,15 @@ export const exhibition2023Companies = [
             },
             {
                 id: 7,
+                name: "新竹市自動販賣商業同業公會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 8,
                 name: "宜蘭縣自動販賣商業同業公會",
                 details: {
                     phone: "04-2331-8888",
