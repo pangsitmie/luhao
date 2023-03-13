@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { GetDepositItem, UpdateDepositItem, RemoveBrand, } from "../../graphQL/Queries";
+import { GetDepositItem, UpdateDepositItem, RemoveBrand, RemoveDepositItem, } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
@@ -51,7 +51,7 @@ export default function DepositListModal({ props }) {
     });
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -82,20 +82,20 @@ export default function DepositListModal({ props }) {
     // ============ UPDATE BRAND ============
     const [ApolloUpdateDepositItem, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(UpdateDepositItem);
     // ============ REMOVE BRAND ============
-    // const [ApolloRemoveDepositItem, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveBrand);
+    const [ApolloRemoveDepositItem, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveDepositItem);
     const handleDelete = (e) => {
         var result = window.confirm("Are you sure you want to delete this item?");
-        // if (result) {
-        //     ApolloRemoveDepositItem({
-        //         variables: {
-        //             args: [
-        //                 {
-        //                     id: props.id
-        //                 }
-        //             ]
-        //         }
-        //     })
-        // }
+        if (result) {
+            ApolloRemoveDepositItem({
+                variables: {
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ]
+                }
+            })
+        }
     };
 
 

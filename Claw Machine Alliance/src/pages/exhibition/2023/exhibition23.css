@@ -20,9 +20,9 @@
 
 .globe {
     position: absolute;
-    top: -50px;
+    top: -100px;
     right: -10%;
-    width: 40%;
+    width: 48%;
     height: auto;
     z-index: 1;
 }
@@ -115,10 +115,7 @@
     transition: all .3s;
 }
 
-.card_box:hover {
-    transform: scale(0.999);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
+
 
 .card_box span {
     position: absolute;

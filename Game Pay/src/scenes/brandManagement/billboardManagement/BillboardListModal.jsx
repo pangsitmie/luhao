@@ -213,7 +213,8 @@ export default function BillboardListModal({ props }) {
             alert("結束日期必須晚於開始日期");
             return;
         }
-        ApolloUpdateBillboard({ variables });
+        console.log(variables);
+        // ApolloUpdateBillboard({ variables });
     };
 
 

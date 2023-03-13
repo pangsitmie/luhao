@@ -53,7 +53,7 @@ const Exhibition23 = () => {
                     <Typography variant="h2" sx={{ fontWeight: "bold", textAlign: "left", color: "#0057D9", mb: "2rem" }} >
                         台中食品零食通路展
                     </Typography>
-                    <Box display={"flex"} alignItems={"center"} mb={"1rem"} gap={"1rem"}>
+                    <Box display={"flex"} alignItems={"center"} mb={".8rem"} gap={"1rem"}>
                         <Typography variant="h2" sx={{ color: "#111" }}  >
                             4.27
                         </Typography>
@@ -107,7 +107,7 @@ const Exhibition23 = () => {
 
             <Box bgcolor={"#1F57A7"} className={"exhibition_topic_title"}>
                 <Typography variant="h3" sx={{ textAlign: "left", fontWeight: "600", color: "#FFF", width: "100%", lineHeight: "150%" }} >
-                    首場台灣及進口知名零食 線上線下參展 效益遠播海內外結合自動販賣機 夾娃烓機 專業食品/娃娃/3C採購展。
+                    首場台灣及進口知名零食 線上線下參展 效益遠播海內外結合自動販賣機 夾娃娃機 專業食品/娃娃/3C採購展。
                 </Typography>
             </Box>
             <Box className={"flex_media"} bgcolor={"#1F57A7"} >
@@ -178,12 +178,10 @@ const Exhibition23 = () => {
                 </Box>
 
 
-                <Box className={"exhibition_speaker_right_container card_box"}>
+                {/* <Box className={"exhibition_speaker_right_container card_box"}>
                     <span></span>
-
                     <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "2rem" }} >
                         公司行號代表參展單位
-                        {/* (依據比劃順序) */}
                     </Typography>
                     <Divider
                         orientation="horizontal"
@@ -199,7 +197,7 @@ const Exhibition23 = () => {
                             <CompanyListItem props={item} />
                         ))}
                     </Box>
-                </Box>
+                </Box> */}
 
                 {/* row 3 */}
                 <Box className={"exhibition_speaker_right_container card_box"}>

@@ -902,5 +902,12 @@ query GetDepositItem(
     update(name: $name, description: $description, statusId: $statusId)
   }
 }
+`
 
+export const RemoveDepositItem = gql`
+query GetDepositItem($args: [DepositItemArgs!]!) {
+  getDepositItem(args: $args) {
+    remove
+  }
+}
 `

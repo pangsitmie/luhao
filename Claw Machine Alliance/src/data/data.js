@@ -279,7 +279,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 1,
-                name: "雲林科技大學育成中心",
+                name: "美國各州辦事處協會",
                 details: {
                     phone: "04-2331-8888",
                     address: "台中市北區中清路一段 1 號",
@@ -288,7 +288,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 2,
-                name: "台中市自動販賣商同業公司",
+                name: "台灣知日協會",
                 details: {
                     phone: "04-2331-8888",
                     address: "台中市北區中清路一段 1 號",
@@ -297,7 +297,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 3,
-                name: "雲林漁業青年聯誼會",
+                name: "雲林科技大學育成中心",
                 details: {
                     phone: "04-2331-8888",
                     address: "台中市北區中清路一段 1 號",
@@ -306,6 +306,24 @@ export const exhibition2023Companies = [
             },
             {
                 id: 4,
+                name: "台中市自動販賣商同業公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 5,
+                name: "雲林漁業青年聯誼會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 6,
                 name: "中華農業創新學會",
                 details: {
                     phone: "04-2331-8888",

@@ -13,7 +13,7 @@ const CompanyListItem = ({ props, textColor }) => {
         setOpen(!open);
     }
     return (
-        <div className={"exhibition23_speaker_list_item"}>
+        <div className={"exhibition23_speaker_list_item"} >
             <Box display={"flex"} alignItems={"center"} gap={"8px"}>
                 <Typography variant="h5" sx={{ fontWeight: "bold", color: color }}>
                     {name}
