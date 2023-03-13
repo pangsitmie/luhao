@@ -256,3 +256,413 @@ export const ExploreTaichungData = [
     },
 ];
 
+
+// id 0 = 公協會參展單位
+// id 1 = 公司行號代表參展單位
+// id 2 = 指導單位
+// id 3 = 主辦單位
+// id 4 = 協辦單位
+export const exhibition2023Companies = [
+    // 公協會參展單位
+    {
+        id: 0,
+        title: "公協會參展單位",
+        data: [
+            {
+                id: 0,
+                name: "台中市商業會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 1,
+                name: "雲林科技大學育成中心",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 2,
+                name: "台中市自動販賣商同業公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 3,
+                name: "雲林漁業青年聯誼會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 4,
+                name: "中華農業創新學會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+        ]
+    },
+    // 公司行號代表參展單位
+    {
+        id: 1,
+        title: "公司行號代表參展單位",
+        data: [
+            {
+                id: 0,
+                name: "三易食品有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 1,
+                name: "安心肉乾食品有限公司(天印)",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 2,
+                name: "老楊食品",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 3,
+                name: "中華民國農會台農鮮乳廠",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 4,
+                name: "利傑國際",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 5,
+                name: "吉時饌",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 6,
+                name: "良品吉食商行",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 7,
+                name: "永長裕有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 8,
+                name: "酋長鳳梨",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 9,
+                name: "阿甘叔叔",
+                details: {
+                    phone: "04-2331-8888",
+                    address: ""
+                }
+            },
+            {
+                id: 10,
+                name: "哈客愛",
+                details: {
+                    phone: "04-2331-8888",
+                    address: ""
+                }
+            },
+            {
+                id: 11,
+                name: "集元果",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 12,
+                name: "好蝦冏男社",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 13,
+                name: "喬拉燕麥",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 14,
+                name: "樂米工坊",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 15,
+                name: "櫻桃果咖啡",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 16,
+                name: "海龍王食品有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 17,
+                name: "錦倫公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 18,
+                name: "藍斯特企業有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 19,
+                name: "鑫賜有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: ""
+                }
+            },
+            {
+                id: 20,
+                name: "永恆世成有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: ""
+                }
+            },
+            {
+                id: 21,
+                name: "逢國食品股份有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 22,
+                name: "長城料理實業有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 23,
+                name: "弘志食品有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 24,
+                name: "李記烏漁子",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 25,
+                name: "台中多媒體股份有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+        ]
+    },
+    // 指導單位
+    {
+        id: 2,
+        title: "指導單位",
+        data: [
+            {
+                id: 0,
+                name: "經濟部加工出口處臺中分處",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+        ]
+    },
+    // 主辦單位
+    {
+        id: 3,
+        title: "主辦單位",
+        data: [
+            {
+                id: 0,
+                name: "台中市自動販賣商同業公會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+        ]
+    },
+    // 協辦單位 
+    {
+        id: 3,
+        title: "協辦單位",
+        data: [
+            {
+                id: 0,
+                name: "台中市自動販賣商同業公會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 1,
+                name: "中華民國台灣商用電子遊機產業協會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 2,
+                name: "雲林科技大學育成中心",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 3,
+                name: "大買家股份有限公司",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 4,
+                name: "台中自動販賣機職業工會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 5,
+                name: "彰化縣自動販賣商業同業公會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 6,
+                name: "新竹市自動販賣商業同業公會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+            {
+                id: 7,
+                name: "宜蘭縣自動販賣商業同業公會",
+                details: {
+                    phone: "04-2331-8888",
+                    address: "台中市北區中清路一段 1 號",
+                    website: "https://www.3y.com.tw/",
+                }
+            },
+        ]
+    }
+];
+
+

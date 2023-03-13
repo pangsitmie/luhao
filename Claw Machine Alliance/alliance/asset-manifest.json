@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.0333538c.css",
-    "main.js": "/static/js/main.3686daa6.js",
+    "main.css": "/static/css/main.3bb6c15c.css",
+    "main.js": "/static/js/main.6516382f.js",
     "static/media/ddl_video.mp4": "/static/media/ddl_video.6ec41d27431d3d909518.mp4",
     "static/media/fengjia_video.mp4": "/static/media/fengjia_video.9a43e3da2eb97ab3d44a.mp4",
     "static/media/space_bg1.png": "/static/media/space_bg1.ed411a8c39fd0822f4cb.png",
     "static/media/hero_bg1.png": "/static/media/hero_bg1.60fe4a23eea96bd24b51.png",
-    "static/media/exhibition_claw_machine.gif": "/static/media/exhibition_claw_machine.db95a774b6adec9ce67f.gif",
     "static/media/gradient_bg.png": "/static/media/gradient_bg.76f16b47670f337996aa.png",
+    "static/media/exhibition_claw_machine_blue.gif": "/static/media/exhibition_claw_machine_blue.e9e3f905096e6b83bf92.gif",
     "static/media/taichung_park_map.png": "/static/media/taichung_park_map.f7cbcc0d7f98a34713b7.png",
     "static/media/taichung_theater_map.png": "/static/media/taichung_theater_map.408933661ec99cbcb449.png",
     "static/media/second_market_map.png": "/static/media/second_market_map.de9561a4a197847730e7.png",
@@ -60,6 +60,7 @@
     "static/media/green_map.png": "/static/media/green_map.af2d846f720b2d7310fe.png",
     "static/media/wave_exhibition.png": "/static/media/wave_exhibition.8199ba5b872817d9a664.png",
     "static/media/tiktok_icon.png": "/static/media/tiktok_icon.eed6e3727f90d2dc4f7e.png",
+    "static/media/wave_divider_blue.png": "/static/media/wave_divider_blue.403d35bdbc5a02a98764.png",
     "static/media/yellow_bottom.png": "/static/media/yellow_bottom.d52b4594808041e8a9a4.png",
     "static/media/rec.png": "/static/media/rec.1123f4d336b462709f59.png",
     "static/media/taichung_slice.png": "/static/media/taichung_slice.67c3e01608bbecfaf179.png",
@@ -69,11 +70,11 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "static/media/getFetch.cjs": "/static/media/getFetch.40f37ddea2378391108f.cjs",
-    "main.0333538c.css.map": "/static/css/main.0333538c.css.map",
-    "main.3686daa6.js.map": "/static/js/main.3686daa6.js.map"
+    "main.3bb6c15c.css.map": "/static/css/main.3bb6c15c.css.map",
+    "main.6516382f.js.map": "/static/js/main.6516382f.js.map"
   },
   "entrypoints": [
-    "static/css/main.0333538c.css",
-    "static/js/main.3686daa6.js"
+    "static/css/main.3bb6c15c.css",
+    "static/js/main.6516382f.js"
   ]
 }

@@ -60,6 +60,23 @@ section {
 }
 
 /* BUTTONS */
+.btn_dropdown {
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn_dropdown:hover {
+  border: 1px solid #cecece;
+  background-color: #cecece;
+}
+
 .btn_white {
   width: 200px;
   background-color: white;
@@ -194,15 +211,17 @@ span {
 
 /* btn svg */
 .button_svg {
-  font-size: 16px;
+  font-size: 14px;
+  width: 200px;
+  height: 52px;
   background: #111;
   color: #fff;
-  padding: 0.8rem 1.8rem;
-  padding-left: 1.7rem;
+  padding: 1rem 2rem;
+  padding-left: 1.8rem;
   display: flex;
   align-items: center;
   border: none;
-  border-radius: 62px;
+  border-radius: 80px;
   overflow: hidden;
   transition: all 0.2s;
   cursor: pointer;
@@ -227,11 +246,11 @@ span {
 }
 
 .button_svg:hover svg {
-  transform: translateX(2.65em) rotate(45deg) scale(1.1);
+  transform: translateX(4.5em) rotate(45deg) scale(1.1);
 }
 
 .button_svg:hover span {
-  transform: translateX(8em);
+  transform: translateX(12em);
 }
 
 .button_svg:active {

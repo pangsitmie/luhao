@@ -7,8 +7,10 @@ import EXHIBITION_CLAW_MACHINE from 'src/assets/exhibition_claw_machine_blue.gif
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import 'animate.css';
 
+import { exhibition2023Companies } from 'src/data/data';
 
 import './exhibition23.css'
+import CompanyListItem from 'src/components/item/CompanyListItem'
 const Exhibition23 = () => {
     const [initialScrollPos, setInitialScrollPos] = useState(0);
     const [currentScrollPos, setCurrentScrollPos] = useState(0);
@@ -95,506 +97,146 @@ const Exhibition23 = () => {
                         </Box>
                     </Box>
                 </Box>
-
             </Box>
 
 
 
-            <Box m={"2rem 0 -5px"}>
-                <img src={WAVE_DIVIDER_BLUE} width="100%" alt="" />
+            <Box m={"2rem 0 -10px"}>
+                <img src={WAVE_DIVIDER_BLUE} width="100%" height={"150px"} alt="" />
             </Box>
-            <Box bgcolor={"#1F57A7"} display={"flex"} justifyContent={"center"}>
-                <Typography variant="h3" sx={{ textAlign: "center", fontWeight: "600", color: "#FFF", width: "80%" }} >
+
+            <Box bgcolor={"#1F57A7"} className={"exhibition_topic_title"}>
+                <Typography variant="h3" sx={{ textAlign: "left", fontWeight: "600", color: "#FFF", width: "100%", lineHeight: "150%" }} >
                     首場台灣及進口知名零食 線上線下參展 效益遠播海內外結合自動販賣機 夾娃烓機 專業食品/娃娃/3C採購展。
                 </Typography>
             </Box>
-            <Box className={"flex_media"} bgcolor={"#1F57A7"} height={"100%"}>
+            <Box className={"flex_media"} bgcolor={"#1F57A7"} >
                 <Box className={"exhibition_topic_container"}>
                     <Box bgcolor={"#4077F6"} className={"exhibition_topic"} >
-                        <Typography variant="h4" sx={{ textAlign: "center", color: "#FFF" }} >
+                        <Typography variant="h5" sx={{ fontWeight: "600", textAlign: "center", color: "#FFF" }} >
                             全台通路匯集【台中軟體園區】
                         </Typography>
                     </Box>
                     <Box bgcolor={"#B52B61"} alignSelf={"flex-end"} className={"exhibition_topic"} >
-                        <Typography variant="h4" sx={{ textAlign: "center", color: "#FFF" }} >
+                        <Typography variant="h5" sx={{ fontWeight: "600", textAlign: "center", color: "#FFF" }} >
                             全台知名品牌參展，一次採購
                         </Typography>
                     </Box>
                     <Box bgcolor={"#754FF5"} className={"exhibition_topic"} >
-                        <Typography variant="h4" sx={{ textAlign: "center", color: "#FFF" }} >
+                        <Typography variant="h5" sx={{ fontWeight: "600", textAlign: "center", color: "#FFF" }} >
                             邀請多家全台知名連鎖門店講座
                         </Typography>
                     </Box>
                     <Box bgcolor={"#EB4F27"} alignSelf={"flex-end"} className={"exhibition_topic"} >
-                        <Typography variant="h4" sx={{ textAlign: "center", color: "#FFF" }} >
+                        <Typography variant="h5" sx={{ fontWeight: "600", textAlign: "center", color: "#FFF" }} >
                             備有多會議室，可供立即簽約
                         </Typography>
                     </Box>
-                    <Box bgcolor={"#F2BD2A"} className={"exhibition_topic"} >
-                        <Typography variant="h4" sx={{ textAlign: "center", color: "#FFF" }} >
+                    <Box bgcolor={"#278338"} className={"exhibition_topic"} >
+                        <Typography variant="h5" sx={{ fontWeight: "600", textAlign: "center", color: "#FFF" }} >
                             邀請知名網紅試吃宣傳
                         </Typography>
                     </Box>
                 </Box>
 
-
-                <Box marginTop={"3rem"} gap={"5rem"}>
-                    <Box className={"exhibition_claw_machine_img"}>
-                        <img src={EXHIBITION_CLAW_MACHINE} width="500px" alt="" />
-                    </Box>
+                <Box className={"exhibition_claw_machine_img"}>
+                    <img src={EXHIBITION_CLAW_MACHINE} width="100%" alt="" />
                 </Box>
             </Box>
 
 
-            <Box p={"8rem 2rem"} bgcolor={"#F2F2F2"}>
-                <Box  >
-                    <Box bgcolor={"#0057D9"} borderRadius={"25px"} height={"100%"} padding={"2rem"} mt={"5rem"} boxShadow={"0 10px 20px rgba(0,0,0,0.55)"}>
-                        <Box display={"flex"} justifyContent={"space-between"}>
-
-
-                            <Typography variant="h3" sx={{ textAlign: "left", color: "#fff", mb: "2rem" }} >
-                                公協會參展單位
-                            </Typography>
-                            <button className={"button_svg"}>
-                                <div className="svg-wrapper-1">
-                                    <div className="svg-wrapper">
-                                        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z" fill="currentColor"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <span>索取參展廠商資料</span>
-                            </button>
-                        </Box>
-
-
-                        <Typography variant="h4" sx={{ textAlign: "left", color: "#fff", mb: "2rem" }} >
-                            台中市商業會
-                        </Typography>
-                        <Typography variant="h4" sx={{ textAlign: "left", color: "#fff", mb: "2rem" }} >
-                            雲林科技大學育成中心
-                        </Typography>
-                        <Typography variant="h4" sx={{ textAlign: "left", color: "#fff", mb: "2rem" }} >
-                            台中市自動販賣商同業公司
-                        </Typography>
-                        <Typography variant="h4" sx={{ textAlign: "left", color: "#fff", mb: "2rem" }} >
-                            雲林漁業青年聯誼會
-                        </Typography>
-                        <Typography variant="h4" sx={{ textAlign: "left", color: "#fff", mb: "2rem" }} >
-                            中華農業創新學會
+            <Box className={"exhibition_card_container"} bgcolor={"#FFF"}>
+                <Box className={"flex_cc"} flexDirection={"column"} mb={"1rem"}>
+                    <Typography variant="h3" sx={{ textAlign: "left", color: "#111", mb: "1rem" }} >
+                        註冊後詳閱
+                    </Typography>
+                    <button className={"button_svg"}>
+                        <div className="svg-wrapper-1">
+                            <div className="svg-wrapper">
+                                <svg height="22" width="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <span>索取參展廠商資料</span>
+                    </button>
+                </Box>
+                {/* row 1 */}
+                <Box bgcolor={"#0057D9"} borderRadius={"25px"} widht={"100%"} height={"100%"} padding={"2rem"} >
+                    <Box display={"flex"} justifyContent={"space-between"}>
+                        <Typography variant="h3" sx={{ textAlign: "left", color: "#fff", mb: "2rem" }} >
+                            公協會參展單位
                         </Typography>
                     </Box>
 
+                    <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
+                        {exhibition2023Companies[0].data.map((item) => (
+                            <CompanyListItem props={item} textColor={"#FFF"} />
+                        ))}
+                    </Box>
                 </Box>
 
-                <Box >
-                    {/* <Box className={"exhibition_speaker_left_container card_box"}>
-                        <span></span>
-                        <Box className={"circle_text"} >
-                            <Typography variant="h6" sx={{ textAlign: "center", color: "#1d1d1d" }} >
-                                演講一
-                            </Typography>
-                        </Box>
-                        <Typography variant="h3" sx={{ textAlign: "left", color: "#111", mb: "2rem" }} >
-                            指導單位
-                        </Typography>
-                        <Divider
-                            orientation="horizontal"
-                            sx={{
-                                backgroundColor: "#cecece",
-                                width: "100%",
-                            }}
-                        />
-                        <Box display={"flex"} flexDirection={"column"} gap={"2rem"} mt={"2rem"}>
-                            <Box className={"exhibition23_speaker_list_item"}>
-                                <CheckCircleIcon sx={{ color: "#111" }} />
-                                <Typography variant="h5" sx={{ textAlign: "left", color: "#1d1d1d", maxLines: "2" }} >
-                                    經濟部加工出口處台中分處
-                                </Typography>
-                            </Box>
-                             <Box className={"exhibition23_speaker_list_item"}>
-                                <CheckCircleIcon sx={{ color: "#111" }} />
-                                <Typography variant="h5" sx={{ textAlign: "left", color: "#1d1d1d", maxLines: "2" }} >
-                                    台灣數位休閒娛樂產業協會
-                                </Typography>
-                            </Box>
-                            <Box className={"exhibition23_speaker_list_item"}>
-                                <CheckCircleIcon sx={{ color: "#111" }} />
-                                <Typography variant="h5" sx={{ textAlign: "left", color: "#1d1d1d" }} >
-                                    中華民國台灣商用電子遊機產業協會
-                                </Typography>
-                            </Box>
-                            <Box className={"exhibition23_speaker_list_item"}>
-                                <CheckCircleIcon sx={{ color: "#111" }} />
-                                <Typography variant="h5" sx={{ textAlign: "left", color: "#1d1d1d" }} >
-                                    彰化縣自動販賣商業同業公會
-                                </Typography>
-                            </Box>
-                            <Box className={"exhibition23_speaker_list_item"}>
-                                <CheckCircleIcon sx={{ color: "#111" }} />
-                                <Typography variant="h5" sx={{ textAlign: "left", color: "#1d1d1d" }} >
-                                    台中市自動販賣職業工會
-                                </Typography>
-                            </Box>
-                            <Box className={"exhibition23_speaker_list_item"}>
-                                <CheckCircleIcon sx={{ color: "#111" }} />
-                                <Typography variant="h5" sx={{ textAlign: "left", color: "#1d1d1d" }} >
-                                    新竹市自動販賣商業同業公會
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box> */}
 
-                    <Box className={"exhibition_speaker_right_container card_box"}>
-                        <span></span>
-                        {/* <Box className={"circle_text"} >
-                            <Typography variant="h6" sx={{ textAlign: "center", color: "#cecece" }} >
-                                演講二
-                            </Typography>
-                        </Box> */}
-                        <Typography variant="h3" sx={{ textAlign: "left", color: "#fff", mb: "2rem" }} >
-                            公司行號代表參展單位
-                            {/* (依據比劃順序) */}
-                        </Typography>
-                        <Divider
-                            orientation="horizontal"
-                            sx={{
-                                backgroundColor: "#cecece",
-                                width: "100%",
-                            }}
-                        />
+                <Box className={"exhibition_speaker_right_container card_box"}>
+                    <span></span>
 
-                        <Box className={"flex_media"} justifyContent={"space-between !important"} mt={"2rem"}>
-                            {/* row1 */}
-                            <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        安心肉乾食品有限公司(天印)
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        老楊食品
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        中華民國農會台農鮮乳廠
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        利傑國際
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        吉時饌
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        良品吉食商行
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        永長裕有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        酋長鳳梨
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        阿甘叔叔
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        哈客愛
-                                    </Typography>
-                                </Box>
-                            </Box>
+                    <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "2rem" }} >
+                        公司行號代表參展單位
+                        {/* (依據比劃順序) */}
+                    </Typography>
+                    <Divider
+                        orientation="horizontal"
+                        sx={{
+                            backgroundColor: "#cecece",
+                            width: "100%",
+                            mb: "2rem",
+                        }}
+                    />
 
-                            {/* col2 */}
-                            <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        集元果
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        好蝦冏男社
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        喬拉燕麥
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        樂米工坊
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        櫻桃果咖啡
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        海龍王食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        錦倫公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        藍斯特企業有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        鑫賜有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        永恆世成有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        逢國食品股份有限公司
-                                    </Typography>
-                                </Box>
-                            </Box>
-
-                            {/* col3 */}
-                            <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        長城料理實業有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        弘志食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        李記烏漁子
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        台中多媒體股份有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                            </Box>
-
-                            {/* col4 */}
-                            <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        三易食品有限公司
-                                    </Typography>
-                                </Box>
-                            </Box>
-
-
-                        </Box>
+                    <Box display="grid" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" gap="1rem">
+                        {exhibition2023Companies[1].data.map((item) => (
+                            <CompanyListItem props={item} />
+                        ))}
                     </Box>
-                    <Box className={"exhibition_speaker_right_container card_box"}>
-                        <span></span>
+                </Box>
 
-                        <Box className={"flex_media"} justifyContent={"space-between !important"} mt={"2rem"}>
-                            <Box display={"flex"} flexDirection={"column"} gap={"2rem"}>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        指導單位 : 經濟部加工出口處臺中分處
-                                    </Typography>
+                {/* row 3 */}
+                <Box className={"exhibition_speaker_right_container card_box"}>
+                    <span></span>
+                    <Box className={"flex_media"} justifyContent={"space-between !important"}>
+                        <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
+                            <Box mb={"2rem"}>
+                                <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "1rem" }} >
+                                    指導單位:
+                                </Typography>
+                                <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
+                                    {exhibition2023Companies[2].data.map((item) => (
+                                        <CompanyListItem props={item} />
+                                    ))}
                                 </Box>
-
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        主辦單位： : 台中市自動販賣商同業公會
-                                    </Typography>
-                                </Box>
-                                <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon className='check_circle_icon' />
-                                    <Typography variant="h5"  >
-                                        協辦單位 :
-                                        <br />
-                                        台灣數位休閒娛樂產業協會 --  中華民國台灣商用電子遊機產業協會 -- 雲林科技大學育成中心
-                                        --大買家股份有限公司 --
-                                        台中自動販賣機職業工會 -- 彰化縣自動販賣商業同業公會 -- 新竹市自動販賣商業同業公會 -- 宜蘭縣自動販賣商業同業公會
-                                    </Typography>
-                                </Box>
-                                {/* <Box className={"exhibition23_speaker_list_item"}>
-                                    <CheckCircleIcon sx={{ color: "#cecece" }} />
-
-                                    <Typography variant="h5" sx={{ textAlign: "left", color: "#fff" }} >
-
-                                        <br />
-                                        <br />
-                                        協辦單位:
-                                        <br />
-                                        台灣數位休閒娛樂產業協會 --  中華民國台灣商用電子遊機產業協會 -- 雲林科技大學育成中心
-                                        --大買家股份有限公司 --
-                                        台中自動販賣機職業工會 -- 彰化縣自動販賣商業同業公會 -- 新竹市自動販賣商業同業公會 -- 宜蘭縣自動販賣商業同業公會
-
-                                    </Typography>
-                                </Box> */}
-
                             </Box>
 
+                            <Box mb={"2rem"}>
+                                <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "1rem" }} >
+                                    主辦單位:
+                                </Typography>
+                                <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
+
+                                    {exhibition2023Companies[3].data.map((item) => (
+                                        <CompanyListItem props={item} />
+                                    ))}
+                                </Box>
+                            </Box>
+
+
+
+                            <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7" }} >
+                                協辦單位:
+                            </Typography>
+                            {exhibition2023Companies[4].data.map((item) => (
+                                <CompanyListItem props={item} />
+                            ))}
                         </Box>
                     </Box>
                 </Box>
