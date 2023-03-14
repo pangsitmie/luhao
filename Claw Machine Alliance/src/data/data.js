@@ -647,8 +647,8 @@ export const exhibition2023Companies = [
                 id: 4,
                 name: "桃園市自動販賣商業同業公會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
+                    phone: "0931-063545",
+                    address: "桃園市龜山區文德二路122號",
                     website: "https://www.3y.com.tw/",
                 }
             },
