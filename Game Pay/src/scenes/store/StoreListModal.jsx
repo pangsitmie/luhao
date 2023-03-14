@@ -140,7 +140,7 @@ export default function StoreListModal({ props }) {
             const nonNullData = replaceNullWithEmptyString(data3.getStore[0]);
             setInitialValues({
                 id: props.id,
-                status: nonNullData.status.name,
+                status: nonNullData.status,
                 name: nonNullData.name,
                 intro: nonNullData.intro,
                 brandId: nonNullData.brand.id,
@@ -169,8 +169,8 @@ export default function StoreListModal({ props }) {
                 address: data3.getStore[0].location.address,
             }));
             //set status only if not banned
-            if (data3.getStore[0].status.name !== "banned") {
-                setStatus(data3.getStore[0].status.name)
+            if (data3.getStore[0].status !== "banned") {
+                setStatus(data3.getStore[0].status)
             }
         }
     }, [data3]);
@@ -244,7 +244,7 @@ export default function StoreListModal({ props }) {
     }
 
 
-    const [coverFileName, setCoverFileName] = useState(default_cover_900x300_filename);
+    const [coverFileName, setCoverFileName] = useState("");
     const handleUploadCoverSucess = (name) => {
         setCoverFileName(name);
     };

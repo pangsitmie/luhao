@@ -39,9 +39,7 @@ query GetAllMember($offset: Int, $limit: Int, $status: EMemberStatus) {
       country
       number
     }
-    status {
-      name
-    }
+    status
     career {
       memberId
       continuousLoginDays
@@ -76,11 +74,7 @@ query ManagerGetBrands($limit: Int, $offset: Int) {
     cover
     intro
     logo
-    status {
-      id
-      description
-      name
-    }
+    status
     principal {
       id
       name
@@ -114,9 +108,7 @@ query GetBrand($args: [BrandArgs!]!) {
     id
     name
     vatNumber
-    status {
-      name
-    }
+    status
     currency {
       id
       name
@@ -212,13 +204,9 @@ query ManagerGetStores($limit: Int, $offset: Int) {
   managerGetStores(limit: $limit, offset: $offset) {
     id
     name
+    status
     brand {
       id
-      name
-    }
-    status {
-      id
-      description
       name
     }
     location {
@@ -237,13 +225,9 @@ query GetStore($args: [StoreArgs!]!) {
     name
     cover
     intro
+    status
     brand {
       id
-      name
-    }
-    status {
-      id
-      description
       name
     }
     location {
@@ -257,7 +241,6 @@ query GetStore($args: [StoreArgs!]!) {
       lineUrl
       email
     }
- 
   }
 }
 `
@@ -349,11 +332,6 @@ query GetStore($args: [StoreArgs!]!, $limit: Int, $offset: Int) {
       qrCode
       code
       name
-      status {
-        id
-        description
-        name
-      }
       connStatus
     }
   }
@@ -369,11 +347,7 @@ query GetMachine($args: [MachineArgs!]!) {
     name
     description
     qrCode
-    status {
-      id
-      description
-      name
-    }
+    status
     connStatus
     counterInfo {
       counters {
@@ -392,30 +366,30 @@ query GetMachine($args: [MachineArgs!]!) {
   }
 }
 `
-export const UpdateMachine = gql`
-query GetMachine(
-  $args: [MachineArgs!]!
-  $price: Float
-  $name: String
-  $description: String
-  $statusId: EUpdateMachineStatus
-  $counterCheck: Boolean
-  $counters: [CounterArgs!]
-  $nfc: String
-) {
-  getMachine(args: $args) {
-    update(
-      price: $price
-      name: $name
-      description: $description
-      statusId: $statusId
-      counterCheck: $counterCheck
-      counters: $counters
-      nfc: $nfc
-    )
-  }
-}
-`
+// export const UpdateMachine = gql`
+// query GetMachine(
+//   $args: [MachineArgs!]!
+//   $price: Float
+//   $name: String
+//   $description: String
+//   $statusId: EUpdateMachineStatus
+//   $counterCheck: Boolean
+//   $counters: [CounterArgs!]
+//   $nfc: String
+// ) {
+//   getMachine(args: $args) {
+//     update(
+//       price: $price
+//       name: $name
+//       description: $description
+//       statusId: $statusId
+//       counterCheck: $counterCheck
+//       counters: $counters
+//       nfc: $nfc
+//     )
+//   }
+// }
+// `
 
 export const BanMachine = gql`
 query GetMachine($args: [MachineArgs!]!, $expireAt: Int, $reason: String!) {
@@ -450,11 +424,7 @@ query ManagerGetBillboards($args: [BrandArgs!]!) {
       description
       startAt
       endAt
-      status {
-        id
-        description
-        name
-      }
+      status
     }
   }
 }
@@ -475,20 +445,8 @@ query GetBillboard($args: [BillboardArgs!]!) {
     description
     startAt
     endAt
-    status {
-      id
-      description
-      name
-    name
-    }
+    status
     image
-  }
-}
-`
-export const UpdateBillboard = gql`
-query GetBillboard($args: [BillboardArgs!]!, $title: String, $content: String, $description: String, $startAt: Int, $endAt: Int, $statusId: EUpdateBrandBillboardStatus, $image: String) {
-  getBillboard(args: $args) {
-    update(title: $title, content: $content, description: $description, startAt: $startAt, endAt: $endAt, statusId: $statusId, image: $image)
   }
 }
 `
@@ -523,11 +481,7 @@ query ManagerGetAllNotificationSchedules {
     id
     triggerAt
     comment
-    status {
-      id
-      description
-      name
-    }
+    status
     notification {
       id
       title
@@ -613,11 +567,7 @@ query ManagerGetAdvertisements {
     description
     startAt
     endAt
-    status {
-      id
-      description
-      name
-    }
+    status
     type
   }
 }
@@ -632,11 +582,7 @@ query GetAdvertisement($args: [AdvertisementArgs!]!) {
     description
     startAt
     endAt
-    status {
-      id
-      description
-      name
-    }
+    status
     type 
   }
 }
@@ -824,13 +770,6 @@ query GetCommodity($args: [CommodityArgs!]!) {
   }
 }
 `
-export const ConnectCommodityToMachine = gql`
-query GetMachine($args: [MachineArgs!]!, $commodityId: ID!) {
-  getMachine(args: $args) {
-    updateCommodity(commodityId: $commodityId)
-  }
-}
-`
 
 export const UpdateCommodity = gql`
 query GetCommodity($args: [CommodityArgs!]!, $name: String, $price: Int, $stock: Int) {
@@ -865,6 +804,7 @@ query GetDepositItem($args: [DepositItemArgs!]!) {
     id
     type
     name
+    status
     price
     walletValue
     description
@@ -881,10 +821,6 @@ query GetDepositItem($args: [DepositItemArgs!]!) {
           amount
         }
       }
-    }
-    status {
-      id
-      name
     }
   }
 }

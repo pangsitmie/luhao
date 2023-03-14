@@ -24,7 +24,7 @@ export default function AdsListModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("unban");
 
     const [modal, setModal] = useState(false); //open or close modal
 
@@ -68,7 +68,9 @@ export default function AdsListModal({ props }) {
     );
     useEffect(() => {
         if (data) {
+
             const nonNullData = replaceNullWithEmptyString(data.getAdvertisement[0]);
+            console.log(nonNullData);
             setInitialValues({
                 url: nonNullData.url,
                 description: nonNullData.description,
@@ -87,8 +89,8 @@ export default function AdsListModal({ props }) {
                 setImageFileName(nonNullData.image);
             }
 
-            if (nonNullData.status.name !== "banned") {
-                setStatus(nonNullData.status.name)
+            if (nonNullData.status !== "banned") {
+                setStatus(nonNullData.status)
             }
         }
     }, [data]);

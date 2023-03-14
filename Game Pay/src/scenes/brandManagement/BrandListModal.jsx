@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { GetBrand, ManagerUpdateBrand, RemoveBrand, UnbanBrand, } from "../../graphQL/Queries";
+import { GetBrand, RemoveBrand, UnbanBrand, } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import LogoUpload from "../../components/Upload/LogoUpload";
@@ -13,6 +13,7 @@ import CoverUpload from "../../components/Upload/CoverUpload";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import { PatchBrand } from "src/graphQL/Mutations";
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -75,7 +76,7 @@ export default function BrandListModal({ props }) {
   //========================== GRAPHQL ==========================
 
   // ============ UPDATE BRAND ============
-  const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(ManagerUpdateBrand);
+  const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useMutation(PatchBrand);
   // ============ REMOVE BRAND ============
   const [ApolloRemoveBrand, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveBrand);
   const handleDelete = (e) => {
@@ -123,11 +124,7 @@ export default function BrandListModal({ props }) {
 
   const handleFormSubmit = (values) => {
     const variables = {
-      args: [
-        {
-          id: values.id
-        }
-      ],
+      brandId: values.id,
       name: values.name,
       vatNumber: values.vatNumber,
       logo: logoFileName,
@@ -172,7 +169,7 @@ export default function BrandListModal({ props }) {
 
       setInitialValues({
         id: props.id,
-        status: nonNullData.status.name,
+        status: nonNullData.status,
         name: nonNullData.name,
         vatNumber: nonNullData.vatNumber,
         intro: nonNullData.intro,

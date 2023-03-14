@@ -272,9 +272,9 @@ export const exhibition2023Companies = [
                 id: 0,
                 name: "台中市商業會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "04-2328-4567",
+                    address: "台中市西區台灣大道二段186號13樓之2",
+                    website: "https://www.tccom.org.tw/",
                 }
             },
             {
@@ -290,23 +290,23 @@ export const exhibition2023Companies = [
                 id: 2,
                 name: "台灣知日協會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "(04) 2252-1128",
+                    address: "台中市西屯區府會園道169號1樓",
+                    website: "",
                 }
             },
             {
                 id: 3,
                 name: "雲林科技大學育成中心",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "(05) 551-0225",
+                    address: "雲林縣斗六市科工二路26號3樓",
+                    website: "",
                 }
             },
             {
                 id: 4,
-                name: "台中市自動販賣商同業公司",
+                name: "台中市自動販賣商業同業公會",
                 details: {
                     phone: "04-2331-8888",
                     address: "台中市北區中清路一段 1 號",
@@ -326,9 +326,9 @@ export const exhibition2023Companies = [
                 id: 6,
                 name: "中華農業創新學會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "04-23381796",
+                    address: "台中市烏日區高鐵五路156號3-2",
+                    website: "",
                 }
             },
         ]
@@ -577,11 +577,11 @@ export const exhibition2023Companies = [
         data: [
             {
                 id: 0,
-                name: "經濟部加工出口處臺中分處",
+                name: "中華民國自動販賣商業同業公會全國聯合會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "04-22658733",
+                    address: "台中市南區工學路126巷31號",
+                    website: "",
                 }
             },
         ]
@@ -593,11 +593,11 @@ export const exhibition2023Companies = [
         data: [
             {
                 id: 0,
-                name: "台中市自動販賣商同業公會",
+                name: "台中市自動販賣商業同業公會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "04-2338-7696",
+                    address: "台中市烏日區高鐵五路156號6樓",
+                    website: "",
                 }
             },
         ]
@@ -611,35 +611,35 @@ export const exhibition2023Companies = [
                 id: 0,
                 name: "台灣數位休閒娛樂產業協會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "(02) 8982-5268",
+                    address: "新北市板橋區南雅西路2段10号1樓",
+                    website: "",
                 }
             },
             {
                 id: 1,
-                name: "中華民國台灣商用電子遊機產業協會",
+                name: "中華民國台灣商用電子遊戲機產業協會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "02-29541608",
+                    address: "新北市板橋區三民路一段80號三樓",
+                    website: "",
                 }
             },
             {
                 id: 2,
                 name: "雲林科技大學育成中心",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "(05) 551-0225",
+                    address: "雲林縣斗六市科工二路26號3樓",
+                    website: "",
                 }
             },
             {
                 id: 3,
                 name: "大買家股份有限公司",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
+                    phone: "0424810456",
+                    address: "台中市大里區國光路二段710號",
                     website: "https://www.3y.com.tw/",
                 }
             },

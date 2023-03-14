@@ -16,6 +16,7 @@ import Fengjia from "./pages/places/Fengjia";
 import DDL from "./pages/places/DDL";
 import Exhibition23 from "./pages/exhibition/2023/Exhibition23";
 import Copy from "./components/copy/Copy";
+import Login from "./pages/login/Login";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Main />} />
           <Route exact path="*" element={<NotFound />} />
+          <Route exact path="/login" element={<Login />} />
           <Route exact path="/maintest" element={<MainTest />} />
           <Route exact path="/map" element={<Map />} />
           <Route exact path="/city" element={<City />} />

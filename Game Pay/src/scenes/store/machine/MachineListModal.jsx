@@ -3,7 +3,7 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuI
 import { Formik } from "formik";
 import * as yup from "yup";
 // import useMediaQuery from "@mui/material/useMediaQuery";
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
 import ConfirmModal from "src/components/Modal/ConfirmModal";
@@ -12,6 +12,7 @@ import { replaceNullWithEmptyString } from "src/utils/Utils";
 import QRCode from "qrcode";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import { PatchMachine } from "src/graphQL/Mutations";
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -45,7 +46,7 @@ export default function MachineListModal({ props }) {
     };
 
 
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
     const [initialValues, setInitialValues] = useState({
         id: 0,
         UUID: "",
@@ -111,15 +112,15 @@ export default function MachineListModal({ props }) {
                 code: nonNullData.code,
                 price: nonNullData.price,
                 qrCode: nonNullData.qrCode,
-                status: nonNullData.status.name,
+                status: nonNullData.status,
                 desc: nonNullData.description,
             });
             generateQrCode(nonNullData.qrCode);
 
 
             //set status only if not banned
-            if (nonNullData.status.name !== "banned") {
-                setStatus(nonNullData.status.name)
+            if (nonNullData.status !== "banned") {
+                setStatus(nonNullData.status)
             }
 
 
@@ -157,7 +158,7 @@ export default function MachineListModal({ props }) {
     }, [data3]);
 
     // UPDATE BRAND MUTATION
-    const [ApolloUpdateMachine, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UpdateMachine);
+    const [ApolloUpdateMachine, { loading: loading4, error: error4, data: data4 }] = useMutation(PatchMachine);
     useEffect(() => {
         if (data4) {
             window.location.reload();
@@ -176,11 +177,7 @@ export default function MachineListModal({ props }) {
 
     const handleFormSubmit = (values) => {
         const variables = {
-            args: [
-                {
-                    id: props.id,
-                }
-            ],
+            machineId: props.id,
             name: values.name,
             description: values.desc,
             nfc: values.nfc,

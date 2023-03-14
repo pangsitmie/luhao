@@ -5,15 +5,15 @@ import * as yup from "yup";
 import "src/components/Modal/modal.css";
 import IMG from "src/assets/user.png";
 import { tokens } from "src/theme";
-import { useLazyQuery, useQuery } from "@apollo/client";
-import { GetBillboard, RemoveBillboard, UnbanBillboard, UpdateBillboard } from "src/graphQL/Queries";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { GetBillboard, RemoveBillboard, UnbanBillboard } from "src/graphQL/Queries";
 import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "src/utils/Utils";
 import { format } from 'date-fns';
 import ConfirmModal from "src/components/Modal/ConfirmModal";
-import { defaultLogoURL, default_billboard_image_600x600_filename } from "src/data/strings";
 import LogoUpload from "src/components/Upload/LogoUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import { PatchBillboard } from "src/graphQL/Mutations";
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
@@ -63,9 +63,6 @@ export default function BillboardListModal({ props }) {
         if (data) {
             window.location.reload();
         }
-        else {
-            console.log("NO DATA")
-        }
     }, [data]);
 
     const handleDelete = (e) => {
@@ -80,22 +77,16 @@ export default function BillboardListModal({ props }) {
                     ]
                 }
             })
-            console.log("deleted");
-        } else {
-            console.log("not deleted");
         }
     };
 
 
     //UPDATE BRAND MUTATION
-    const [ApolloUpdateBillboard, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateBillboard);
+
+    const [ApolloUpdateBillboard, { loading: loading2, error: error2, data: data2 }] = useMutation(PatchBillboard);
     useEffect(() => {
         if (data2) {
             window.location.reload();
-            console.log("UPDATE SUCCESS")
-        }
-        else {
-            console.log("No data update")
         }
     }, [data2]);
 
@@ -121,7 +112,7 @@ export default function BillboardListModal({ props }) {
                 title: nonNullData.title,
                 content: nonNullData.content,
                 description: nonNullData.description,
-                status: nonNullData.status.name,
+                status: nonNullData.status,
             });
 
             const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
@@ -136,8 +127,8 @@ export default function BillboardListModal({ props }) {
                 setImageFileName(nonNullData.image);
             }
             //set status only if not banned
-            if (nonNullData.status.name !== "banned") {
-                setStatus(nonNullData.status.name)
+            if (nonNullData.status !== "banned") {
+                setStatus(nonNullData.status)
             }
         }
     }, [data3]);
@@ -169,7 +160,7 @@ export default function BillboardListModal({ props }) {
     }
 
     // COVER UPLOAD
-    const [imageFileName, setImageFileName] = useState(default_billboard_image_600x600_filename);
+    const [imageFileName, setImageFileName] = useState("");
     const handleUploadImageSucess = (name) => {
         setImageFileName(name);
     };
@@ -183,14 +174,11 @@ export default function BillboardListModal({ props }) {
         let nowUnix = Math.floor(Date.now() / 1000);
 
         const variables = {
-            args: [
-                {
-                    id: props.id
-                }
-            ],
+            billboardId: props.id,
             title: values.title,
             content: values.content,
-            image: imageFileName
+            image: imageFileName,
+            description: null,
         }
         //check if startAtUnix is filled
         if (isNaN(startAtUnix)) {
@@ -208,13 +196,13 @@ export default function BillboardListModal({ props }) {
         if (initialValues.status !== "banned") {
             variables.statusId = status;
         }
-        console.log(variables);
+        // console.log(variables);
         if (endAtUnix < startAtUnix && !isNaN(endAtUnix)) {
             alert("結束日期必須晚於開始日期");
             return;
         }
-        console.log(variables);
-        // ApolloUpdateBillboard({ variables });
+        // console.log(variables);
+        ApolloUpdateBillboard({ variables });
     };
 
 
@@ -239,8 +227,6 @@ export default function BillboardListModal({ props }) {
                     <Box onClick={toggleModal} className="overlay"></Box>
                     <Box className="modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
-
-
                             <Formik
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
@@ -303,6 +289,7 @@ export default function BillboardListModal({ props }) {
                                                     variant="filled"
                                                     type="text"
                                                     label={t('title')}
+                                                    required
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.title}
@@ -332,6 +319,7 @@ export default function BillboardListModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
+                                                required
                                                 label={t('content')}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}

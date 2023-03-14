@@ -76,7 +76,6 @@ export default function DepositListModal({ props }) {
     const [items, setItems] = useState([]);
 
 
-
     //========================== GRAPHQL ==========================
 
     // ============ UPDATE BRAND ============
@@ -97,16 +96,14 @@ export default function DepositListModal({ props }) {
             })
         }
     };
-
-
     useEffect(() => {
         if (dataUpdate) {
             window.location.reload();
         }
-        // if (dataRemove) {
-        //     window.location.reload();
-        // }
-    }, [dataUpdate]);
+        if (dataRemove) {
+            window.location.reload();
+        }
+    }, [dataUpdate, dataRemove]);
 
     const handleFormSubmit = (values) => {
         const variables = {
@@ -156,7 +153,7 @@ export default function DepositListModal({ props }) {
 
 
             setTypeId(nonNullData.type === "standing" ? 0 : 1);
-            setStatus(nonNullData.status.name);
+            setStatus(nonNullData.status);
             setRewardToggle(nonNullData.reward !== "");
 
 

@@ -210,19 +210,19 @@ const UserManagement = () => {
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.phone.number}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (member.status.name === "disable") {
+                                    if (member.status === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('disabled')}
                                             </Typography>)
                                     }
-                                    else if (member.status.name === "banned") {
+                                    else if (member.status === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('banned')}
                                             </Typography>)
                                     }
-                                    else if (member.status.name === "removed") {
+                                    else if (member.status === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('removed')}

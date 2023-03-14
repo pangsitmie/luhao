@@ -1,0 +1,165 @@
+.login_container {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1600' height='1000' preserveAspectRatio='none' viewBox='0 0 1600 1000'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1114%26quot%3b)' fill='none'%3e%3cpath d='M-100.71 -32.63 a68.08 68.08 0 1 0 136.16 0 a68.08 68.08 0 1 0 -136.16 0z' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M153.039%2c371.845C223.405%2c370.282%2c259.809%2c295.95%2c294.452%2c234.683C328.285%2c174.848%2c371.595%2c106.224%2c336.727%2c46.986C302.102%2c-11.838%2c221.123%2c-10.432%2c153.039%2c-5.562C95.283%2c-1.43%2c40.322%2c21.132%2c9.85%2c70.369C-22.322%2c122.352%2c-25.916%2c185.995%2c0.312%2c241.216C31.116%2c306.072%2c81.257%2c373.439%2c153.039%2c371.845' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M218.824%2c495.3C309.65%2c491.856%2c368.297%2c410.069%2c413.007%2c330.935C456.736%2c253.538%2c494.941%2c162.055%2c450.653%2c84.977C406.26%2c7.716%2c307.931%2c-7.24%2c218.824%2c-7.015C130.23%2c-6.792%2c36.027%2c11.052%2c-10.991%2c86.14C-60.418%2c165.077%2c-48.267%2c265.492%2c-2.657%2c346.695C44.007%2c429.775%2c123.604%2c498.91%2c218.824%2c495.3' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M1288.12 -21.45 a90.43 90.43 0 1 0 180.86 0 a90.43 90.43 0 1 0 -180.86 0z' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M1480.4%2c188.884C1527.441%2c188.943%2c1583.775%2c194.402%2c1607.266%2c153.646C1630.743%2c112.913%2c1600.107%2c65.469%2c1574.111%2c26.296C1551.713%2c-7.455%2c1520.901%2c-36.801%2c1480.4%2c-37.526C1438.766%2c-38.272%2c1403.671%2c-11.893%2c1380.689%2c22.832C1354.429%2c62.51%2c1329.59%2c112.536%2c1354.085%2c153.328C1378.22%2c193.52%2c1433.518%2c188.825%2c1480.4%2c188.884' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M1277.41 -10.73 a111.86 111.86 0 1 0 223.72 0 a111.86 111.86 0 1 0 -223.72 0z' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M-198.06 864.74 a262.8 262.8 0 1 0 525.6 0 a262.8 262.8 0 1 0 -525.6 0z' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M60.843%2c968.668C99.938%2c969.757%2c138.534%2c950.835%2c157.009%2c916.364C174.659%2c883.432%2c162.187%2c845.456%2c144.525%2c812.53C125.498%2c777.058%2c101.088%2c737.869%2c60.843%2c737.084C19.789%2c736.283%2c-10.289%2c772.442%2c-28.691%2c809.15C-45.042%2c841.767%2c-44.327%2c879.436%2c-26.469%2c911.253C-8.196%2c943.809%2c23.523%2c967.628%2c60.843%2c968.668' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M-177.16 843.82 a220.98 220.98 0 1 0 441.96 0 a220.98 220.98 0 1 0 -441.96 0z' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M1592.995%2c1230.096C1670.389%2c1228.197%2c1719.079%2c1155.138%2c1755.622%2c1086.888C1789.535%2c1023.551%2c1811.141%2c949.983%2c1776.749%2c886.905C1741.11%2c821.54%2c1667.353%2c792.327%2c1592.995%2c788.619C1510.184%2c784.489%2c1415.961%2c795.044%2c1374.496%2c866.845C1333.027%2c938.654%2c1373.193%2c1024.162%2c1415.935%2c1095.221C1456.923%2c1163.363%2c1513.499%2c1232.046%2c1592.995%2c1230.096' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M1235.68 830.99 a195.31 195.31 0 1 0 390.62 0 a195.31 195.31 0 1 0 -390.62 0z' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M1431.464%2c909.234C1459.664%2c908.686%2c1486.006%2c895.508%2c1500.808%2c871.499C1516.403%2c846.204%2c1519.739%2c814.785%2c1505.913%2c788.481C1491.106%2c760.31%2c1463.266%2c740.769%2c1431.464%2c739.569C1397.516%2c738.288%2c1362.986%2c752.708%2c1346.601%2c782.468C1330.673%2c811.398%2c1338.921%2c846.843%2c1357.293%2c874.286C1373.589%2c898.628%2c1402.177%2c909.803%2c1431.464%2c909.234' fill='rgba(255%2c 140%2c 0%2c 1)' class='triangle-float3'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1114'%3e%3crect width='1600' height='1000' fill='white'%3e%3c/rect%3e%3c/mask%3e%3cstyle%3e %40keyframes float1 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-10px%2c 0)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float1 %7b animation: float1 5s infinite%3b %7d %40keyframes float2 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-5px%2c -5px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float2 %7b animation: float2 4s infinite%3b %7d %40keyframes float3 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(0%2c -10px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float3 %7b animation: float3 6s infinite%3b %7d %3c/style%3e%3c/defs%3e%3c/svg%3e");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.login_box {
+    position: relative;
+    z-index: 2;
+    width: 50vw;
+    height: 100%;
+    padding: 10%;
+    background-color: inherit;
+    -webkit-box-shadow: 0 4px 35px rgba(0, 0, 0, .1);
+    box-shadow: 0 4px 35px rgba(0, 0, 0, .1);
+    border-radius: 40px;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+    .login_container {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .login_box {
+        width: 90vw;
+    }
+}
+
+
+
+
+
+/* Middle */
+.login_content {
+    display: flex;
+    padding: 5% 0;
+    width: 100%;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    /* -webkit-box-orient: vertical;
+    -webkit-box-direction: normal; */
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin: auto;
+    text-align: center;
+
+}
+
+.switch_container {}
+
+
+.login_toggle_label,
+.toggle {
+    height: 2.8rem;
+    border-radius: 100px;
+}
+
+.login_toggle_label {
+    width: 100%;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 100px;
+    position: relative;
+    cursor: pointer;
+}
+
+.toggle {
+    position: absolute;
+    width: 50%;
+    z-index: -1;
+    background-color: #fff;
+    -webkit-box-shadow: 0 2px 15px rgba(0, 0, 0, .15);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, .15);
+    -webkit-transition: -webkit-transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: -webkit-transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94), -webkit-transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.names {
+    /* background-color: red; */
+    font-size: 14px;
+    font-weight: bolder;
+    width: 100%;
+    height: 100%;
+    /* margin: 0 17%;
+    margin-top: 5%; */
+    /* position: absolute; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20%;
+    /* -webkit-box-pack: justify;
+    -ms-flex-pack: justify; */
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.dark {
+    opacity: .5;
+}
+
+.mark {
+    border-radius: 100px;
+    background-color: black;
+}
+
+.time {
+    color: black;
+}
+
+/* -------- Switch Styles ------------*/
+[type="checkbox"] {
+    display: none;
+}
+
+/* Toggle */
+[type="checkbox"]:checked+.app .toggle {
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+    background-color: #34323D;
+}
+
+[type="checkbox"]:checked+.app .dark {
+    opacity: 1;
+    color: white;
+}
+
+[type="checkbox"]:checked+.app .light {
+    opacity: 1;
+    color: white;
+
+}
+
+.body {
+    background: linear-gradient(40deg, #4a65ff, #4f33cc 70%);
+    border-radius: 40px;
+}
+
+/* App */
+[type="checkbox"]:checked+.app .body {
+    background-color: #26242E;
+    background: linear-gradient(40deg, #26242E, #14121b 70%);
+
+    color: white;
+}
+
+
+[type="checkbox"]:checked+.app .body {
+    border-radius: 40px;
+}

@@ -3,12 +3,13 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuI
 import { Formik } from "formik";
 import * as yup from "yup";
 // import useMediaQuery from "@mui/material/useMediaQuery";
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
-import { GetMachineCommodity, GetCommodityList, RemoveMachine, UnBanMachine, ConnectCommodityToMachine } from "src/graphQL/Queries";
+import { GetMachineCommodity, GetCommodityList } from "src/graphQL/Queries";
 import { replaceNullWithEmptyString } from "src/utils/Utils";
 import { useTranslation } from 'react-i18next';
+import { bindCommodityToMachine } from "src/graphQL/Mutations";
 
 
 const checkoutSchema = yup.object().shape({
@@ -110,7 +111,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
     }, [data3]);
 
     // UPDATE BRAND MUTATION
-    const [ApolloUpdateCommodity, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(ConnectCommodityToMachine);
+    const [ApolloBindCommodityToMachine, { loading: loading4, error: error4, data: data4 }] = useMutation(bindCommodityToMachine);
     useEffect(() => {
         if (data4) {
             window.location.reload();
@@ -121,20 +122,12 @@ export default function MachineCommodityListModal({ props, storeData }) {
 
     const handleFormSubmit = (values) => {
         const variables = {
-            args: [
-                {
-                    id: props.id,
-                }
-            ],
+            machineId: props.id,
             commodityId: selectedCommodity.id,
         };
-
-
         // console.log(variables);
-        ApolloUpdateCommodity({ variables });
+        ApolloBindCommodityToMachine({ variables });
     };
-
-
 
     const toggleModal = () => {
         setModal(!modal);

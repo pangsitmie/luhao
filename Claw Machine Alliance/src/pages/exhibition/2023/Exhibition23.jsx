@@ -11,6 +11,7 @@ import { exhibition2023Companies } from 'src/data/data';
 
 import './exhibition23.css'
 import CompanyListItem from 'src/components/item/CompanyListItem'
+import LoginFloating from 'src/components/floatingButtons/LoginFloating'
 const Exhibition23 = () => {
     const [initialScrollPos, setInitialScrollPos] = useState(0);
     const [currentScrollPos, setCurrentScrollPos] = useState(0);
@@ -34,6 +35,7 @@ const Exhibition23 = () => {
 
     return (
         <>
+            <LoginFloating />
             <Box className={"exhibition_hero"}>
                 <img src={WAVE_EXHIBITION} className={"wave_exhibition"} alt="" />
                 <img

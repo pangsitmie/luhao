@@ -21,7 +21,7 @@ export default function UserListModal({ props }) {
   const colors = tokens(theme.palette.mode);
   const [modal, setModal] = useState(false);
 
-  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("unban");
 
 
   const initialValues = {
@@ -40,7 +40,7 @@ export default function UserListModal({ props }) {
 
   if (props != null) {
     initialValues.id = props.id;
-    initialValues.status = props.status.name;
+    initialValues.status = props.status;
     initialValues.nickname = props.profile.nickname;
 
     initialValues.phone = props.phone.number;

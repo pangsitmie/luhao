@@ -27,9 +27,6 @@ import { BRAND_GetAllStores } from 'src/graphQL/BrandPrincipalQueries';
 import CreateStoreModal_B from './CreateStoreModal_B';
 import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
 import { useTranslation } from 'react-i18next';
-// const { t } = useTranslation();
-
-
 
 const StoreManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
@@ -149,11 +146,11 @@ const StoreManagement = () => {
     }, [data, offset]);
 
 
-    useEffect(() => {
-        if (data) {
+    // useEffect(() => {
+    //     if (data) {
 
-        }
-    }, [data]);
+    //     }
+    // }, [data]);
 
     if (loading) return <Loader />;
     if (error) return <Error />;
@@ -307,19 +304,19 @@ const StoreManagement = () => {
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (store.status.name === "disable") {
+                                    if (store.status === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('disable')}
                                             </Typography>)
                                     }
-                                    else if (store.status.name === "banned") {
+                                    else if (store.status === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('banned')}
                                             </Typography>)
                                     }
-                                    else if (store.status.name === "removed") {
+                                    else if (store.status === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('deleted')}

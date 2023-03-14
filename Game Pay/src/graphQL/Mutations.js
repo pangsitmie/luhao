@@ -29,7 +29,54 @@ mutation CreateBrand($name: String!, $vatNumber: String!, $principal: CreateBran
   createBrand(name: $name, vatNumber: $vatNumber, principal: $principal, intro: $intro, currencyName: $currencyName, cover: $cover, logo: $logo)
 }
 `
-
+export const PatchBrand = gql`
+mutation PatchBrandForManager(
+  $brandId: ID!
+  $name: String
+  $vatNumber: String
+  $cover: String
+  $intro: String
+  $logo: String
+  $currencyName: String
+  $principal: PatchBrandPrincipalArgs
+  $statusId: EUpdateBrandStatus
+) {
+  patchBrandForManager(
+    brandId: $brandId
+    name: $name
+    vatNumber: $vatNumber
+    cover: $cover
+    intro: $intro
+    logo: $logo
+    currencyName: $currencyName
+    principal: $principal
+    statusId: $statusId
+  )
+}
+`
+export const PatchMachine = gql`
+mutation PatchMachineForManager(
+  $machineId: ID!
+  $name: String
+  $statusId: EUpdateMachineStatus
+  $description: String
+  $price: Float
+  $nfc: String
+  $counters: [CounterArgs!]
+  $counterCheck: Boolean
+) {
+  patchMachineForManager(
+    machineId: $machineId
+    name: $name
+    statusId: $statusId
+    description: $description
+    price: $price
+    nfc: $nfc
+    counters: $counters
+    counterCheck: $counterCheck
+  )
+}
+`
 // COINS
 export const ManagerCreateCurrencyReward = gql`
 mutation ManagerCreateCurrencyReward(
@@ -99,6 +146,30 @@ mutation GenStoreCoverUploadURI($mimetype: String!, $fileSize: Int!) {
   genStoreCoverUploadURI(mimetype: $mimetype, fileSize: $fileSize)
 }
 `
+export const PatchBillboard = gql`
+mutation PatchBrandBillboardForManager(
+  $billboardId: ID!
+  $title: String
+  $content: String
+  $description: String
+  $image: String
+  $startAt: Int
+  $endAt: Int
+  $statusId: EUpdateBrandBillboardStatus
+) {
+  patchBrandBillboardForManager(
+    billboardId: $billboardId
+    title: $title
+    content: $content
+    description: $description
+    image: $image
+    startAt: $startAt
+    endAt: $endAt
+    statusId: $statusId
+  )
+}
+
+`
 export const UploadBillboardImage = gql`
 mutation GenBillboardImageUploadURI($mimetype: String!, $fileSize: Int!) {
   genBillboardImageUploadURI(mimetype: $mimetype, fileSize: $fileSize)
@@ -150,7 +221,15 @@ mutation ManagerCreateCurrencyReward(
   }
 }
 `
-
+// commodity
+export const bindCommodityToMachine = gql`
+mutation BindCommodityToMachineForManager($machineId: ID!, $commodityId: ID!) {
+  bindCommodityToMachineForManager(
+    machineId: $machineId
+    commodityId: $commodityId
+  )
+}
+`
 
 // deposit
 export const CreateDepositItem = gql`
