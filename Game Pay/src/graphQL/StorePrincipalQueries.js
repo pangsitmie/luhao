@@ -25,11 +25,7 @@ query Stores {
           id
           name
         }
-        status {
-          id
-          description
-          name
-        }
+        status
         location {
           storeId
           city

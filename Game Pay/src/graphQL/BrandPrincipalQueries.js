@@ -54,11 +54,7 @@ query GetBrandPrincipal {
         cover
         intro
         logo
-        status {
-          id
-          description
-          name
-        }
+        status
         principal {
         id
         name
@@ -86,11 +82,7 @@ query ManagerGetStores {
         id
         name
       }
-      status {
-        id
-        description
-        name
-      }
+      status
       location {
         storeId
         city

@@ -13,6 +13,7 @@ import QRCode from "qrcode";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { PatchMachine } from "src/graphQL/Mutations";
+import { BRAND_PatchMachine } from "src/graphQL/BrandPrincipalMutations";
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -24,6 +25,21 @@ const checkoutSchema = yup.object().shape({
 export default function MachineListModal({ props }) {
     const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
+
+    let PATCH_MACHINE_MUTATION;
+    switch (entityName) {
+        case 'company':
+            PATCH_MACHINE_MUTATION = PatchMachine;
+            break;
+        case 'brand':
+            PATCH_MACHINE_MUTATION = BRAND_PatchMachine;
+            break;
+        case 'store':
+            PATCH_MACHINE_MUTATION = PatchMachine;
+            break;
+        default:
+            break;
+    }
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -157,8 +173,8 @@ export default function MachineListModal({ props }) {
         }
     }, [data3]);
 
-    // UPDATE BRAND MUTATION
-    const [ApolloUpdateMachine, { loading: loading4, error: error4, data: data4 }] = useMutation(PatchMachine);
+    // UPDATE MACHINE MUTATION
+    const [ApolloUpdateMachine, { loading: loading4, error: error4, data: data4 }] = useMutation(PATCH_MACHINE_MUTATION);
     useEffect(() => {
         if (data4) {
             window.location.reload();

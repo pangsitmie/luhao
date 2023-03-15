@@ -674,9 +674,9 @@ export const exhibition2023Companies = [
                 id: 7,
                 name: "新竹市自動販賣商業同業公會",
                 details: {
-                    phone: "04-2331-8888",
-                    address: "台中市北區中清路一段 1 號",
-                    website: "https://www.3y.com.tw/",
+                    phone: "03-5338338",
+                    address: "新竹市中華路一段168-2號",
+                    website: "",
                 }
             },
             {

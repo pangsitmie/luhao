@@ -221,39 +221,38 @@ const Sidebar = () => {
                           selected={selected}
                           setSelected={setSelected}
                         />
-
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          {t('manage')}
+                          {t('finance')}
                         </Typography>
                         <Item
-                          title={t('user_management')}
-                          to="/user-management"
-                          icon={<PeopleOutlinedIcon />}
+                          title={t('statistic')}
+                          to="/statistic"
+                          icon={<BarChartIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title={t('brand_management')}
-                          to="/brand-management"
-                          icon={<LocalOfferIcon />}
+                          title={t('rewards')}
+                          to="/reward-management"
+                          icon={<CardGiftcardIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title={t('store_management')}
-                          to="/store-management"
-                          icon={<StoreIcon />}
+                          title={t('system_free_coin')}
+                          to="/system-coins"
+                          icon={<AttachMoneyIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title={t('deposit_management')}
-                          to="/deposit-management"
-                          icon={<PaymentsIcon />}
+                          title={t('brand_free_coin')}
+                          to="/brand-coins"
+                          icon={<MonetizationOnIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
@@ -290,33 +289,33 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          {t('finance')}
+                          {t('manage')}
                         </Typography>
                         <Item
-                          title={t('rewards')}
-                          to="/reward-management"
-                          icon={<CardGiftcardIcon />}
+                          title={t('user_management')}
+                          to="/user-management"
+                          icon={<PeopleOutlinedIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title={t('system_free_coin')}
-                          to="/system-coins"
-                          icon={<AttachMoneyIcon />}
+                          title={t('brand_management')}
+                          to="/brand-management"
+                          icon={<LocalOfferIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title={t('brand_free_coin')}
-                          to="/brand-coins"
-                          icon={<MonetizationOnIcon />}
+                          title={t('store_management')}
+                          to="/store-management"
+                          icon={<StoreIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
                         <Item
-                          title={t('statistic')}
-                          to="/statistic"
-                          icon={<BarChartIcon />}
+                          title={t('deposit_management')}
+                          to="/deposit-management"
+                          icon={<PaymentsIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
@@ -361,27 +360,7 @@ const Sidebar = () => {
                           setSelected={setSelected}
                         />
 
-                        <Typography
-                          variant="h6"
-                          color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
-                        >
-                          {t('manage')}
-                        </Typography>
-                        <Item
-                          title={t('brand_management')}
-                          to="/brand-management"
-                          icon={<LocalOfferIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        />
-                        <Item
-                          title={t('store_management')}
-                          to="/store-management"
-                          icon={<StoreIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        />
+
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
@@ -407,6 +386,27 @@ const Sidebar = () => {
                           title={t('statistic')}
                           to="/statistic"
                           icon={<BarChartIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
+                        <Typography
+                          variant="h6"
+                          color={colors.grey[300]}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
+                        >
+                          {t('manage')}
+                        </Typography>
+                        <Item
+                          title={t('brand_management')}
+                          to="/brand-management"
+                          icon={<LocalOfferIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
+                        <Item
+                          title={t('store_management')}
+                          to="/store-management"
+                          icon={<StoreIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />
@@ -448,20 +448,6 @@ const Sidebar = () => {
                           color={colors.grey[300]}
                           sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
                         >
-                          {t('manage')}
-                        </Typography>
-                        <Item
-                          title={t('store_management')}
-                          to="/store-management"
-                          icon={<StoreIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        />
-                        <Typography
-                          variant="h6"
-                          color={colors.grey[300]}
-                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
-                        >
                           {t('finance')}
                         </Typography>
                         {/* <Item
@@ -475,6 +461,20 @@ const Sidebar = () => {
                           title={t('statistic')}
                           to="/statistic"
                           icon={<BarChartIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
+                        <Typography
+                          variant="h6"
+                          color={colors.grey[300]}
+                          sx={{ m: "25px 0 5px 20px", textTransform: "capitalize" }}
+                        >
+                          {t('manage')}
+                        </Typography>
+                        <Item
+                          title={t('store_management')}
+                          to="/store-management"
+                          icon={<StoreIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />

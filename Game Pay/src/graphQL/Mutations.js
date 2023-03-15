@@ -257,3 +257,19 @@ mutation CreateDepositItem(
   )
 }
 `
+
+export const PatchCommodity = gql`
+mutation PatchCommodityForManager(
+  $commodityId: String!
+  $name: String
+  $price: Int
+  $stock: Int
+) {
+  patchCommodityForManager(
+    commodityId: $commodityId
+    name: $name
+    price: $price
+    stock: $stock
+  )
+}
+`

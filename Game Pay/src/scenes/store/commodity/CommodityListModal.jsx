@@ -3,12 +3,16 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuI
 import { Formik } from "formik";
 import * as yup from "yup";
 // import useMediaQuery from "@mui/material/useMediaQuery";
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
-import { GetCommodity, RemoveMachine, UnBanMachine, UpdateCommodity } from "src/graphQL/Queries";
+import { GetCommodity, RemoveMachine, UnBanMachine } from "src/graphQL/Queries";
 import { replaceNullWithEmptyString } from "src/utils/Utils";
 import { useTranslation } from 'react-i18next';
+import { useSelector } from "react-redux";
+import { PatchCommodity } from "src/graphQL/Mutations";
+import { STORE_PatchCommodity } from "src/graphQL/StorePrincipalMutation";
+import { BRAND_PatchCommodity } from "src/graphQL/BrandPrincipalMutations";
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -19,6 +23,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function MachineListModal({ props }) {
+    const { entityName } = useSelector((state) => state.entity);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { t } = useTranslation();
@@ -70,8 +75,23 @@ export default function MachineListModal({ props }) {
         }
     }, [data3]);
 
+
+    let PATCH_COMMODITY_MUTATION;
+    switch (entityName) {
+        case 'company':
+            PATCH_COMMODITY_MUTATION = PatchCommodity;
+            break;
+        case 'brand':
+            PATCH_COMMODITY_MUTATION = BRAND_PatchCommodity;
+            break;
+        case 'store':
+            PATCH_COMMODITY_MUTATION = STORE_PatchCommodity;
+            break;
+        default:
+            break;
+    }
     // UPDATE BRAND MUTATION
-    const [ApolloUpdateCommodity, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UpdateCommodity);
+    const [ApolloUpdateCommodity, { loading: loading4, error: error4, data: data4 }] = useMutation(PATCH_COMMODITY_MUTATION);
     useEffect(() => {
         if (data4) {
             window.location.reload();
@@ -83,11 +103,7 @@ export default function MachineListModal({ props }) {
 
     const handleFormSubmit = (values) => {
         const variables = {
-            args: [
-                {
-                    id: props.id,
-                }
-            ],
+            commodityId: props.id,
             name: values.name,
             price: parseInt(values.price),
             stock: parseInt(values.stock),
@@ -95,8 +111,6 @@ export default function MachineListModal({ props }) {
 
         console.log(variables);
         ApolloUpdateCommodity({ variables });
-
-
     };
 
 

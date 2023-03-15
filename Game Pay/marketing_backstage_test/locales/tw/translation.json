@@ -157,14 +157,16 @@
     "reward_description": "獎勵描述",
     "reward_status": "獎勵狀態",
     "currency_id": "貨幣ID",
-    "================recharge================": "================recharge================",
-    "recharge": "儲值",
-    "recharge_management": "儲值管理",
-    "recharge_type": "儲值類型",
-    "recharge_item": "儲值品項",
+    "================deposit================": "================deposit================",
+    "deposit": "儲值",
+    "deposit_management": "儲值管理",
+    "deposit_type": "儲值類型",
+    "deposit_item": "儲值品項",
     "permanent": "常駐",
     "limited": "限時",
     "bonus_reward": "額外獎勵",
-    "recharge_history": "儲值紀錄"
+    "deposit_history": "儲值紀錄",
+    "max_purchase_number": "最大購買量",
+    "receive_days_overdue": "獎勵使用期限天數"
 
 }

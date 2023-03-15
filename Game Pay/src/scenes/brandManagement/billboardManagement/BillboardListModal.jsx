@@ -14,6 +14,7 @@ import LogoUpload from "src/components/Upload/LogoUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { PatchBillboard } from "src/graphQL/Mutations";
+import { BRAND_PatchBillboard } from "src/graphQL/BrandPrincipalMutations";
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
@@ -82,8 +83,22 @@ export default function BillboardListModal({ props }) {
 
 
     //UPDATE BRAND MUTATION
+    let PATCH_BILLBOARD_MUTATION;
+    switch (entityName) {
+        case 'company':
+            PATCH_BILLBOARD_MUTATION = PatchBillboard;
+            break;
+        case 'brand':
+            PATCH_BILLBOARD_MUTATION = BRAND_PatchBillboard;
+            break;
+        case 'store':
+            PATCH_BILLBOARD_MUTATION = PatchBillboard;
+            break;
+        default:
+            break;
+    }
 
-    const [ApolloUpdateBillboard, { loading: loading2, error: error2, data: data2 }] = useMutation(PatchBillboard);
+    const [ApolloUpdateBillboard, { loading: loading2, error: error2, data: data2 }] = useMutation(PATCH_BILLBOARD_MUTATION);
     useEffect(() => {
         if (data2) {
             window.location.reload();

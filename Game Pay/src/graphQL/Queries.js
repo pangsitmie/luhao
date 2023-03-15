@@ -531,14 +531,7 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
           }
         }
         limit
-        status {
-          id
-          description
-          name
-          id
-          description
-          name
-        }
+        status
         sourceType
         endAt
         startAt
@@ -548,11 +541,7 @@ query ManagerGetAllNotificationSchedules($onlyRewardType: ERewardType) {
         belongToRole
       }
     }
-    status {
-      id
-      description
-      name
-    }
+    status
   }
 }
 `
@@ -771,13 +760,13 @@ query GetCommodity($args: [CommodityArgs!]!) {
 }
 `
 
-export const UpdateCommodity = gql`
-query GetCommodity($args: [CommodityArgs!]!, $name: String, $price: Int, $stock: Int) {
-  getCommodity(args: $args) {
-    update(name: $name, price: $price, stock: $stock)
-  }
-}
-`
+// export const UpdateCommodity = gql`
+// query GetCommodity($args: [CommodityArgs!]!, $name: String, $price: Int, $stock: Int) {
+//   getCommodity(args: $args) {
+//     update(name: $name, price: $price, stock: $stock)
+//   }
+// }
+// `
 
 // ========================= DEPOSIT =========================
 export const GetDepositList = gql`
@@ -821,6 +810,11 @@ query GetDepositItem($args: [DepositItemArgs!]!) {
           amount
         }
       }
+    }
+    purchaseRecords {
+      purchaseId
+      id
+      createdAt
     }
   }
 }
