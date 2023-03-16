@@ -12,9 +12,18 @@ import { exhibition2023Companies } from 'src/data/data';
 import './exhibition23.css'
 import CompanyListItem from 'src/components/item/CompanyListItem'
 import LoginFloating from 'src/components/floatingButtons/LoginFloating'
+import { Navigate } from 'react-router-dom'
 const Exhibition23 = () => {
+    localStorage.clear();
+
+
     const [initialScrollPos, setInitialScrollPos] = useState(0);
     const [currentScrollPos, setCurrentScrollPos] = useState(0);
+
+    const [loggedIn, setLoggedIn] = useState(false);
+    useEffect(() => {
+        checkSession();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,6 +41,31 @@ const Exhibition23 = () => {
     }, [initialScrollPos, currentScrollPos]);
 
     const rotation = (currentScrollPos - initialScrollPos) / 10;
+
+
+    const checkSession = () => {
+        const url = `https://exhibition-test.cloudprogrammingonline.com/member/v1/test`;
+
+        const requestOptions = {
+            method: "POST",
+        }
+
+        fetch(url, requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("session connected");
+                setLoggedIn(true);
+                // handle response data here
+            }
+            )
+            .catch((error) => {
+                console.error("session error");
+                // handle error here
+                Navigate("/login")
+            }
+            );
+    }
+
 
     return (
         <>
@@ -174,12 +208,13 @@ const Exhibition23 = () => {
 
                     <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
                         {exhibition2023Companies[0].data.map((item) => (
-                            <CompanyListItem props={item} textColor={"#FFF"} />
+                            <CompanyListItem props={item} textColor={"#FFF"} showDetails={true} />
                         ))}
                     </Box>
                 </Box>
 
 
+                {/* row 2 */}
                 {/* <Box className={"exhibition_speaker_right_container card_box"}>
                     <span></span>
                     <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "2rem" }} >
@@ -193,7 +228,6 @@ const Exhibition23 = () => {
                             mb: "2rem",
                         }}
                     />
-
                     <Box display="grid" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" gap="1rem">
                         {exhibition2023Companies[1].data.map((item) => (
                             <CompanyListItem props={item} />
@@ -212,7 +246,7 @@ const Exhibition23 = () => {
                                 </Typography>
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
                                     {exhibition2023Companies[2].data.map((item) => (
-                                        <CompanyListItem props={item} />
+                                        <CompanyListItem props={item} showDetails={loggedIn} />
                                     ))}
                                 </Box>
                             </Box>
@@ -224,7 +258,7 @@ const Exhibition23 = () => {
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
 
                                     {exhibition2023Companies[3].data.map((item) => (
-                                        <CompanyListItem props={item} />
+                                        <CompanyListItem props={item} showDetails={loggedIn} />
                                     ))}
                                 </Box>
                             </Box>
@@ -235,7 +269,7 @@ const Exhibition23 = () => {
                                 協辦單位:
                             </Typography>
                             {exhibition2023Companies[4].data.map((item) => (
-                                <CompanyListItem props={item} />
+                                <CompanyListItem props={item} showDetails={loggedIn} />
                             ))}
                         </Box>
                     </Box>

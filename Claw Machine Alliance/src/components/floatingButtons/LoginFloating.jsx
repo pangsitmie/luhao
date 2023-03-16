@@ -20,7 +20,7 @@ const LoginFloating = () => {
             </Button>
 
             <IconButton onClick={handleOpen} sx={{ padding: ".5rem", border: "1px solid #cecece", borderRadius: "50%", zIndex: "10000" }}>
-                <CloseIcon />
+                <CloseIcon sx={{ color: "#CECECE" }} />
             </IconButton>
         </Box>
     )
