@@ -11,13 +11,14 @@ const LoginFloating = ({ visible }) => {
     return (
         <Box display={visible ? "flex" : "none"} alignItems={"center"} justifyContent={"center"} position={"fixed"} bottom={"10px"} right={"10px"} gap={".5rem"} zIndex={"1000"}>
 
-            <Button sx={{ display: open ? "block" : "none", bgcolor: "#111", padding: ".5rem 2rem", borderRadius: "50px" }}>
-                <a href="/login">
+            <a href="/login">
+                <Button sx={{ display: open ? "block" : "none", bgcolor: "#111", padding: ".5rem 2rem", borderRadius: "50px" }}>
+
                     <Typography variant="h5" sx={{ color: "#fff", fontSize: "14px", fontWeight: "500" }}>
                         登入
                     </Typography>
-                </a>
-            </Button>
+                </Button>
+            </a>
 
             <IconButton onClick={handleOpen} sx={{ padding: ".5rem", border: "1px solid #cecece", borderRadius: "50%", zIndex: "10000" }}>
                 <CloseIcon sx={{ color: "#CECECE" }} />

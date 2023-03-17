@@ -152,6 +152,7 @@ const Login = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
+            credentials: 'include', // Add this line to include credentials in the request
         };
 
         console.log(requestOptions);
@@ -162,8 +163,8 @@ const Login = () => {
                 console.log(data);
                 // handle response data 
                 if (data.status === "0x000") {
-                    toast.error("登入成功");
-                    navigate("/exhibition/2023");
+                    console.log("登入成功");
+                    // navigate("/exhibition/2023");
                 }
             })
             .catch((error) => {

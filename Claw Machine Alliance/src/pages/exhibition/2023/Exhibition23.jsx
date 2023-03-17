@@ -14,9 +14,6 @@ import CompanyListItem from 'src/components/item/CompanyListItem'
 import LoginFloating from 'src/components/floatingButtons/LoginFloating'
 import { Navigate } from 'react-router-dom'
 const Exhibition23 = () => {
-    localStorage.clear();
-
-
     const [initialScrollPos, setInitialScrollPos] = useState(0);
     const [currentScrollPos, setCurrentScrollPos] = useState(0);
 
@@ -48,11 +45,13 @@ const Exhibition23 = () => {
 
         const requestOptions = {
             method: "POST",
+            credentials: 'include', // Add this line to include credentials in the request
         }
 
         fetch(url, requestOptions)
             .then((response) => response.json())
             .then((data) => {
+                console.log("session data", data);
                 if (data.status === "0x000") {
                     console.log("session connected");
                     setLoggedIn(true);
@@ -60,9 +59,7 @@ const Exhibition23 = () => {
             }
             )
             .catch((error) => {
-                console.error("session error");
-                // handle error here
-                // Navigate("/login")
+                console.error("session error", error);
             });
     }
 
