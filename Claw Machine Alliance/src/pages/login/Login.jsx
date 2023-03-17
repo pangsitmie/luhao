@@ -1,17 +1,24 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
 import './login.css'
+
 const Login = () => {
 
     const navigate = useNavigate();
     // 0 = login
     // 1 = register
     const [selected, setSelected] = useState(0);
+    const [country, setCountry] = useState("TW");
+    const handleCountryChange = (event) => {
+        setCountry(event.target.value);
+    };
 
     const [registerFormData, setFormData] = useState({
         phone_country: "TW",
         phone_number: "",
+        email: "",
         name: "",
         password: "",
         captcha: "",
@@ -20,14 +27,21 @@ const Login = () => {
     const [loginFormData, setLoginFormData] = useState({
         phone_country: "TW",
         phone_number: "",
+        email: "",
         password: "",
     });
 
-    const [verificationFormData, setVerificationFormData] = useState({
+    const [phoneVerificationFormData, setPhoneVerificationFormData] = useState({
         phone_country: "TW",
         phone_number: "",
         captchaType: 1,
     });
+
+    const [emailVerificationFormData, setEmailVerificationFormData] = useState({
+        email: "",
+        captchaType: 1,
+    });
+
 
 
     const handleToggle = () => {
@@ -44,21 +58,51 @@ const Login = () => {
         setLoginFormData((prevFormData) => ({
             ...prevFormData,
             phone_number: updatedFormData.phone_number,
+            email: updatedFormData.email,
             password: updatedFormData.password,
         }));
-        setVerificationFormData((prevFormData) => ({
+        setPhoneVerificationFormData((prevFormData) => ({
             ...prevFormData,
             phone_number: updatedFormData.phone_number,
         }));
+        setEmailVerificationFormData((prevFormData) => ({
+            ...prevFormData,
+            email: updatedFormData.email,
+        }));
     };
 
-    const handleSendVerificationCode = () => {
+    const handlePhoneVerification = () => {
         const url = `https://exhibition-test.cloudprogrammingonline.com/captcha/v1/phone`;
 
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(verificationFormData),
+            body: JSON.stringify(phoneVerificationFormData),
+            // body: JSON.stringify(formData),
+        };
+
+        console.log(requestOptions);
+
+        fetch(url, requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.status === "0x000") {
+                    alert("驗證碼已發送");
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                // handle error here
+            });
+    }
+    const handleEmailVerification = () => {
+        const url = `https://exhibition-test.cloudprogrammingonline.com/captcha/v1/email`;
+
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(country === "TW" ? phoneVerificationFormData : emailVerificationFormData),
             // body: JSON.stringify(formData),
         };
 
@@ -84,15 +128,33 @@ const Login = () => {
         const endpoint = selected === 0 ? '/member/v1/login' : '/member/v1/register';
         const url = `https://exhibition-test.cloudprogrammingonline.com${endpoint}`;
 
+        let formData = selected === 0 ? loginFormData : registerFormData;
+        if (country !== "TW" && selected === 1) {
+            // If country is not TW and it's a register request, remove the phone_number field
+            const { phone_number, phone_country, ...formDataWithoutPhone } = formData;
+            formData = formDataWithoutPhone;
+        } else if (country === "TW" && selected === 1) {
+            // If country is TW and it's a register request, remove the email field
+            const { email, ...formDataWithoutEmail } = formData;
+            formData = formDataWithoutEmail;
+        } else if (country !== "TW" && selected === 0) {
+            // If country is not TW and it's a login request, remove the phone_number field and phone_country field
+            const { phone_number, phone_country, ...formDataWithoutPhone } = formData;
+            formData = formDataWithoutPhone;
+        } else if (country === "TW" && selected === 0) {
+            // If country is TW and it's a login request, remove the email field
+            const { email, ...formDataWithoutEmail } = formData;
+            formData = formDataWithoutEmail;
+        }
+
+
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(selected === 0 ? loginFormData : registerFormData),
+            body: JSON.stringify(formData),
         };
 
-        console.log(loginFormData);
-        console.log(registerFormData);
-        console.log(verificationFormData);
+        console.log(requestOptions);
 
         fetch(url, requestOptions)
             .then((response) => response.json())
@@ -100,7 +162,7 @@ const Login = () => {
                 console.log(data);
                 // handle response data 
                 if (data.status === "0x000") {
-                    alert("登入成功");
+                    toast.error("登入成功");
                     navigate("/exhibition/2023");
                 }
             })
@@ -120,7 +182,7 @@ const Login = () => {
                             <label className='login_toggle_label' htmlFor="switch">
                                 <div className="toggle"></div>
                                 <div className="names">
-                                    <Typography className='light' sx={{ fontWeight: "bold", color: "#111" }}>等人</Typography>
+                                    <Typography className='light' sx={{ fontWeight: "bold", color: "#111" }}>登入</Typography>
                                     <Typography className='dark' sx={{ fontWeight: "bold", color: "#111" }}>注冊</Typography>
                                 </div>
                             </label>
@@ -132,17 +194,52 @@ const Login = () => {
                                         <Typography variant="h3" sx={{ color: "#fff", fontWeight: "600", mb: "2rem" }}>
                                             Welcome Back
                                         </Typography>
-                                        <TextField
-                                            required
-                                            fullWidth
-                                            id="outlined-required"
-                                            type={"number"}
-                                            label="手機"
-                                            name="phone_number"
-                                            value={loginFormData.phone_number}
-                                            onChange={handleFormChange}
-                                            sx={{ margin: " 0 1rem 1rem 0", borderRadius: "5px" }}
-                                        />
+                                        <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
+                                            <FormControl sx={{ width: "150px" }}>
+                                                <InputLabel id="demo-simple-select-label" >國家</InputLabel>
+                                                <Select
+                                                    sx={{ borderRadius: "10px" }}
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={country}
+                                                    label={"國家"}
+                                                    onChange={handleCountryChange}
+                                                >
+                                                    <MenuItem value={"TW"}>TW</MenuItem>
+                                                    <MenuItem value={"ALL"}>ALL</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            {
+                                                country === "TW" ?
+                                                    (
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="outlined-required"
+                                                            type={"text"}
+                                                            label="手機"
+                                                            name="phone_number"
+                                                            value={loginFormData.phone_number}
+                                                            onChange={handleFormChange}
+                                                            sx={{ width: { xs: "100%" } }}
+                                                        />
+                                                    ) :
+                                                    (
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="outlined-required"
+                                                            type={"text"}
+                                                            label="Email"
+                                                            name="email"
+                                                            value={loginFormData.email}
+                                                            onChange={handleFormChange}
+                                                            sx={{ width: { xs: "100%" } }}
+                                                        />
+                                                    )
+                                            }
+                                        </Box>
+
                                         <TextField
                                             fullWidth
                                             required
@@ -172,31 +269,52 @@ const Login = () => {
                                             sx={{ marginBottom: "1rem", borderRadius: "5px" }}
                                         />
                                         <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between", gap: "1rem", marginBottom: "1rem" }}>
-                                            <TextField
-                                                className="modal_input_textfield"
-                                                fullWidth
-                                                disabled
-                                                variant="filled"
-                                                type="text"
-                                                label="國家"
-                                                onChange={handleFormChange}
-                                                value={registerFormData.phone_country}
-                                                name="phone_country"
-                                                sx={{ width: { xs: "100%", md: "auto" } }}
-                                            />
-                                            <TextField
-                                                required
-                                                fullWidth
-                                                id="outlined-required"
-                                                type={"text"}
-                                                label="手機"
-                                                name="phone_number"
-                                                value={registerFormData.phone_number}
-                                                onChange={handleFormChange}
-                                                sx={{ width: { xs: "100%" } }}
-                                            />
+                                            <FormControl sx={{ width: "150px" }}>
+                                                <InputLabel id="demo-simple-select-label" >國家</InputLabel>
+                                                <Select
+                                                    sx={{ borderRadius: "10px" }}
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={country}
+                                                    label={"國家"}
+                                                    onChange={handleCountryChange}
+                                                >
+                                                    <MenuItem value={"TW"}>TW</MenuItem>
+                                                    <MenuItem value={"ALL"}>ALL</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            {
+                                                country === "TW" ?
+                                                    (
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="outlined-required"
+                                                            type={"text"}
+                                                            label="手機"
+                                                            name="phone_number"
+                                                            value={registerFormData.phone_number}
+                                                            onChange={handleFormChange}
+                                                            sx={{ width: { xs: "100%" } }}
+                                                        />
+                                                    ) :
+                                                    (
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="outlined-required"
+                                                            type={"text"}
+                                                            label="Email"
+                                                            name="email"
+                                                            value={registerFormData.email}
+                                                            onChange={handleFormChange}
+                                                            sx={{ width: { xs: "100%" } }}
+                                                        />
+                                                    )
+                                            }
+
                                             <Button
-                                                onClick={handleSendVerificationCode}
+                                                onClick={country === "TW" ? handlePhoneVerification : handleEmailVerification}
                                                 sx={{
                                                     bgcolor: "#FFF",
                                                     padding: "1rem 2rem",

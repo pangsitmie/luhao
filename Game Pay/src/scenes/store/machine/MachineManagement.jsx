@@ -10,7 +10,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateMachineModal from './CreateMachineModal';
 import MachineListModal from './MachineListModal';
-import { GetMachineList } from 'src/graphQL/Queries';
+import { GetMachineListPagination } from 'src/graphQL/Queries';
 import Pagination from 'src/components/Pagination';
 import Refresh from 'src/components/Refresh';
 
@@ -42,6 +42,7 @@ const MachineManagement = () => {
     // PAGINATION
     const [limit, setLimit] = useState(10);
     const [offset, setOffset] = useState(0);
+    const [totalPage, setTotalPage] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const handlePageChange = ({ limit, offset }) => {
         setLimit(limit);
@@ -60,7 +61,7 @@ const MachineManagement = () => {
     //REF
     const searchRef = useRef('');
 
-    const { loading, error, data } = useQuery(GetMachineList
+    const { loading, error, data } = useQuery(GetMachineListPagination
         , {
             variables: {
                 args: [
@@ -68,15 +69,20 @@ const MachineManagement = () => {
                         id: state.data.id
                     }
                 ],
-                limit: limit,
-                offset: offset
+                next: {
+                    first: limit,
+                    after: ""
+                }
             }
         }
     );
     useEffect(() => {
         if (data) {
-            setMachineDatas(data.getStore[0].managerGetMachines);
-            setInitMachineDatas(data.getStore[0].managerGetMachines);
+            console.log(data.getStore[0].managerGetMachinesPaginatedConnection.edges);
+            const itemList = data.getStore[0].managerGetMachinesPaginatedConnection.edges
+            setMachineDatas(itemList);
+            setInitMachineDatas(itemList);
+            setTotalPage(data.getStore[0].managerGetMachinesPaginatedConnection.pageInfo.totalPageCount);
         }
     }, [data]);
 
@@ -90,7 +96,7 @@ const MachineManagement = () => {
             let search = arraySearch(machineDatas, value);
             setMachineDatas(search)
         } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setMachineDatas(initMachineDatas)
+            setMachineDatas(initMachineDatas.node)
         }
     }
 
@@ -108,7 +114,7 @@ const MachineManagement = () => {
     useEffect(() => {
         if (machineDatas) {
             for (const machine of machineDatas) {
-                generateQrCode(machine.name, machine.qrCode);
+                generateQrCode(machine.node.name, machine.node.qrCode);
             }
         }
     }, [machineDatas]);
@@ -120,7 +126,7 @@ const MachineManagement = () => {
         const endIndex = offset + limit;
         const machinesInCurrentPage = machineDatas.slice(startIndex, endIndex);
         for (const machine of machinesInCurrentPage) {
-            generateQrCode(machine.name, machine.qrCode);
+            generateQrCode(machine.node.name, machine.node.qrCode);
         }
         // ...
     }, [offset, limit, machineDatas]);
@@ -252,6 +258,7 @@ const MachineManagement = () => {
                         <Pagination
                             limit={limit}
                             offset={offset}
+                            totalPage={3}
                             onPageChange={handlePageChange}
                         />
                     </Box>
@@ -305,11 +312,11 @@ const MachineManagement = () => {
                             borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.code}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.code}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (item.connStatus === true) {
+                                    if (item.node.connStatus === true) {
                                         return (
                                             <Typography variant="h5" color={colors.greenAccent[400]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('online')}
@@ -330,14 +337,14 @@ const MachineManagement = () => {
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">
-                                <MachineCommodityListModal props={item} storeData={state.data} />
+                                <MachineCommodityListModal props={item.node} storeData={state.data} />
                             </Box>
                             <Box
                                 width={"20%"}
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">
-                                <MachineListModal props={item} />
+                                <MachineListModal props={item.node} />
                             </Box>
                         </Box>
                     ))}

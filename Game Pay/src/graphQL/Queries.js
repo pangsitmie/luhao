@@ -337,6 +337,37 @@ query GetStore($args: [StoreArgs!]!, $limit: Int, $offset: Int) {
   }
 }
 `
+
+export const GetMachineListPagination = gql`
+query MemberGetMachinesPaginatedConnection(
+  $args: [StoreArgs!]!
+  $next: Next
+  $previous: Previous
+) {
+  getStore(args: $args) {
+    managerGetMachinesPaginatedConnection(next: $next, previous: $previous) {
+      edges {
+        cursor
+        node {
+          id
+          code
+          name
+          connStatus
+          qrCode
+        }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        totalPageCount
+      }
+    }
+  }
+}
+
+`
+
+
 export const GetMachine = gql`
 query GetMachine($args: [MachineArgs!]!) {
   getMachine(args: $args) {

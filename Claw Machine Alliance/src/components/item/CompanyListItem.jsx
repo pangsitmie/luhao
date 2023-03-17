@@ -8,10 +8,10 @@ const CompanyListItem = ({ props, textColor, showDetails }) => {
     const details = props.details;
     const color = textColor || "#111";
 
-    useEffect(() => {
-        console.log("showDetails", showDetails);
-        console.log("oepn", open);
-    }, [])
+    // useEffect(() => {
+    //     console.log("showDetails", showDetails);
+    //     console.log("oepn", open);
+    // }, [])
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
@@ -47,9 +47,7 @@ const CompanyListItem = ({ props, textColor, showDetails }) => {
             ) : (
                 <Box display={open ? "block" : "none"} className={"exhibition23_speaker_list_item_detail_box"}>
                     <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
-                        請
-                        <a href="/login">登入</a>
-                        以查看更多信息。
+                        請<a href="/login">登入</a>以查看更多信息。
                     </Typography>
                 </Box>
             )}

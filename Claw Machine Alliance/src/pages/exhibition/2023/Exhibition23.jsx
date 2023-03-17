@@ -53,23 +53,23 @@ const Exhibition23 = () => {
         fetch(url, requestOptions)
             .then((response) => response.json())
             .then((data) => {
-                console.log("session connected");
-                setLoggedIn(true);
-                // handle response data here
+                if (data.status === "0x000") {
+                    console.log("session connected");
+                    setLoggedIn(true);
+                }
             }
             )
             .catch((error) => {
                 console.error("session error");
                 // handle error here
-                Navigate("/login")
-            }
-            );
+                // Navigate("/login")
+            });
     }
 
 
     return (
         <>
-            <LoginFloating />
+            <LoginFloating visible={!loggedIn} />
             <Box className={"exhibition_hero"}>
                 <img src={WAVE_EXHIBITION} className={"wave_exhibition"} alt="" />
                 <img
@@ -207,8 +207,8 @@ const Exhibition23 = () => {
                     </Box>
 
                     <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
-                        {exhibition2023Companies[0].data.map((item) => (
-                            <CompanyListItem props={item} textColor={"#FFF"} showDetails={true} />
+                        {exhibition2023Companies[0].data.map((item, index) => (
+                            <CompanyListItem key={index} props={item} textColor={"#FFF"} showDetails={true} />
                         ))}
                     </Box>
                 </Box>
@@ -245,8 +245,8 @@ const Exhibition23 = () => {
                                     指導單位:
                                 </Typography>
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
-                                    {exhibition2023Companies[2].data.map((item) => (
-                                        <CompanyListItem props={item} showDetails={loggedIn} />
+                                    {exhibition2023Companies[2].data.map((item, index) => (
+                                        <CompanyListItem key={index} props={item} showDetails={loggedIn} />
                                     ))}
                                 </Box>
                             </Box>
@@ -257,8 +257,8 @@ const Exhibition23 = () => {
                                 </Typography>
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
 
-                                    {exhibition2023Companies[3].data.map((item) => (
-                                        <CompanyListItem props={item} showDetails={loggedIn} />
+                                    {exhibition2023Companies[3].data.map((item, index) => (
+                                        <CompanyListItem key={index} props={item} showDetails={loggedIn} />
                                     ))}
                                 </Box>
                             </Box>
@@ -268,8 +268,8 @@ const Exhibition23 = () => {
                             <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7" }} >
                                 協辦單位:
                             </Typography>
-                            {exhibition2023Companies[4].data.map((item) => (
-                                <CompanyListItem props={item} showDetails={loggedIn} />
+                            {exhibition2023Companies[4].data.map((item, index) => (
+                                <CompanyListItem key={index} props={item} showDetails={loggedIn} />
                             ))}
                         </Box>
                     </Box>

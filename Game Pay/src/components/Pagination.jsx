@@ -2,41 +2,51 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-const Pagination = ({ limit, offset, onPageChange }) => {
+
+
+const Pagination = ({ limit, offset, totalPage, onPageChange }) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        setCurrentPage(Math.ceil(offset / limit) + 1)
-    }, [offset, limit])
+        setCurrentPage(Math.ceil(offset / limit) + 1);
+    }, [offset, limit]);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
         const newOffset = (newPage - 1) * limit;
         onPageChange({ limit, offset: newOffset });
-    }
+    };
 
     return (
-        <Box width={"110%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-            <Button
-                disabled={currentPage === 1}
-                onClick={() => handlePageChange(currentPage - 1)}
-                variant="contained"
-                sx={{ padding: ".5rem 1rem", margin: "0 2rem", borderRadius: "12px" }}>
-                <NavigateBeforeIcon sx={{ color: "white" }} />
-            </Button>
+        <Box
+            width={"110%"}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+        >
+            <Box width={"100px"} display={"flex"} justifyContent={"center"}>
+                <Button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    variant="contained"
+                    sx={{ padding: ".5rem 1rem", margin: "0 2rem", borderRadius: "12px", display: currentPage === 1 ? "none" : "flex" }}
+                >
+                    <NavigateBeforeIcon sx={{ color: "white" }} />
+                </Button>
+            </Box>
 
-            <span >{currentPage}</span>
+            <span>{currentPage}</span>
 
-            <Button
-                // disabled={currentPage === totalPages}
-                onClick={() => handlePageChange(currentPage + 1)}
-                variant="contained"
-                sx={{ padding: ".5rem 1rem", margin: "0 2rem", borderRadius: "12px" }}>
-                <NavigateNextIcon sx={{ color: "white" }} />
-            </Button>
-
-        </Box >
+            <Box width={"100px"} display={"flex"} justifyContent={"center"}>
+                <Button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    variant="contained"
+                    sx={{ padding: ".5rem 1rem", margin: "0 2rem", borderRadius: "12px", display: currentPage === totalPage ? "none" : "flex" }}
+                >
+                    <NavigateNextIcon sx={{ color: "white" }} />
+                </Button>
+            </Box>
+        </Box>
     );
-}
+};
 
 export default Pagination;
