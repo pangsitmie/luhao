@@ -2,12 +2,13 @@ import React, { useEffect, useState, useContext, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useQuery, gql, useLazyQuery } from '@apollo/client'
 import { format } from 'date-fns';
+import SearchIcon from "@mui/icons-material/Search";
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
-import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic } from '../../graphQL/Queries'
+import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic, GetMachineListPagination } from '../../graphQL/Queries'
 
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
@@ -26,12 +27,20 @@ import StatBoxSplit from '../../components/StatBoxSplit';
 import { useDispatch, useSelector } from "react-redux";
 
 import { useTranslation } from 'react-i18next';
+import NewPagination from 'src/components/NewPagination';
 const StatisticManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
 
     const location = useLocation();
     const state = location.state;
+    const searchRef = useRef('');
+
+    const [machineDatas, setMachineDatas] = useState([]);
+
+    const handlePageChange = (data) => {
+        setMachineDatas(data);
+    }
 
     //THEME
     const theme = useTheme();
@@ -95,6 +104,28 @@ const StatisticManagement = () => {
     }, [startAtDateEpoch, endAtDateEpoch]);
 
 
+    const [filter, setFilter] = useState('');
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+    };
+
+    const submitSearch = () => {
+        // console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
+        // //CALL SEARCH FUNCTION
+        // let brandValue = brandRef.current.value;
+        // let storeValue = searchRef.current.value;
+        // if (brandValue.length > 2 && storeValue.length === 0) {
+        //     let search = brandArraySearch(stores, brandValue);
+        //     setStores(search)
+        // }
+        // else if (brandValue.length === 0 && storeValue.length > 2) {
+        //     let search = storeArraySearch(stores, storeValue);
+        //     setStores(search)
+        // }
+        // else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+        //     setStores(initStores)
+        // }
+    }
 
     const [displayStatistic, setDisplayStatistic] = useState({});
     const [storeList, setStoreList] = useState([]);
@@ -313,6 +344,10 @@ const StatisticManagement = () => {
 
 
 
+            <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
+                {selectedItem.id}
+            </Box>
+
 
 
             {/* FINANCE CHARTS */}
@@ -322,7 +357,6 @@ const StatisticManagement = () => {
                 sx={{
                     backgroundColor: "rgba(255, 255, 255, 0.074)",
                     border: "1px solid " + colors.grey[500],
-                    webkitBackdropFilter: "blur(20px)",
                     backdropFilter: "blur(20px)",
                 }}>
 
@@ -364,7 +398,6 @@ const StatisticManagement = () => {
                         sx={{
                             background: "linear-gradient(135deg, #386641, #6a994e)",
                             backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
@@ -384,7 +417,6 @@ const StatisticManagement = () => {
                         sx={{
                             background: "linear-gradient(135deg, #921185, #A13796)",
                             backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
@@ -404,7 +436,6 @@ const StatisticManagement = () => {
                         sx={{
                             background: "linear-gradient(135deg, #F78C1C, #f7ba2c)",
                             backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
@@ -424,7 +455,6 @@ const StatisticManagement = () => {
                         sx={{
                             background: "linear-gradient(135deg, #4281B7, #4697E7)",
                             backgroundColor: "rgba(255, 255, 255, 0.074)",
-                            webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
@@ -447,7 +477,6 @@ const StatisticManagement = () => {
                         sx={{
                             backgroundColor: colors.primary[400],
                             border: "1px solid " + colors.grey[300],
-                            webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
@@ -463,7 +492,6 @@ const StatisticManagement = () => {
                         sx={{
                             backgroundColor: colors.primary[400],
                             border: "1px solid " + colors.grey[300],
-                            webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
@@ -538,6 +566,161 @@ const StatisticManagement = () => {
                     </Box> */}
                 </Box>
             </Box>
+
+            {/* MACHINE TABLE */}
+            {selectedItem.id !== -1 && (
+                <Box
+                    mt={"2rem"}
+                    padding={"1rem"}
+                    borderRadius={"12px"}
+                    sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.074)",
+                        border: "1px solid " + colors.grey[500],
+                        backdropFilter: "blur(20px)",
+                    }}>
+                    <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} mb={"1rem"}>
+                        <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "bold", m: "0 0 0 10px" }}>
+                            Machines
+                        </Typography>
+                    </Box>
+                    <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"} justifyContent={"space-between"}>
+                        {/* name Search */}
+                        <Box className='flex_media'>
+                            <Box
+                                display="flex"
+                                backgroundColor={colors.primary[400]}
+                                borderRadius="10px"
+                                height={"52px"}
+                                maxWidth={140}>
+                                <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }}
+                                    placeholder={`${t('machine_name')}`}
+                                    inputRef={searchRef} />
+                            </Box>
+                            {/* SEARCH BTN */}
+                            <Button sx={{
+                                backgroundColor: colors.primary[300],
+                                color: colors.grey[100],
+                                minWidth: "120px",
+                                height: "52px",
+                                borderRadius: "10px",
+                                ':hover': {
+                                    bgcolor: colors.primary[300],
+                                    border: '1px solid white',
+                                }
+                            }}
+                                onClick={submitSearch}>
+                                <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
+                                <Typography color={"white"} variant="h5" fontWeight="500">
+                                    {t('search')}
+                                </Typography>
+                            </Button>
+                        </Box>
+                        <FormControl sx={{ width: 140 }} >
+                            <InputLabel id="demo-simple-select-label" >Filter</InputLabel>
+                            <Select
+                                sx={{ borderRadius: "10px", background: colors.primary[400] }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={filter}
+                                label="Filter"
+                                onChange={handleFilterChange}
+                            >
+                                <MenuItem value={"name"}>{t('name')}</MenuItem>
+                                <MenuItem value={"revenue"}>revenue</MenuItem>
+                                <MenuItem value={"gift"}>gift</MenuItem>
+                                <MenuItem value={"giftRate"}>giftRate</MenuItem>
+                                <MenuItem value={"favourite"}>favourite</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+                    <Paper className='mui_table_container' >
+                        <NewPagination QUERY={GetMachineListPagination} HANDLE_PAGE_CHANGE={handlePageChange} argsID={2} />
+                        <Table sx={{ backgroundColor: "transparent" }}>
+                            <TableHead sx={{ backgroundColor: "transparent" }}>
+                                <TableRow>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        Machine Name
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        Mahine Code
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        Revenue
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        Expense
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <TableRow >
+                                            <TableCell colSpan={6} align="center" >
+                                                Offline Coin
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Combine Amount
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Combine Quantity
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Immediate Amount
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Immediate Quantity
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Offline Amount
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Offline Quantity
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableCell>
+                                    <TableCell>
+                                        <TableRow >
+                                            <TableCell colSpan={4} align="center" >
+                                                Online Coin
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Online Amount
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Online Quantity
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Online Free Amount
+                                            </TableCell>
+                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                Online Free Quantity
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {/* later filled with data */}
+                                {machineDatas.map((item, i) => (
+                                    <TableRow
+                                        key={`${item.id}-${i}`}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            {item.node.name}
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            {item.node.code}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </Box>
+            )}
 
 
             {/* USERS CHARTS */}

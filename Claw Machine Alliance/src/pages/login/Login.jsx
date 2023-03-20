@@ -88,7 +88,7 @@ const Login = () => {
             .then((data) => {
                 console.log(data);
                 if (data.status === "0x000") {
-                    alert("驗證碼已發送");
+                    toast.success("驗證碼已發送");
                 }
             })
             .catch((error) => {
@@ -113,7 +113,8 @@ const Login = () => {
             .then((data) => {
                 console.log(data);
                 if (data.status === "0x000") {
-                    alert("驗證碼已發送");
+                    toast.success("驗證碼已發送");
+                    // alert("驗證碼已發送");
                 }
             })
             .catch((error) => {
@@ -152,10 +153,12 @@ const Login = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
-            credentials: 'include', // Add this line to include credentials in the request
+            // credentials: 'include', // Add this line to include credentials in the request
         };
 
         console.log(requestOptions);
+
+
 
         fetch(url, requestOptions)
             .then((response) => response.json())
@@ -163,8 +166,8 @@ const Login = () => {
                 console.log(data);
                 // handle response data 
                 if (data.status === "0x000") {
-                    console.log("登入成功");
-                    // navigate("/exhibition/2023");
+                    toast.success("登入成功");
+                    navigate("/exhibition/2023");
                 }
             })
             .catch((error) => {

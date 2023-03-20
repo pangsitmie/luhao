@@ -17,6 +17,15 @@ h1 {
 
 /*  */
 
+.mui_table_container {
+  overflow-x: auto;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
+  padding: 10px;
+  margin: 10px;
+  background-color: transparent !important;
+}
 
 
 

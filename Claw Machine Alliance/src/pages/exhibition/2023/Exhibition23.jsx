@@ -179,21 +179,26 @@ const Exhibition23 = () => {
 
 
             <Box className={"exhibition_card_container"} bgcolor={"#FFF"}>
-                <Box className={"flex_cc"} flexDirection={"column"} mb={"1rem"}>
+                <Box display={loggedIn ? "none" : ""} className={"flex_cc"} flexDirection={"column"} mb={"1rem"}>
                     <Typography variant="h3" sx={{ textAlign: "left", color: "#111", mb: "1rem" }} >
                         註冊後詳閱
                     </Typography>
-                    <button className={"button_svg"}>
-                        <div className="svg-wrapper-1">
-                            <div className="svg-wrapper">
-                                <svg height="22" width="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z" fill="currentColor"></path>
-                                </svg>
+                    <a href="/login">
+                        <button className={"button_svg"}>
+
+                            <div className="svg-wrapper-1">
+                                <div className="svg-wrapper">
+                                    <svg height="22" width="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z" fill="currentColor"></path>
+                                    </svg>
+                                </div>
                             </div>
-                        </div>
-                        <span>索取參展廠商資料</span>
-                    </button>
+
+                            <span>索取參展廠商資料</span>
+
+                        </button>
+                    </a>
                 </Box>
                 {/* row 1 */}
                 <Box bgcolor={"#0057D9"} borderRadius={"25px"} widht={"100%"} height={"100%"} padding={"2rem"} >
