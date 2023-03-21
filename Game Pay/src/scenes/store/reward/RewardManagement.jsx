@@ -35,14 +35,14 @@ const RewardManagement = () => {
     // ====================== STATES ======================
 
     // PAGINATION
-    const [limit, setLimit] = useState(10);
-    const [offset, setOffset] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-        setCurrentPage(offset / limit + 1);
-    }
+    // const [limit, setLimit] = useState(10);
+    // const [offset, setOffset] = useState(0);
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const handlePageChange = ({ limit, offset }) => {
+    //     setLimit(limit);
+    //     setOffset(offset);
+    //     setCurrentPage(offset / limit + 1);
+    // }
 
 
     const [initDatas, setInitDatas] = useState([]);
@@ -122,7 +122,7 @@ const RewardManagement = () => {
                     marginLeft={"auto"}
                     height={"52px"}
                 >
-                    <CreateRewardModal props={""} />
+                    {/* <CreateRewardModal props={""} /> */}
                 </Box>
             </Box>
 
@@ -143,20 +143,14 @@ const RewardManagement = () => {
                 >
                     <Box width={"90%"}>
                         {/* pagination */}
-                        <Pagination
+                        {/* <Pagination
                             limit={limit}
                             offset={offset}
                             onPageChange={handlePageChange}
-                        />
+                        /> */}
                     </Box>
 
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
-                    </Box>
+
                 </Box>
                 <Box
                     display="flex"

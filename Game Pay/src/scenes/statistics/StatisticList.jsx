@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { useQuery } from '@apollo/client'
 // QUERIES
-import { GetAllBrands } from '../../graphQL/Queries'
+import { GetAllBrands, GetBrandListPagination } from '../../graphQL/Queries'
 import { BRAND_GetBrandList } from '../../graphQL/BrandPrincipalQueries'
 import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
 
@@ -42,15 +42,6 @@ const StatisticList = () => {
     const searchValueRef = useRef('');
 
     //========================== GRAPHQL ==========================
-
-    // PAGINATION
-    const [limit, setLimit] = useState(5);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
-
     const [initBrands, setInitBrands] = useState([]);
     const [brands, setBrands] = useState([]);
 
@@ -58,7 +49,7 @@ const StatisticList = () => {
     let LIST_QUERY;
     switch (entityName) {
         case 'company':
-            LIST_QUERY = GetAllBrands;
+            LIST_QUERY = GetBrandListPagination;
             break;
         case 'brand':
             LIST_QUERY = BRAND_GetBrandList;
@@ -69,29 +60,12 @@ const StatisticList = () => {
             break;
     }
 
-    const { loading, error, data } = useQuery(LIST_QUERY, {
-        variables: { limit, offset }
-    });
-    useEffect(() => {
-        if (data) {
-            switch (entityName) {
-                case 'company':
-                    setInitBrands(data.managerGetBrands); //all brand datas
-                    setBrands(data.managerGetBrands); //datas for display
-                    break;
-                case 'brand':
-                    setInitBrands(data.getBrandPrincipal.brands); //all brand datas
-                    setBrands(data.getBrandPrincipal.brands); //datas for display
-                    break;
-                case 'store':
-                    setInitBrands(data.getStorePrincipal.stores); //all brand datas
-                    setBrands(data.getStorePrincipal.stores); //datas for display
-                default:
-                    break;
-            }
+    // ====================== PAGINATION ======================
 
-        }
-    }, [data, offset]);
+    const handlePageChange = (data) => {
+        setBrands(data);
+        setInitBrands(data);
+    }
 
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
@@ -121,8 +95,8 @@ const StatisticList = () => {
 
 
 
-    if (loading) return <Loader />;
-    if (error) return <Error />;
+    // if (loading) return <Loader />;
+    // if (error) return <Error />;
     // ========================== RETURN ==========================
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
@@ -164,7 +138,6 @@ const StatisticList = () => {
                         {t('search')}
                     </Typography>
                 </Button>
-
             </Box>
 
             {/* here */}
@@ -182,11 +155,7 @@ const StatisticList = () => {
                     colors={colors.grey[100]}
                     p="15px 0 10px 0"
                 >
-                    <Pagination
-                        limit={limit}
-                        offset={offset}
-                        onPageChange={handlePageChange}
-                    />
+                    <Pagination QUERY={LIST_QUERY} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_BRAND_LIST"} />
                 </Box>
                 <Box
                     display="flex"
@@ -224,7 +193,7 @@ const StatisticList = () => {
                         >
                             <Box display="flex" alignItems={"center"} justifyContent={"center"} m={"0 15px"}>
                                 <Typography color={colors.grey[100]} variant="h5" fontWeight="500">
-                                    {brand.name}
+                                    {brand.node.name}
                                 </Typography>
                             </Box>
                             <Box
@@ -238,7 +207,7 @@ const StatisticList = () => {
                                 <Link
                                     to={"/statistic-management"}
                                     state={{
-                                        data: brand,
+                                        data: brand.node,
                                     }}
                                 >
                                     <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.2rem" }}>

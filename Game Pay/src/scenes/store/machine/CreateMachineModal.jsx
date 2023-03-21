@@ -4,10 +4,11 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { CreateMachineFromGetStores } from "src/graphQL/Queries";
 
 import { useTranslation } from 'react-i18next';
+import { CreateMachineForManager } from "src/graphQL/Mutations";
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
@@ -55,7 +56,7 @@ export default function CreateMachineModal({ props }) {
 
 
     // GQL
-    const [ApolloCreateMachineFromGetStores, { loading, error, data }] = useLazyQuery(CreateMachineFromGetStores);
+    const [ApolloCreateMachineFromGetStores, { loading, error, data }] = useMutation(CreateMachineForManager);
     useEffect(() => {
         if (data) {
             console.log(data.getStore);
@@ -65,11 +66,7 @@ export default function CreateMachineModal({ props }) {
 
     const handleFormSubmit = (values) => {
         const variables = {
-            args: [
-                {
-                    id: props.id
-                }
-            ],
+            storeId: props.id,
             name: values.name,
             code: values.code,
             price: parseInt(values.price),

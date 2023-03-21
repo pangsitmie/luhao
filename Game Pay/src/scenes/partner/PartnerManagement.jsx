@@ -51,25 +51,22 @@ const PartnerManagement = () => {
     //========================== GRAPHQL ==========================
 
     // PAGINATION
-    const [limit, setLimit] = useState(5);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
+
+    // const handlePageChange = ({ limit, offset }) => {
+    //     setLimit(limit);
+    //     setOffset(offset);
+    // }
 
     const [initPartners, setInitPartners] = useState([]);
     const [partners, setPartners] = useState([]);
 
-    const { loading, error, data } = useQuery(GetAllBrands, {
-        variables: { limit, offset }
-    });
+    const { loading, error, data } = useQuery(GetAllBrands);
     useEffect(() => {
         if (data) {
             setInitPartners(data.managerGetBrands); //all brand datas
             setPartners(data.managerGetBrands); //datas for display
         }
-    }, [data, offset]);
+    }, [data]);
 
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
@@ -194,19 +191,11 @@ const PartnerManagement = () => {
                 >
                     <Box width={"90%"}>
                         {/* pagination */}
-                        <Pagination
+                        {/* <Pagination
                             limit={limit}
                             offset={offset}
                             onPageChange={handlePageChange}
-                        />
-                    </Box>
-
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
+                        /> */}
                     </Box>
                 </Box>
                 <Box

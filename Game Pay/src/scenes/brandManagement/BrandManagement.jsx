@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 // QUERIES
 import { useQuery } from '@apollo/client'
-import { GetAllBrands } from '../../graphQL/Queries'
+import { GetAllBrands, GetBrandListPagination } from '../../graphQL/Queries'
 import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries';
 
 // THEME
@@ -17,12 +17,12 @@ import BrandListModal from './BrandListModal';
 
 // COMPONENETS
 import CreateBrandModal from './CreateBrandModal';
-import Pagination from '../../components/Pagination';
 import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import Pagination from 'src/components/Pagination';
 
 const BrandManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
@@ -59,7 +59,7 @@ const BrandManagement = () => {
     let BRAND_INIT_QUERY;
     switch (entityName) {
         case 'company':
-            BRAND_INIT_QUERY = GetAllBrands;
+            BRAND_INIT_QUERY = GetBrandListPagination;
             break;
         case 'brand':
             BRAND_INIT_QUERY = BRAND_GetAllBrands;
@@ -71,36 +71,33 @@ const BrandManagement = () => {
 
 
 
-    // PAGINATION
-    const [limit, setLimit] = useState(5);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
-
+    // ====================== PAGINATION ======================
     const [initBrands, setInitBrands] = useState([]);
     const [brands, setBrands] = useState([]);
+    const handlePageChange = (data) => {
+        setBrands(data);
+        setInitBrands(data);
+    }
 
-    const { loading, error, data } = useQuery(BRAND_INIT_QUERY, {
-        variables: { limit, offset }
-    });
-    useEffect(() => {
-        if (data) {
-            switch (entityName) {
-                case 'company':
-                    setInitBrands(data.managerGetBrands); //all brand datas
-                    setBrands(data.managerGetBrands); //datas for display
-                    break;
-                case 'brand':
-                    setInitBrands(data.getBrandPrincipal.brands); //all brand datas
-                    setBrands(data.getBrandPrincipal.brands); //datas for display
-                    break;
-                default:
-                    break;
-            }
-        }
-    }, [data, offset]);
+    // const { loading, error, data } = useQuery(BRAND_INIT_QUERY, {
+    //     variables: { limit, offset }
+    // });
+    // useEffect(() => {
+    //     if (data) {
+    //         switch (entityName) {
+    //             case 'company':
+    //                 setInitBrands(data.managerGetBrands); //all brand datas
+    //                 setBrands(data.managerGetBrands); //datas for display
+    //                 break;
+    //             case 'brand':
+    //                 setInitBrands(data.getBrandPrincipal.brands); //all brand datas
+    //                 setBrands(data.getBrandPrincipal.brands); //datas for display
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    // }, [data, offset]);
 
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
@@ -126,9 +123,6 @@ const BrandManagement = () => {
                 value.principal.name.match(new RegExp(searchTerm, 'g'))
         })
     }
-
-    if (loading) return <Loader />;
-    if (error) return <Error />;
     // ========================== RETURN ==========================
     return (
         // here
@@ -227,22 +221,9 @@ const BrandManagement = () => {
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Box width={"90%"}>
-                        {/* pagination */}
-                        <Pagination
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange}
-                        />
-                    </Box>
+                    {/* pagination */}
+                    <Pagination QUERY={BRAND_INIT_QUERY} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_BRAND_LIST"} />
 
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
-                    </Box>
                 </Box>
                 <Box
                     display="flex"
@@ -286,23 +267,23 @@ const BrandManagement = () => {
                             borderBottom={i === brands.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.name}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.principal.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.node.name}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.node.principal.name}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (brand.status.name === "disable") {
+                                    if (brand.node.status.name === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("disable")}
                                             </Typography>)
                                     }
-                                    else if (brand.status.name === "banned") {
+                                    else if (brand.node.status.name === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("banned")}
                                             </Typography>)
                                     }
-                                    else if (brand.status.name === "removed") {
+                                    else if (brand.node.status.name === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("deleted")}
@@ -327,7 +308,7 @@ const BrandManagement = () => {
                                 <Link
                                     to={"/billboard-management"}
                                     state={{
-                                        data: brand,
+                                        data: brand.node,
                                     }}
                                 >
                                     <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.5rem" }}>
@@ -337,7 +318,7 @@ const BrandManagement = () => {
                             </Box>
 
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                <BrandListModal props={brand} />
+                                <BrandListModal props={brand.node} />
                             </Box>
                         </Box>
                     ))}

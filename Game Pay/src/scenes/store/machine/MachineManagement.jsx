@@ -14,7 +14,7 @@ import QRCode from 'qrcode'
 import jsPDF from 'jspdf';
 import MachineCommodityListModal from './MachineCommodityItem';
 import { useTranslation } from 'react-i18next';
-import NewPagination from 'src/components/NewPagination';
+import Pagination from 'src/components/Pagination';
 
 
 const MachineManagement = () => {
@@ -201,7 +201,7 @@ const MachineManagement = () => {
                     p="15px"
                 >
                     <Box width={"90%"}>
-                        <NewPagination QUERY={GetMachineListPagination} HANDLE_PAGE_CHANGE={handlePageChange} argsID={state.data.id} />
+                        <Pagination QUERY={GetMachineListPagination} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_LIST"} ARGS_ID={state.data.id} />
                     </Box>
 
                     <Box width={"10%"}>

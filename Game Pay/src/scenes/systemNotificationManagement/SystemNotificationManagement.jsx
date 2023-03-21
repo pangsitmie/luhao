@@ -41,12 +41,11 @@ const SystemNotificationManagement = () => {
     const filterRef = useRef('品牌名');
 
     // PAGINATION
-    const [limit, setLimit] = useState(5);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
+
+    // const handlePageChange = ({ limit, offset }) => {
+    //     setLimit(limit);
+    //     setOffset(offset);
+    // }
 
     //========================== GRAPHQL ==========================
     const { loading, error, data } = useQuery(ManagerGetAllNotificationSchedules);
@@ -179,20 +178,14 @@ const SystemNotificationManagement = () => {
                 >
                     <Box width={"90%"}>
                         {/* pagination */}
-                        <Pagination
+                        {/* <Pagination
                             limit={limit}
                             offset={offset}
                             onPageChange={handlePageChange}
-                        />
+                        /> */}
                     </Box>
 
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
-                    </Box>
+
                 </Box>
                 <Box
                     display="flex"

@@ -46,12 +46,10 @@ const AdsManagement = () => {
     // ========================== REF ==========================
 
     // PAGINATION
-    const [limit, setLimit] = useState(5);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
+    // const handlePageChange = ({ limit, offset }) => {
+    //     setLimit(limit);
+    //     setOffset(offset);
+    // }
 
 
     const searchValueRef = useRef('');
@@ -161,20 +159,14 @@ const AdsManagement = () => {
                 >
                     <Box width={"90%"}>
                         {/* pagination */}
-                        <Pagination
+                        {/* <Pagination
                             limit={limit}
                             offset={offset}
                             onPageChange={handlePageChange}
-                        />
+                        /> */}
                     </Box>
 
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
-                    </Box>
+
                 </Box>
                 <Box
                     display="flex"

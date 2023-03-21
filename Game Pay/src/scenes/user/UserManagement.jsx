@@ -37,16 +37,12 @@ const UserManagement = () => {
 
 
     // PAGINATION
-    const [limit, setLimit] = useState(10);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
+    // const handlePageChange = ({ limit, offset }) => {
+    //     setLimit(limit);
+    //     setOffset(offset);
+    // }
 
-    const { loading, error, data } = useQuery(GetAllMember, {
-        variables: { limit, offset }
-    });
+    const { loading, error, data } = useQuery(GetAllMember);
     const [initMember, setInitMember] = useState([]);
     const [members, setMembers] = useState([]);
     useEffect(() => {
@@ -154,20 +150,13 @@ const UserManagement = () => {
                 >
                     <Box width={"90%"}>
                         {/* pagination */}
-                        <Pagination
+                        {/* <Pagination
                             limit={limit}
                             offset={offset}
                             onPageChange={handlePageChange}
-                        />
+                        /> */}
                     </Box>
 
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
-                    </Box>
                 </Box>
                 <Box
                     display="flex"

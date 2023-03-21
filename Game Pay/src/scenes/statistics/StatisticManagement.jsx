@@ -27,7 +27,7 @@ import StatBoxSplit from '../../components/StatBoxSplit';
 import { useDispatch, useSelector } from "react-redux";
 
 import { useTranslation } from 'react-i18next';
-import NewPagination from 'src/components/NewPagination';
+import Pagination from 'src/components/Pagination';
 const StatisticManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
@@ -345,7 +345,7 @@ const StatisticManagement = () => {
 
 
             <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
-                {selectedItem.id}
+                {selectedItem.id} -  startAt: {startAtDateEpoch} - endAt: {endAtDateEpoch} - period: {period}
             </Box>
 
 
@@ -626,76 +626,76 @@ const StatisticManagement = () => {
                                 onChange={handleFilterChange}
                             >
                                 <MenuItem value={"name"}>{t('name')}</MenuItem>
-                                <MenuItem value={"revenue"}>revenue</MenuItem>
-                                <MenuItem value={"gift"}>gift</MenuItem>
-                                <MenuItem value={"giftRate"}>giftRate</MenuItem>
-                                <MenuItem value={"favourite"}>favourite</MenuItem>
+                                <MenuItem value={"revenue"}>收入</MenuItem>
+                                <MenuItem value={"gift"}>總出貨</MenuItem>
+                                <MenuItem value={"giftRate"}>出貨比</MenuItem>
+                                <MenuItem value={"favourite"}>最愛</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
 
                     <Paper className='mui_table_container' >
-                        <NewPagination QUERY={GetMachineListPagination} HANDLE_PAGE_CHANGE={handlePageChange} argsID={2} />
+                        <Pagination QUERY={GetMachineListPagination} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_LIST"} ARGS_ID={selectedItem.id} />
                         <Table sx={{ backgroundColor: "transparent" }}>
                             <TableHead sx={{ backgroundColor: "transparent" }}>
                                 <TableRow>
                                     <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        Machine Name
+                                        機臺名稱
                                     </TableCell>
                                     <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        Mahine Code
+                                        機臺編號
                                     </TableCell>
                                     <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        Revenue
+                                        總收入
                                     </TableCell>
                                     <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        Expense
+                                        總支出
                                     </TableCell>
                                     <TableCell align="center" sx={{ minWidth: "150px" }}>
                                         <TableRow >
                                             <TableCell colSpan={6} align="center" >
-                                                Offline Coin
+                                                線下投幣
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Combine Amount
+                                                融合上傳金額 {/* Combine Amount */}
                                             </TableCell>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Combine Quantity
+                                                融合上傳數量 {/* Combine Quantity */}
                                             </TableCell>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Immediate Amount
+                                                即時上傳金額 {/* Immediate Amount */}
                                             </TableCell>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Immediate Quantity
+                                                即時上傳數量 {/* Immediate Quantity */}
                                             </TableCell>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Offline Amount
+                                                離線上傳金額 {/* Offline Amount */}
                                             </TableCell>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Offline Quantity
+                                                離線上傳數量 {/* Ofline Quantity */}
                                             </TableCell>
                                         </TableRow>
                                     </TableCell>
                                     <TableCell>
                                         <TableRow >
                                             <TableCell colSpan={4} align="center" >
-                                                Online Coin
+                                                線上投幣
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Online Amount
+                                                線上付費幣上傳金額 {/* Amount */}
                                             </TableCell>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Online Quantity
+                                                線上付費幣上傳數量 {/* Quantity */}
                                             </TableCell>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Online Free Amount
+                                                線上免費幣上傳金額 {/* Free Amount */}
                                             </TableCell>
                                             <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                Online Free Quantity
+                                                線上免費幣上傳數量 {/* Free Quantity */}
                                             </TableCell>
                                         </TableRow>
                                     </TableCell>

@@ -70,22 +70,34 @@ query ManagerGetBrands($limit: Int, $offset: Int) {
   managerGetBrands(limit: $limit, offset: $offset) {
     id
     name
-    vatNumber
-    cover
-    intro
-    logo
     status
     principal {
       id
       name
-      phone {
-        country
-        number
-      }
-      lineUrl
-      email
-      createdAt
+      
     }
+  }
+}
+`
+
+export const GetBrandListPagination = gql`
+query ManagerGetBrandsPaginatedConnection($next: Next, $previous: Previous) {
+  managerGetBrandsPaginatedConnection(next: $next, previous: $previous) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        status
+        principal {
+          id
+          name
+        }
+      }
+    }
+    hasNextPage
+    hasPreviousPage
+    totalPageCount
   }
 }
 `
@@ -295,30 +307,30 @@ query GetStore($args: [StoreArgs!]!) {
   }
 }
 `
-export const CreateMachineFromGetStores = gql`
-query GetStore(
-  $args: [StoreArgs!]!
-  $code: String!
-  $price: Int
-  $name: String
-  $description: String
-  $counterCheck: Boolean
-  $counters: [CounterArgs!]
-  $nfc: String
-) {
-  getStore(args: $args) {
-    createMachine(
-      code: $code
-      price: $price
-      name: $name
-      description: $description
-      counterCheck: $counterCheck
-      counters: $counters
-      nfc: $nfc
-    )
-  }
-}
-`
+// export const CreateMachineFromGetStores = gql`
+// query GetStore(
+//   $args: [StoreArgs!]!
+//   $code: String!
+//   $price: Int
+//   $name: String
+//   $description: String
+//   $counterCheck: Boolean
+//   $counters: [CounterArgs!]
+//   $nfc: String
+// ) {
+//   getStore(args: $args) {
+//     createMachine(
+//       code: $code
+//       price: $price
+//       name: $name
+//       description: $description
+//       counterCheck: $counterCheck
+//       counters: $counters
+//       nfc: $nfc
+//     )
+//   }
+// }
+// `
 
 // ========================= MACHINES =========================
 export const GetMachineList = gql`
@@ -356,15 +368,12 @@ query MemberGetMachinesPaginatedConnection(
           qrCode
         }
       }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        totalPageCount
-      }
+      hasNextPage
+      hasPreviousPage
+      totalPageCount
     }
   }
 }
-
 `
 
 
@@ -743,6 +752,63 @@ query GetStatisticsPeriod(
 }
 `
 
+export const GetStoreMachineStatisticsPagination = gql`
+query GetStore(
+  $args: [StoreArgs!]!
+  $startAt: Int
+  $endAt: Int
+  $timeGranularity: EStatisticsTotalTimeGranularity
+  $order: StatisticsOrderOption
+  $next: Next
+  $previous: Previous
+) {
+  getStore(args: $args) {
+    getStoreMachinesStatisticsTotalPaginatedConnection(
+      startAt: $startAt
+      endAt: $endAt
+      timeGranularity: $timeGranularity
+      order: $order
+      next: $next
+      previous: $previous
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          name
+          coinAmountTotal
+          coinQuantityTotal
+          giftAmountTotal
+          giftQuantityTotal
+          giftDetail {
+            immediateAmount
+            immediateQuantity
+            offlineAmount
+            offlineQuantity
+            combineAmount
+            combineQuantity
+          }
+          coinDetail {
+            immediateAmount
+            immediateQuantity
+            offlineAmount
+            offlineQuantity
+            combineAmount
+            combineQuantity
+            onlineCoinAmount
+            onlineCoinQuantity
+            onlineFreeAmount
+            onlineFreeQuantity
+          }
+        }
+      }
+      hasNextPage
+      hasPreviousPage
+      totalPageCount
+    }
+  }
+}
+`
 
 // ========================= COMMODITY =========================
 export const GetCommodityList = gql`

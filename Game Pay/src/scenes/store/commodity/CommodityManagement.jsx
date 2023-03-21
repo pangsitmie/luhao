@@ -36,22 +36,15 @@ const CommodityManagement = () => {
   // ====================== STATES ======================
 
   // PAGINATION
-  const [limit, setLimit] = useState(10);
-  const [offset, setOffset] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const handlePageChange = ({ limit, offset }) => {
-    setLimit(limit);
-    setOffset(offset);
-    setCurrentPage(offset / limit + 1);
-  }
 
+  // const handlePageChange = ({ limit, offset }) => {
+  //   setLimit(limit);
+  //   setOffset(offset);
+  //   setCurrentPage(offset / limit + 1);
+  // }
 
   const [initCommodityDatas, setInitCommodityDatas] = useState([]);
   const [commodityDatas, setComodityDatas] = useState([]);
-
-
-  const [imgUrls, setImgUrls] = useState({});
-
 
   //REF
   const searchRef = useRef('');
@@ -64,8 +57,6 @@ const CommodityManagement = () => {
             id: state.data.id
           }
         ],
-        // limit: limit,
-        // offset: offset
       }
     }
   );
@@ -170,19 +161,11 @@ const CommodityManagement = () => {
         >
           <Box width={"90%"}>
             {/* pagination */}
-            <Pagination
+            {/* <Pagination
               limit={limit}
               offset={offset}
               onPageChange={handlePageChange}
-            />
-          </Box>
-
-          <Box width={"10%"}>
-            {/* refresh button */}
-            <Refresh
-              limit={limit}
-              offset={offset}
-              onPageChange={handlePageChange} />
+            /> */}
           </Box>
         </Box>
         <Box

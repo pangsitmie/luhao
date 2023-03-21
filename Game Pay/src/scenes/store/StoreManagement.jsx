@@ -50,12 +50,12 @@ const StoreManagement = () => {
     const searchRef = useRef('');
 
     // PAGINATION
-    const [limit, setLimit] = useState(10);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
+    // const [limit, setLimit] = useState(10);
+    // const [offset, setOffset] = useState(0);
+    // const handlePageChange = ({ limit, offset }) => {
+    //     setLimit(limit);
+    //     setOffset(offset);
+    // }
 
     //FUNCTIONS
     const handleSearchChange = (e) => {
@@ -118,9 +118,7 @@ const StoreManagement = () => {
     }
 
 
-    const { loading, error, data } = useQuery(STORE_INIT_QUERY, {
-        variables: { limit, offset }
-    });
+    const { loading, error, data } = useQuery(STORE_INIT_QUERY);
     const [initStores, SetInitStores] = useState([]);
     const [stores, setStores] = useState([]);
 
@@ -143,14 +141,8 @@ const StoreManagement = () => {
                     break;
             }
         }
-    }, [data, offset]);
+    }, [data]);
 
-
-    // useEffect(() => {
-    //     if (data) {
-
-    //     }
-    // }, [data]);
 
     if (loading) return <Loader />;
     if (error) return <Error />;
@@ -246,19 +238,11 @@ const StoreManagement = () => {
                 >
                     <Box width={"90%"}>
                         {/* pagination */}
-                        <Pagination
+                        {/* <Pagination
                             limit={limit}
                             offset={offset}
                             onPageChange={handlePageChange}
-                        />
-                    </Box>
-
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
+                        /> */}
                     </Box>
                 </Box>
                 <Box

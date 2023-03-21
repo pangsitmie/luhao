@@ -114,9 +114,32 @@ mutation ManagerCreateCurrencyReward(
     )
   }
 }
-
 `
-
+export const CreateMachineForManager = gql`
+mutation CreateMachineForManager(
+  $name: String!
+  $storeId: ID!
+  $code: String!
+  $counterCheck: Boolean
+  $counters: [CounterArgs!]
+  $nfc: String
+  $price: Int
+  $description: String
+) {
+  createMachineForManager(
+    name: $name
+    storeId: $storeId
+    code: $code
+    counterCheck: $counterCheck
+    counters: $counters
+    nfc: $nfc
+    price: $price
+    description: $description
+  ) {
+    id
+  }
+}
+`
 // ADS
 export const CreateAdvertisement = gql`
 mutation CreateAdvertisement($typeId: EAdvertisementType!, $image: String!, $url: String!, $startAt: Int!, $description: String, $endAt: Int) {
