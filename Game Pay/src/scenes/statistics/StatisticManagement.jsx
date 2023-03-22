@@ -704,27 +704,27 @@ const StatisticManagement = () => {
                                     <TableCell>
                                         <TableRow >
                                             <TableCell colSpan={6} align="center" >
-                                                Gift
+                                                禮品
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                immediateAmount {/* immediateAmount */}
+                                                即時上傳金額 {/* immediateAmount */}
                                             </TableCell>
                                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                immediateQuantity {/* immediateQuantity */}
+                                                即時上傳數量 {/* immediateQuantity */}
                                             </TableCell>
                                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                offlineAmount {/* offlineAmount */}
+                                                離線上傳金額 {/* offlineAmount */}
                                             </TableCell>
                                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                offlineAmount {/* offlineAmount */}
+                                                離線上傳數量 {/* offlineAmount */}
                                             </TableCell>
                                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                combineAmount {/* combineAmount */}
+                                                融合上傳金額 {/* combineAmount */}
                                             </TableCell>
                                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                combineQuantity {/* combineQuantity */}
+                                                融合上傳數量 {/* combineQuantity */}
                                             </TableCell>
                                         </TableRow>
                                     </TableCell>

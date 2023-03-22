@@ -6,7 +6,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 
-const PAGE_SIZE = 1;
+const PAGE_SIZE = 5;
 
 const RESPONSE_PATH = [
     // { GET_BRAND_LIST: "managerGetBrandsPaginatedConnection" },
@@ -34,7 +34,7 @@ const StatisticPagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID, START_A
             endAt: END_AT,
             order: {
                 by: "name",
-                method: "ASC0"
+                method: "asc"
             },
             next: { first: PAGE_SIZE },
         },
