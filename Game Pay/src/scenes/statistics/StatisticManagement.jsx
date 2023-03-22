@@ -8,7 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
-import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic, GetMachineListPagination } from '../../graphQL/Queries'
+import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic, GetMachineListPagination, GetStoreMachineStatisticsPagination } from '../../graphQL/Queries'
 
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useTranslation } from 'react-i18next';
 import Pagination from 'src/components/Pagination';
+import StatisticPagination from './StatisticPagination';
 const StatisticManagement = () => {
     const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
@@ -635,15 +636,16 @@ const StatisticManagement = () => {
                     </Box>
 
                     <Paper className='mui_table_container' >
-                        <Pagination QUERY={GetMachineListPagination} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_LIST"} ARGS_ID={selectedItem.id} />
+                        {/* <Pagination QUERY={GetMachineListPagination} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_LIST"} ARGS_ID={selectedItem.id} /> */}
+                        <StatisticPagination QUERY={GetStoreMachineStatisticsPagination} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_STATISTIC_LIST"} ARGS_ID={selectedItem.id} START_AT={startAtDateEpoch} END_AT={endAtDateEpoch} />
                         <Table sx={{ backgroundColor: "transparent" }}>
                             <TableHead sx={{ backgroundColor: "transparent" }}>
                                 <TableRow>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        機臺名稱
+                                    <TableCell align="center" sx={{ minWidth: "100px" }}>
+                                        ID
                                     </TableCell>
                                     <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        機臺編號
+                                        機臺名稱
                                     </TableCell>
                                     <TableCell align="center" sx={{ minWidth: "150px" }}>
                                         總收入
@@ -658,22 +660,22 @@ const StatisticManagement = () => {
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 融合上傳金額 {/* Combine Amount */}
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 融合上傳數量 {/* Combine Quantity */}
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 即時上傳金額 {/* Immediate Amount */}
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 即時上傳數量 {/* Immediate Quantity */}
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 離線上傳金額 {/* Offline Amount */}
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 離線上傳數量 {/* Ofline Quantity */}
                                             </TableCell>
                                         </TableRow>
@@ -685,17 +687,44 @@ const StatisticManagement = () => {
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 線上付費幣上傳金額 {/* Amount */}
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 線上付費幣上傳數量 {/* Quantity */}
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 線上免費幣上傳金額 {/* Free Amount */}
                                             </TableCell>
-                                            <TableCell sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
                                                 線上免費幣上傳數量 {/* Free Quantity */}
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableCell>
+                                    <TableCell>
+                                        <TableRow >
+                                            <TableCell colSpan={6} align="center" >
+                                                Gift
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                immediateAmount {/* immediateAmount */}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                immediateQuantity {/* immediateQuantity */}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                offlineAmount {/* offlineAmount */}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                offlineAmount {/* offlineAmount */}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                combineAmount {/* combineAmount */}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                combineQuantity {/* combineQuantity */}
                                             </TableCell>
                                         </TableRow>
                                     </TableCell>
@@ -708,11 +737,77 @@ const StatisticManagement = () => {
                                         key={`${item.id}-${i}`}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
+                                        <TableCell align="center" sx={{ minWidth: "100px" }}>
+                                            {item.node.id}
+                                        </TableCell>
                                         <TableCell align="center" sx={{ minWidth: "150px" }}>
                                             {item.node.name}
                                         </TableCell>
                                         <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                            {item.node.code}
+                                            {item.node.coinAmountTotal}
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            {item.node.giftAmountTotal}
+                                        </TableCell>
+
+                                        {/* ONLINE COINS */}
+                                        <TableCell align="center" sx={{ backgroundColor: "#3D4354" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.combineAmount}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.combineQuantity}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.immediateAmount}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.immediateQuantity}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.offlineAmount}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.offlineQuantity}
+                                            </TableCell>
+                                        </TableCell>
+
+                                        {/* OFFLINE COIN */}
+                                        <TableCell align="center" sx={{ backgroundColor: "transparent" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.onlineCoinAmount}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.onlineCoinQuantity}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.onlineFreeAmount}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.coinDetail.onlineFreeQuantity}
+                                            </TableCell>
+                                        </TableCell>
+
+                                        {/* GIFT */}
+                                        <TableCell align="center" sx={{ backgroundColor: "#3D4354" }}>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.giftDetail.immediateAmount}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.giftDetail.immediateQuantity}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.giftDetail.offlineAmount}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.giftDetail.offlineQuantity}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.giftDetail.combineAmount}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                                {item.node.giftDetail.combineQuantity}
+                                            </TableCell>
                                         </TableCell>
                                     </TableRow>
                                 ))}

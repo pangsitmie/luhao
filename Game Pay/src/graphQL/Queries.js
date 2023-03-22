@@ -469,6 +469,37 @@ query ManagerGetBillboards($args: [BrandArgs!]!) {
   }
 }
 `
+
+export const GetBillboardListPagination = gql`
+query ManagerGetBrandBillboardsPaginatedConnection(
+  $args: [BrandArgs!]!
+  $next: Next
+  $previous: Previous
+) {
+  getBrand(args: $args) {
+    managerGetBrandBillboardsPaginatedConnection(
+      next: $next
+      previous: $previous
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          title
+          content
+          status
+          description
+          startAt
+          endAt
+        }
+      }
+      hasNextPage
+      hasPreviousPage
+      totalPageCount
+    }
+  }
+}
+`
 export const CreateBillboard = gql`
 query GetBrand($args: [BrandArgs!]!, $title: String!, $content: String!, $description: String, $endAt: Int, $startAt: Int!, $image: String) {
   getBrand(args: $args) {

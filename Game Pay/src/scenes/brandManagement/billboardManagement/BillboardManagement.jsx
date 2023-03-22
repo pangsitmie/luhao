@@ -11,7 +11,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { color } from '@mui/system';
 import { citiesData } from "src/data/mockData";
-import { GetBillboardList } from 'src/graphQL/Queries';
+import { GetBillboardList, GetBillboardListPagination } from 'src/graphQL/Queries';
 import CreateBillboardModal from './CreateBillboardModal';
 import BillboardListModal from './BillboardListModal';
 import Loader from 'src/components/loader/Loader';
@@ -34,43 +34,41 @@ const BillboardManagement = () => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-    // ======================== STATES ========================
+    // ====================== PAGINATION ======================
+    const [billboardData, setBillboardData] = useState([]);
 
-    // PAGINATION
-    // const handlePageChange = ({ limit, offset }) => {
-    //     setLimit(limit);
-    //     setOffset(offset);
-    // }
+    const handlePageChange = (data) => {
+        setBillboardData(data);
+    }
 
 
     const [searchFilter, setSearchFilter] = useState('');
     const [cityFilter, setCityFilter] = useState('');
-    const [billboardData, setBillboardData] = useState([]);
 
     //REF
     const brandRef = useRef('');
     const searchRef = useRef('');
 
-    const { loading, error, data } = useQuery(GetBillboardList
-        , {
-            variables: {
-                args: [
-                    {
-                        id: state.data.id
-                    }
-                ],
-            }
-        }
-    );
-    useEffect(() => {
-        if (data) {
-            console.log(data.getBrand[0].managerGetBillboards);
-            setBillboardData(data.getBrand[0].managerGetBillboards);
-        }
-        else {
-            console.log("no data");
-        }
-    }, [data]);
+    // const { loading, error, data } = useQuery(GetBillboardList
+    //     , {
+    //         variables: {
+    //             args: [
+    //                 {
+    //                     id: state.data.id
+    //                 }
+    //             ],
+    //         }
+    //     }
+    // );
+    // useEffect(() => {
+    //     if (data) {
+    //         console.log(data.getBrand[0].managerGetBillboards);
+    //         setBillboardData(data.getBrand[0].managerGetBillboards);
+    //     }
+    //     else {
+    //         console.log("no data");
+    //     }
+    // }, [data]);
 
 
     //FUNCTIONS
@@ -94,8 +92,8 @@ const BillboardManagement = () => {
         console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
     }
 
-    if (loading) return <Loader />;
-    if (error) return <Error />;
+    // if (loading) return <Loader />;
+    // if (error) return <Error />;
 
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
@@ -170,12 +168,7 @@ const BillboardManagement = () => {
                     p="15px"
                 >
                     <Box width={"90%"}>
-                        {/* pagination */}
-                        {/* <Pagination
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange}
-                        /> */}
+                        <Pagination QUERY={GetBillboardListPagination} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_BILLBOARD_LIST"} ARGS_ID={state.data.id} />
                     </Box>
                 </Box>
                 <Box
@@ -219,34 +212,34 @@ const BillboardManagement = () => {
                             borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{item.title}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"} padding={"0 1rem"}>{item.node.title}</Box>
+                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.node.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                {item.endAt === null ? (
+                                {item.node.endAt === null ? (
                                     <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                         {t('none')}
                                     </Typography>
                                 ) : (
-                                    format(new Date(item.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
+                                    format(new Date(item.node.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
                                 )}
                             </Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (item.status === "disable") {
+                                    if (item.node.status === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('disable')}
                                             </Typography>
                                         )
                                     }
-                                    else if (item.status === "banned") {
+                                    else if (item.node.status === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('banned')}
                                             </Typography>
                                         )
                                     }
-                                    else if (item.status === "removed") {
+                                    else if (item.node.status === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('removed')}
@@ -261,13 +254,12 @@ const BillboardManagement = () => {
                                     }
                                 })()}
                             </Box>
-                            {/* <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{currencyFormatter(machine.price)}</Box> */}
                             <Box
                                 width={"20%"}
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">
-                                <BillboardListModal props={item} />
+                                <BillboardListModal props={item.node} />
                             </Box>
                         </Box>
                     ))}

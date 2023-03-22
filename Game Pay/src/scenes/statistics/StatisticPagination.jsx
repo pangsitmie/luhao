@@ -3,19 +3,18 @@ import { useQuery } from '@apollo/client';
 import { Box, Button, IconButton } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import Loader from './loader/Loader';
-import Error from './error/Error';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 1;
 
 const RESPONSE_PATH = [
-    { GET_BRAND_LIST: "managerGetBrandsPaginatedConnection" },
-    { GET_MACHINE_LIST: "getStore.0.managerGetMachinesPaginatedConnection" },
-    { GET_BILLBOARD_LIST: "getBrand.0.managerGetBrandBillboardsPaginatedConnection" },
+    // { GET_BRAND_LIST: "managerGetBrandsPaginatedConnection" },
+    { GET_MACHINE_STATISTIC_LIST: "getStore.0.getStoreMachinesStatisticsTotalPaginatedConnection" },
 ];
 
 
-const Pagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID }) => {
+const StatisticPagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID, START_AT, END_AT }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [hasNextPage, setHasNextPage] = useState(false);
@@ -28,7 +27,15 @@ const Pagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID }) => {
 
     const { loading, error, data, fetchMore } = useQuery(QUERY, {
         variables: {
-            args: [{ id: ARGS_ID }],
+            args: [{
+                id: ARGS_ID
+            }],
+            startAt: START_AT,
+            endAt: END_AT,
+            order: {
+                by: "name",
+                method: "ASC0"
+            },
             next: { first: PAGE_SIZE },
         },
         notifyOnNetworkStatusChange: true,
@@ -139,4 +146,4 @@ const Pagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID }) => {
         </Box>
     )
 }
-export default Pagination
+export default StatisticPagination
