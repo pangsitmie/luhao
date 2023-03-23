@@ -32,7 +32,7 @@
     "total_coin": "總投幣",
     "total_expense": "總支出",
     "total_prize": "總出貨",
-    "expense_rate": "支出比",
+    "expense_rate": "盈收比",
     "prize_rate": "出貨比",
     "total_today_earning": "本日總收入",
     "================table================": "================table================",
@@ -167,6 +167,7 @@
     "bonus_reward": "額外獎勵",
     "deposit_history": "儲值紀錄",
     "max_purchase_number": "最大購買量",
-    "receive_days_overdue": "獎勵使用期限天數"
+    "receive_days_overdue": "獎勵使用期限天數",
+    "wallet_value": "付費幣幣量"
 
 }

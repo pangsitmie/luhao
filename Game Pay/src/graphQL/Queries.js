@@ -724,6 +724,8 @@ query GetBrandStatistic($args: [BrandArgs!]!, $startAt: Int, $endAt: Int, $timeG
       coinQuantityTotal
       giftAmountTotal
       giftQuantityTotal
+      revenueRate
+      giftRate
     }
   }
 }
@@ -737,6 +739,8 @@ query GetStore($args: [StoreArgs!]!, $startAt: Int, $endAt: Int, $timeGranularit
       coinQuantityTotal
       giftAmountTotal
       giftQuantityTotal
+      revenueRate
+      giftRate
     }
   }
 }
@@ -786,6 +790,7 @@ query GetStatisticsPeriod(
 export const GetStoreMachineStatisticsPagination = gql`
 query GetStore(
   $args: [StoreArgs!]!
+  $counterType: ECounterType
   $startAt: Int
   $endAt: Int
   $timeGranularity: EStatisticsTotalTimeGranularity
@@ -795,6 +800,7 @@ query GetStore(
 ) {
   getStore(args: $args) {
     getStoreMachinesStatisticsTotalPaginatedConnection(
+      counterType: $counterType
       startAt: $startAt
       endAt: $endAt
       timeGranularity: $timeGranularity
@@ -807,19 +813,25 @@ query GetStore(
         node {
           id
           name
+          giftRate
+          revenueRate
           coinAmountTotal
           coinQuantityTotal
-          giftAmountTotal
-          giftQuantityTotal
-          giftDetail {
+          coinDetail {
             immediateAmount
             immediateQuantity
             offlineAmount
             offlineQuantity
             combineAmount
             combineQuantity
+            onlineCoinAmount
+            onlineCoinQuantity
+            onlineFreeAmount
+            onlineFreeQuantity
           }
-          coinDetail {
+          giftAmountTotal
+          giftQuantityTotal
+          giftDetail {
             immediateAmount
             immediateQuantity
             offlineAmount

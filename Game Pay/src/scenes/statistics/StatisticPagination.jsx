@@ -14,11 +14,13 @@ const RESPONSE_PATH = [
 ];
 
 
-const StatisticPagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID, START_AT, END_AT }) => {
+const StatisticPagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID, START_AT, END_AT, ORDER_BY, ORDER_METHOD }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [hasNextPage, setHasNextPage] = useState(false);
     const [hasPreviousPage, setHasPreviousPage] = useState(false);
+
+    console.log("ORDERBY", ORDER_BY);
 
     const getResponsePath = (type) => {
         const path = RESPONSE_PATH.find((p) => Object.keys(p)[0] === type);
@@ -33,8 +35,8 @@ const StatisticPagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID, START_A
             startAt: START_AT,
             endAt: END_AT,
             order: {
-                by: "name",
-                method: "asc"
+                by: ORDER_BY,
+                method: ORDER_METHOD
             },
             next: { first: PAGE_SIZE },
         },

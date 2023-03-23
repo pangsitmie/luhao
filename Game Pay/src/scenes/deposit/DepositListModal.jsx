@@ -294,7 +294,7 @@ export default function DepositListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('amount')}
+                                                    label={t('wallet_value')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.walletValue}
