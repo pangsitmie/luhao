@@ -222,7 +222,7 @@ export default function CreateDepositModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="number"
-                                                    label={t('amount')}
+                                                    label={t('wallet_value')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.walletValue}

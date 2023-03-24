@@ -123,6 +123,7 @@ export default function StoreListModal({ props }) {
     }, [data2]);
 
     // INITIAL VALUES FROM GET STORE QUERY
+    // TODO: change to the location property is causing pagination error
     const { loading: loading3, error: error3, data: data3 } = useQuery(GetStore
         , {
             variables: {

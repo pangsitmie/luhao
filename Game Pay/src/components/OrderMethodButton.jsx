@@ -16,9 +16,9 @@ const OrderMethodButton = ({ CALLBACK_FUNCTION }) => {
     return (
         <IconButton onClick={handleClick}>
             {isDescending ? (
-                <ArrowDownward sx={{ color: "#fff" }} />
+                <ArrowDownward sx={{ color: "#cecece" }} />
             ) : (
-                <ArrowUpward sx={{ color: "#fff" }} />
+                <ArrowUpward sx={{ color: "#cecece" }} />
             )}
         </IconButton>
     );

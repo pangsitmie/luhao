@@ -70,6 +70,9 @@ const DepositManagement = () => {
     const [standingItems, setStandingItems] = useState([]);
     const [initLimitedItems, setInitLimitedItems] = useState([]);
     const [limitedItems, setLimitedItems] = useState([]);
+    useEffect(() => {
+        console.log(standingItems);
+    }, [standingItems])
 
 
     const { loading: loadingStanding, error: errorStanding, data: dataStanding } = useQuery(GetDepositList, {
@@ -79,7 +82,6 @@ const DepositManagement = () => {
     });
     useEffect(() => {
         if (dataStanding) {
-            console.log(dataStanding)
             setInitStandingItems(dataStanding.managerGetDepositItems || []); //all brand datas
             setStandingItems(dataStanding.managerGetDepositItems || []); //datas for display   
         }
@@ -93,7 +95,6 @@ const DepositManagement = () => {
     });
     useEffect(() => {
         if (dataLimited) {
-            console.log(dataLimited)
             setInitLimitedItems(dataLimited.managerGetDepositItems); //all brand datas
             setLimitedItems(dataLimited.managerGetDepositItems); //datas for display         
         }

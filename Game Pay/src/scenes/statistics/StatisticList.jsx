@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import { useQuery } from '@apollo/client'
 // QUERIES
 import { GetAllBrands, GetBrandListPagination } from '../../graphQL/Queries'
-import { BRAND_GetBrandList } from '../../graphQL/BrandPrincipalQueries'
+import { BRAND_GetAllBrands, BRAND_GetBrandList } from '../../graphQL/BrandPrincipalQueries'
 import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
 
 // THEME
@@ -47,12 +47,16 @@ const StatisticList = () => {
 
 
     let LIST_QUERY;
+    let PAGINATION_PATH_TYPE;
+
     switch (entityName) {
         case 'company':
             LIST_QUERY = GetBrandListPagination;
+            PAGINATION_PATH_TYPE = 'GET_BRAND_LIST';
             break;
         case 'brand':
-            LIST_QUERY = BRAND_GetBrandList;
+            LIST_QUERY = BRAND_GetAllBrands;
+            PAGINATION_PATH_TYPE = 'GET_BRAND_PRINCIPAL_BRAND_LIST';
             break;
         case 'store':
             LIST_QUERY = STORE_GetAllStores;
@@ -155,7 +159,7 @@ const StatisticList = () => {
                     colors={colors.grey[100]}
                     p="15px 0 10px 0"
                 >
-                    <Pagination QUERY={LIST_QUERY} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_BRAND_LIST"} />
+                    <Pagination QUERY={LIST_QUERY} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={PAGINATION_PATH_TYPE} />
                 </Box>
                 <Box
                     display="flex"

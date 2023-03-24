@@ -8,19 +8,22 @@ import SearchIcon from "@mui/icons-material/Search";
 import OrderMethodButton from 'src/components/OrderMethodButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }) => {
     const { t } = useTranslation();
-    const searchRef = useRef('');
+    const searchValueRef = useRef('');
 
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-
+    const [initMachineDatas, setInitMachineDatas] = useState([]);
     const [machineDatas, setMachineDatas] = useState([]);
     const handlePageChange = (data) => {
+        setInitMachineDatas(data);
         setMachineDatas(data);
     }
 
@@ -48,8 +51,23 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
     };
 
 
-    const submitSearch = () => {
+    //SEARCH FUNCTION
+    const arraySearch = (array, keyword, filter) => {
+        const searchTerm = keyword
 
+        return array.filter(value => {
+            return value.node.name.match(new RegExp(searchTerm, 'g'))
+        })
+    }
+    const submitSearch = () => {
+        //CALL SEARCH FUNCTION
+        let value = searchValueRef.current.value;
+        if (value.length > 2) {
+            let search = arraySearch(machineDatas, value);
+            setMachineDatas(search)
+        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+            setMachineDatas(initMachineDatas)
+        }
     }
 
 
@@ -66,7 +84,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         maxWidth={140}>
                         <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }}
                             placeholder={`${t('machine_name')}`}
-                            inputRef={searchRef} />
+                            inputRef={searchValueRef} />
                     </Box>
                     {/* SEARCH BTN */}
                     <Button sx={{
@@ -86,8 +104,41 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                             {t('search')}
                         </Typography>
                     </Button>
+
+
+
                 </Box>
-                <Box display="flex" gap={"1rem"}>
+                <Box display="flex" justifyContent={"center"} alignItems={"center"} gap={"1rem"} mr=".5rem">
+                    <Box
+                        display="flex"
+                        backgroundColor={colors.primary[400]}
+                        borderRadius="10px"
+                        height={"52px"}
+                        maxWidth={140}>
+                        <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }}
+                            placeholder={"預估收入"}
+                            inputRef={searchValueRef} />
+                    </Box>
+                    <Box
+                        display="flex"
+                        backgroundColor={colors.primary[400]}
+                        borderRadius="10px"
+                        height={"52px"}
+                        maxWidth={140}>
+                        <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }}
+                            placeholder={"預估盈收比"}
+                            inputRef={searchValueRef} />
+                    </Box>
+                    <Box
+                        display="flex"
+                        backgroundColor={colors.primary[400]}
+                        borderRadius="10px"
+                        height={"52px"}
+                        maxWidth={140}>
+                        <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }}
+                            placeholder={"預估出貨比"}
+                            inputRef={searchValueRef} />
+                    </Box>
                     <FormControl sx={{ width: 140 }} >
                         <InputLabel id="demo-simple-select-label" >Filter</InputLabel>
                         <Select
@@ -108,267 +159,406 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                     <OrderMethodButton CALLBACK_FUNCTION={setOrderMethod} />
                 </Box>
             </Box>
+            <StatisticPagination
+                QUERY={GetStoreMachineStatisticsPagination}
+                HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_STATISTIC_LIST"}
+                ARGS_ID={MACHINE_ID}
+                START_AT={START_AT_DATE_EPOCH}
+                END_AT={END_AT_DATE_EPOCH}
+                ORDER_BY={filter}
+                ORDER_METHOD={orderMethod} />
 
-            <Paper className='mui_table_container' >
-                <StatisticPagination
-                    QUERY={GetStoreMachineStatisticsPagination}
-                    HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_STATISTIC_LIST"}
-                    ARGS_ID={MACHINE_ID}
-                    START_AT={START_AT_DATE_EPOCH}
-                    END_AT={END_AT_DATE_EPOCH}
-                    ORDER_BY={filter}
-                    ORDER_METHOD={orderMethod} />
-                <Table sx={{ backgroundColor: "transparent" }}>
-                    <TableHead sx={{ backgroundColor: "transparent" }}>
-                        <TableRow>
-                            <TableCell align="center" sx={{ minWidth: "50px" }}>
-                                ID
+
+
+
+
+
+
+
+            {/* ==========================table========================== */}
+            <Box
+                sx={{
+                    background: "transparent",
+                    overflow: "auto",
+                    borderRadius: "10px",
+                    border: "1px solid #E5E5E5",
+                }}
+            >
+                {/* head */}
+                <Box sx={{
+                    display: "flex",
+                }} >
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        minWidth: "120px",
+                        padding: "1rem 1.5rem",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                            機臺名稱
+                        </Typography>
+                    </Box>
+
+                    {/* OFFLINE COIN HEAD */}
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Box sx={{ minWidth: "150px" }}>
+                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingLeft: "2.1rem" }}>
+                                <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                                    Coin
+                                </Typography>
+
+                                <IconButton sx={{ marginLeft: "5px", }} onClick={handleOfflineCoinToggle}>
+                                    {isOfflineCoinCollapsed ? <ChevronRightIcon sx={{ color: colors.primary[800] }} /> : <ChevronLeftIcon sx={{ color: colors.primary[800] }} />}
+                                </IconButton>
+                            </Box>
+                        </Box>
+                        <Collapse in={!isOfflineCoinCollapsed} hidden={isOfflineCoinCollapsed}>
+                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                總Coin {/* TOTAL Amount */}
                             </TableCell>
-                            <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                機臺名稱
+                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                融合上傳金額 {/* Combine Amount */}
                             </TableCell>
-                            <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                總收入
+                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                融合上傳數量 {/* Combine Quantity */}
                             </TableCell>
-                            <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                總支出
+                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                即時上傳金額 {/* Immediate Amount */}
                             </TableCell>
-                            <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                盈收比
+                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                即時上傳數量 {/* Immediate Quantity */}
                             </TableCell>
-                            <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                出貨比
+                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                離線上傳金額 {/* Offline Amount */}
                             </TableCell>
-
-                            {/* OFFLINE COIN HEAD */}
-                            <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                <TableRow >
-                                    <TableCell colSpan={isOfflineCoinCollapsed ? 1 : 6} align="center" >
-                                        線下投幣
-                                        <IconButton sx={{ marginLeft: "5px", marginBottom: "5px" }} onClick={handleOfflineCoinToggle}>
-                                            {isOfflineCoinCollapsed ? <ExpandMoreIcon sx={{ color: "white" }} /> : <ExpandLessIcon sx={{ color: "white" }} />}
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
-
-                                <TableRow>
-                                    <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                        總線下投幣 {/* immediateAmount */}
-                                    </TableCell>
-
-                                    <Collapse in={!isOfflineCoinCollapsed} hidden={isOfflineCoinCollapsed}>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            融合上傳金額 {/* Combine Amount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            融合上傳數量 {/* Combine Quantity */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            即時上傳金額 {/* Immediate Amount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            即時上傳數量 {/* Immediate Quantity */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            離線上傳金額 {/* Offline Amount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            離線上傳數量 {/* Ofline Quantity */}
-                                        </TableCell>
-                                    </Collapse>
-                                </TableRow>
+                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                離線上傳數量 {/* Ofline Quantity */}
                             </TableCell>
+                        </Collapse>
+                    </Box>
 
-                            {/* ONLINE COIN HEAD */}
-                            <TableCell>
-                                <TableRow >
-                                    <TableCell colSpan={isOnlineCoinCollapsed ? 1 : 5} align="center" >
-                                        線上投幣
-                                        <IconButton sx={{ marginLeft: "5px", marginBottom: "5px" }} onClick={handleOnlineCoinToggle}>
-                                            {isOnlineCoinCollapsed ? <ExpandMoreIcon sx={{ color: "white" }} /> : <ExpandLessIcon sx={{ color: "white" }} />}
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
+                    {/* BEA RPAY ONLINE COIN HEAD */}
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Box sx={{ minWidth: "150px" }}>
+                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingLeft: "2.1rem" }}>
+                                <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                                    Bear Pay
+                                </Typography>
 
-                                <TableRow>
-                                    <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                        總線上投幣 {/* immediateAmount */}
-                                    </TableCell>
+                                <IconButton sx={{ marginLeft: "5px" }} onClick={handleOnlineCoinToggle}>
+                                    {isOnlineCoinCollapsed ? <ChevronRightIcon sx={{ color: colors.primary[800] }} /> : <ChevronLeftIcon sx={{ color: colors.primary[800] }} />}
+                                </IconButton>
+                            </Box>
+                        </Box>
 
-                                    {/* collaps item */}
-                                    <Collapse in={!isOnlineCoinCollapsed} hidden={isOnlineCoinCollapsed}>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            線上付費幣上傳金額 {/* Amount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            線上付費幣上傳數量 {/* Quantity */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            線上免費幣上傳金額 {/* Free Amount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            線上免費幣上傳數量 {/* Free Quantity */}
-                                        </TableCell>
-                                    </Collapse>
-                                </TableRow>
-                            </TableCell>
-
-                            {/* GIFT HEAD */}
-                            <TableCell>
-                                <TableRow >
-                                    <TableCell colSpan={isGiftCollapsed ? 1 : 6} align="center" >
-                                        禮品
-                                        <IconButton sx={{ marginLeft: "5px", marginBottom: "5px" }} onClick={handleGiftToggle}>
-                                            {isGiftCollapsed ? <ExpandMoreIcon sx={{ color: "white" }} /> : <ExpandLessIcon sx={{ color: "white" }} />}
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                        線禮品{/* immediateAmount */}
-                                    </TableCell>
-
-                                    {/* collaps item */}
-                                    <Collapse in={!isGiftCollapsed} hidden={isGiftCollapsed}>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            即時上傳金額 {/* immediateAmount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            即時上傳數量 {/* immediateQuantity */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            離線上傳金額 {/* offlineAmount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            離線上傳數量 {/* offlineAmount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            融合上傳金額 {/* combineAmount */}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            融合上傳數量 {/* combineQuantity */}
-                                        </TableCell>
-                                    </Collapse>
-                                </TableRow>
-                            </TableCell>
-
-
-
-
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {/* later filled with data */}
-                        {machineDatas.map((item, i) => (
-                            <TableRow
-                                key={`${item.id}-${i}`}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell align="center" sx={{ minWidth: "50px", backgroundColor: "#3D4354" }}>
-                                    {item.node.id}
+                        <Box display={"flex"}>
+                            {/* collaps item */}
+                            <Collapse in={!isOnlineCoinCollapsed} hidden={isOnlineCoinCollapsed}>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    總 Bear Pay {/* immediateAmount */}
                                 </TableCell>
-                                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    線上付費幣上傳金額 {/* Amount */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    線上付費幣上傳數量 {/* Quantity */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    線上免費幣上傳金額 {/* Free Amount */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    線上免費幣上傳數量 {/* Free Quantity */}
+                                </TableCell>
+                            </Collapse>
+                        </Box>
+                    </Box>
+
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        minWidth: "120px",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                            總收入
+                        </Typography>
+                    </Box>
+
+
+
+                    {/* GIFT HEAD */}
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Box sx={{ minWidth: "150px" }}>
+                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingLeft: "2.1rem" }}>
+                                <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                                    出貨
+                                </Typography>
+                                <IconButton sx={{ marginLeft: "5px" }} onClick={handleGiftToggle}>
+                                    {isGiftCollapsed ? <ChevronRightIcon sx={{ color: colors.primary[800] }} /> : <ChevronLeftIcon sx={{ color: colors.primary[800] }} />}
+                                </IconButton>
+                            </Box>
+                        </Box>
+                        <Box display={"flex"}>
+                            {/* collaps item */}
+                            <Collapse in={!isGiftCollapsed} hidden={isGiftCollapsed}>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    總出貨{/* immediateAmount */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    即時上傳金額 {/* immediateAmount */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    即時上傳數量 {/* immediateQuantity */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    離線上傳金額 {/* offlineAmount */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    離線上傳數量 {/* offlineAmount */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    融合上傳金額 {/* combineAmount */}
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
+                                    融合上傳數量 {/* combineQuantity */}
+                                </TableCell>
+                            </Collapse>
+                        </Box>
+                    </Box>
+
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        minWidth: "120px",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                            總支出
+                        </Typography>
+                    </Box>
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        minWidth: "120px",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                            盈收比
+                        </Typography>
+                    </Box>
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        minWidth: "120px",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                            出貨比
+                        </Typography>
+                    </Box>
+                    <Box sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        minWidth: "150px",
+                        backgroundColor: colors.primary[400]
+                    }}>
+                        <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
+                            細節資料
+                        </Typography>
+                    </Box>
+                </Box>
+
+                {/* ================================================= */}
+                <TableBody>
+                    {/* later filled with data */}
+                    {machineDatas.map((item, i) => (
+                        <Box
+                            key={`${item.id}-${i}`}
+                            display={"flex"}
+                        // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                            <TableCell sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                minWidth: "120px",
+                                padding: "1rem 1.5rem",
+                            }}>
+                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
                                     {item.node.name}
+                                </Typography>
+                            </TableCell>
+
+                            {/* OFFLINE COINS */}
+                            <Box sx={{ backgroundColor: colors.primary[400], alignItems: "center", display: "flex", }}>
+                                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                    <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                        {item.node.coinDetail.combineAmount + item.node.coinDetail.immediateAmount + item.node.coinDetail.offlineAmount}T
+                                    </Typography>
                                 </TableCell>
-                                <TableCell align="center" sx={{ minWidth: "150px", backgroundColor: "#3D4354" }}>
+                                <Collapse in={!isOfflineCoinCollapsed} hidden={isOfflineCoinCollapsed}>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.combineAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.combineQuantity}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.immediateAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.immediateQuantity}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.offlineAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.offlineQuantity}
+                                        </Typography>
+                                    </TableCell>
+                                </Collapse>
+                            </Box>
+
+                            {/* BEAR PAY COIN */}
+                            <Box sx={{ backgroundColor: "transparent", alignItems: "center", display: "flex" }}>
+                                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                    <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                        {item.node.coinDetail.onlineCoinAmount + item.node.coinDetail.onlineFreeAmount} T
+                                    </Typography>
+                                </TableCell>
+                                <Collapse in={!isOnlineCoinCollapsed} hidden={isOnlineCoinCollapsed}>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.onlineCoinAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.onlineCoinQuantity}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.onlineFreeAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.onlineFreeQuantity}
+                                        </Typography>
+                                    </TableCell>
+                                </Collapse>
+                            </Box>
+
+                            <TableCell align="center" sx={{ minWidth: "120px", backgroundColor: colors.primary[400] }}>
+                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
                                     {item.node.coinAmountTotal}
-                                </TableCell>
+                                </Typography>
+                            </TableCell>
+
+
+                            {/* GIFT */}
+                            <Box sx={{ backgroundColor: "transparent", alignItems: "center", display: "flex" }}>
                                 <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                    <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                        {item.node.giftDetail.immediateAmount + item.node.giftDetail.offlineAmount + item.node.giftDetail.combineAmount} T
+                                    </Typography>
+                                </TableCell>
+                                <Collapse in={!isGiftCollapsed} hidden={isGiftCollapsed} >
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.giftDetail.immediateAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.giftDetail.immediateQuantity}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.giftDetail.offlineAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.giftDetail.offlineQuantity}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.giftDetail.combineAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.giftDetail.combineQuantity}
+                                        </Typography>
+                                    </TableCell>
+                                </Collapse>
+                            </Box>
+
+                            <TableCell align="center" sx={{ minWidth: "120px", backgroundColor: colors.primary[400] }}>
+                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
                                     {item.node.giftAmountTotal}
-                                </TableCell>
-                                <TableCell align="center" sx={{ minWidth: "150px", backgroundColor: "#3D4354" }}>
+                                </Typography>
+                            </TableCell>
+                            <TableCell align="center" sx={{ minWidth: "120px" }}>
+                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
                                     {item.node.revenueRate} %
-                                </TableCell>
-                                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                </Typography>
+                            </TableCell>
+                            <TableCell align="center" sx={{ minWidth: "120px", backgroundColor: colors.primary[400] }}>
+                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
                                     {item.node.giftRate} %
-                                </TableCell>
+                                </Typography>
+                            </TableCell>
+                            <TableCell align="center" sx={{ minWidth: "150px", backgroundColor: colors.primary[400] }}>
+                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                    {t("view")}
+                                </Typography>
+                            </TableCell>
+                        </Box>
+                    ))}
+                </TableBody>
 
-                                {/* OFFLINE COINS */}
-                                <TableCell align="center" sx={{ backgroundColor: "#3D4354" }}>
-                                    <TableRow sx={{ display: "table-row" }}>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            {item.node.coinDetail.combineAmount + item.node.coinDetail.immediateAmount + item.node.coinDetail.offlineAmount}
-                                        </TableCell>
-                                        <Collapse in={!isOfflineCoinCollapsed} hidden={isOfflineCoinCollapsed}>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.combineAmount}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.combineQuantity}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.immediateAmount}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.immediateQuantity}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.offlineAmount}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.offlineQuantity}
-                                            </TableCell>
-                                        </Collapse>
-                                    </TableRow>
-                                </TableCell>
-
-                                {/* ONLINE COIN */}
-                                <TableCell align="center" sx={{ backgroundColor: "transparent" }}>
-                                    <TableRow sx={{ display: "table-row" }}>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            {item.node.coinDetail.onlineCoinAmount + item.node.coinDetail.onlineFreeAmount}
-                                        </TableCell>
-                                        <Collapse in={!isOnlineCoinCollapsed} hidden={isOnlineCoinCollapsed}>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.onlineCoinAmount}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.onlineCoinQuantity}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.onlineFreeAmount}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.coinDetail.onlineFreeQuantity}
-                                            </TableCell>
-                                        </Collapse>
-                                    </TableRow>
-                                </TableCell>
-
-                                {/* GIFT */}
-                                <TableCell align="center" sx={{ backgroundColor: "#3D4354" }}>
-                                    <TableRow sx={{ display: "table-row" }}>
-                                        <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                            {item.node.giftDetail.immediateAmount + item.node.giftDetail.offlineAmount + item.node.giftDetail.combineAmount}
-                                        </TableCell>
-                                        <Collapse in={!isGiftCollapsed} hidden={isGiftCollapsed}>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.giftDetail.immediateAmount}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.giftDetail.immediateQuantity}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.giftDetail.offlineAmount}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.giftDetail.offlineQuantity}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.giftDetail.combineAmount}
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                                {item.node.giftDetail.combineQuantity}
-                                            </TableCell>
-                                        </Collapse>
-                                    </TableRow>
-                                </TableCell>
-
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </Paper>
+            </Box >
         </>
     )
 }

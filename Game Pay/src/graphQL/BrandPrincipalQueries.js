@@ -45,54 +45,64 @@ query GetBrandPrincipal {
 }
 `
 export const BRAND_GetAllBrands = gql`
-query GetBrandPrincipal {
-    getBrandPrincipal {
-      brands {
-        id
-        name
-        vatNumber
-        cover
-        intro
-        logo
-        status
-        principal {
-        id
-        name
-        phone {
-          country
-          number
-        }
-        lineUrl
-        email
-        createdAt
+query GetBrandsPaginatedConnection($next: Next, $previous: Previous) {
+  getBrandPrincipal {
+    getBrandsPaginatedConnection(next: $next, previous: $previous) {
+      edges {
+        cursor
+        node {
+          id
+          name
+          vatNumber
+          cover
+          intro
+          logo
+          status
+          principal {
+            id
+            name
+            phone {
+              country
+              number
+            }
+            lineUrl
+            email
+            createdAt
+          }
         }
       }
+      hasNextPage
+      hasPreviousPage
+      totalPageCount
     }
   }
+}
 `
 
 export const BRAND_GetAllStores = gql`
-query ManagerGetStores {
-    getBrandPrincipal {
-      brands {
-        managerGetStores {
-          id
-      name
-      brand {
-        id
-        name
-      }
-      status
-      location {
-        storeId
-        city
-        district
-        address
-      }
+query ManagerGetStoresPaginatedConnection($next: Next, $previous: Previous) {
+  getBrandPrincipal {
+    brands {
+      managerGetStoresPaginatedConnection(next: $next, previous: $previous) {
+        edges {
+          cursor
+          node {
+            id
+            name
+            brand {
+              id
+              name
+            }
+            status
+          }
         }
+        hasNextPage
+        hasPreviousPage
+        totalPageCount
       }
     }
   }
+}
 `
 export const BRAND_CreateStore = gql`
 query Brands($name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $cover: String, $intro: String) {

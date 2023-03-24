@@ -162,20 +162,13 @@
     "deposit_management": "Deposit",
     "deposit_type": "Deposit Type",
     "deposit_item": "Deposit Item",
-    "permanent": "Permanent",
+    "standing": "Permanent",
     "limited": "Limited",
     "bonus_reward": "Bonus Reward",
     "deposit_history": "Deposit History",
     "max_purchase_number": "Max Purchase Number",
     "receive_days_overdue": "Receive Days Overdue",
     "wallet_value": "Wallet Value"
-
-
-    
-
-
-
-
 
 
 }

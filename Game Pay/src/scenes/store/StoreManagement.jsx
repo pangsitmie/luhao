@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 // QUERIES
 import { useQuery } from '@apollo/client'
-import { GetAllStores } from '../../graphQL/Queries'
+import { GetAllStores, GetStoreListPagination } from '../../graphQL/Queries'
 
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
@@ -103,12 +103,16 @@ const StoreManagement = () => {
 
     //========================== GRAPHQL ==========================
     let STORE_INIT_QUERY;
+    let PAGINATION_PATH_TYPE;
+
     switch (entityName) {
         case 'company':
-            STORE_INIT_QUERY = GetAllStores;
+            STORE_INIT_QUERY = GetStoreListPagination;
+            PAGINATION_PATH_TYPE = "GET_STORE_LIST"
             break;
         case 'brand':
             STORE_INIT_QUERY = BRAND_GetAllStores;
+            PAGINATION_PATH_TYPE = "GET_BRAND_PRINCIPAL_STORE_LIST"
             break;
         case 'store':
             STORE_INIT_QUERY = STORE_GetAllStores;
@@ -118,34 +122,14 @@ const StoreManagement = () => {
     }
 
 
-    const { loading, error, data } = useQuery(STORE_INIT_QUERY);
+
     const [initStores, SetInitStores] = useState([]);
     const [stores, setStores] = useState([]);
+    const handlePageChange = (data) => {
+        setStores(data);
+        SetInitStores(data);
+    }
 
-    useEffect(() => {
-        if (data) {
-            switch (entityName) {
-                case 'company':
-                    setStores(data.managerGetStores);
-                    SetInitStores(data.managerGetStores);
-                    break;
-                case 'brand':
-                    setStores(data.getBrandPrincipal.brands[0].managerGetStores);
-                    SetInitStores(data.getBrandPrincipal.brands[0].managerGetStores);
-                    break;
-                case 'store':
-                    setStores(data.getStorePrincipal.stores);
-                    SetInitStores(data.getStorePrincipal.stores);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }, [data]);
-
-
-    if (loading) return <Loader />;
-    if (error) return <Error />;
 
     return (
         <Box p={2} position="flex" flexDirection={"column"}>
@@ -236,13 +220,9 @@ const StoreManagement = () => {
                     colors={colors.grey[100]}
                     p="15px"
                 >
-                    <Box width={"90%"}>
+                    <Box width={"100%"}>
                         {/* pagination */}
-                        {/* <Pagination
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange}
-                        /> */}
+                        <Pagination QUERY={STORE_INIT_QUERY} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={PAGINATION_PATH_TYPE} />
                     </Box>
                 </Box>
                 <Box
@@ -285,22 +265,22 @@ const StoreManagement = () => {
                             borderBottom={i === stores.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.name}</Box>
+                            <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{store.node.name}</Box>
                             <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (store.status === "disable") {
+                                    if (store.node.status === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('disable')}
                                             </Typography>)
                                     }
-                                    else if (store.status === "banned") {
+                                    else if (store.node.status === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('banned')}
                                             </Typography>)
                                     }
-                                    else if (store.status === "removed") {
+                                    else if (store.node.status === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t('deleted')}
@@ -345,7 +325,7 @@ const StoreManagement = () => {
                                 <Link
                                     to={"/machine-management"}
                                     state={{
-                                        data: store,
+                                        data: store.node,
                                     }}
                                 >
                                     <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.5rem" }}>
@@ -358,7 +338,7 @@ const StoreManagement = () => {
                                 display={"flex"}
                                 alignItems={"center"} justifyContent={"center"}
                                 borderRadius="4px">
-                                <StoreListModal props={store} />
+                                <StoreListModal props={store.node} />
                             </Box>
                         </Box>
                     ))}

@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { GetDepositItem, UpdateDepositItem, RemoveBrand, RemoveDepositItem, } from "../../graphQL/Queries";
+import { GetDepositItem, UpdateDepositItem, RemoveDepositItem, } from "../../graphQL/Queries";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,10 @@ const checkoutSchema = yup.object().shape({
 export default function DepositListModal({ props }) {
     const { t } = useTranslation();
 
+
+
+
+
     const [rewardToggle, setRewardToggle] = useState(false);
     const handleRewardToggleChange = (event) => {
         setRewardToggle(event.target.checked);
@@ -28,6 +32,12 @@ export default function DepositListModal({ props }) {
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+
+    const [purchaseRecords, setPurchaseRecords] = useState([]);
+    useEffect(() => {
+        console.log(purchaseRecords);
+    }, [purchaseRecords]);
 
     const [typeId, setTypeId] = useState(0);
     const handleTypeIdChange = (event) => {
@@ -73,7 +83,6 @@ export default function DepositListModal({ props }) {
     const handleStatusChange = (event) => {
         setStatus(event.target.value);
     };
-    const [items, setItems] = useState([]);
 
 
     //========================== GRAPHQL ==========================
@@ -151,11 +160,13 @@ export default function DepositListModal({ props }) {
                 maxPurchaseNum: nonNullData.maxPurchaseNum,
             });
 
+            // console.log(nonNullData.id)
+            // console.log(nonNullData.purchaseRecords)
+            setPurchaseRecords(dataInit.getDepositItem[0].purchaseRecords);
 
             setTypeId(nonNullData.type === "standing" ? 0 : 1);
             setStatus(nonNullData.status);
             setRewardToggle(nonNullData.reward !== "");
-
 
             const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
             setStartAtDate(startAtDateTimeLocal);
@@ -466,19 +477,19 @@ export default function DepositListModal({ props }) {
                                     overflow={"auto"}
                                 >
                                     {/* MAP DATA */}
-                                    {items.map((brand, i) => (
+                                    {purchaseRecords.map((item, i) => (
                                         <Box
-                                            key={`${brand.id}-${i}`}
+                                            key={`${item.id}-${i}`}
                                             display="flex"
                                             justifyContent="space-between"
                                             alignItems="center"
-                                            borderBottom={i === items.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                            borderBottom={i === purchaseRecords.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                                             p="10px"
                                         >
-                                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>JOHN</Box>
-                                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>100</Box>
-                                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>100</Box>
-                                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>Success</Box>
+                                            <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id}</Box>
+                                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(item.createdAt)}</Box>
+                                            <Box width={"40%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.purchaseId}</Box>
+                                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.status}</Box>
                                         </Box>
                                     ))}
                                 </Box>

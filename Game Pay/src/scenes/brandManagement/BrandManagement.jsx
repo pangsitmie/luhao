@@ -57,12 +57,15 @@ const BrandManagement = () => {
     //========================== GRAPHQL ==========================
 
     let BRAND_INIT_QUERY;
+    let PAGINATION_PATH_TYPE;
     switch (entityName) {
         case 'company':
             BRAND_INIT_QUERY = GetBrandListPagination;
+            PAGINATION_PATH_TYPE = 'GET_BRAND_LIST';
             break;
         case 'brand':
             BRAND_INIT_QUERY = BRAND_GetAllBrands;
+            PAGINATION_PATH_TYPE = 'GET_BRAND_PRINCIPAL_BRAND_LIST';
             break;
         default:
             break;
@@ -222,7 +225,7 @@ const BrandManagement = () => {
                     p="15px"
                 >
                     {/* pagination */}
-                    <Pagination QUERY={BRAND_INIT_QUERY} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_BRAND_LIST"} />
+                    <Pagination QUERY={BRAND_INIT_QUERY} HANDLE_PAGE_CHANGE={handlePageChange} TYPE={PAGINATION_PATH_TYPE} />
 
                 </Box>
                 <Box

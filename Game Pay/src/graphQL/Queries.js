@@ -230,6 +230,28 @@ query ManagerGetStores($limit: Int, $offset: Int) {
   }
 }
 `
+
+export const GetStoreListPagination = gql`
+query ManagerGetStoresPaginatedConnection($next: Next, $previous: Previous) {
+  managerGetStoresPaginatedConnection(next: $next, previous: $previous) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        status
+        brand {
+          id
+          name
+        }
+      }
+    }
+    hasNextPage
+    hasPreviousPage
+    totalPageCount
+  }
+}
+`
 export const GetStore = gql`
 query GetStore($args: [StoreArgs!]!) {
   getStore(args: $args) {
@@ -955,6 +977,8 @@ query GetDepositItem($args: [DepositItemArgs!]!) {
       purchaseId
       id
       createdAt
+      reason
+      status
     }
   }
 }

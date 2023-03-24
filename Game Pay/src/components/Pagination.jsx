@@ -6,12 +6,15 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Loader from './loader/Loader';
 import Error from './error/Error';
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 2;
 
 const RESPONSE_PATH = [
     { GET_BRAND_LIST: "managerGetBrandsPaginatedConnection" },
+    { GET_STORE_LIST: "managerGetStoresPaginatedConnection" },
     { GET_MACHINE_LIST: "getStore.0.managerGetMachinesPaginatedConnection" },
     { GET_BILLBOARD_LIST: "getBrand.0.managerGetBrandBillboardsPaginatedConnection" },
+    { GET_BRAND_PRINCIPAL_BRAND_LIST: "getBrandPrincipal.getBrandsPaginatedConnection" },
+    { GET_BRAND_PRINCIPAL_STORE_LIST: "getBrandPrincipal.brands.0.managerGetStoresPaginatedConnection" },
 ];
 
 
@@ -36,9 +39,10 @@ const Pagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID }) => {
 
     useEffect(() => {
         if (data) {
+            console.log(data);
             const path = getResponsePath(TYPE);
             const response = path.split('.').reduce((acc, key) => acc && acc[key], data);
-            console.log(response);
+            // console.log(response);
             HANDLE_PAGE_CHANGE(response.edges);
             setTotalPages(response.totalPageCount);
             setHasNextPage(response.hasNextPage);
@@ -52,11 +56,12 @@ const Pagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID }) => {
     const handleNextPage = () => {
         const path = getResponsePath(TYPE);
         const response = path.split('.').reduce((acc, key) => acc && acc[key], data);
-
+        console.log("nextpage called");
         if (response.hasNextPage) {
             const lastCursor = response.edges[PAGE_SIZE - 1].cursor;
 
             fetchMore({
+
                 variables: {
                     args: [{ id: ARGS_ID }],
                     next: { first: PAGE_SIZE, after: lastCursor },
@@ -82,6 +87,7 @@ const Pagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID }) => {
     const handlePreviousPage = () => {
         const path = getResponsePath(TYPE);
         const response = path.split('.').reduce((acc, key) => acc && acc[key], data);
+        console.log("prevpage called");
 
         if (response.hasPreviousPage) {
             const firstCursor = response.edges[0].cursor;
