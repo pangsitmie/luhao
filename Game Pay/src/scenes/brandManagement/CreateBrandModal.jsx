@@ -21,7 +21,7 @@ const checkoutSchema = yup.object().shape({
   vatNumber: yup.string().required("required"),
   principalName: yup.string().required("required"),
   principalPassword: yup.string().required("required").matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"), principalLineUrl: yup.string().required("required"),
-  principalEmail: yup.string().email("invalid email"),
+  // principalEmail: yup.string().email("invalid email"),
   principalPhone: yup.string().required("required"),
   brandCoinName: yup.string().required("required"),
 });
@@ -209,7 +209,7 @@ export default function CreateBrandModal() {
                         maxRows={4}
                         variant="filled"
                         type="text"
-                        label= {`${t('intro')} ${t('optional')}`}
+                        label={`${t('intro')} ${t('optional')}`}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.intro}
@@ -223,7 +223,7 @@ export default function CreateBrandModal() {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label={t('principal_name')}
+                        label={`${t('brand')}${t('principal_name')}`}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.principalName}
@@ -275,17 +275,18 @@ export default function CreateBrandModal() {
                           onChange={handleChange}
                           value={values.principalEmail}
                           name="principalEmail"
-                          required // add the required prop
                           error={!!touched.principalEmail && !!errors.principalEmail}
                           helperText={touched.principalEmail && errors.principalEmail}
                           sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         {/* PASSWORD INPUT */}
-                        <FormControl 
-                          fullWidth variant="filled"                             
+                        <FormControl
+                          fullWidth variant="filled"
                           required // add the required prop
-                          sx={{ marginBottom: "1rem", 
-                          backgroundColor: colors.primary[400], borderRadius: "5px" }} >
+                          sx={{
+                            marginBottom: "1rem",
+                            backgroundColor: colors.primary[400], borderRadius: "5px"
+                          }} >
                           <InputLabel htmlFor="filled-adornment-password">{t('principal_password')}</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}

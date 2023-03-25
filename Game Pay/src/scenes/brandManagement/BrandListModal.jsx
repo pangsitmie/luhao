@@ -14,6 +14,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { PatchBrand } from "src/graphQL/Mutations";
+import { BRAND_UpdateBrand } from "src/graphQL/BrandPrincipalQueries";
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -38,21 +39,7 @@ export default function BrandListModal({ props }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  //========================== INITIAL VALUES ==========================
-  const [initialValues, setInitialValues] = useState({
-    id: -1,
-    status: "",
-    statusDesc: "",
-    name: "",
-    intro: "",
-    principalName: "",
-    principaPhone: "",
-    principalPassword: "",
-    principalLineUrl: "",
-    principalEmail: "",
-    vatNumber: "",
-    brandCoinName: "",
-  });
+
 
   // ========================== STATES AND HANDLERS ==========================
   var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
@@ -73,10 +60,46 @@ export default function BrandListModal({ props }) {
     setStatus(event.target.value);
   };
 
+
+  //========================== INITIAL VALUES ==========================
+  const [initialValues, setInitialValues] = useState({
+    id: -1,
+    status: "",
+    name: "",
+    intro: "",
+    principalName: "",
+    principaPhone: "",
+    principalPassword: "",
+    principalLineUrl: "",
+    principalEmail: "",
+    vatNumber: "",
+    brandCoinName: "",
+  });
   //========================== GRAPHQL ==========================
 
+  let UPDATE_BRAND_MUTATION;
+  switch (entityName) {
+    case 'company':
+      UPDATE_BRAND_MUTATION = PatchBrand;
+      break;
+    case 'brand':
+      UPDATE_BRAND_MUTATION = BRAND_UpdateBrand;
+      break;
+    case 'store':
+      UPDATE_BRAND_MUTATION = PatchBrand;
+      break;
+    default:
+      break;
+  }
+
   // ============ UPDATE BRAND ============
-  const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useMutation(PatchBrand);
+  const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useMutation(UPDATE_BRAND_MUTATION);
+
+  useEffect(() => {
+    if (errorUpdate) {
+      console.log(errorUpdate);
+    }
+  }, [errorUpdate]);
   // ============ REMOVE BRAND ============
   const [ApolloRemoveBrand, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveBrand);
   const handleDelete = (e) => {
@@ -188,8 +211,8 @@ export default function BrandListModal({ props }) {
         setCoverFileName(nonNullData.cover);
       }
       //set status only if not banned
-      if (nonNullData.status.name !== "banned") {
-        setStatus(nonNullData.status.name)
+      if (nonNullData.status !== "banned") {
+        setStatus(nonNullData.status)
       }
 
     }
@@ -347,7 +370,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label={t("principal")}
+                          label={`${t('brand')}${t('principal_name')}`}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalName}
@@ -461,9 +484,18 @@ export default function BrandListModal({ props }) {
                       {entityName === 'company' ? (
                         values.status === "banned" ? (
                           <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
-                            backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
+                            backgroundColor: "transparent",
+                            minWidth: "100px",
+                            padding: ".5rem 1.5rem",
+                            margin: "0 1rem",
+                            borderRadius: "10px",
+                            border: "2px solid #fff",
+                            '&:hover': {
+                              backgroundColor: "transparent",
+                              opacity: ".9",
+                            }
                           }}>
-                            <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
+                            <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.primary[100] }}>
                               {unbanTitle}
                             </Typography>
                           </Button>

@@ -35,6 +35,7 @@ import { useQuery } from "@apollo/client";
 import { STORE_GetStoreInfo } from "src/graphQL/StorePrincipalQueries";
 import { getImgURL } from "src/utils/Utils";
 import PaymentsIcon from '@mui/icons-material/Payments';
+import { useApolloClient } from '@apollo/client';
 
 // translate
 import { useTranslation } from 'react-i18next';
@@ -60,6 +61,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
 };
 
 const Sidebar = () => {
+  const client = useApolloClient();
   const { t } = useTranslation();
 
   // REDUX STORE
@@ -115,6 +117,7 @@ const Sidebar = () => {
   const logout = () => {
     localStorage.clear();
     navigate(`/login/${entityName}`);
+    client.clearStore();
   }
 
   useEffect(() => {
@@ -166,7 +169,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h4" color={colors.grey[100]}>
-                  GAME PAY
+                  BEAR PAY
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -236,12 +239,19 @@ const Sidebar = () => {
                           setSelected={setSelected}
                         />
                         <Item
+                          title={t('deposit')}
+                          to="/deposit-management"
+                          icon={<PaymentsIcon />}
+                          selected={selected}
+                          setSelected={setSelected}
+                        />
+                        {/* <Item
                           title={t('rewards')}
                           to="/reward-management"
                           icon={<CardGiftcardIcon />}
                           selected={selected}
                           setSelected={setSelected}
-                        />
+                        /> */}
                         <Item
                           title={t('system_free_coin')}
                           to="/system-coins"
@@ -277,13 +287,13 @@ const Sidebar = () => {
                           selected={selected}
                           setSelected={setSelected}
                         />
-                        <Item
+                        {/* <Item
                           title={t('partner_ads')}
                           to="/partner"
                           icon={<BusinessIcon />}
                           selected={selected}
                           setSelected={setSelected}
-                        />
+                        /> */}
                         <Typography
                           variant="h6"
                           color={colors.grey[300]}
@@ -309,13 +319,6 @@ const Sidebar = () => {
                           title={t('store_management')}
                           to="/store-management"
                           icon={<StoreIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        />
-                        <Item
-                          title={t('deposit_management')}
-                          to="/deposit-management"
-                          icon={<PaymentsIcon />}
                           selected={selected}
                           setSelected={setSelected}
                         />

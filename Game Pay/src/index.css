@@ -330,6 +330,11 @@ span {
   .span6 {
     grid-column: span 6;
   }
+
+  .flex_media {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width: 600px) {

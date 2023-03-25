@@ -397,7 +397,16 @@ export default function BillboardListModal({ props }) {
                                             {entityName === 'company' ? (
                                                 values.status === "banned" ? (
                                                     <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
-                                                        backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
+                                                        backgroundColor: "transparent",
+                                                        minWidth: "100px",
+                                                        padding: ".5rem 1.5rem",
+                                                        margin: "0 1rem",
+                                                        borderRadius: "10px",
+                                                        border: "2px solid #fff",
+                                                        '&:hover': {
+                                                            backgroundColor: "transparent",
+                                                            opacity: ".9",
+                                                        }
                                                     }}>
                                                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                             {unbanTitle}

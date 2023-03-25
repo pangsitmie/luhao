@@ -60,20 +60,20 @@ mutation PatchMachineForManager(
   $name: String
   $statusId: EUpdateMachineStatus
   $description: String
-  $price: Float
   $nfc: String
   $counters: [CounterArgs!]
   $counterCheck: Boolean
+  $price: Int
 ) {
   patchMachineForManager(
     machineId: $machineId
     name: $name
     statusId: $statusId
     description: $description
-    price: $price
     nfc: $nfc
     counters: $counters
     counterCheck: $counterCheck
+    price: $price
   )
 }
 `

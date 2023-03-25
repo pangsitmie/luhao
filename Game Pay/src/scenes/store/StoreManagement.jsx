@@ -307,7 +307,7 @@ const StoreManagement = () => {
                                 <Link
                                     to={"/commodity-management"}
                                     state={{
-                                        data: store,
+                                        data: store.node,
                                     }}
                                 >
                                     <Button sx={{ color: colors.primary[100], border: "1px solid" + colors.grey[200], borderRadius: "10px", fontSize: ".9rem", padding: ".5rem 1.5rem" }}>

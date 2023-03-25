@@ -100,7 +100,6 @@ const CommodityManagement = () => {
     <Box p={2} position="flex" flexDirection={"column"}>
       <Box height={"15%"}>
         <h1 className='userManagement_title'>{state.data.name} - {t('products')}</h1>
-        <Typography variant="h5" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
       </Box>
 
       {/* SEARCH DIV */}

@@ -274,19 +274,19 @@ const BrandManagement = () => {
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{brand.node.principal.name}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (brand.node.status.name === "disable") {
+                                    if (brand.node.status === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("disable")}
                                             </Typography>)
                                     }
-                                    else if (brand.node.status.name === "banned") {
+                                    else if (brand.node.status === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("banned")}
                                             </Typography>)
                                     }
-                                    else if (brand.node.status.name === "removed") {
+                                    else if (brand.node.status === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("deleted")}

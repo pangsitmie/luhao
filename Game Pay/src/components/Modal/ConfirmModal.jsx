@@ -76,6 +76,8 @@ export default function ConfirmModal({ props }) {
     }, [data5]);
 
 
+
+
     //date
     const [date, setDate] = useState('');
     const [unixTime, setUnixTime] = useState('');
@@ -195,7 +197,7 @@ export default function ConfirmModal({ props }) {
             {modal && (
                 <div className="confirm-modal">
                     <div onClick={toggleModal} className="confirm-overlay"></div>
-                    <div className="confirm-modal-content">
+                    <Box className="confirm-modal-content" backgroundColor={colors.primary[500]}>
                         <Box m="20px">
 
                             {/* <TextField type="date" value={date} onChange={handleDateChange} /> */}
@@ -222,16 +224,16 @@ export default function ConfirmModal({ props }) {
                                     type="text"
                                     label="封鎖原因"
                                     inputRef={reasonRef}
-                                    sx={{ marginBottom: "1rem", backgroundColor: "#1F2A40", borderRadius: "5px", color: "black" }}
+                                    required
+                                    sx={{ marginBottom: "1rem", borderRadius: "5px", color: "black" }}
                                 />
-
                             </Box>
 
                             <Box display={"flex"} justifyContent={"center"} padding={".5rem 0 0 0"}>
                                 <button className="my-button" onClick={handleBan}>{t('confirm')}</button>
                             </Box>
                         </Box>
-                    </div>
+                    </Box>
                 </div>
             )}
         </>

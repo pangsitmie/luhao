@@ -558,7 +558,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_name')}
+                                                    label={`${t('store')}${t('principal_name')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalName}
@@ -639,7 +639,16 @@ export default function StoreListModal({ props }) {
                                             {entityName === 'company' ? (
                                                 values.status === "banned" ? (
                                                     <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
-                                                        backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff"
+                                                        backgroundColor: "transparent",
+                                                        minWidth: "100px",
+                                                        padding: ".5rem 1.5rem",
+                                                        margin: "0 1rem",
+                                                        borderRadius: "10px",
+                                                        border: "2px solid #fff",
+                                                        '&:hover': {
+                                                            backgroundColor: "transparent",
+                                                            opacity: ".9",
+                                                        }
                                                     }}>
                                                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                             {unbanTitle}
@@ -652,7 +661,7 @@ export default function StoreListModal({ props }) {
 
 
                                             <Button type="submit" color="success" variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
+                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[800] }}>
                                                     {confirmTitle}
                                                 </Typography>
                                             </Button>

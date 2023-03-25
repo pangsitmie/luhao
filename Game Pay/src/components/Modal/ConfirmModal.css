@@ -2,9 +2,6 @@ body.active-modal {
     overflow-y: hidden;
 }
 
-
-
-
 .confirm-modal,
 .confirm-overlay {
     width: 100%;
@@ -23,7 +20,6 @@ body.active-modal {
     position: relative;
     transform: translate(10%, 50%);
     line-height: 2;
-    background: #141B2D;
     padding: 14px 15px;
     border-radius: 10px;
     max-width: 500px;

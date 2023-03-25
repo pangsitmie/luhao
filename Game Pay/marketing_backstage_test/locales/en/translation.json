@@ -77,6 +77,7 @@
     "optional": "(Optional)",
     "or": "or",
     "view": "View",
+    "brand": "Brand",
     "================store================": "================store================",
     "store": "Store",
     "intro": "Intro",
@@ -113,6 +114,7 @@
     "day": "Day",
     "week": "Week",
     "month": "Month",
+    "sort_by": "Sort By",
     "================machines================": "================machines================",
     "machine_name": "Machine Name",
     "machine_code": "Machine Code",
@@ -162,20 +164,13 @@
     "deposit_management": "Deposit",
     "deposit_type": "Deposit Type",
     "deposit_item": "Deposit Item",
-    "permanent": "Permanent",
+    "standing": "Permanent",
     "limited": "Limited",
     "bonus_reward": "Bonus Reward",
     "deposit_history": "Deposit History",
     "max_purchase_number": "Max Purchase Number",
     "receive_days_overdue": "Receive Days Overdue",
     "wallet_value": "Wallet Value"
-
-
-    
-
-
-
-
 
 
 }

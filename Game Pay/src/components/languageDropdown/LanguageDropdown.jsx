@@ -30,16 +30,16 @@ const LanguageDropdown = () => {
                 <PublicIcon />
                 <ul className={boxClassSubMenu4.join(' ')} >
                     <li>
-                        <NavLink onClick={() => i18next.changeLanguage('en')}>
+                        <NavLink onClick={() => i18next.changeLanguage('tw')} >
                             <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "center", color: "#D1D1D1" }}>
-                                EN
+                                TW
                             </Typography>
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink onClick={() => i18next.changeLanguage('tw')} >
+                        <NavLink onClick={() => i18next.changeLanguage('en')}>
                             <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "center", color: "#D1D1D1" }}>
-                                TW
+                                EN
                             </Typography>
                         </NavLink>
                     </li>

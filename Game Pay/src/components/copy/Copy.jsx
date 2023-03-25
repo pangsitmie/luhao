@@ -1,13 +1,19 @@
-import { Box } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import './copy.css'
+import { tokens } from "../../theme";
+
 const Copy = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
+
     return (
-        <div className='copy_container'>
+        <Box className='copy_container' sx={{ backgroundColor: colors.primary[400] }}>
             Please use Chrome or Safari for the best experience.
             <br />
-            <span className="black">Design by <a className="black" href="https://roundbytes.com">Round Bytes</a></span>
-        </div>
+            <Typography sx={{ color: colors.primary[400] }}>Design by <a className="a_transparent" href="https://roundbytes.com">Round Bytes</a></Typography>
+        </Box>
     )
 }
 

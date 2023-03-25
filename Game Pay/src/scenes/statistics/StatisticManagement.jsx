@@ -211,6 +211,7 @@ const StatisticManagement = () => {
             setStoreListFilter(targetId);
         }
     };
+    console.log(displayStatistic.giftRate);
 
     if (loadingBrand, loadingStore) return <Loader />;
     if (errorBrand, errorStore) return <Error />;
@@ -404,9 +405,10 @@ const StatisticManagement = () => {
                             subtitle={t('total_earning')}
                             icon={
                                 <SavingsIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                    sx={{ color: "#FFFFFF", fontSize: "45px" }}
                                 />
                             }
+                            textColor="#FFFFFF"
                         />
                     </Box>
 
@@ -423,9 +425,10 @@ const StatisticManagement = () => {
                             subtitle={t('total_coin')}
                             icon={
                                 <MonetizationOnIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                    sx={{ color: "#ffffff", fontSize: "45px" }}
                                 />
                             }
+                            textColor="#FFFFFF"
                         />
                     </Box>
 
@@ -442,9 +445,10 @@ const StatisticManagement = () => {
                             subtitle={t('total_expense')}
                             icon={
                                 <ReceiptIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                    sx={{ color: "#ffffff", fontSize: "45px" }}
                                 />
                             }
+                            textColor="#FFFFFF"
                         />
                     </Box>
 
@@ -461,9 +465,10 @@ const StatisticManagement = () => {
                             subtitle={t('total_prize')}
                             icon={
                                 <InventoryIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                    sx={{ color: "#FFFFFF", fontSize: "45px" }}
                                 />
                             }
+                            textColor="#FFFFFF"
                         />
                     </Box>
 
@@ -479,10 +484,10 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatPercentBox
-                            title={`${displayStatistic.revenueRate}%`}
+                            title={`${numberFormatter(displayStatistic.revenueRate)}%`}
                             // title={((displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal * 100).toFixed(2) + "%")}
                             subtitle={t('expense_rate')}
-                            progress={(displayStatistic.giftAmountTotal / displayStatistic.coinAmountTotal).toFixed(2)}
+                            progress={(displayStatistic.revenueRate / 100).toFixed(2)}
                         />
                     </Box>
                     <Box
@@ -495,10 +500,10 @@ const StatisticManagement = () => {
                         }}
                     >
                         <StatPercentBox
-                            title={`${displayStatistic.giftRate}%`}
+                            title={`${numberFormatter(displayStatistic.giftRate)}%`}
                             // title={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal) * 100).toFixed(2) + "%")}
                             subtitle={t('prize_rate')}
-                            progress={((displayStatistic.giftQuantityTotal / (displayStatistic.coinQuantityTotal)).toFixed(2))}
+                            progress={(displayStatistic.giftRate / 100).toFixed(2)}
                         />
                     </Box>
 

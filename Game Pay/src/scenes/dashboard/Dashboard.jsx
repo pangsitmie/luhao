@@ -92,9 +92,10 @@ const Dashboard = () => {
                         increase="+100%"
                         icon={
                             <PersonAddIcon
-                                sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                sx={{ color: "#FFFFFF", fontSize: "45px" }}
                             />
                         }
+                        textColor={"#FFFFFF"}
                     />
                 </Box>
 
@@ -114,9 +115,10 @@ const Dashboard = () => {
                         increase="+100%"
                         icon={
                             <LocalOfferIcon
-                                sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                sx={{ color: "#FFFFFF", fontSize: "45px" }}
                             />
                         }
+                        textColor={"#FFFFFF"}
                     />
                 </Box>
 
@@ -136,9 +138,10 @@ const Dashboard = () => {
                         increase="+50%"
                         icon={
                             <StoreIcon
-                                sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                sx={{ color: "#FFFFFF", fontSize: "45px" }}
                             />
                         }
+                        textColor={"#FFFFFF"}
                     />
                 </Box>
 
@@ -158,9 +161,10 @@ const Dashboard = () => {
                         increase="+50%"
                         icon={
                             <TrafficIcon
-                                sx={{ color: colors.grey[100], fontSize: "45px" }}
+                                sx={{ color: "#FFFFFF", fontSize: "45px" }}
                             />
                         }
+                        textColor={"#FFFFFF"}
                     />
                 </Box>
 
@@ -171,7 +175,7 @@ const Dashboard = () => {
                     borderRadius={"12px"}
                     sx={{
                         backgroundColor: "rgba(255, 255, 255, 0.074)",
-                        border: "1px solid rgba(255, 255, 255, 0.222)",
+                        border: "1px solid rgba(123, 123, 123, 0.222)",
                         webkitBackdropFilter: "blur(20px)",
                         backdropFilter: "blur(20px)",
                     }}

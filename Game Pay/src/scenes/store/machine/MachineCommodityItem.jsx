@@ -10,6 +10,8 @@ import { GetMachineCommodity, GetCommodityList } from "src/graphQL/Queries";
 import { replaceNullWithEmptyString } from "src/utils/Utils";
 import { useTranslation } from 'react-i18next';
 import { bindCommodityToMachine } from "src/graphQL/Mutations";
+import { BRAND_BindCommodity } from "src/graphQL/BrandPrincipalMutations";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const checkoutSchema = yup.object().shape({
@@ -21,6 +23,8 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function MachineCommodityListModal({ props, storeData }) {
+    const { entityName } = useSelector((state) => state.entity);
+
     const { t } = useTranslation();
     // console.log("STORE DATA: " + storeData.id);
     // console.log(props.id); // this is the machine id
@@ -110,8 +114,26 @@ export default function MachineCommodityListModal({ props, storeData }) {
         }
     }, [data3]);
 
+
+    let BIND_COMMODITY_MUTATION;
+    switch (entityName) {
+        case 'company':
+            BIND_COMMODITY_MUTATION = bindCommodityToMachine;
+            break;
+        case 'brand':
+            BIND_COMMODITY_MUTATION = BRAND_BindCommodity;
+            break;
+        case 'store':
+            BIND_COMMODITY_MUTATION = bindCommodityToMachine;
+            break;
+        default:
+            break;
+    }
+
+
+
     // UPDATE BRAND MUTATION
-    const [ApolloBindCommodityToMachine, { loading: loading4, error: error4, data: data4 }] = useMutation(bindCommodityToMachine);
+    const [ApolloBindCommodityToMachine, { loading: loading4, error: error4, data: data4 }] = useMutation(BIND_COMMODITY_MUTATION);
     useEffect(() => {
         if (data4) {
             window.location.reload();

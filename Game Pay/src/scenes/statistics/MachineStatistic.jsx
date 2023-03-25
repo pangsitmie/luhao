@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react'
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Collapse } from "@mui/material";
 import StatisticPagination from './StatisticPagination';
 import { GetStoreMachineStatisticsPagination } from 'src/graphQL/Queries';
@@ -14,6 +14,32 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }) => {
     const { t } = useTranslation();
     const searchValueRef = useRef('');
+
+    // const revenueFilter = useRef(500);
+    // const revenueRateFilter = useRef(0.75);
+    // const giftRateFilter = useRef(0.25);
+
+    const [revenueFilter, setRevenueFilter] = useState(500);
+    const handleRevenueFilterChange = (event) => {
+        setRevenueFilter(event.target.value);
+    };
+
+    const [revenueRateFilter, setRevenueRateFilter] = useState(75);
+    const handleRevenueRateFilterChange = (event) => {
+        setRevenueRateFilter(event.target.value);
+    };
+
+    const [giftRateFilter, setGiftRateFilter] = useState(25);
+    const handleGiftRateFilterChange = (event) => {
+        setGiftRateFilter(event.target.value);
+    };
+
+    useEffect(() => {
+        console.log('revenueFilter', revenueFilter);
+        console.log('revenueRateFilter', revenueRateFilter);
+        console.log('giftRateFilter', giftRateFilter);
+    }, [revenueFilter, revenueRateFilter, giftRateFilter]);
+
 
     //THEME
     const theme = useTheme();
@@ -51,6 +77,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
     };
 
 
+
     //SEARCH FUNCTION
     const arraySearch = (array, keyword, filter) => {
         const searchTerm = keyword
@@ -73,9 +100,15 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
 
     return (
         <>
-            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"} justifyContent={"space-between"}>
+            <Box className='flex_media' marginBottom={"2rem"} justifyContent={"space-between"}>
                 {/* name Search */}
-                <Box className='flex_media'>
+                {/* <Box>
+                    revenue filter {revenueFilter} <br />
+                    revenue rate filter {revenueRateFilter} <br />
+                    gift rate filter {giftRateFilter} <br />
+                </Box> */}
+
+                <Box display={"flex"} gap={"1rem"}>
                     <Box
                         display="flex"
                         backgroundColor={colors.primary[400]}
@@ -104,54 +137,56 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                             {t('search')}
                         </Typography>
                     </Button>
-
-
-
                 </Box>
-                <Box display="flex" justifyContent={"center"} alignItems={"center"} gap={"1rem"} mr=".5rem">
-                    <Box
-                        display="flex"
-                        backgroundColor={colors.primary[400]}
-                        borderRadius="10px"
-                        height={"52px"}
-                        maxWidth={140}>
-                        <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }}
-                            placeholder={"預估收入"}
-                            inputRef={searchValueRef} />
-                    </Box>
-                    <Box
-                        display="flex"
-                        backgroundColor={colors.primary[400]}
-                        borderRadius="10px"
-                        height={"52px"}
-                        maxWidth={140}>
-                        <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }}
-                            placeholder={"預估盈收比"}
-                            inputRef={searchValueRef} />
-                    </Box>
-                    <Box
-                        display="flex"
-                        backgroundColor={colors.primary[400]}
-                        borderRadius="10px"
-                        height={"52px"}
-                        maxWidth={140}>
-                        <InputBase sx={{ textTransform: "capitalize", ml: 2, pr: 2 }}
-                            placeholder={"預估出貨比"}
-                            inputRef={searchValueRef} />
-                    </Box>
+
+                <Box display="flex" alignItems={"center"} gap={"1rem"} mr=".5rem">
+                    <TextField
+                        variant="outlined"
+                        type="text"
+                        label="預估收入"
+                        onChange={handleRevenueFilterChange}
+                        value={revenueFilter}
+                        sx={{ width: "120px", backgroundColor: colors.primary[400], color: "black" }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">元</InputAdornment>,
+                        }}
+                    />
+                    <TextField
+                        variant="outlined"
+                        type="text"
+                        label="預估盈收比"
+                        onChange={handleRevenueRateFilterChange}
+                        value={revenueRateFilter}
+                        sx={{ width: "120px", backgroundColor: colors.primary[400], color: "black" }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                        }}
+                    />
+                    <TextField
+                        variant="outlined"
+                        type="text"
+                        label="預估出貨比"
+                        onChange={handleGiftRateFilterChange}
+                        value={giftRateFilter}
+                        sx={{ width: "120px", backgroundColor: colors.primary[400], color: "black" }}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                        }}
+                    />
                     <FormControl sx={{ width: 140 }} >
-                        <InputLabel id="demo-simple-select-label" >Filter</InputLabel>
+                        <InputLabel id="demo-simple-select-label" >{t('sort_by')}</InputLabel>
                         <Select
                             sx={{ borderRadius: "10px", background: colors.primary[400] }}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={filter}
-                            label="Filter"
+                            label={t('sort_by')}
                             onChange={handleFilterChange}
                         >
                             <MenuItem value={"name"}>{t('name')}</MenuItem>
                             <MenuItem value={"revenue"}>收入</MenuItem>
-                            <MenuItem value={"gift"}>總出貨</MenuItem>
+                            <MenuItem value={"gift"}>出貨</MenuItem>
+                            <MenuItem value={"revenueRate"}>盈收比</MenuItem>
                             <MenuItem value={"giftRate"}>出貨比</MenuItem>
                             <MenuItem value={"favorite"}>最愛</MenuItem>
                         </Select>
@@ -159,14 +194,30 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                     <OrderMethodButton CALLBACK_FUNCTION={setOrderMethod} />
                 </Box>
             </Box>
-            <StatisticPagination
-                QUERY={GetStoreMachineStatisticsPagination}
-                HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_STATISTIC_LIST"}
-                ARGS_ID={MACHINE_ID}
-                START_AT={START_AT_DATE_EPOCH}
-                END_AT={END_AT_DATE_EPOCH}
-                ORDER_BY={filter}
-                ORDER_METHOD={orderMethod} />
+
+            <Box className='flex_media' justifyContent={"space-between"} alignItems={"center"}>
+                <Box>
+                    <StatisticPagination
+                        QUERY={GetStoreMachineStatisticsPagination}
+                        HANDLE_PAGE_CHANGE={handlePageChange} TYPE={"GET_MACHINE_STATISTIC_LIST"}
+                        ARGS_ID={MACHINE_ID}
+                        START_AT={START_AT_DATE_EPOCH}
+                        END_AT={END_AT_DATE_EPOCH}
+                        ORDER_BY={filter}
+                        ORDER_METHOD={orderMethod} />
+                </Box>
+                <Box display={"flex"} gap={"1rem"}>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Box sx={{ width: 25, height: 5, backgroundColor: colors.blueAccent[800], marginRight: 2 }}></Box>
+                        <div>低於預期</div>
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Box sx={{ width: 25, height: 5, backgroundColor: colors.redAccent[800], marginRight: 2 }}></Box>
+                        <div>超出預期</div>
+                    </Box>
+                </Box>
+            </Box>
+
 
 
 
@@ -396,166 +447,185 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                 {/* ================================================= */}
                 <TableBody>
                     {/* later filled with data */}
-                    {machineDatas.map((item, i) => (
-                        <Box
-                            key={`${item.id}-${i}`}
-                            display={"flex"}
-                        // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                minWidth: "120px",
-                                padding: "1rem 1.5rem",
-                            }}>
-                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                    {item.node.name}
-                                </Typography>
-                            </TableCell>
+                    {machineDatas.map((item, i) => {
 
-                            {/* OFFLINE COINS */}
-                            <Box sx={{ backgroundColor: colors.primary[400], alignItems: "center", display: "flex", }}>
-                                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                        let isBellowRevenueFilter = item.node.coinAmountTotal < revenueFilter;
+
+                        let isBellowRevenueRateFilter = parseInt(item.node.revenueRate + 7) < parseInt(revenueRateFilter);
+                        let isAboveRevenueRateFilter = parseInt(item.node.revenueRate - 7) > parseInt(revenueRateFilter);
+
+                        let isBellowGiftRateFilter = parseInt(item.node.giftRate + 7) < parseInt(giftRateFilter);
+                        let isAboveGiftRateFilter = parseInt(item.node.giftRate - 7) > parseInt(giftRateFilter);
+
+                        const isOverHighlighted = (isAboveRevenueRateFilter || isAboveGiftRateFilter);
+                        const isBellowHighlighted = (isBellowRevenueFilter || isBellowRevenueRateFilter || isBellowGiftRateFilter)
+
+                        return (
+                            <Box
+                                key={`${item.id}-${i}`}
+                                display={"flex"}
+                                sx={{
+                                    backgroundColor: isOverHighlighted ? colors.redAccent[800] : (isBellowHighlighted ? colors.blueAccent[800] : "transparent"),
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
+                            // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    minWidth: "120px",
+                                    padding: "1rem 1.5rem",
+                                }}>
                                     <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                        {item.node.coinDetail.combineAmount + item.node.coinDetail.immediateAmount + item.node.coinDetail.offlineAmount}T
+                                        {item.node.name}
                                     </Typography>
                                 </TableCell>
-                                <Collapse in={!isOfflineCoinCollapsed} hidden={isOfflineCoinCollapsed}>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.combineAmount}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.combineQuantity}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.immediateAmount}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.immediateQuantity}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.offlineAmount}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.offlineQuantity}
-                                        </Typography>
-                                    </TableCell>
-                                </Collapse>
-                            </Box>
 
-                            {/* BEAR PAY COIN */}
-                            <Box sx={{ backgroundColor: "transparent", alignItems: "center", display: "flex" }}>
-                                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                {/* OFFLINE COINS */}
+                                <Box sx={{ alignItems: "center", display: "flex", }}>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.combineAmount + item.node.coinDetail.immediateAmount + item.node.coinDetail.offlineAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <Collapse in={!isOfflineCoinCollapsed} hidden={isOfflineCoinCollapsed}>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.combineAmount}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.combineQuantity}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.immediateAmount}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.immediateQuantity}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.offlineAmount}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.offlineQuantity}
+                                            </Typography>
+                                        </TableCell>
+                                    </Collapse>
+                                </Box>
+
+                                {/* BEAR PAY COIN */}
+                                <Box sx={{ alignItems: "center", display: "flex" }}>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.coinDetail.onlineCoinAmount + item.node.coinDetail.onlineFreeAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <Collapse in={!isOnlineCoinCollapsed} hidden={isOnlineCoinCollapsed}>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.onlineCoinAmount}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.onlineCoinQuantity}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.onlineFreeAmount}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.coinDetail.onlineFreeQuantity}
+                                            </Typography>
+                                        </TableCell>
+                                    </Collapse>
+                                </Box>
+
+                                <TableCell align="center" sx={{ minWidth: "120px" }}>
                                     <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                        {item.node.coinDetail.onlineCoinAmount + item.node.coinDetail.onlineFreeAmount} T
+                                        {item.node.coinAmountTotal}
                                     </Typography>
                                 </TableCell>
-                                <Collapse in={!isOnlineCoinCollapsed} hidden={isOnlineCoinCollapsed}>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.onlineCoinAmount}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.onlineCoinQuantity}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.onlineFreeAmount}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.coinDetail.onlineFreeQuantity}
-                                        </Typography>
-                                    </TableCell>
-                                </Collapse>
-                            </Box>
-
-                            <TableCell align="center" sx={{ minWidth: "120px", backgroundColor: colors.primary[400] }}>
-                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                    {item.node.coinAmountTotal}
-                                </Typography>
-                            </TableCell>
 
 
-                            {/* GIFT */}
-                            <Box sx={{ backgroundColor: "transparent", alignItems: "center", display: "flex" }}>
-                                <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                {/* GIFT */}
+                                <Box sx={{ backgroundColor: "transparent", alignItems: "center", display: "flex" }}>
+                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                            {item.node.giftDetail.immediateAmount + item.node.giftDetail.offlineAmount + item.node.giftDetail.combineAmount}
+                                        </Typography>
+                                    </TableCell>
+                                    <Collapse in={!isGiftCollapsed} hidden={isGiftCollapsed} >
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.giftDetail.immediateAmount}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.giftDetail.immediateQuantity}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.giftDetail.offlineAmount}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.giftDetail.offlineQuantity}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.giftDetail.combineAmount}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ minWidth: "150px" }}>
+                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                                {item.node.giftDetail.combineQuantity}
+                                            </Typography>
+                                        </TableCell>
+                                    </Collapse>
+                                </Box>
+
+                                <TableCell align="center" sx={{ minWidth: "120px" }}>
                                     <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                        {item.node.giftDetail.immediateAmount + item.node.giftDetail.offlineAmount + item.node.giftDetail.combineAmount} T
+                                        {item.node.giftAmountTotal}
                                     </Typography>
                                 </TableCell>
-                                <Collapse in={!isGiftCollapsed} hidden={isGiftCollapsed} >
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.giftDetail.immediateAmount}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.giftDetail.immediateQuantity}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.giftDetail.offlineAmount}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.giftDetail.offlineQuantity}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.giftDetail.combineAmount}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ minWidth: "150px" }}>
-                                        <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.giftDetail.combineQuantity}
-                                        </Typography>
-                                    </TableCell>
-                                </Collapse>
+                                <TableCell align="center" sx={{ minWidth: "120px" }}>
+                                    <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                        {item.node.revenueRate} %
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "120px", }}>
+                                    <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                        {item.node.giftRate} %
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" sx={{ minWidth: "150px", }}>
+                                    <Typography variant="h6" color={colors.primary[100]} sx={{}} >
+                                        {t("view")}
+                                    </Typography>
+                                </TableCell>
                             </Box>
-
-                            <TableCell align="center" sx={{ minWidth: "120px", backgroundColor: colors.primary[400] }}>
-                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                    {item.node.giftAmountTotal}
-                                </Typography>
-                            </TableCell>
-                            <TableCell align="center" sx={{ minWidth: "120px" }}>
-                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                    {item.node.revenueRate} %
-                                </Typography>
-                            </TableCell>
-                            <TableCell align="center" sx={{ minWidth: "120px", backgroundColor: colors.primary[400] }}>
-                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                    {item.node.giftRate} %
-                                </Typography>
-                            </TableCell>
-                            <TableCell align="center" sx={{ minWidth: "150px", backgroundColor: colors.primary[400] }}>
-                                <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                    {t("view")}
-                                </Typography>
-                            </TableCell>
-                        </Box>
-                    ))}
+                        );
+                    })}
                 </TableBody>
 
             </Box >

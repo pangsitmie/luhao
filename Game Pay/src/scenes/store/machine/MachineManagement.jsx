@@ -20,6 +20,7 @@ import Pagination from 'src/components/Pagination';
 const MachineManagement = () => {
     const location = useLocation();
     const state = location.state;
+    // console.log("STATE" + state.data.id); // output: "the-page-id"
     const { t } = useTranslation();
 
     //THEME
@@ -122,7 +123,6 @@ const MachineManagement = () => {
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"15%"}>
                 <h1 className='userManagement_title'>{state.data.name} - {t('machines')}</h1>
-                <Typography variant="h5" sx={{ color: colors.grey[400], margin: "-1rem 0 1rem 0" }}>{state.data.location.city} - {state.data.location.district} - {state.data.location.address}</Typography>
             </Box>
 
             {/* SEARCH DIV */}

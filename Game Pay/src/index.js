@@ -36,10 +36,29 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (graphQLErrors) {
     graphQLErrors.map(async ({ message, location, path, extensions }) => {
       console.log("ERROR DESC:");
+      console.log("extensions");
+      console.log(extensions);
+
+      console.log("message");
+      console.log(message);
+
+      console.log("location");
+      console.log(location);
+
       console.log(extensions.description);
+
+      if (extensions.code === "2x106") {
+        console.log("密碼錯誤");
+        toast.error("密碼錯誤");
+      }
+      if (extensions.code === "2x102") {
+        console.log("無此帳號");
+        toast.error("無此帳號");
+      }
 
       console.log("ERROR PATH:" + path);
       if (message === "Token過期") {
+        client.clearStore();
         console.log("TOKEN EXPIRES");
 
         originalQuery = operation.query;
@@ -81,13 +100,17 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         // Re-execute the original query with the updated token and original variables
         client.query({ query: originalQuery, variables: originalVariables });
       } else {
+
+
         if (extensions.description[0]) {
           const { constraints } = extensions.description[0];
           const errorMessage = constraints && constraints.matches;
 
+
           if (errorMessage) {
             toast.error(errorMessage);
-          } else {
+          }
+          else {
             toast.error(extensions.description);
           }
         } else {

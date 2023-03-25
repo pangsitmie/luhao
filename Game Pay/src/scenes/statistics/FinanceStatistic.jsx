@@ -422,14 +422,14 @@ const FinanceStatistic = () => {
                         </Box>
                         <Box
                             display={"flex"}
-                            border={"1px solid #fff"}
+                            border={"1px solid #cecece"}
                             borderRadius={"6px"}>
                             <Button
                                 sx={{
                                     display: displayHour ? "block" : "none",
                                     borderRadius: "0px",
-                                    backgroundColor: period === 'hour' ? "rgba(255, 255, 255, 0.074)" : "transparent",
-                                    border: period === 'hour' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    backgroundColor: period === 'hour' ? "rgba(123, 123, 123, 0.074)" : "transparent",
+                                    border: period === 'hour' ? "1px solid rgba(246, 246, 246, 0.222)" : "1px solid transparent",
                                     webkitBackdropFilter: period === 'hour' ? "blur(20px)" : "none",
                                     backdropFilter: period === 'hour' ? "blur(20px)" : "none",
                                 }}
@@ -442,8 +442,8 @@ const FinanceStatistic = () => {
                             <Button
                                 sx={{
                                     borderRadius: "0px",
-                                    backgroundColor: period === 'day' ? "rgba(255, 255, 255, 0.074)" : "transparent",
-                                    border: period === 'day' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    backgroundColor: period === 'day' ? "rgba(123, 123, 123, 0.074)" : "transparent",
+                                    border: period === 'day' ? "1px solid rgba(246, 246, 246, 0.222)" : "1px solid transparent",
                                     webkitBackdropFilter: period === 'day' ? "blur(20px)" : "none",
                                     backdropFilter: period === 'day' ? "blur(20px)" : "none",
                                 }}
@@ -456,8 +456,8 @@ const FinanceStatistic = () => {
                             <Button
                                 sx={{
                                     borderRadius: "0px",
-                                    backgroundColor: period === 'week' ? "rgba(255, 255, 255, 0.074)" : "transparent",
-                                    border: period === 'week' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    backgroundColor: period === 'week' ? "rgba(123, 123, 123, 0.074)" : "transparent",
+                                    border: period === 'week' ? "1px solid rgba(246, 246, 246, 0.222)" : "1px solid transparent",
                                     webkitBackdropFilter: period === 'week' ? "blur(20px)" : "none",
                                     backdropFilter: period === 'week' ? "blur(20px)" : "none",
                                 }}
@@ -470,8 +470,8 @@ const FinanceStatistic = () => {
                             <Button
                                 sx={{
                                     borderRadius: "0px",
-                                    backgroundColor: period === 'month' ? "rgba(255, 255, 255, 0.074)" : "transparent",
-                                    border: period === 'month' ? "1px solid rgba(255, 255, 255, 0.222)" : "1px solid transparent",
+                                    backgroundColor: period === 'month' ? "rgba(123, 123, 123, 0.074)" : "transparent",
+                                    border: period === 'month' ? "1px solid rgba(246, 246, 246, 0.222)" : "1px solid transparent",
                                     webkitBackdropFilter: period === 'month' ? "blur(20px)" : "none",
                                     backdropFilter: period === 'month' ? "blur(20px)" : "none",
                                 }}

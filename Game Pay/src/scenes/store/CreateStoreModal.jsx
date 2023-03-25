@@ -389,7 +389,7 @@ export default function CreateStoreModal() {
                                             {/* STORE ADDRESS */}
                                             <Box display={"flex"}>
                                                 {/* CITYFILTER */}
-                                                <FormControl required  sx={{ minWidth: 150, height: "100%" }}>
+                                                <FormControl required sx={{ minWidth: 150, height: "100%" }}>
                                                     <InputLabel id="demo-simple-select-label" >{t('county_filter')}</InputLabel>
                                                     <Select
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
@@ -447,7 +447,7 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_name')}
+                                                    label={`${t('store')}${t('principal_name')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalName}
@@ -473,11 +473,13 @@ export default function CreateStoreModal() {
                                                 />
 
                                                 {/* PASSWORD INPUT */}
-                                                <FormControl 
-                                                fullWidth variant="filled"                             
-                                                required // add the required prop
-                                                sx={{ marginBottom: "1rem", 
-                                                backgroundColor: colors.primary[400], borderRadius: "5px" }} >
+                                                <FormControl
+                                                    fullWidth variant="filled"
+                                                    required // add the required prop
+                                                    sx={{
+                                                        marginBottom: "1rem",
+                                                        backgroundColor: colors.primary[400], borderRadius: "5px"
+                                                    }} >
                                                     <InputLabel htmlFor="filled-adornment-password">{t('principal_password')}</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}

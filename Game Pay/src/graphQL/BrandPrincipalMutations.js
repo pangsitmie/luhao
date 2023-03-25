@@ -35,22 +35,22 @@ export const BRAND_PatchMachine = gql`
 mutation PatchMachineForBrandPrincipal(
   $machineId: ID!
   $name: String
-  $price: Float
   $description: String
   $nfc: String
   $statusId: EUpdateMachineStatus
   $counters: [CounterArgs!]
   $counterCheck: Boolean
+  $price: Int
 ) {
   patchMachineForBrandPrincipal(
     machineId: $machineId
     name: $name
-    price: $price
     description: $description
     nfc: $nfc
     statusId: $statusId
     counters: $counters
     counterCheck: $counterCheck
+    price: $price
   )
 }
 `
@@ -66,6 +66,18 @@ mutation PatchCommodityForBrandPrincipal(
     name: $name
     price: $price
     stock: $stock
+  )
+}
+`
+
+export const BRAND_BindCommodity = gql`
+mutation BindCommodityToMachineForBrandPrincipal(
+  $machineId: ID!
+  $commodityId: ID!
+) {
+  bindCommodityToMachineForBrandPrincipal(
+    machineId: $machineId
+    commodityId: $commodityId
   )
 }
 `

@@ -1,12 +1,11 @@
 .copy_container {
-    background: #1F2A40;
     color: #999;
     font-size: 10px;
     text-align: center;
     padding: 5px 1rem;
 }
 
-.black {
+.a_transparent {
     font-size: 5px;
-    color: #1F2A40;
+    color: transparent;
 }

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import { useQuery } from '@apollo/client';
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
+import { ColorModeContext, tokens } from "../../theme";
 
 const PAGE_SIZE = 5;
 
@@ -15,6 +16,13 @@ const RESPONSE_PATH = [
 
 
 const StatisticPagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID, START_AT, END_AT, ORDER_BY, ORDER_METHOD }) => {
+
+    //THEME
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const colorMode = useContext(ColorModeContext);
+
+
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [hasNextPage, setHasNextPage] = useState(false);
@@ -133,17 +141,19 @@ const StatisticPagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID, START_A
                 onClick={handlePreviousPage}
                 disabled={!hasPreviousPage}
             >
-                <NavigateBeforeIcon sx={{ color: "white", opacity: currentPage === 1 ? "0.2" : "1" }} />
+                <NavigateBeforeIcon sx={{ color: colors.primary[100], opacity: currentPage === 1 ? "0.2" : "1" }} />
             </IconButton>
 
-            <span>{currentPage}</span>
+            <Typography color={colors.primary[100]} variant="h5" fontWeight="600">
+                {currentPage}
+            </Typography>
 
             <IconButton
                 aria-label="previous"
                 onClick={handleNextPage}
                 disabled={!hasNextPage}
             >
-                <NavigateNextIcon sx={{ color: "white", opacity: currentPage === totalPages ? "0.2" : "1" }} />
+                <NavigateNextIcon sx={{ color: colors.primary[100], opacity: currentPage === totalPages ? "0.2" : "1" }} />
             </IconButton>
         </Box>
     )

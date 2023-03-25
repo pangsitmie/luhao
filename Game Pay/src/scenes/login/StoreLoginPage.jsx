@@ -106,19 +106,18 @@ const StoreLoginPage = () => {
         variables.account = values.account;
         variables.password = values.password;
         apolloStoreLogin({ variables });
-
     }
 
     return (
-        <Box className='login_page' backgroundColor={colors.primary[400]} >
+        <Box className='login_page'  >
             <div className="container">
                 <div className="box">
                     <Typography variant="h5" sx={{
-                        color: "#fff", fontSize: "13px", fontWeight: "300", ml: "2px", mb: "5px"
+                        color: "#111", fontSize: "13px", fontWeight: "300", ml: "2px", mb: "5px"
                     }}>
                         STORE
                     </Typography>
-                    <span className="title">GAME PAY</span>
+                    <span className="title">BEAR PAY</span>
                     <div>
                         <Formik
                             onSubmit={handleFormSubmit}

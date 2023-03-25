@@ -79,6 +79,28 @@ query GetBrandsPaginatedConnection($next: Next, $previous: Previous) {
 }
 `
 
+export const BRAND_UpdateBrand = gql`
+mutation UpdateBrandForBrandPrincipal(
+  $name: String!
+  $vatNumber: String!
+  $principal: UpdateBrandPrincipalArgs!
+  $brandId: ID!
+  $cover: String
+  $intro: String
+  $logo: String
+) {
+  updateBrandForBrandPrincipal(
+    name: $name
+    vatNumber: $vatNumber
+    principal: $principal
+    brandId: $brandId
+    cover: $cover
+    intro: $intro
+    logo: $logo
+  )
+}
+`
+
 export const BRAND_GetAllStores = gql`
 query ManagerGetStoresPaginatedConnection($next: Next, $previous: Previous) {
   getBrandPrincipal {
@@ -175,3 +197,5 @@ query BrandGetNotificationSchedules($ids: [ID!]!) {
   }
 }
 `
+
+
