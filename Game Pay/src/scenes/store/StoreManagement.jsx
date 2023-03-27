@@ -116,6 +116,7 @@ const StoreManagement = () => {
             break;
         case 'store':
             STORE_INIT_QUERY = STORE_GetAllStores;
+            PAGINATION_PATH_TYPE = "GET_STORE_PRINCIPAL_STORE_LIST"
             break;
         default:
             break;

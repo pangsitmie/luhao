@@ -44,7 +44,7 @@ export default function CreateMachineModal({ props }) {
         name: "",
         nfc: "",
         code: "",
-        price: "",
+        price: 1,
         description: "",
         counterCoin: "",
         counterGift: ""
@@ -141,6 +141,7 @@ export default function CreateMachineModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
+                                                    required
                                                     label={t('store_id')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -155,6 +156,7 @@ export default function CreateMachineModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
+                                                    required
                                                     label={t('store_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -169,8 +171,10 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label={t('machine_code')}
+                                                label={`${t('machine_code')}`}
+                                                placeholder={"查帳小卡的十位數機台碼"}
                                                 onBlur={handleBlur}
+                                                required
                                                 onChange={handleChange}
                                                 value={values.code}
                                                 name="code"
@@ -182,7 +186,9 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label={t('machine_name')}
+                                                required
+                                                label={`${t('machine_name')}`}
+                                                placeholder={"自定義的機台編號"}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.name}
@@ -195,7 +201,8 @@ export default function CreateMachineModal({ props }) {
                                                 fullWidth
                                                 variant="filled"
                                                 type="text"
-                                                label="NFC"
+                                                label={`NFC ${t('optional')}`}
+                                                placeholder="用於APP支付用的機台辨識標籤, 需額外向公司申請NFC ID tag"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
                                                 value={values.nfc}
@@ -209,10 +216,12 @@ export default function CreateMachineModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
+                                                    required
                                                     label={t('amount_spent_per_machine')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.price}
+                                                    placeholder={"Bear Pay支付金額, 啟動一次機台所需要的枚數"}
                                                     name="price"
                                                     error={!!touched.price && !!errors.price}
                                                     helperText={touched.price && errors.price}
@@ -222,7 +231,7 @@ export default function CreateMachineModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('description')}
+                                                    label={`${t('description')} ${t('optional')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.description}

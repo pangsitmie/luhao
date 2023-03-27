@@ -156,7 +156,7 @@ export default function BrandListModal({ props }) {
         name: values.principalName,
         lineUrl: values.principalLineUrl,
       },
-      currencyName: values.brandCoinName,
+      // currencyName: values.brandCoinName,
     };
     if (values.intro !== "") {
       variables.intro = values.intro;
@@ -365,12 +365,16 @@ export default function BrandListModal({ props }) {
                         helperText={touched.intro && errors.intro}
                         sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
+
+                      <Typography variant="h5" sx={{ textAlign: "left", margin: "1rem 0 .5rem 0", color: colors.grey[200] }}>{t('principal_name')}</Typography>
+
+
                       <Box display={"flex"} justifyContent={"space-between"} >
                         <TextField
                           fullWidth
                           variant="filled"
                           type="text"
-                          label={`${t('brand')}${t('principal_name')}`}
+                          label={`${t('person_name')}`}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalName}
@@ -382,7 +386,7 @@ export default function BrandListModal({ props }) {
 
                         {/* PASSWORD INPUT */}
                         <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                          <InputLabel htmlFor="filled-adornment-password">{t("principal_password")} {t('optional')}</InputLabel>
+                          <InputLabel htmlFor="filled-adornment-password">{t("password")} {t('optional')}</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}
                             onChange={handleChange}
@@ -414,7 +418,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label={t("principal_line")}
+                          label={t("line_url")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalLineUrl}
@@ -428,7 +432,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label={t("principal_phone")}
+                          label={t("phone")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principaPhone}
@@ -442,7 +446,7 @@ export default function BrandListModal({ props }) {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label={t("principal_email")}
+                          label={t("email")}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalEmail}
@@ -457,6 +461,7 @@ export default function BrandListModal({ props }) {
                         fullWidth
                         variant="filled"
                         type="text"
+                        disabled={true}
                         label={t("brand_coin_name")}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -468,18 +473,21 @@ export default function BrandListModal({ props }) {
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <Button onClick={handleDelete} id={values.id} variant="contained" sx={{
-                        backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff",
-                        ':hover': {
-                          bgcolor: colors.grey[300],
-                          border: '1px solid' + colors.primary[800],
-                          color: "white"
-                        }
-                      }}>
-                        <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.primary[100] }}>
-                          {deleteTitle}
-                        </Typography>
-                      </Button>
+                      {entityName === 'company' ? (
+
+                        <Button onClick={handleDelete} id={values.id} variant="contained" sx={{
+                          backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff",
+                          ':hover': {
+                            bgcolor: colors.grey[300],
+                            border: '1px solid' + colors.primary[800],
+                            color: "white"
+                          }
+                        }}>
+                          <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.primary[100] }}>
+                            {deleteTitle}
+                          </Typography>
+                        </Button>
+                      ) : null}
 
                       {entityName === 'company' ? (
                         values.status === "banned" ? (

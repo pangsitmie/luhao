@@ -336,6 +336,8 @@ export default function CreateStoreModal() {
                                                 />
                                             </Box>
 
+                                            {/* <Typography variant="h5" sx={{ textAlign: "left", margin: ".5rem 0", color: colors.grey[200] }}>{t('location')}</Typography> */}
+
                                             {/* Search Store location */}
                                             <PlacesAutocomplete
                                                 className="places_autocomplete"
@@ -351,7 +353,7 @@ export default function CreateStoreModal() {
                                                             label={t('search_location')}
                                                             variant="filled"
                                                             type="text"
-                                                            sx={{ margin: "1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                            sx={{ margin: "0 0 1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
                                                                 placeholder: t('search_location'),
                                                                 className: 'location-search-input',
@@ -442,12 +444,14 @@ export default function CreateStoreModal() {
                                                 />
                                             </Box>
 
+                                            <Typography variant="h5" sx={{ textAlign: "left", margin: ".5rem 0", color: colors.grey[200] }}>{t('principal_name')}</Typography>
+
                                             <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={`${t('store')}${t('principal_name')}`}
+                                                    label={`${t('person_name')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalName}
@@ -461,7 +465,7 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_account')}
+                                                    label={t('account')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalAccount}
@@ -480,7 +484,7 @@ export default function CreateStoreModal() {
                                                         marginBottom: "1rem",
                                                         backgroundColor: colors.primary[400], borderRadius: "5px"
                                                     }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">{t('principal_password')}</InputLabel>
+                                                    <InputLabel htmlFor="filled-adornment-password">{t('password')}</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}
@@ -512,7 +516,7 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={`${t('principal_email')} ${t('optional')}`}
+                                                    label={`${t('email')} ${t('optional')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalEmail}
@@ -525,7 +529,7 @@ export default function CreateStoreModal() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_line')}
+                                                    label={t('line_url')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalLineUrl}

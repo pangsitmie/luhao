@@ -210,6 +210,7 @@ export default function MachineListModal({ props }) {
                                                 onChange={handleChange}
                                                 value={values.name}
                                                 name="name"
+                                                required
                                                 error={!!touched.name && !!errors.name}
                                                 helperText={touched.name && errors.name}
                                                 sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
@@ -224,6 +225,7 @@ export default function MachineListModal({ props }) {
                                                     onChange={handleChange}
                                                     value={values.price}
                                                     name="price"
+                                                    required
                                                     error={!!touched.price && !!errors.price}
                                                     helperText={touched.price && errors.price}
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
@@ -237,6 +239,7 @@ export default function MachineListModal({ props }) {
                                                     onChange={handleChange}
                                                     value={values.stock}
                                                     name="stock"
+                                                    required
                                                     error={!!touched.stock && !!errors.stock}
                                                     helperText={touched.stock && errors.stock}
                                                     sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}

@@ -388,6 +388,7 @@ query MemberGetMachinesPaginatedConnection(
           name
           connStatus
           qrCode
+          favorite
         }
       }
       hasNextPage
@@ -407,10 +408,12 @@ query GetMachine($args: [MachineArgs!]!) {
     code
     price
     name
+    nfc
     description
     qrCode
     status
     connStatus
+    favorite
     counterInfo {
       counters {
         counterType
@@ -424,7 +427,6 @@ query GetMachine($args: [MachineArgs!]!) {
       price
       stock
     }
-    nfc
   }
 }
 `
@@ -973,10 +975,10 @@ query GetDepositItem($args: [DepositItemArgs!]!) {
         }
       }
     }
-    purchaseRecords {
-      purchaseId
-      id
+    managerGetPurchaseRecords {
       createdAt
+      id
+      purchaseId
       reason
       status
     }
@@ -1002,6 +1004,58 @@ export const RemoveDepositItem = gql`
 query GetDepositItem($args: [DepositItemArgs!]!) {
   getDepositItem(args: $args) {
     remove
+  }
+}
+`
+
+
+// ========================= REVIEW =========================
+export const GetReviewList = gql`
+query GetReviewList($onlyNotReview: Boolean!) {
+  getReviewList(onlyNotReview: $onlyNotReview) {
+    id
+    createdAt
+    requestUserId
+    requestUserRole
+    reviewId
+    sourceId
+    status
+    type
+  }
+}
+`
+
+
+export const GetBrandReviewData = gql`
+query GetBrandReviewData($reviewIds: [String!]!) {
+  getBrandReviewData(reviewIds: $reviewIds) {
+    id
+    name
+    vatNumber
+    cover
+    intro
+    logo
+    principalName
+    principalLineUrl
+    principalEmail
+  }
+}
+`
+
+export const GetStoreReviewData = gql`
+query GetStoreReviewData($reviewIds: [String!]!) {
+  getStoreReviewData(reviewIds: $reviewIds) {
+    id
+    name
+    cover
+    intro
+    principalName
+    principalLineUrl
+    principalEmail
+    city
+    district
+    address
+    description
   }
 }
 `

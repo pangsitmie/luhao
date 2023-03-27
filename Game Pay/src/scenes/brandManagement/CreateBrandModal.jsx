@@ -219,11 +219,14 @@ export default function CreateBrandModal() {
                         sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
+                      <Typography variant="h5" sx={{ textAlign: "left", margin: "1rem 0 .5rem 0", color: colors.grey[200] }}>{t('principal_name')}</Typography>
+
+
                       <TextField
                         fullWidth
                         variant="filled"
                         type="text"
-                        label={`${t('brand')}${t('principal_name')}`}
+                        label={`${t('person_name')}`}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         value={values.principalName}
@@ -239,7 +242,7 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label={t('principal_phone')}
+                          label={t('phone')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalPhone}
@@ -253,7 +256,7 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label={t('principal_line')}
+                          label={t('line_url')}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalLineUrl}
@@ -270,7 +273,7 @@ export default function CreateBrandModal() {
                           fullWidth
                           variant="filled"
                           type="text"
-                          label={`${t('principal_email')} ${t('optional')}`}
+                          label={`${t('email')} ${t('optional')}`}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.principalEmail}
@@ -287,7 +290,7 @@ export default function CreateBrandModal() {
                             marginBottom: "1rem",
                             backgroundColor: colors.primary[400], borderRadius: "5px"
                           }} >
-                          <InputLabel htmlFor="filled-adornment-password">{t('principal_password')}</InputLabel>
+                          <InputLabel htmlFor="filled-adornment-password">{t('password')}</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}
                             onChange={handleChange}

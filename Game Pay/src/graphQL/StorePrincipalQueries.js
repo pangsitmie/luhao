@@ -16,23 +16,21 @@ query GetStorePrincipal {
 `
 
 export const STORE_GetAllStores = gql`
-query Stores {
-    getStorePrincipal {
-      stores {
-        id
-        name
-        brand {
-          id
-          name
-        }
-        status
-        location {
-          storeId
-          city
-          district
-          address
+query GetStoresPaginatedConnection($next: Next, $previous: Previous) {
+  getStorePrincipal {
+    getStoresPaginatedConnection(next: $next, previous: $previous) {
+      edges {
+        cursor
+        node {
+           id
+            name
+            status
         }
       }
+      hasNextPage
+      hasPreviousPage
+      totalPageCount
     }
   }
+}
 `

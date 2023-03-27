@@ -342,10 +342,10 @@ const StatisticManagement = () => {
             </Box>
 
 
-
-            <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
+            {/* LOG IMPORTANT STUFF */}
+            {/* <Box display={"flex"} gap={"1rem"} mb={"1rem"}>
                 {selectedItem.id} -  startAt: {startAtDateEpoch} - endAt: {endAtDateEpoch} - period: {period} -
-            </Box>
+            </Box> */}
 
 
 

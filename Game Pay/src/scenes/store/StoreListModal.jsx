@@ -453,6 +453,8 @@ export default function StoreListModal({ props }) {
                                                 />
                                             </Box>
 
+                                            {/* <Typography variant="h5" sx={{ textAlign: "left", margin: ".5rem 0", color: colors.grey[200] }}>{t('location')}</Typography> */}
+
                                             <PlacesAutocomplete
                                                 className="places_autocomplete"
                                                 value={inputAddress}
@@ -553,12 +555,14 @@ export default function StoreListModal({ props }) {
                                                 />
                                             </Box>
 
+                                            <Typography variant="h5" sx={{ textAlign: "left", margin: ".5rem 0", color: colors.grey[200] }}>{t('principal_name')}</Typography>
+
                                             <Box display={"flex"} justifyContent={"space-between"} >
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={`${t('store')}${t('principal_name')}`}
+                                                    label={`${t('name')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalName}
@@ -572,7 +576,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_line')}
+                                                    label={t('line_url')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalLineUrl}
@@ -588,7 +592,7 @@ export default function StoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_email')}
+                                                    label={`${t('email')} ${t('optional')} `}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalEmail}
@@ -599,7 +603,7 @@ export default function StoreListModal({ props }) {
                                                 />
                                                 {/* PASSWORD INPUT */}
                                                 <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">{`${t('principal_password')} ${t('optional')}`}</InputLabel>
+                                                    <InputLabel htmlFor="filled-adornment-password">{`${t('password')} ${t('optional')}`}</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}

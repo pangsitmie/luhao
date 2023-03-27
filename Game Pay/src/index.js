@@ -100,8 +100,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         // Re-execute the original query with the updated token and original variables
         client.query({ query: originalQuery, variables: originalVariables });
       } else {
-
-
         if (extensions.description[0]) {
           const { constraints } = extensions.description[0];
           const errorMessage = constraints && constraints.matches;

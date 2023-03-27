@@ -37,7 +37,6 @@ mutation PatchBrandForManager(
   $cover: String
   $intro: String
   $logo: String
-  $currencyName: String
   $principal: PatchBrandPrincipalArgs
   $statusId: EUpdateBrandStatus
 ) {
@@ -48,7 +47,6 @@ mutation PatchBrandForManager(
     cover: $cover
     intro: $intro
     logo: $logo
-    currencyName: $currencyName
     principal: $principal
     statusId: $statusId
   )
@@ -138,6 +136,12 @@ mutation CreateMachineForManager(
   ) {
     id
   }
+}
+`
+
+export const PatchMachineFavorite = gql`
+mutation PatchMachineFavorite($machineId: ID!, $favorite: Boolean!) {
+  patchMachineFavorite(machineId: $machineId, favorite: $favorite)
 }
 `
 // ADS
@@ -294,5 +298,17 @@ mutation PatchCommodityForManager(
     price: $price
     stock: $stock
   )
+}
+`
+
+export const AcceptReview = gql`
+mutation AcceptReview($reviewId: ID!) {
+  acceptReview(reviewId: $reviewId)
+}
+`
+
+export const RejectReview = gql`
+mutation RejectReview($reviewId: ID!, $reason: String!) {
+  rejectReview(reviewId: $reviewId, reason: $reason)
 }
 `

@@ -162,7 +162,7 @@ export default function DepositListModal({ props }) {
 
             // console.log(nonNullData.id)
             // console.log(nonNullData.purchaseRecords)
-            setPurchaseRecords(dataInit.getDepositItem[0].purchaseRecords);
+            setPurchaseRecords(dataInit.getDepositItem[0].managerGetPurchaseRecords);
 
             setTypeId(nonNullData.type === "standing" ? 0 : 1);
             setStatus(nonNullData.status);

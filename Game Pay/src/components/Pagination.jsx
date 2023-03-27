@@ -16,6 +16,7 @@ const RESPONSE_PATH = [
     { GET_BILLBOARD_LIST: "getBrand.0.managerGetBrandBillboardsPaginatedConnection" },
     { GET_BRAND_PRINCIPAL_BRAND_LIST: "getBrandPrincipal.getBrandsPaginatedConnection" },
     { GET_BRAND_PRINCIPAL_STORE_LIST: "getBrandPrincipal.brands.0.managerGetStoresPaginatedConnection" },
+    { GET_STORE_PRINCIPAL_STORE_LIST: "getStorePrincipal.getStoresPaginatedConnection" },
 ];
 
 

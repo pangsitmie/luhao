@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 // THEME
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "src/theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
@@ -15,7 +15,13 @@ import jsPDF from 'jspdf';
 import MachineCommodityListModal from './MachineCommodityItem';
 import { useTranslation } from 'react-i18next';
 import Pagination from 'src/components/Pagination';
-
+// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+import { PatchMachineFavorite } from 'src/graphQL/Mutations';
+import { useMutation, useQuery } from '@apollo/client';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import { toast } from 'react-toastify';
 
 const MachineManagement = () => {
     const location = useLocation();
@@ -61,6 +67,39 @@ const MachineManagement = () => {
         setMachineDatas(data);
     }
     // ====================== PAGINATION END ======================
+
+
+    const [ApolloPatchMachineFavorite, { loading: loadingPatch, error: errorPatch, data: dataPatch }] = useMutation(PatchMachineFavorite);
+
+    const handlePatchMachineFavorite = (selectedId, favoriteBool) => {
+        console.log("machineId: " + selectedId);
+        console.log("set Favorite to: " + !favoriteBool);
+
+        ApolloPatchMachineFavorite({
+            variables: {
+                machineId: selectedId,
+                favorite: !favoriteBool
+            },
+        });
+
+        //we want to find the machine in the machineDatas array and update the favorite value
+        let machineDatasCopy = [...machineDatas];
+        let machineIndex = machineDatasCopy.findIndex(machine => machine.node.id === selectedId);
+        machineDatasCopy[machineIndex].node.favorite = !favoriteBool;
+        setMachineDatas(machineDatasCopy);
+
+
+
+        if (favoriteBool) {
+            toast.error("Machine removed from favorite!");
+        } else {
+            toast.success("Machine added to favorite!");
+        }
+
+    };
+
+
+
 
     // =================== QR CODE ===================
     const [imgUrls, setImgUrls] = useState({});
@@ -220,7 +259,10 @@ const MachineManagement = () => {
                     background={colors.grey[300]}
                     p="10px"
                 >
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                    <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('favorite')}</Typography>
+                    </Box>
+                    <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('machine_name')}</Typography>
                     </Box>
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -253,7 +295,19 @@ const MachineManagement = () => {
                             borderBottom={`3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.name}</Box>
+                            <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                {
+                                    item.node.favorite === true ?
+                                        <IconButton onClick={() => { handlePatchMachineFavorite(item.node.id, item.node.favorite) }}>
+                                            <StarRateIcon sx={{ color: "#ffb703" }} />
+                                        </IconButton>
+                                        :
+                                        <IconButton onClick={() => { handlePatchMachineFavorite(item.node.id, item.node.favorite) }}>
+                                            <StarBorderIcon />
+                                        </IconButton>
+                                }
+                            </Box>
+                            <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.name}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.code}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {

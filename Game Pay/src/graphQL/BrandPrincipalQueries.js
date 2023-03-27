@@ -127,13 +127,26 @@ query ManagerGetStoresPaginatedConnection($next: Next, $previous: Previous) {
 }
 `
 export const BRAND_CreateStore = gql`
-query Brands($name: String!, $location: CreateStoreLocationArgs!, $principal: CreateStorePrincipalArgs!, $cover: String, $intro: String) {
-    getBrandPrincipal {
-      brands {
-        createStore(name: $name, location: $location, principal: $principal, cover: $cover, intro: $intro)
-      }
+query Brands(
+  $name: String!
+  $location: CreateStoreLocationArgs!
+  $principal: CreateStorePrincipalArgs!
+  $intro: String
+  $cover: String!
+) {
+  getBrandPrincipal {
+    brands {
+      createStore(
+        name: $name
+        location: $location
+        principal: $principal
+        intro: $intro
+        cover: $cover
+      )
     }
+  }
 }
+
 `
 
 export const BRAND_GetSentFreeCoinList = gql`

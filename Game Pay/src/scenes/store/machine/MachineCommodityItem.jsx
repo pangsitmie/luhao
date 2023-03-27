@@ -285,6 +285,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
                                                     onChange={handleChange}
                                                     value={selectedCommodity.price}
                                                     name="price"
+                                                    required
                                                     error={!!touched.price && !!errors.price}
                                                     helperText={touched.price && errors.price}
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
@@ -299,6 +300,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
                                                     onChange={handleChange}
                                                     value={selectedCommodity.stock}
                                                     name="stock"
+                                                    required
                                                     error={!!touched.stock && !!errors.stock}
                                                     helperText={touched.stock && errors.stock}
                                                     sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}

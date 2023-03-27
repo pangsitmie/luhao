@@ -366,12 +366,15 @@ export default function CreateStoreModal_B() {
                                                 />
                                             </Box>
 
+                                            <Typography variant="h5" sx={{ textAlign: "left", margin: ".5rem 0", color: colors.grey[200] }}>{t('principal_name')}</Typography>
+
+
                                             <Box display={"flex"}>
                                                 <TextField
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_name')}
+                                                    label={t('person_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalName}
@@ -385,7 +388,7 @@ export default function CreateStoreModal_B() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_account')}
+                                                    label={t('account')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalAccount}
@@ -397,12 +400,14 @@ export default function CreateStoreModal_B() {
                                                 />
 
                                                 {/* PASSWORD INPUT */}
-                                                <FormControl 
-                                                fullWidth variant="filled"                             
-                                                required // add the required prop
-                                                sx={{ marginBottom: "1rem", 
-                                                backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">{`${t('principal_password')}`}</InputLabel>
+                                                <FormControl
+                                                    fullWidth variant="filled"
+                                                    required // add the required prop
+                                                    sx={{
+                                                        marginBottom: "1rem",
+                                                        backgroundColor: colors.primary[400], borderRadius: "5px"
+                                                    }} >
+                                                    <InputLabel htmlFor="filled-adornment-password">{`${t('password')}`}</InputLabel>
                                                     <FilledInput
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}
@@ -435,7 +440,7 @@ export default function CreateStoreModal_B() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={`${t('principal_email')} ${t('optional')}`}
+                                                    label={`${t('email')} ${t('optional')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalEmail}
@@ -448,7 +453,7 @@ export default function CreateStoreModal_B() {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
-                                                    label={t('principal_line')}
+                                                    label={t('line_url')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
                                                     value={values.principalLineUrl}

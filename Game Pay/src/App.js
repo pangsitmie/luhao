@@ -94,6 +94,22 @@ function App() {
     };
   }, [isPortrait]);
 
+
+  // clear local storage whenever website is closes
+  useEffect(() => {
+    clearLocalStorage();
+  }, []);
+
+  const clearLocalStorage = () => {
+    console.log("APP___localStorage Items:")
+    for (let i = 0; i < localStorage.length; i++) {
+      console.log(`${localStorage.key(i)}: ${localStorage.getItem(localStorage.key(i))}`);
+    }    // localStorage.clear();
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("login_token");
+  };
+
+
   return (
     <React.Fragment>
       <ColorModeContext.Provider value={colorMode}>

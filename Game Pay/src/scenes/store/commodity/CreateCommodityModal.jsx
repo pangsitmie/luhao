@@ -123,6 +123,7 @@ export default function CreateRewardModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
+                                                    required
                                                     label={t('store_id')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -137,6 +138,7 @@ export default function CreateRewardModal({ props }) {
                                                     disabled={true}
                                                     variant="filled"
                                                     type="text"
+                                                    required
                                                     label={t('store_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -156,6 +158,7 @@ export default function CreateRewardModal({ props }) {
                                                 onChange={handleChange}
                                                 value={values.name}
                                                 name="name"
+                                                required
                                                 error={!!touched.name && !!errors.name}
                                                 helperText={touched.name && errors.name}
                                                 sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -170,6 +173,7 @@ export default function CreateRewardModal({ props }) {
                                                     onChange={handleChange}
                                                     value={values.price}
                                                     name="price"
+                                                    required
                                                     error={!!touched.price && !!errors.price}
                                                     helperText={touched.price && errors.price}
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
@@ -183,6 +187,7 @@ export default function CreateRewardModal({ props }) {
                                                     onChange={handleChange}
                                                     value={values.stock}
                                                     name="stock"
+                                                    required
                                                     error={!!touched.stock && !!errors.stock}
                                                     helperText={touched.stock && errors.stock}
                                                     sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}

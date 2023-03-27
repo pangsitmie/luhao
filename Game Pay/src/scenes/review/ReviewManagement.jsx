@@ -1,128 +1,164 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useQuery, } from '@apollo/client'
-
+import { Link } from 'react-router-dom';
 // QUERIES
-import { GetAllMember } from '../../graphQL/Queries'
+import { useQuery } from '@apollo/client'
+import { GetReviewList } from '../../graphQL/Queries'
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import ReviewListModal from './ReviewListModal';
-import Pagination from '../../components/Pagination';
-import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from 'react-i18next';
+import { unixTimestampToDatetimeLocal } from 'src/utils/Utils';
+import ReviewBrandListModal from './ReviewBrandListModal';
+import ReviewStoreListModal from './ReviewStoreListModal';
 
 
 const ReviewManagement = () => {
-    //THEME
+    const { t } = useTranslation();
+
+
+    //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // STATES
+    // ========================== STATES AND HANDLERS ==========================
+
+    const [filter, setFilter] = useState('');
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+    };
+
     const [status, setStatus] = useState('');
-
-    //REF
-    const searchValueRef = useRef('');
-
-    //FUNCTIONS
-    const handleChange = (e) => {
+    const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
+
+    const [review, setReview] = useState('');
+    const handleReviewChange = (e) => {
+        setReview(e.target.value);
+    };
+
+    // ========================== REF ==========================
+    const searchValueRef = useRef('');
+    const filterRef = useRef('');
+
+    //========================== GRAPHQL ==========================
 
 
 
     // PAGINATION
-    const [limit, setLimit] = useState(10);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
+    // const [limit, setLimit] = useState(5);
+    // const [offset, setOffset] = useState(0);
+    // const handlePageChange = ({ limit, offset }) => {
+    //     setLimit(limit);
+    //     setOffset(offset);
+    // }
 
-    const { loading, error, data } = useQuery(GetAllMember, {
-        variables: { limit, offset }
+    const [initNotReviewedItems, setInitNotReviewedItems] = useState([]);
+    const [notReviewedItems, setnotReviewedItems] = useState([]);
+
+    const [initReviewedItems, setInitReviewedItems] = useState([]);
+    const [reviewedItems, setReviewedItems] = useState([]);
+
+
+
+    const { loading: loadingNotReviewed, error: errorNotReviewed, data: dataNotReviewed } = useQuery(GetReviewList, {
+        variables: {
+            onlyNotReview: true,
+        }
     });
-    const [initMember, setInitMember] = useState([]);
-    const [members, setMembers] = useState([]);
+
+
+    const { loading: loadingReviewed, error: errorReviewed, data: dataReviewed } = useQuery(GetReviewList, {
+        variables: {
+            onlyNotReview: false,
+        }
+    });
     useEffect(() => {
-        if (data) {
-            setInitMember(data.getAllMember);
-            setMembers(data.getAllMember);
+        if (dataNotReviewed) {
+            setInitNotReviewedItems(dataNotReviewed.getReviewList); //all brand datas
+            setnotReviewedItems(dataNotReviewed.getReviewList); //datas for display   
         }
-    }, [data]);
+        if (dataReviewed) {
+            setInitReviewedItems(dataReviewed.getReviewList); //all brand datas
+            setReviewedItems(dataReviewed.getReviewList); //datas for display         
+        }
+    }, [dataNotReviewed, dataReviewed]);
 
+    // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
-        //CALL SEARCH FUNCTION
-        let searchValue = searchValueRef.current.value;
+        // LOG SEARCH STATES
+        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
 
-        if (searchValue.length > 2) {
-            let search = memberArraySearch(members, searchValue);
-            setMembers(search)
+        //CALL SEARCH FUNCTION
+        let value = searchValueRef.current.value;
+        if (value.length > 2) {
+            let search = arraySearch(reviewedItems, value);
+            setnotReviewedItems(search)
+        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
+            setnotReviewedItems(initNotReviewedItems)
         }
-        else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setMembers(initMember)
-        }
-    }
+    };
+
     //SEARCH FUNCTION
-    const memberArraySearch = (array, keyword) => {
+    const arraySearch = (array, keyword, filter) => {
         const searchTerm = keyword
 
         return array.filter(value => {
-            return value.profile.nickname.match(new RegExp(searchTerm, 'g')) ||
-                value.phone.number.match(new RegExp(searchTerm, 'g'))
+            return value.name.match(new RegExp(searchTerm, 'g')) ||
+                value.principal.name.match(new RegExp(searchTerm, 'g'))
         })
     }
 
-    if (loading) return <Loader />;
-    if (error) return <Error />;
-
+    if (loadingNotReviewed, loadingReviewed) return <Loader />;
+    if (errorNotReviewed, errorReviewed) return <Error />;
+    // ========================== RETURN ==========================
     return (
+        // here
         <Box p={2} position="flex" flexDirection={"column"}>
             <Box height={"10%"}>
-                <h1 className='userManagement_title'>審核管理</h1>
+                <h1 className='userManagement_title'>{t("deposit_management")}</h1>
             </Box>
 
             {/* SEARCH DIV */}
-            <Box display="flex" marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
+            <Box className='flex_media' marginBottom={"2rem"} height={"10%"} alignItems={"center"}>
                 {/* name Search */}
                 <Box
                     display="flex"
-                    mr={"1rem"}
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    height={"52px"}>
-                    <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder="暱稱" inputRef={searchValueRef} />
+                    height={"52px"}
+                    maxWidth={140}>
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('name')} inputRef={searchValueRef} />
                 </Box>
-                {/* phone search */}
-                <FormControl sx={{ minWidth: 150 }} >
-                    <InputLabel id="demo-simple-select-label" >狀態</InputLabel>
+                <FormControl sx={{ width: 100 }} >
+                    <InputLabel id="demo-simple-select-label" >{t('status')}</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={status}
-                        label="Status"
-                        onChange={handleChange}
+                        label={t("status")}
+                        onChange={handleStatusChange}
                     >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"正常"}>正常</MenuItem>
-                        <MenuItem value={"封鎖"}>封鎖</MenuItem>
+                        <MenuItem value={"無"}>{t('none')}</MenuItem>
+                        <MenuItem value={"正常"}>{t('normal')}</MenuItem>
+                        <MenuItem value={"停用"}>{t('disable')}</MenuItem>
                     </Select>
                 </FormControl>
+
                 {/* SEARCH BTN */}
                 <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
                     minWidth: "120px",
                     height: "52px",
-                    marginLeft: "1rem",
                     borderRadius: "10px",
-                    padding: "0px",
-                    marginRight: "2rem",
                     ':hover': {
                         bgcolor: colors.primary[300],
                         border: '1px solid white',
@@ -130,121 +166,163 @@ const ReviewManagement = () => {
                 }}
                     onClick={submitSearch}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
-                    <Typography color={"white"} variant="h5" fontWeight="500">
-                        查詢
+                    <Typography color={"white"} variant="h5" fontWeight="500" sx={{ textTransform: "capitalize" }}>
+                        {t("search")}
                     </Typography>
                 </Button>
+
+
+                <Box
+                    display="flex"
+                    borderRadius="10px"
+                    marginLeft={"auto"}
+                    height={"52px"}
+                >
+                    {/* <CreateDepositModal /> */}
+                </Box>
+
+
             </Box>
 
-
             {/* TABLE DIV */}
-            <Box
-                backgroundColor={colors.primary[400]}
-                borderRadius="10px"
-                height={"50%"}
-            >
-                {/* PAGINATION & REFRESH DIV */}
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    borderBottom={`0px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
-                    p="15px"
-                >
-                    <Box width={"90%"}>
-                        {/* pagination */}
-                        <Pagination
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange}
-                        />
-                    </Box>
-
-                    <Box width={"10%"}>
-                        {/* refresh button */}
-                        <Refresh
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange} />
-                    </Box>
-                </Box>
-                <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    borderBottom={`4px solid ${colors.primary[500]}`}
-                    background={colors.grey[300]}
-                    p="10px"
-                >
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">暱稱</Typography>
-                    </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">狀態</Typography>
-                    </Box>
-                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                        <Typography color={colors.grey[100]} variant="h5" fontWeight="500">更新資料</Typography>
-                    </Box>
-                </Box>
-
+            <Box display={"flex"} gap={"1rem"}>
                 <Box
                     backgroundColor={colors.primary[400]}
                     borderRadius="10px"
-                    height={"100%"}
-                    overflow={"auto"}
+                    height={"50%"}
+                    width={"100%"}
                 >
-                    {members.map((member, i) => (
-                        <Box
-                            key={`${member.id}-${i}`}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            borderBottom={`3px solid ${colors.primary[500]}`}
-                            p="10px"
-                        >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.profile.nickname}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                {(() => {
-                                    if (member.status.name === "disable") {
-                                        return (
-                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                停用
-                                            </Typography>)
-                                    }
-                                    else if (member.status.name === "banned") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                封鎖
-                                            </Typography>)
-                                    }
-                                    else if (member.status.name === "removed") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                移除
-                                            </Typography>)
-                                    }
-                                    else {
-                                        return (
-                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                正常
-                                            </Typography>)
-                                    }
-                                })()}
-                            </Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}><ReviewListModal props={member} /></Box>
+                    {/* PAGINATION & REFRESH DIV */}
+                    <Box
+                        borderBottom={`0px solid ${colors.primary[500]}`}
+                        colors={colors.grey[100]}
+                        p="15px 25px"
+                    >
+                        <Typography color={colors.grey[100]} variant="h4" fontWeight="600">待審核</Typography>
+                    </Box>
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        borderBottom={`4px solid ${colors.primary[500]}`}
+                        background={colors.grey[300]}
+                        p="10px"
+                    >
+                        <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("review")} ID</Typography>
                         </Box>
-                    ))}
+                        <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{`${t("review")}${t("type")}`} </Typography>
+                        </Box>
+                        <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("trigger_at_time")}</Typography>
+                        </Box>
+                        <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("details")}</Typography>
+                        </Box>
+                    </Box>
+
+                    {/* here */}
+                    <Box
+                        backgroundColor={colors.primary[400]}
+                        borderRadius="10px"
+                        height={"100%"}
+                        overflow={"auto"}
+                    >
+                        {/* MAP DATA */}
+                        {notReviewedItems.map((item, i) => (
+                            <Box
+                                key={`${item.id}-${i}`}
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                borderBottom={i === notReviewedItems.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                p="10px"
+                            >
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.reviewId}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(item.createdAt)}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    {
+                                        item.type === "brand" ?
+                                            <ReviewBrandListModal props={item} /> :
+                                            item.type === "store" ?
+                                                <ReviewStoreListModal props={item} /> :
+                                                null
+                                    }
+
+                                </Box>
+                            </Box>
+                        ))}
+                    </Box>
                 </Box>
+                <Box
+                    backgroundColor={colors.primary[400]}
+                    borderRadius="10px"
+                    height={"50%"}
+                    width={"100%"}
+                >
+                    {/* PAGINATION & REFRESH DIV */}
+                    <Box
+                        borderBottom={`0px solid ${colors.primary[500]}`}
+                        colors={colors.grey[100]}
+                        p="15px 25px"
+                    >
+                        <Typography color={colors.grey[100]} variant="h4" fontWeight="600">已審核</Typography>
+                    </Box>
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        borderBottom={`4px solid ${colors.primary[500]}`}
+                        background={colors.grey[300]}
+                        p="10px"
+                    >
+                        <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("name")}</Typography>
+                        </Box>
+                        <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("amount")}</Typography>
+                        </Box>
+                        <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("trigger_at_time")}</Typography>
+                        </Box>
+                        <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("details")}</Typography>
+                        </Box>
+                    </Box>
+
+                    {/* here */}
+                    <Box
+                        backgroundColor={colors.primary[400]}
+                        borderRadius="12px"
+                        height={"100%"}
+                        overflow={"auto"}
+                    >
+                        {/* MAP DATA */}
+                        {reviewedItems.map((item, i) => (
+                            <Box
+                                key={`${item.id}-${i}`}
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                borderBottom={i === reviewedItems.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                p="10px"
+                            >
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.reviewId}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(item.createdAt)}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                </Box>
+                            </Box>
+                        ))}
+                    </Box>
+                </Box>
+
             </Box>
+
         </Box >
     )
 }
 
 export default ReviewManagement
-
-
-
-
-
-
-
