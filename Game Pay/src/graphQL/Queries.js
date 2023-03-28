@@ -301,13 +301,13 @@ query GetBrand($args: [BrandArgs!]!, $name: String!, $location: CreateStoreLocat
   }
 }
 `
-export const UpdateStore = gql`
-query GetStore($args: [StoreArgs!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus, $cover: String) {
-  getStore(args: $args) {
-    update(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId, cover: $cover)
-  }
-}
-`
+// export const UpdateStore = gql`
+// query GetStore($args: [StoreArgs!]!, $name: String, $intro: String, $location: UpdateStoreLocationArgs, $principal: UpdateStorePrincipalArgs, $statusId: EUpdateStoreStatus, $cover: String) {
+//   getStore(args: $args) {
+//     update(name: $name, intro: $intro, location: $location, principal: $principal, statusId: $statusId, cover: $cover)
+//   }
+// }
+// `
 export const BanStore = gql`
 query GetStore($args: [StoreArgs!]!, $reason: String!, $expireAt: Int) {
   getStore(args: $args) {
@@ -329,30 +329,7 @@ query GetStore($args: [StoreArgs!]!) {
   }
 }
 `
-// export const CreateMachineFromGetStores = gql`
-// query GetStore(
-//   $args: [StoreArgs!]!
-//   $code: String!
-//   $price: Int
-//   $name: String
-//   $description: String
-//   $counterCheck: Boolean
-//   $counters: [CounterArgs!]
-//   $nfc: String
-// ) {
-//   getStore(args: $args) {
-//     createMachine(
-//       code: $code
-//       price: $price
-//       name: $name
-//       description: $description
-//       counterCheck: $counterCheck
-//       counters: $counters
-//       nfc: $nfc
-//     )
-//   }
-// }
-// `
+
 
 // ========================= MACHINES =========================
 export const GetMachineList = gql`
@@ -469,10 +446,10 @@ query GetMachine($args: [MachineArgs!]!) {
   }
 }
 `
-export const RemoveMachine = gql`
+export const UnbindMachine = gql`
 query GetMachine($args: [MachineArgs!]!) {
   getMachine(args: $args) {
-    remove
+    unbind
   }
 }
 `
@@ -1021,6 +998,14 @@ query GetReviewList($onlyNotReview: Boolean!) {
     sourceId
     status
     type
+  }
+}
+`
+
+export const GetReviewCount = gql`
+query GetReviewList($onlyNotReview: Boolean!) {
+  getReviewList(onlyNotReview: $onlyNotReview) {
+    id
   }
 }
 `

@@ -9,6 +9,9 @@ import { CreateMachineFromGetStores } from "src/graphQL/Queries";
 
 import { useTranslation } from 'react-i18next';
 import { CreateMachineForManager } from "src/graphQL/Mutations";
+import { useSelector } from "react-redux";
+import { BRAND_CreateMachine } from "src/graphQL/BrandPrincipalMutations";
+import { STORE_CreateMachine } from "src/graphQL/StorePrincipalMutation";
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
 
 const checkoutSchema = yup.object().shape({
@@ -22,8 +25,28 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateMachineModal({ props }) {
+    const { entityName } = useSelector((state) => state.entity);
+
     const { t } = useTranslation();
     const theme = useTheme();
+
+    let CREATE_MACHINE_MUTATION;
+    switch (entityName) {
+        case 'company':
+            CREATE_MACHINE_MUTATION = CreateMachineForManager;
+            break;
+        case 'brand':
+            CREATE_MACHINE_MUTATION = BRAND_CreateMachine;
+            break;
+        case 'store':
+            CREATE_MACHINE_MUTATION = STORE_CreateMachine;
+            break;
+        default:
+            break;
+    }
+
+
+
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
     const [counterCheck, setCounterCheck] = useState(true);
@@ -56,7 +79,7 @@ export default function CreateMachineModal({ props }) {
 
 
     // GQL
-    const [ApolloCreateMachineFromGetStores, { loading, error, data }] = useMutation(CreateMachineForManager);
+    const [ApolloCreateMachine, { loading, error, data }] = useMutation(CREATE_MACHINE_MUTATION);
     useEffect(() => {
         if (data) {
             console.log(data.getStore);
@@ -91,7 +114,7 @@ export default function CreateMachineModal({ props }) {
             ]
         }
         console.log(variables);
-        ApolloCreateMachineFromGetStores({ variables });
+        ApolloCreateMachine({ variables });
     };
 
     const toggleModal = () => {

@@ -474,7 +474,6 @@ export default function BrandListModal({ props }) {
                     </Box>
                     <Box display="flex" justifyContent="center" >
                       {entityName === 'company' ? (
-
                         <Button onClick={handleDelete} id={values.id} variant="contained" sx={{
                           backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff",
                           ':hover': {

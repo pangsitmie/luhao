@@ -60,6 +60,7 @@ const StatisticList = () => {
             break;
         case 'store':
             LIST_QUERY = STORE_GetAllStores;
+            PAGINATION_PATH_TYPE = 'GET_STORE_PRINCIPAL_STORE_LIST';
         default:
             break;
     }

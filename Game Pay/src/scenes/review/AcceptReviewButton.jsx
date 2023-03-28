@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { AcceptReview } from "src/graphQL/Mutations";
 
 
-const AcceptReviewButton = ({ REVIEW_ID }) => {
-
+const AcceptReviewButton = ({ REQUEST_ID }) => {
+    console.log(REQUEST_ID)
     const [ApolloAcceptReview, { data, loading, error }] = useMutation(AcceptReview, {
         variables: {
-            reviewId: REVIEW_ID,
+            requestId: REQUEST_ID,
         }
     });
 

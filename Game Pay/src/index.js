@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import LoginProvider from "./LoginProvider";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./i18n";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +28,11 @@ import { Provider } from "react-redux";
 let originalQuery;
 let originalVariables;
 
+//get the entitiy name from redux store
+const { entityName } = store.getState().entity;
+console.log(entityName);
+
+
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (!operation) {
     return;
@@ -35,14 +40,14 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
   if (graphQLErrors) {
     graphQLErrors.map(async ({ message, location, path, extensions }) => {
-      console.log("ERROR DESC:");
-      console.log("extensions");
+      console.log("=========extensions=========");
       console.log(extensions);
 
-      console.log("message");
+      console.log("=========message=========");
       console.log(message);
+      toast.error(message);
 
-      console.log("location");
+      console.log("=========location=========");
       console.log(location);
 
       console.log(extensions.description);
@@ -55,10 +60,17 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         console.log("無此帳號");
         toast.error("無此帳號");
       }
+      if (extensions.code === "3x004") {
+        //權限不足
+        //navigate to /login
+        console.log("權限不足");
+        toast.error("權限不足");
+      }
 
       console.log("ERROR PATH:" + path);
       if (message === "Token過期") {
-        client.clearStore();
+        // this is used to clear client cache
+        // client.clearStore();
         console.log("TOKEN EXPIRES");
 
         originalQuery = operation.query;
@@ -68,11 +80,28 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         localStorage.removeItem("token");
 
         // Create the query document
-        const query = gql`
+        let query;
+
+        if (entityName === "brand") {
+          query = gql`
+          query getBrandPrincipalWebAccessToken($refreshToken: String!) {
+            getBrandPrincipalWebAccessToken(refreshToken: $refreshToken)
+          }
+        `;
+        } else if (entityName === "store") {
+          query = gql`
+          query Query($refreshToken: String!) {
+            getStorePrincipalWebAccessToken(refreshToken: $refreshToken)
+          }
+        `;
+        }
+        else {
+          query = gql`
           query GetManagerAccessToken($refreshToken: String!) {
             getManagerAccessToken(refreshToken: $refreshToken)
           }
         `;
+        }
 
         // Use the client.mutate method to make the query
         const { data } = await client.mutate({
@@ -103,8 +132,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         if (extensions.description[0]) {
           const { constraints } = extensions.description[0];
           const errorMessage = constraints && constraints.matches;
-
-
           if (errorMessage) {
             toast.error(errorMessage);
           }

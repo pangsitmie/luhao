@@ -62,12 +62,42 @@ body,
   /* overflow: hidden; */
 }
 
+.app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 
 .content {
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
   width: 100%;
+}
+
+
+/* to hide address bar */
+@media screen and (orientation: landscape) {
+  body {
+    overflow-y: scroll;
+    /* This is necessary to hide the address bar */
+    overscroll-behavior-y: contain;
+    /* This is necessary to prevent scrolling past the end of the page */
+  }
+
+  .app {
+    height: 100vh;
+    min-height: 100vh;
+    overscroll-behavior-y: contain;
+    /* This is necessary to prevent scrolling past the end of the page */
+    min-height: -webkit-fill-available;
+  }
+
+  .content {
+    height: 100vh;
+    min-height: 100vh;
+  }
 }
 
 .places-container {
@@ -89,12 +119,7 @@ body,
   padding: 0.5rem;
 }
 
-.app {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
+
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -321,6 +346,28 @@ span {
 .flex_media {
   display: flex;
   gap: 1rem;
+}
+
+/* TOPBAR */
+.notification-circle {
+  position: relative;
+}
+
+.notification-circle::after {
+  content: attr(data-count);
+  position: absolute;
+  top: -8px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(235, 51, 51);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (max-width: 1000px) {

@@ -5,7 +5,7 @@ import { RejectReview } from "src/graphQL/Mutations";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 
-const RejectReviewButton = ({ REVIEW_ID }) => {
+const RejectReviewButton = ({ REQUEST_ID }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -16,7 +16,7 @@ const RejectReviewButton = ({ REVIEW_ID }) => {
         if (reason) {
             ApolloRejectReview({
                 variables: {
-                    reviewId: REVIEW_ID,
+                    requestId: REQUEST_ID,
                     reason: reason,
                 },
             });

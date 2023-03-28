@@ -5,7 +5,6 @@ import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { CreateStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
     geocodeByPlaceId,
@@ -17,7 +16,7 @@ import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { BRAND_CreateStore } from "src/graphQL/BrandPrincipalQueries";
+import { BRAND_CreateStore, BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
 import { useTranslation } from 'react-i18next';
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
@@ -55,6 +54,8 @@ export default function CreateStoreModal_B() {
         brandId: "null",
         brandName: "null",
     });
+
+    // const { loading: , error, data } = useQuery(BRAND_GetBrandInfo);
 
     var btnTitle = t("create_store"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
@@ -149,7 +150,7 @@ export default function CreateStoreModal_B() {
             ],
             brandId: brandId,
             name: values.name,
-            cover: coverFileName,
+            // cover: coverFileName,
             location: {
                 city: cityFilter,
                 district: selectedArea,
@@ -166,6 +167,9 @@ export default function CreateStoreModal_B() {
                 password: values.principalPassword,
                 lineUrl: values.principalLineUrl,
             }
+        }
+        if (coverFileName !== "") {
+            variables.cover = coverFileName;
         }
         if (values.intro !== "") {
             variables.intro = values.intro;

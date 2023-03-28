@@ -138,6 +138,25 @@ mutation CreateMachineForManager(
   }
 }
 `
+export const PatchStore = gql`
+mutation PatchStoreForManager(
+  $storeId: String!
+  $name: String
+  $intro: String
+  $cover: String
+  $principal: PatchStorePrincipalArgs
+  $location: PatchStoreLocationArgs
+) {
+  patchStoreForManager(
+    storeId: $storeId
+    name: $name
+    intro: $intro
+    cover: $cover
+    principal: $principal
+    location: $location
+  )
+}
+`
 
 export const PatchMachineFavorite = gql`
 mutation PatchMachineFavorite($machineId: ID!, $favorite: Boolean!) {
@@ -302,13 +321,13 @@ mutation PatchCommodityForManager(
 `
 
 export const AcceptReview = gql`
-mutation AcceptReview($reviewId: ID!) {
-  acceptReview(reviewId: $reviewId)
+mutation AcceptReview($requestId: ID!) {
+  acceptReview(requestId: $requestId)
 }
 `
 
 export const RejectReview = gql`
-mutation RejectReview($reviewId: ID!, $reason: String!) {
-  rejectReview(reviewId: $reviewId, reason: $reason)
+mutation RejectReview($requestId: ID!, $reason: String!) {
+  rejectReview(requestId: $requestId, reason: $reason)
 }
 `

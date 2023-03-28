@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import { GetStore, UpdateStore, RemoveStore, UnbanStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
@@ -20,6 +20,10 @@ import Loader from "../../components/loader/Loader";
 import Error from "../../components/error/Error";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import { STORE_PatchStoreStatus, STORE_UpdateStore } from "src/graphQL/StorePrincipalMutation";
+import { PatchStore } from "src/graphQL/Mutations";
+import { BRAND_PatchStore } from "src/graphQL/BrandPrincipalMutations";
+import { toast } from "react-toastify";
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -42,9 +46,26 @@ export default function StoreListModal({ props }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
+
+
     const [status, setStatus] = useState('disable');
+    const [PatchStoreStatus, { loading: loadingPatchStatus, error: errorPatchStatus, data: dataPatchStatus }] = useMutation(STORE_PatchStoreStatus);
+    useEffect(() => {
+        if (dataPatchStatus) {
+            toast.success(t("status_changed"));
+        }
+    }, [dataPatchStatus]);
+
     const handleStatusChange = (event) => {
+        console.log(event.target.value)
         setStatus(event.target.value);
+        initialValues.status = event.target.value;
+        PatchStoreStatus({
+            variables: {
+                storeId: props.id,
+                statusId: event.target.value
+            }
+        });
     };
 
     //  ========================== PASSWORD VISIBILITY ==========================
@@ -82,6 +103,23 @@ export default function StoreListModal({ props }) {
     });
 
 
+    let UPDATE_STORE_MUTATION;
+    switch (entityName) {
+        case 'company':
+            UPDATE_STORE_MUTATION = PatchStore;
+            break;
+        case 'brand':
+            UPDATE_STORE_MUTATION = BRAND_PatchStore;
+            break;
+        case 'store':
+            UPDATE_STORE_MUTATION = STORE_UpdateStore;
+            break;
+        default:
+            break;
+    }
+
+
+
 
 
     const [initialValues, setInitialValues] = useState({
@@ -114,7 +152,7 @@ export default function StoreListModal({ props }) {
 
 
     //UPDATE STORE MUTATION
-    const [ApolloUpdateStore, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UpdateStore);
+    const [ApolloUpdateStore, { loading: loading2, error: error2, data: data2 }] = useMutation(UPDATE_STORE_MUTATION);
     useEffect(() => {
         if (data2) {
             window.location.reload();
@@ -253,18 +291,22 @@ export default function StoreListModal({ props }) {
 
     const handleFormSubmit = (values) => {
         const variables = {
-            args: [
-                {
-                    id: values.id
-                }
-            ],
+            // args: [
+            //     {
+            //         id: values.id
+            //     }
+            // ],
+            storeId: values.id,
             name: values.name,
             cover: coverFileName,
             location: {
                 city: cityFilter,
                 district: selectedArea,
                 address: address,
-                description: "NONE"
+                coordinate: {
+                    latitude: coordinates.lat,
+                    longitude: coordinates.lng
+                },
             },
             principal: {
                 name: values.principalName,
@@ -272,6 +314,9 @@ export default function StoreListModal({ props }) {
             }
         };
 
+        if (values.description !== "") {
+            variables.location.description = values.description;
+        }
         if (values.intro !== "") {
             variables.intro = values.intro;
         }
@@ -281,12 +326,12 @@ export default function StoreListModal({ props }) {
 
 
         // if coordinate is not updated
-        if (coordinates.lat !== 0 && coordinates.lng !== 120) {
-            variables.location.coordinate = {
-                latitude: coordinates.lat,
-                longitude: coordinates.lng,
-            };
-        }
+        // if (coordinates.lat !== 0 && coordinates.lng !== 120) {
+        //     variables.location.coordinate = {
+        //         latitude: coordinates.lat,
+        //         longitude: coordinates.lng,
+        //     };
+        // }
 
         //if password is empty, dont update password
         if (values.principalPassword !== "") {
@@ -294,9 +339,12 @@ export default function StoreListModal({ props }) {
         }
 
         //if status is not banned, update status
-        if (initialValues.status !== "banned") {
-            variables.statusId = status;
-        }
+        // if (initialValues.status !== "banned" && entityName === "store") {
+        //     variables.statusId = status;
+        // }
+        console.log(variables);
+
+
         ApolloUpdateStore({ variables });
     };
 
@@ -407,7 +455,7 @@ export default function StoreListModal({ props }) {
                                                 <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned"}
+                                                        disabled={initialValues.status === "banned" || entityName === "company" || entityName === "brand"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"

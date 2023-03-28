@@ -20,6 +20,14 @@ import Login from "./pages/login/Login";
 
 
 function App() {
+  useEffect(() => {
+    if (/mobile/i.test(navigator.userAgent) && !location.hash) {
+      setTimeout(function () {
+        window.scrollTo(0, 1);
+      }, 1000);
+    }
+  }, []);
+
   const [theme, colorMode] = useMode();
 
   return (

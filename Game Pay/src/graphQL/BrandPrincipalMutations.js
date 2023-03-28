@@ -8,6 +8,31 @@ mutation BrandCreateCurrencyReward($belongToRole: EBrandRewardBelongToRole!, $be
     }
   }
 `
+export const BRAND_CreateMachine = gql`
+mutation CreateMachineForBrandPrincipal(
+  $name: String!
+  $storeId: ID!
+  $code: String!
+  $counterCheck: Boolean
+  $counters: [CounterArgs!]
+  $nfc: String
+  $price: Int
+  $description: String
+) {
+  createMachineForBrandPrincipal(
+    name: $name
+    storeId: $storeId
+    code: $code
+    counterCheck: $counterCheck
+    counters: $counters
+    nfc: $nfc
+    price: $price
+    description: $description
+  ) {
+    id
+  }
+}
+`
 export const BRAND_PatchBillboard = gql`
 mutation PatchBrandBillboardForBrandPrincipal(
   $billboardId: ID!
@@ -69,7 +94,25 @@ mutation PatchCommodityForBrandPrincipal(
   )
 }
 `
-
+export const BRAND_PatchStore = gql`
+mutation PatchStoreForBrandPrincipal(
+  $storeId: String!
+  $name: String
+  $intro: String
+  $cover: String
+  $principal: PatchStorePrincipalArgs
+  $location: PatchStoreLocationArgs
+) {
+  patchStoreForBrandPrincipal(
+    storeId: $storeId
+    principal: $principal
+    location: $location
+    intro: $intro
+    cover: $cover
+    name: $name
+  )
+}
+`
 export const BRAND_BindCommodity = gql`
 mutation BindCommodityToMachineForBrandPrincipal(
   $machineId: ID!

@@ -20,6 +20,8 @@ import Loader from "../../components/loader/Loader";
 import Error from "../../components/error/Error";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import RejectReviewButton from "./RejectReviewButton";
+import AcceptReviewButton from "./AcceptReviewButton";
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -37,7 +39,7 @@ const checkoutSchema = yup.object().shape({
 
 export default function ReviewStoreListModal({ props }) {
 
-    console.log(props.reviewId);
+    console.log(props);
 
     const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
@@ -126,42 +128,44 @@ export default function ReviewStoreListModal({ props }) {
     );
     useEffect(() => {
         if (dataInit) {
+            // console.log(dataInit);
             // SET THE initial value using data3
-            const nonNullData = replaceNullWithEmptyString(dataInit.getStore[0]);
+            const nonNullData = replaceNullWithEmptyString(dataInit.getStoreReviewData[0]);
+            console.log(nonNullData);
             setInitialValues({
                 id: props.id,
-                status: nonNullData.status,
+                // status: nonNullData.status,
                 name: nonNullData.name,
                 intro: nonNullData.intro,
-                brandId: nonNullData.brand.id,
-                brandName: nonNullData.brand.name,
+                // brandId: nonNullData.brand.id,
+                // brandName: nonNullData.brand.name,
                 // city, district, and address is used in state
-                principalName: nonNullData.principal.name,
-                principalAccount: nonNullData.principal.account,
-                principalEmail: nonNullData.principal.email,
+                principalName: nonNullData.principalName,
+                // principalAccount: nonNullData.principal.account,
+                principalEmail: nonNullData.principalEmail,
                 principalPassword: "",
                 // princiapall password doesnt receive api data
-                principalLineUrl: nonNullData.principal.lineUrl,
+                principalLineUrl: nonNullData.principalLineUrl,
             });
 
-            if (dataInit.getStore[0].cover !== null || (dataInit.getStore[0].cover !== "null")) {
-                setCoverFileName(dataInit.getStore[0].cover);
+            if (dataInit.getStoreReviewData[0].cover !== null || (dataInit.getStoreReviewData[0].cover !== "null")) {
+                setCoverFileName(dataInit.getStoreReviewData[0].cover);
             }
 
             //set city
-            setCityFilter(dataInit.getStore[0].location.city);
+            setCityFilter(dataInit.getStoreReviewData[0].city);
             //set area
-            setAreaFilter(areaData[dataInit.getStore[0].location.city]);
-            setSelectedArea(dataInit.getStore[0].location.district);
+            setAreaFilter(areaData[dataInit.getStoreReviewData[0].city]);
+            setSelectedArea(dataInit.getStoreReviewData[0].district);
             //set location
             setLocation((prevState) => ({
                 ...prevState,
-                address: dataInit.getStore[0].location.address,
+                address: dataInit.getStoreReviewData[0].address,
             }));
             //set status only if not banned
-            if (dataInit.getStore[0].status !== "banned") {
-                setStatus(dataInit.getStore[0].status)
-            }
+            // if (dataInit.getStoreReviewData[0].status !== "banned") {
+            //     setStatus(dataInit.getStoreReviewData[0].status)
+            // }
         }
     }, [dataInit]);
 
@@ -257,6 +261,7 @@ export default function ReviewStoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
+                                                    disabled={true}
                                                     label={t('store_name')}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -270,6 +275,7 @@ export default function ReviewStoreListModal({ props }) {
                                                     fullWidth
                                                     variant="filled"
                                                     type="text"
+                                                    disabled={true}
                                                     label={`${t('intro')} ${t('optional')}`}
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -283,7 +289,7 @@ export default function ReviewStoreListModal({ props }) {
                                                 <FormControl sx={{ minWidth: 150 }} >
                                                     <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned"}
+                                                        disabled={true}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -297,39 +303,7 @@ export default function ReviewStoreListModal({ props }) {
                                                 </FormControl>
                                             </Box>
 
-                                            <Box display={"flex"}>
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    disabled={true}
-                                                    type="text"
-                                                    label={t('brand_id')}
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.brandId}
-                                                    name="brandId"
-                                                    error={!!touched.brandId && !!errors.brandId}
-                                                    helperText={touched.brandId && errors.brandId}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
 
-                                                <TextField
-                                                    fullWidth
-                                                    disabled={true}
-                                                    variant="filled"
-                                                    type="text"
-                                                    label={t('brand_name')}
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.brandName}
-                                                    name="brandName"
-                                                    error={!!touched.brandName && !!errors.brandName}
-                                                    helperText={touched.brandName && errors.brandName}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                            </Box>
-
-                                            {/* <Typography variant="h5" sx={{ textAlign: "left", margin: ".5rem 0", color: colors.grey[200] }}>{t('location')}</Typography> */}
 
 
 
@@ -338,6 +312,7 @@ export default function ReviewStoreListModal({ props }) {
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
                                                     <InputLabel id="demo-simple-select-label" >{t('county_filter')}</InputLabel>
                                                     <Select
+                                                        disabled={true}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -357,6 +332,7 @@ export default function ReviewStoreListModal({ props }) {
                                                 <FormControl sx={{ minWidth: 150, height: "100%" }}>
                                                     <InputLabel id="demo-simple-select-label" >{t('district_filter')}</InputLabel>
                                                     <Select
+                                                        disabled={true}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400], height: "100%", width: "auto", mr: "1rem" }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -374,6 +350,7 @@ export default function ReviewStoreListModal({ props }) {
                                                 </FormControl>
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label={t('address')}
@@ -392,6 +369,7 @@ export default function ReviewStoreListModal({ props }) {
                                             <Box display={"flex"} justifyContent={"space-between"} >
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label={`${t('name')}`}
@@ -406,6 +384,7 @@ export default function ReviewStoreListModal({ props }) {
 
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label={t('line_url')}
@@ -422,6 +401,7 @@ export default function ReviewStoreListModal({ props }) {
 
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label={`${t('email')} ${t('optional')} `}
@@ -437,6 +417,7 @@ export default function ReviewStoreListModal({ props }) {
                                                 <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
                                                     <InputLabel htmlFor="filled-adornment-password">{`${t('password')} ${t('optional')}`}</InputLabel>
                                                     <FilledInput
+                                                        disabled={true}
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}
                                                         value={values.principalPassword}
@@ -463,13 +444,10 @@ export default function ReviewStoreListModal({ props }) {
                                                 </FormControl>
                                             </Box>
 
-                                        </Box>
-                                        <Box display="flex" justifyContent="center" >
-                                            <Button type="submit" color="success" variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
-                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[800] }}>
-                                                    {confirmTitle}
-                                                </Typography>
-                                            </Button>
+                                            <Box display="flex" justifyContent="center" >
+                                                <RejectReviewButton REQUEST_ID={props.id} />
+                                                <AcceptReviewButton REQUEST_ID={props.id} />
+                                            </Box>
                                         </Box>
                                     </form>
                                 )}

@@ -7,13 +7,14 @@ import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import "src/components/Modal/modal.css";
 import { tokens } from "src/theme";
 import ConfirmModal from "src/components/Modal/ConfirmModal";
-import { GetMachine, RemoveMachine, UnBanMachine, UpdateMachine } from "src/graphQL/Queries";
+import { GetMachine, UnbindMachine, UnBanMachine, UpdateMachine } from "src/graphQL/Queries";
 import { replaceNullWithEmptyString } from "src/utils/Utils";
 import QRCode from "qrcode";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { PatchMachine } from "src/graphQL/Mutations";
 import { BRAND_PatchMachine } from "src/graphQL/BrandPrincipalMutations";
+import { STORE_UpdateMachine } from "src/graphQL/StorePrincipalMutation";
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -35,7 +36,7 @@ export default function MachineListModal({ props }) {
             PATCH_MACHINE_MUTATION = BRAND_PatchMachine;
             break;
         case 'store':
-            PATCH_MACHINE_MUTATION = PatchMachine;
+            PATCH_MACHINE_MUTATION = STORE_UpdateMachine;
             break;
         default:
             break;
@@ -78,7 +79,7 @@ export default function MachineListModal({ props }) {
 
 
     // ===================== REMOVE MACHINE QUERY =====================
-    const [ApolloRemoveMachine, { loading, error, data }] = useLazyQuery(RemoveMachine);
+    const [ApolloUnbindMachine, { loading, error, data }] = useLazyQuery(UnbindMachine);
     useEffect(() => {
         if (data) {
             window.location.reload();
@@ -87,9 +88,9 @@ export default function MachineListModal({ props }) {
 
     // HANDLE REMOVE MACHINE
     const handleDelete = (e) => {
-        var result = window.confirm("Are you sure you want to delete this machine?");
+        var result = window.confirm("Are you sure you want to unbind this machine?");
         if (result) {
-            ApolloRemoveMachine({
+            ApolloUnbindMachine({
                 variables: {
                     args: [
                         {

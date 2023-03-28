@@ -16,9 +16,11 @@ import { useTranslation } from 'react-i18next';
 import { unixTimestampToDatetimeLocal } from 'src/utils/Utils';
 import ReviewBrandListModal from './ReviewBrandListModal';
 import ReviewStoreListModal from './ReviewStoreListModal';
+import ReviewMachineListModal from './ReviewMachineListModal';
 
 
 const ReviewManagement = () => {
+    const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
 
 
@@ -209,7 +211,7 @@ const ReviewManagement = () => {
                         p="10px"
                     >
                         <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("review")} ID</Typography>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("request")} ID</Typography>
                         </Box>
                         <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                             <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{`${t("review")}${t("type")}`} </Typography>
@@ -245,10 +247,12 @@ const ReviewManagement = () => {
                                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                     {
                                         item.type === "brand" ?
-                                            <ReviewBrandListModal props={item} /> :
+                                            <ReviewBrandListModal props={item} showButtons={true} /> :
                                             item.type === "store" ?
-                                                <ReviewStoreListModal props={item} /> :
-                                                null
+                                                <ReviewStoreListModal props={item} showButtons={true} /> :
+                                                item.type === "machine" ?
+                                                    <ReviewMachineListModal props={item} showButtons={true} /> :
+                                                    null
                                     }
 
                                 </Box>
@@ -279,10 +283,10 @@ const ReviewManagement = () => {
                         p="10px"
                     >
                         <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("name")}</Typography>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("request")} ID</Typography>
                         </Box>
                         <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("amount")}</Typography>
+                            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{`${t("review")}${t("type")}`} </Typography>
                         </Box>
                         <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                             <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("trigger_at_time")}</Typography>
@@ -313,6 +317,16 @@ const ReviewManagement = () => {
                                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type}</Box>
                                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(item.createdAt)}</Box>
                                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    {
+                                        item.type === "brand" ?
+                                            <ReviewBrandListModal props={item} showButtons={false} /> :
+                                            item.type === "store" ?
+                                                <ReviewStoreListModal props={item} showButtons={false} /> :
+                                                item.type === "machine" ?
+                                                    <ReviewMachineListModal props={item} showButtons={false} /> :
+                                                    null
+                                    }
+
                                 </Box>
                             </Box>
                         ))}

@@ -19,17 +19,16 @@ query Brands {
   }
 }
 `
-
-export const BRAND_GetBrandList = gql`
-query GetBrandList {
-  getBrandPrincipal {
-    brands {
-      id
-      name
-    }
-  }
-}
-`
+// export const BRAND_GetBrandList = gql`
+// query GetBrandList {
+//   getBrandPrincipal {
+//     brands {
+//       id
+//       name
+//     }
+//   }
+// }
+// `
 export const BRAND_GetBrandCurrencyList = gql`
 query GetBrandPrincipal {
   getBrandPrincipal {
@@ -132,7 +131,7 @@ query Brands(
   $location: CreateStoreLocationArgs!
   $principal: CreateStorePrincipalArgs!
   $intro: String
-  $cover: String!
+  $cover: String
 ) {
   getBrandPrincipal {
     brands {
@@ -146,7 +145,6 @@ query Brands(
     }
   }
 }
-
 `
 
 export const BRAND_GetSentFreeCoinList = gql`
@@ -211,4 +209,14 @@ query BrandGetNotificationSchedules($ids: [ID!]!) {
 }
 `
 
-
+export const BRAND_GetMachineReviewData = gql`
+query GetMachineReviewData($reviewIds: [String!]!) {
+  getMachineReviewData(reviewIds: $reviewIds) {
+    id
+    code
+    price
+    name
+    description
+  }
+}
+`
