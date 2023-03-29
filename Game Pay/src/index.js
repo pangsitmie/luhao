@@ -45,7 +45,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
       console.log("=========message=========");
       console.log(message);
-      toast.error(message);
+      // toast.error(message);
 
       console.log("=========location=========");
       console.log(location);
@@ -55,6 +55,10 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
       if (extensions.code === "2x106") {
         console.log("密碼錯誤");
         toast.error("密碼錯誤");
+      }
+      if (extensions.code === "Dx001") {
+        console.log("重複的審核請求");
+        toast.error("重複的審核請求");
       }
       if (extensions.code === "2x102") {
         console.log("無此帳號");
@@ -149,7 +153,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 const link = from([
   errorLink,
   new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" }),
-  // new HttpLink({uri: "https://market-qa.cloudprogrammingonline.com/graphql/"}),
+  // new HttpLink({ uri: "https://market-qa.cloudprogrammingonline.com/graphql/" }),
   // new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
 ]);
 

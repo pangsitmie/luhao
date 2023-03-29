@@ -169,7 +169,7 @@ const Dashboard = () => {
                 </Box>
 
                 {/* ROW 2 */}
-                <Box
+                {/* <Box
                     gridColumn="span 12"
                     gridRow="span 2"
                     borderRadius={"12px"}
@@ -214,7 +214,7 @@ const Dashboard = () => {
                     <Box height="250px" m="-20px 0 0 0">
                         <LineChart isDashboard={true} data={mockLineData} />
                     </Box>
-                </Box>
+                </Box> */}
             </Box>
         </Box>
     )

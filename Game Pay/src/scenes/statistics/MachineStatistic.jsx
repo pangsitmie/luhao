@@ -143,7 +143,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                     <TextField
                         variant="outlined"
                         type="text"
-                        label="預估收入"
+                        label={t('revenue_expectation')}
                         onChange={handleRevenueFilterChange}
                         value={revenueFilter}
                         sx={{ width: "120px", backgroundColor: colors.primary[400], color: "black" }}
@@ -154,7 +154,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                     <TextField
                         variant="outlined"
                         type="text"
-                        label="預估盈收比"
+                        label={t('revenue_rate_expectation')}
                         onChange={handleRevenueRateFilterChange}
                         value={revenueRateFilter}
                         sx={{ width: "120px", backgroundColor: colors.primary[400], color: "black" }}
@@ -165,7 +165,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                     <TextField
                         variant="outlined"
                         type="text"
-                        label="預估出貨比"
+                        label={t('gift_rate_expectation')}
                         onChange={handleGiftRateFilterChange}
                         value={giftRateFilter}
                         sx={{ width: "120px", backgroundColor: colors.primary[400], color: "black" }}
@@ -184,11 +184,11 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                             onChange={handleFilterChange}
                         >
                             <MenuItem value={"name"}>{t('name')}</MenuItem>
-                            <MenuItem value={"revenue"}>收入</MenuItem>
-                            <MenuItem value={"gift"}>出貨</MenuItem>
-                            <MenuItem value={"revenueRate"}>盈收比</MenuItem>
-                            <MenuItem value={"giftRate"}>出貨比</MenuItem>
-                            <MenuItem value={"favorite"}>最愛</MenuItem>
+                            <MenuItem value={"revenue"}>{t('revenue')}</MenuItem>
+                            <MenuItem value={"gift"}>{t('gift')}</MenuItem>
+                            <MenuItem value={"revenueRate"}>{t('revenue_rate')}</MenuItem>
+                            <MenuItem value={"giftRate"}>{t('gift_rate')}</MenuItem>
+                            <MenuItem value={"favorite"}>{t('favorite')}</MenuItem>
                         </Select>
                     </FormControl>
                     <OrderMethodButton CALLBACK_FUNCTION={setOrderMethod} />
@@ -207,13 +207,17 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         ORDER_METHOD={orderMethod} />
                 </Box>
                 <Box display={"flex"} gap={"1rem"}>
+                    <Box>
+                        <span>&#177;7% {t('expectation')}</span>
+
+                    </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                         <Box sx={{ width: 25, height: 5, backgroundColor: colors.blueAccent[800], marginRight: 2 }}></Box>
-                        <div>低於預期</div>
+                        <span>{t('bellow_expectation')}</span>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                         <Box sx={{ width: 25, height: 5, backgroundColor: colors.redAccent[800], marginRight: 2 }}></Box>
-                        <div>超出預期</div>
+                        <span>{t('above_expectation')}</span>
                     </Box>
                 </Box>
             </Box>
@@ -248,7 +252,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         backgroundColor: colors.primary[400]
                     }}>
                         <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
-                            機臺名稱
+                            {t('machine_name')}
                         </Typography>
                     </Box>
 
@@ -273,25 +277,25 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         </Box>
                         <Collapse in={!isOfflineCoinCollapsed} hidden={isOfflineCoinCollapsed}>
                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                總Coin {/* TOTAL Amount */}
+                                {t('total')} Coin {/* TOTAL Amount */}
                             </TableCell>
                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                融合上傳金額 {/* Combine Amount */}
+                                {t('combine_amount')} {/* Combine Amount */}
                             </TableCell>
                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                融合上傳數量 {/* Combine Quantity */}
+                                {t('combine_quantity')} {/* Combine Quantity */}
                             </TableCell>
                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                即時上傳金額 {/* Immediate Amount */}
+                                {t('immediate_amount')} {/* Immediate Amount */}
                             </TableCell>
                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                即時上傳數量 {/* Immediate Quantity */}
+                                {t('immediate_quantity')} {/* Immediate Quantity */}
                             </TableCell>
                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                離線上傳金額 {/* Offline Amount */}
+                                {t('offline_amount')} {/* Offline Amount */}
                             </TableCell>
                             <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                離線上傳數量 {/* Ofline Quantity */}
+                                {t('offline_quantity')} {/* Ofline Quantity */}
                             </TableCell>
                         </Collapse>
                     </Box>
@@ -320,19 +324,19 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                             {/* collaps item */}
                             <Collapse in={!isOnlineCoinCollapsed} hidden={isOnlineCoinCollapsed}>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    總 Bear Pay {/* immediateAmount */}
+                                    {t('total')} Bear Pay {/* immediateAmount */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    線上付費幣上傳金額 {/* Amount */}
+                                    {t('online_amount')} {/* Amount */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    線上付費幣上傳數量 {/* Quantity */}
+                                    {t('online_quantity')} {/* Quantity */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    線上免費幣上傳金額 {/* Free Amount */}
+                                    {t('free_amount')} {/* Free Amount */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    線上免費幣上傳數量 {/* Free Quantity */}
+                                    {t('free_quantity')} {/* Free Quantity */}
                                 </TableCell>
                             </Collapse>
                         </Box>
@@ -346,7 +350,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         backgroundColor: colors.primary[400]
                     }}>
                         <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
-                            總收入
+                            {t('total')} {t('revenue')}
                         </Typography>
                     </Box>
 
@@ -363,7 +367,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         <Box sx={{ minWidth: "150px" }}>
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingLeft: "2.1rem" }}>
                                 <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
-                                    出貨
+                                    {t('gift')}
                                 </Typography>
                                 <IconButton sx={{ marginLeft: "5px" }} onClick={handleGiftToggle}>
                                     {isGiftCollapsed ? <ChevronRightIcon sx={{ color: colors.primary[800] }} /> : <ChevronLeftIcon sx={{ color: colors.primary[800] }} />}
@@ -374,25 +378,25 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                             {/* collaps item */}
                             <Collapse in={!isGiftCollapsed} hidden={isGiftCollapsed}>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    總出貨{/* immediateAmount */}
+                                    {t('total')} {t('gift')}{/* immediateAmount */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    即時上傳金額 {/* immediateAmount */}
+                                    {t('immediate_amount')} {/* immediateAmount */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    即時上傳數量 {/* immediateQuantity */}
+                                    {t('immediate_quantity')} {/* immediateQuantity */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    離線上傳金額 {/* offlineAmount */}
+                                    {t('offline_amount')} {/* offlineAmount */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    離線上傳數量 {/* offlineAmount */}
+                                    {t('offline_quantity')} {/* offlineAmount */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    融合上傳金額 {/* combineAmount */}
+                                    {t('combine_amount')} {/* combineAmount */}
                                 </TableCell>
                                 <TableCell align="center" sx={{ minWidth: "150px", borderBottom: "none" }}>
-                                    融合上傳數量 {/* combineQuantity */}
+                                    {t('combine_quantity')} {/* combineQuantity */}
                                 </TableCell>
                             </Collapse>
                         </Box>
@@ -406,7 +410,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         backgroundColor: colors.primary[400]
                     }}>
                         <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
-                            總支出
+                            {t('total_expense')}
                         </Typography>
                     </Box>
                     <Box sx={{
@@ -417,7 +421,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         backgroundColor: colors.primary[400]
                     }}>
                         <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
-                            盈收比
+                            {t('expense_rate')}
                         </Typography>
                     </Box>
                     <Box sx={{
@@ -428,7 +432,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         backgroundColor: colors.primary[400]
                     }}>
                         <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
-                            出貨比
+                            {t('prize_rate')}
                         </Typography>
                     </Box>
                     <Box sx={{
@@ -439,7 +443,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                         backgroundColor: colors.primary[400]
                     }}>
                         <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
-                            細節資料
+                            {t('details')}
                         </Typography>
                     </Box>
                 </Box>

@@ -211,8 +211,8 @@ const BrandDashboard = () => {
                         }}
                     >
                         <StatBox
-                            title={currencyFormatter(displayStatistic.coinQuantityTotal)}
-                            subtitle={t('total_coin')}
+                            title={displayStatistic.coinQuantityTotal}
+                            subtitle={t('total_coin') + "(" + t('x_time') + ")"}
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: "#FFFFFF", fontSize: "45px" }}
@@ -254,7 +254,7 @@ const BrandDashboard = () => {
                     >
                         <StatBox
                             title={numberFormatter(displayStatistic.giftQuantityTotal)}
-                            subtitle={t('total_prize')}
+                            subtitle={t('total_prize') + "(" + t('x_time') + ")"}
                             icon={
                                 <InventoryIcon
                                     sx={{ color: "#FFFFFF", fontSize: "45px" }}
@@ -263,6 +263,7 @@ const BrandDashboard = () => {
                             textColor={"#FFFFFF"}
                         />
                     </Box>
+
 
 
                     {/* ROW 2 */}

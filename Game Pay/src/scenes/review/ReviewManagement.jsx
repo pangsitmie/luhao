@@ -51,16 +51,6 @@ const ReviewManagement = () => {
 
     //========================== GRAPHQL ==========================
 
-
-
-    // PAGINATION
-    // const [limit, setLimit] = useState(5);
-    // const [offset, setOffset] = useState(0);
-    // const handlePageChange = ({ limit, offset }) => {
-    //     setLimit(limit);
-    //     setOffset(offset);
-    // }
-
     const [initNotReviewedItems, setInitNotReviewedItems] = useState([]);
     const [notReviewedItems, setnotReviewedItems] = useState([]);
 
@@ -200,7 +190,7 @@ const ReviewManagement = () => {
                         colors={colors.grey[100]}
                         p="15px 25px"
                     >
-                        <Typography color={colors.grey[100]} variant="h4" fontWeight="600">待審核</Typography>
+                        <Typography color={colors.grey[100]} variant="h4" fontWeight="600">{t('待審核')}</Typography>
                     </Box>
                     <Box
                         display="flex"
@@ -272,7 +262,7 @@ const ReviewManagement = () => {
                         colors={colors.grey[100]}
                         p="15px 25px"
                     >
-                        <Typography color={colors.grey[100]} variant="h4" fontWeight="600">已審核</Typography>
+                        <Typography color={colors.grey[100]} variant="h4" fontWeight="600">{t('reviewed')}</Typography>
                     </Box>
                     <Box
                         display="flex"
