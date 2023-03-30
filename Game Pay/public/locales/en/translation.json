@@ -207,6 +207,11 @@
     "================review================": "================review================",
     "not_reviewed": "Not Reviewed",
     "reviewed": "Reviewed",
-    "x_time": "x time"
+    "x_time": "x time",
+    "================setting================": "================setting================",
+    "setting": "Setting",
+    "your_account": "Your Account",
+    "account_setting": "Account Setting",
+    "update_success": "Update Success"
 
 }

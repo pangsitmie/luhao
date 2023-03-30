@@ -382,8 +382,8 @@ export default function ReviewBrandListModal({ props }) {
                                             />
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                            <RejectReviewButton REQUEST_ID={props.requestId} />
-                                            <AcceptReviewButton REQUEST_ID={props.requestId} />
+                                            <RejectReviewButton REQUEST_ID={props.id} />
+                                            <AcceptReviewButton REQUEST_ID={props.id} />
                                         </Box>
                                     </form>
                                 )}

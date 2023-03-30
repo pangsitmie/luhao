@@ -41,6 +41,7 @@ import ReviewManagement from "./scenes/review/ReviewManagement";
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
 import DepositManagement from "./scenes/deposit/DepositManagement";
+import Setting from "./scenes/setting/Setting";
 // import { setBrand, setCompany, setStore } from "./redux/entity";
 
 // const StoreManagement = lazy(() => import("./scenes/store/StoreManagement"));
@@ -136,6 +137,7 @@ function App() {
                     <>
                       <Route exact path="/" element={<Dashboard />} />
                       <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/setting" element={<Setting />} />
 
                       <Route
                         path="/user-management"
@@ -210,6 +212,7 @@ function App() {
                     <>
                       <Route exact path="/" element={<BrandDashboard />} />
                       <Route path="/dashboard" element={<BrandDashboard />} />
+                      <Route path="/setting" element={<Setting />} />
 
                       <Route
                         path="/brand-management"
@@ -258,6 +261,7 @@ function App() {
                     <>
                       <Route exact path="/" element={<StoreDashboard />} />
                       <Route path="/dashboard" element={<StoreDashboard />} />
+                      <Route path="/setting" element={<Setting />} />
 
                       <Route
                         path="/store-management"

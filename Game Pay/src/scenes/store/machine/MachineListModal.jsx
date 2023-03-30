@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { PatchMachine } from "src/graphQL/Mutations";
 import { BRAND_PatchMachine } from "src/graphQL/BrandPrincipalMutations";
-import { STORE_UpdateMachine } from "src/graphQL/StorePrincipalMutation";
+import { STORE_PatchMachine, STORE_UpdateMachine } from "src/graphQL/StorePrincipalMutation";
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -143,7 +143,6 @@ export default function MachineListModal({ props }) {
 
             setCounterCheck(nonNullData.counterInfo.counterCheck);
 
-
             // console.log("COUNTERS");
             // console.log(nonNullData.counterInfo.counters);
             // console.log(typeof nonNullData.counterInfo.counters);
@@ -176,6 +175,7 @@ export default function MachineListModal({ props }) {
 
     // UPDATE MACHINE MUTATION
     const [ApolloUpdateMachine, { loading: loading4, error: error4, data: data4 }] = useMutation(PATCH_MACHINE_MUTATION);
+    const [STORE_ApolloPatcheMachine, { loading: STORE_loadingPatch, error: STORE_errorPatch, data: STORE_dataPatch }] = useMutation(STORE_PatchMachine);
     useEffect(() => {
         if (data4) {
             window.location.reload();
@@ -217,8 +217,33 @@ export default function MachineListModal({ props }) {
                 }
             ]
         }
+
+        const STORE_patchVariables = {
+            machineId: props.id,
+            statusId: initialValues.status === 'banned' ? null : status,
+            counterCheck: counterCheck,
+        }
+        if (countersToggle && entityName === "store") {
+            STORE_patchVariables.counters = [
+                {
+                    counterType: "coin",
+                    count: parseInt(values.coin)
+                },
+                {
+                    counterType: "gift",
+                    count: parseInt(values.gift)
+                }
+            ]
+        }
+
+
         console.log(variables);
-        ApolloUpdateMachine({ variables });
+        // ApolloUpdateMachine({ variables });
+
+        if (entityName === "store") {
+            console.log(STORE_patchVariables);
+            // STORE_ApolloPatcheMachine({ STORE_patchVariables });
+        }
     };
 
     // ===================== BAN MACHINE QUERY =====================

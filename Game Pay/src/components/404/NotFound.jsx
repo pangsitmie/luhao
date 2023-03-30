@@ -21,7 +21,10 @@ const NotFound = () => {
                     <Typography variant="h2" component="h2" sx={{ color: colors.primary[100], fontSize: 22, fontWeight: 300, textAlign: 'center' }}>
                         LOOKS LIKE YOU ARE<br />LOST IN SPACE
                     </Typography>
-                    <a href="/" class="btn-go-home" >GO BACK HOME</a>
+                    <a href="/" class="btn-go-home" >
+                        <Typography sx={{ color: colors.primary[100], fontWeight: 300, textAlign: 'center' }}>
+                            GO BACK HOME
+                        </Typography></a>
                 </div>
                 <div class="objects">
 

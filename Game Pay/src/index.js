@@ -106,6 +106,8 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
           }
         `;
         }
+        console.log("QUERY: ");
+        console.log(query);
 
         // Use the client.mutate method to make the query
         const { data } = await client.mutate({
@@ -152,9 +154,9 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" }),
+  // new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" }),
   // new HttpLink({ uri: "https://market-qa.cloudprogrammingonline.com/graphql/" }),
-  // new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
+  new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
 ]);
 
 let authLink = setContext((_, { headers }) => {

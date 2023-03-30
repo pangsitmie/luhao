@@ -88,14 +88,11 @@ const MachineManagement = () => {
         machineDatasCopy[machineIndex].node.favorite = !favoriteBool;
         setMachineDatas(machineDatasCopy);
 
-
-
         if (favoriteBool) {
             toast.error("Machine removed from favorite!");
         } else {
             toast.success("Machine added to favorite!");
         }
-
     };
 
 

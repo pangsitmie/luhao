@@ -69,11 +69,11 @@ export default function StoreListModal({ props }) {
     };
 
     //  ========================== PASSWORD VISIBILITY ==========================
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    // const [showPassword, setShowPassword] = useState(false);
+    // const handleClickShowPassword = () => setShowPassword((show) => !show);
+    // const handleMouseDownPassword = (event) => {
+    //     event.preventDefault();
+    // };
 
     var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
 
@@ -119,9 +119,6 @@ export default function StoreListModal({ props }) {
     }
 
 
-
-
-
     const [initialValues, setInitialValues] = useState({
         id: -1,
         brandId: -1,
@@ -134,7 +131,7 @@ export default function StoreListModal({ props }) {
 
         principalName: "",
         principalAccount: "",
-        principalPassword: "",
+        // principalPassword: "",
         principalLineUrl: "https://lin.ee/",
         principalEmail: "",
     });
@@ -188,7 +185,7 @@ export default function StoreListModal({ props }) {
                 principalName: nonNullData.principal.name,
                 principalAccount: nonNullData.principal.account,
                 principalEmail: nonNullData.principal.email,
-                principalPassword: "",
+                // principalPassword: "",
                 // princiapall password doesnt receive api data
                 principalLineUrl: nonNullData.principal.lineUrl,
             });
@@ -334,9 +331,9 @@ export default function StoreListModal({ props }) {
         // }
 
         //if password is empty, dont update password
-        if (values.principalPassword !== "") {
-            variables.principal.password = values.principalPassword;
-        }
+        // if (values.principalPassword !== "") {
+        //     variables.principal.password = values.principalPassword;
+        // }
 
         //if status is not banned, update status
         // if (initialValues.status !== "banned" && entityName === "store") {
@@ -346,6 +343,7 @@ export default function StoreListModal({ props }) {
 
 
         ApolloUpdateStore({ variables });
+        toast.success(t("update_success"));
     };
 
     const toggleModal = () => {
@@ -619,6 +617,19 @@ export default function StoreListModal({ props }) {
                                                     helperText={touched.principalName && errors.principalName}
                                                     sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
+                                                <TextField
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label={`${t('email')} ${t('optional')} `}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.principalEmail}
+                                                    name="principalEmail"
+                                                    error={!!touched.principalEmail && !!errors.principalEmail}
+                                                    helperText={touched.principalEmail && errors.principalEmail}
+                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                />
 
                                                 <TextField
                                                     fullWidth
@@ -634,50 +645,7 @@ export default function StoreListModal({ props }) {
                                                     sx={{ margin: " 0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
-                                            <Box display={"flex"} justifyContent={"space-between"} >
 
-                                                <TextField
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label={`${t('email')} ${t('optional')} `}
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalEmail}
-                                                    name="principalEmail"
-                                                    error={!!touched.principalEmail && !!errors.principalEmail}
-                                                    helperText={touched.principalEmail && errors.principalEmail}
-                                                    sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                                {/* PASSWORD INPUT */}
-                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">{`${t('password')} ${t('optional')}`}</InputLabel>
-                                                    <FilledInput
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        value={values.principalPassword}
-                                                        name="principalPassword"
-                                                        error={!!touched.principalPassword && !!errors.principalPassword}
-                                                        type={showPassword ? 'text' : 'password'}
-                                                        endAdornment={
-                                                            <InputAdornment position="end">
-                                                                <IconButton
-                                                                    aria-label="toggle password visibility"
-                                                                    onClick={handleClickShowPassword}
-                                                                    onMouseDown={handleMouseDownPassword}
-                                                                    edge="end"
-                                                                >
-                                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        }
-                                                    />
-                                                    <FormHelperText
-                                                        error={!!touched.principalPassword && !!errors.principalPassword}>
-                                                        {touched.principalPassword && errors.principalPassword}
-                                                    </FormHelperText>
-                                                </FormControl>
-                                            </Box>
 
                                         </Box>
                                         <Box display="flex" justifyContent="center" >

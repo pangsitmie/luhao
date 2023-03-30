@@ -77,6 +77,24 @@ mutation UpdateMachineForStorePrincipal(
 }
 `
 
+export const STORE_PatchMachine = gql`
+mutation PatchMachineForStorePrincipal(
+  $machineId: ID!
+  $statusId: EUpdateMachineStatus
+  $nfc: String
+  $counters: [CounterArgs!]
+  $counterCheck: Boolean
+) {
+  patchMachineForStorePrincipal(
+    machineId: $machineId
+    statusId: $statusId
+    nfc: $nfc
+    counters: $counters
+    counterCheck: $counterCheck
+  )
+}
+`
+
 export const STORE_PatchStoreStatus = gql`
 mutation PatchStoreStatusForPrincipal(
   $storeId: ID!

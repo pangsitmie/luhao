@@ -190,9 +190,10 @@ const StoreDashboard = () => {
                             subtitle={t('total_earning')}
                             icon={
                                 <SavingsIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                    sx={{ color: "#FFFFFF", fontSize: "45px" }}
                                 />
                             }
+                            textColor={"#FFFFFF"}
                         />
                     </Box>
 
@@ -210,9 +211,10 @@ const StoreDashboard = () => {
                             subtitle={t('total_coin')}
                             icon={
                                 <MonetizationOnIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                    sx={{ color: "#FFFFFF", fontSize: "45px" }}
                                 />
                             }
+                            textColor={"#FFFFFF"}
                         />
                     </Box>
 
@@ -230,9 +232,10 @@ const StoreDashboard = () => {
                             subtitle={t('total_expense')}
                             icon={
                                 <ReceiptIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                    sx={{ color: "#FFFFFF", fontSize: "45px" }}
                                 />
                             }
+                            textColor={"#FFFFFF"}
                         />
                     </Box>
 
@@ -250,9 +253,10 @@ const StoreDashboard = () => {
                             subtitle={t('total_prize')}
                             icon={
                                 <InventoryIcon
-                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                    sx={{ color: "#FFFFFF", fontSize: "45px" }}
                                 />
                             }
+                            textColor={"#FFFFFF"}
                         />
                     </Box>
 

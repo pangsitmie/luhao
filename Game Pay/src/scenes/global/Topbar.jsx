@@ -47,9 +47,11 @@ const Topbar = () => {
         }
 
 
-        {/* <IconButton>
-          <SettingsOutlinedIcon />
-        </IconButton> */}
+        {/* <Link to="/setting">
+          <IconButton>
+            <SettingsOutlinedIcon />
+          </IconButton>
+        </Link> */}
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />

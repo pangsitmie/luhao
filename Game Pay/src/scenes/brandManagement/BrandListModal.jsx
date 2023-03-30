@@ -15,15 +15,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { PatchBrand } from "src/graphQL/Mutations";
 import { BRAND_UpdateBrand } from "src/graphQL/BrandPrincipalQueries";
+import { toast } from "react-toastify";
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
+// const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
   name: yup.string().required("required"),
   // intro: yup.string().required("required"),
   principalName: yup.string().required("required"),
   principalLineUrl: yup.string().required("required"),
-  principalPassword: yup.string().matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"),
+  // principalPassword: yup.string().matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"),
   principalLineUrl: yup.string().required("required"),
   vatNumber: yup.string().required("required"),
   brandCoinName: yup.string().required("required"),
@@ -49,11 +50,11 @@ export default function BrandListModal({ props }) {
     setModal(!modal);
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  // const [showPassword, setShowPassword] = useState(false);
+  // const handleClickShowPassword = () => setShowPassword((show) => !show);
+  // const handleMouseDownPassword = (event) => {
+  //   event.preventDefault();
+  // };
 
   const [status, setStatus] = useState('disable');
   const handleStatusChange = (event) => {
@@ -94,7 +95,6 @@ export default function BrandListModal({ props }) {
 
   // ============ UPDATE BRAND ============
   const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useMutation(UPDATE_BRAND_MUTATION);
-
   useEffect(() => {
     if (errorUpdate) {
       console.log(errorUpdate);
@@ -164,14 +164,12 @@ export default function BrandListModal({ props }) {
     if (values.principalEmail !== "") {
       variables.principal.email = values.principalEmail;
     }
-    if (values.principalPassword !== "") {
-      variables.principal.password = values.principalPassword;
-    }
     if (initialValues.status !== "banned") {
       variables.statusId = status;
     }
 
     ApolloUpdateBrand({ variables });
+    toast.success(t("update_success"));
   };
 
   // INITIAL VALUES FROM GET BRAND QUERY
@@ -365,6 +363,20 @@ export default function BrandListModal({ props }) {
                         helperText={touched.intro && errors.intro}
                         sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
+                      <TextField
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        disabled={true}
+                        label={t("brand_coin_name")}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.brandCoinName}
+                        name="brandCoinName"
+                        error={!!touched.brandCoinName && !!errors.brandCoinName}
+                        helperText={touched.brandCoinName && errors.brandCoinName}
+                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                      />
 
                       <Typography variant="h5" sx={{ textAlign: "left", margin: "1rem 0 .5rem 0", color: colors.grey[200] }}>{t('principal_name')}</Typography>
 
@@ -384,8 +396,21 @@ export default function BrandListModal({ props }) {
                           sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
 
+                        <TextField
+                          fullWidth
+                          variant="filled"
+                          type="text"
+                          label={t("line_url")}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.principalLineUrl}
+                          name="principalLineUrl"
+                          error={!!touched.principalLineUrl && !!errors.principalLineUrl}
+                          helperText={touched.principalLineUrl && errors.principalLineUrl}
+                          sx={{ margin: "0rem 0 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                        />
                         {/* PASSWORD INPUT */}
-                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
+                        {/* <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
                           <InputLabel htmlFor="filled-adornment-password">{t("password")} {t('optional')}</InputLabel>
                           <FilledInput
                             onBlur={handleBlur}
@@ -410,23 +435,11 @@ export default function BrandListModal({ props }) {
                           <FormHelperText error={!!touched.principalPassword && !!errors.principalPassword}>
                             {touched.principalPassword && errors.principalPassword}
                           </FormHelperText>
-                        </FormControl>
+                        </FormControl> */}
                       </Box>
 
                       <Box display={"flex"} justifyContent={"space-between"} >
-                        <TextField
-                          fullWidth
-                          variant="filled"
-                          type="text"
-                          label={t("line_url")}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.principalLineUrl}
-                          name="principalLineUrl"
-                          error={!!touched.principalLineUrl && !!errors.principalLineUrl}
-                          helperText={touched.principalLineUrl && errors.principalLineUrl}
-                          sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                        />
+
                         <TextField
                           disabled={true}
                           fullWidth
@@ -457,20 +470,7 @@ export default function BrandListModal({ props }) {
                         />
                       </Box>
 
-                      <TextField
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        disabled={true}
-                        label={t("brand_coin_name")}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.brandCoinName}
-                        name="brandCoinName"
-                        error={!!touched.brandCoinName && !!errors.brandCoinName}
-                        helperText={touched.brandCoinName && errors.brandCoinName}
-                        sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                      />
+
                     </Box>
                     <Box display="flex" justifyContent="center" >
                       {entityName === 'company' ? (
