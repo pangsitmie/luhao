@@ -127,8 +127,6 @@ export default function StoreListModal({ props }) {
         intro: "",
         //locations get from location state
         status: "",
-
-
         principalName: "",
         principalAccount: "",
         // principalPassword: "",
@@ -158,7 +156,6 @@ export default function StoreListModal({ props }) {
     }, [data2]);
 
     // INITIAL VALUES FROM GET STORE QUERY
-    // TODO: change to the location property is causing pagination error
     const { loading: loading3, error: error3, data: data3 } = useQuery(GetStore
         , {
             variables: {
@@ -167,7 +164,8 @@ export default function StoreListModal({ props }) {
                         id: props.id
                     }
                 ],
-            }
+            },
+            skip: !modal, // Skip the query when modal is closed
         }
     );
     useEffect(() => {
@@ -374,6 +372,7 @@ export default function StoreListModal({ props }) {
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
                                 validationSchema={checkoutSchema}
+                                enableReinitialize={true}
                             >
                                 {({
                                     values,

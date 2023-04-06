@@ -111,7 +111,6 @@ const BrandLoginPage = () => {
         variables.password = values.password;
         apolloBrandLogin({ variables });
         console.log(variables);
-
     }
 
     return (

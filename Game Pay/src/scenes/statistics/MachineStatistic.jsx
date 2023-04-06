@@ -570,7 +570,7 @@ const MachineStatistic = ({ MACHINE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }
                                 <Box sx={{ backgroundColor: "transparent", alignItems: "center", display: "flex" }}>
                                     <TableCell align="center" sx={{ minWidth: "150px" }}>
                                         <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                            {item.node.giftDetail.immediateAmount + item.node.giftDetail.offlineAmount + item.node.giftDetail.combineAmount}
+                                            {item.node.giftDetail.immediateQuantity + item.node.giftDetail.offlineQuantity + item.node.giftDetail.combineQuantity}
                                         </Typography>
                                     </TableCell>
                                     <Collapse in={!isGiftCollapsed} hidden={isGiftCollapsed} >

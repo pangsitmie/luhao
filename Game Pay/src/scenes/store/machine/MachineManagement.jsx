@@ -29,6 +29,17 @@ const MachineManagement = () => {
     // console.log("STATE" + state.data.id); // output: "the-page-id"
     const { t } = useTranslation();
 
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -324,6 +335,7 @@ const MachineManagement = () => {
                                     }
                                 })()}
                             </Box>
+
                             <Box
                                 width={"20%"}
                                 display={"flex"}

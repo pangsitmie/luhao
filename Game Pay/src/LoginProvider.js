@@ -29,9 +29,10 @@ function LoginProvider() {
       <React.StrictMode>
         <Routes>
           <Route path="*" element={<NotFound />} />
-          <Route path="/company" element={<Login />} />
-          <Route path="/brand" element={<BrandLoginPage />} />
-          <Route path="/store" element={<StoreLoginPage />} />
+          {/* <Route path="/company" element={<Login />} /> */}
+          <Route path="/" element={<Login />} />
+          {/* <Route path="/brand" element={<BrandLoginPage />} />
+          <Route path="/store" element={<StoreLoginPage />} /> */}
         </Routes>
       </React.StrictMode>
     </ThemeProvider>

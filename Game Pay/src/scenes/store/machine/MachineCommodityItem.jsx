@@ -99,11 +99,13 @@ export default function MachineCommodityListModal({ props, storeData }) {
                         id: props.id
                     }
                 ],
-            }
+            },
+            skip: !modal, // Skip the query when modal is closed
         }
     );
     useEffect(() => {
         if (data3) {
+            console.log("RETRIEVED DATA FROM GetMachineCommodity");
             const nonNullData = replaceNullWithEmptyString(data3.getMachine[0].commodity);
             setSelectedCommodity({
                 id: nonNullData.id,
@@ -177,6 +179,7 @@ export default function MachineCommodityListModal({ props, storeData }) {
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
                                 validationSchema={checkoutSchema}
+                                enableReinitialize={true}
                             >
                                 {({
                                     values,

@@ -3,10 +3,11 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    width: 100%;
     background-image: url("../../assets/animated_blob_background.svg");
+    /* background-color: #111; */
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 0 1rem;
     overflow: hidden;
     color: #FFF !important;
 }

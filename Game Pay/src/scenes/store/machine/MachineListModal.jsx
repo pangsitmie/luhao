@@ -24,6 +24,7 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function MachineListModal({ props }) {
+    console.log("MachineListModal REQUESTED");
     const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
 
@@ -77,6 +78,10 @@ export default function MachineListModal({ props }) {
         desc: "",
     });
 
+    useEffect(() => {
+        console.log(initialValues);
+    }, [initialValues]);
+
 
     // ===================== REMOVE MACHINE QUERY =====================
     const [ApolloUnbindMachine, { loading, error, data }] = useLazyQuery(UnbindMachine);
@@ -102,8 +107,6 @@ export default function MachineListModal({ props }) {
         }
     };
 
-
-
     // ===================== INITIAL VALUES FROM GETMACHINE =====================
     const { loading: loading3, error: error3, data: data3 } = useQuery(GetMachine
         , {
@@ -113,11 +116,13 @@ export default function MachineListModal({ props }) {
                         id: props.id
                     }
                 ],
-            }
-        }
+            },
+            skip: !modal, // Skip the query when modal is closed
+        },
     );
     useEffect(() => {
         if (data3) {
+            console.log("RETRIEVED DATA FROM GetMachine");
             const nonNullData = replaceNullWithEmptyString(data3.getMachine[0]);
             setInitialValues({
                 // ...initialValues,
@@ -132,6 +137,9 @@ export default function MachineListModal({ props }) {
                 status: nonNullData.status,
                 desc: nonNullData.description,
             });
+
+
+
             generateQrCode(nonNullData.qrCode);
 
 
@@ -169,9 +177,10 @@ export default function MachineListModal({ props }) {
             }
 
             // console.log(initialValues);
-
         }
     }, [data3]);
+
+
 
     // UPDATE MACHINE MUTATION
     const [ApolloUpdateMachine, { loading: loading4, error: error4, data: data4 }] = useMutation(PATCH_MACHINE_MUTATION);
@@ -193,6 +202,7 @@ export default function MachineListModal({ props }) {
 
 
     const handleFormSubmit = (values) => {
+        console.log(values);
         const variables = {
             machineId: props.id,
             name: values.name,
@@ -238,11 +248,11 @@ export default function MachineListModal({ props }) {
 
 
         console.log(variables);
-        // ApolloUpdateMachine({ variables });
+        ApolloUpdateMachine({ variables });
 
         if (entityName === "store") {
             console.log(STORE_patchVariables);
-            // STORE_ApolloPatcheMachine({ STORE_patchVariables });
+            STORE_ApolloPatcheMachine({ STORE_patchVariables });
         }
     };
 
@@ -300,6 +310,7 @@ export default function MachineListModal({ props }) {
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
                                 validationSchema={checkoutSchema}
+                                enableReinitialize={true}
                             >
                                 {({
                                     values,

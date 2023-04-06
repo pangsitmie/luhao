@@ -20,6 +20,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useDispatch, useSelector } from "react-redux";
 import { setBrand, setCompany, setStore } from "../../redux/entity";
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 
 const checkoutSchema = yup.object().shape({
@@ -29,9 +30,7 @@ const checkoutSchema = yup.object().shape({
 
 const Login = () => {
     const { t } = useTranslation();
-
-    //========================== THEME ==========================
-
+    const dispatch = useDispatch();
 
     //========================== INITIAL VALUES ==========================
     const initialValues = {
@@ -53,6 +52,11 @@ const Login = () => {
     const [accessToken, setAccessToken] = useState('');
 
 
+    const [managerLoginAttempt, setManagerLoginAttempt] = useState(false);
+    const [brandLoginAttempt, setBrandLoginAttempt] = useState(false);
+    const [storeLoginAttempt, setStoreLoginAttempt] = useState(false);
+
+
     // ========================== COMPANY LOGIN ==========================
     const [apolloManagerLogin, { loading: loadingManager, error: errorManager, data: dataManager }] = useMutation(ManagerLogin);
     // if login success we want to get the access token
@@ -68,11 +72,17 @@ const Login = () => {
                 }
             });
         }
-    }, [dataManager]);
+        // if (errorManager) {
+        //     console.log(errorManager);
+        //     toast.error(errorManager.message);
+        // }
+    }, [dataManager, errorManager]);
 
     const [apolloGetManagerAccessToken, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(GetManagerAccessToken);
     useEffect(() => {
         if (data1) {
+            setManagerLoginAttempt(true);
+
             console.log("ACCESS TOKEN: " + data1.getManagerAccessToken);
             setAccessToken(data1.getManagerAccessToken);
             localStorage.setItem('token', data1.getManagerAccessToken);
@@ -88,28 +98,134 @@ const Login = () => {
 
 
 
+    // ========================== BRAND LOGIN ==========================
+    const [apolloBrandLogin, { loading: loadingBrand, error: errorBrand, data: dataBrand }] = useMutation(BrandLogin);
+    // if login success we want to get the access token
+    useEffect(() => {
+        if (dataBrand) {
+            console.log("LOGIN TOKEN: " + dataBrand.brandPrincipalWebLogin);
+            localStorage.setItem('login_token', dataBrand.brandPrincipalWebLogin);
+            setIsLogin(true);
+
+            apolloGetBrandAccessToken({
+                variables: {
+                    refreshToken: "Bearer " + dataBrand.brandPrincipalWebLogin
+                }
+            });
+        }
+        // if (errorBrand) {
+        //     console.log(errorBrand);
+        //     toast.error(errorBrand.message);
+        // }
+    }, [dataBrand, errorBrand]);
+
+    const [apolloGetBrandAccessToken, { loading: loadingBrandAT, error: errorBrandAT, data: dataBrandAT }] = useLazyQuery(GetBrandPrincipalWebAccessToken);
+    useEffect(() => {
+        if (dataBrandAT) {
+            setBrandLoginAttempt(true);
+
+            dispatch(setBrand());
+            console.log("ACCESS TOKEN: " + dataBrandAT.getBrandPrincipalWebAccessToken);
+            setAccessToken(dataBrandAT.getBrandPrincipalWebAccessToken);
+            localStorage.setItem('token', dataBrandAT.getBrandPrincipalWebAccessToken);
+            localStorage.setItem('entity', JSON.stringify({ entityName: 'brand' }));
+            navigate("/");
+        }
+        else {
+            console.log("NO ACCESS TOKEN")
+        }
+    }, [dataBrandAT]);
+    // ========================== END ==========================
+
+    // ========================== STORE LOGIN ==========================
+    const [apolloStoreLogin, { loading: loadingStore, error: errorStore, data: dataStore }] = useMutation(StoreLogin);
+    // if login success we want to get the access token
+    useEffect(() => {
+        if (dataStore) {
+            console.log("LOGIN TOKEN: " + dataStore.storePrincipalWebLogin);
+            localStorage.setItem('login_token', dataStore.storePrincipalWebLogin);
+            setIsLogin(true);
+
+            apolloGeStoreAccessToken({
+                variables: {
+                    refreshToken: "Bearer " + dataStore.storePrincipalWebLogin
+                }
+            });
+        }
+        // if (errorStore) {
+        //     console.log(errorStore);
+        // }
+    }, [dataStore, errorStore]);
+
+    const [apolloGeStoreAccessToken, { loading: loadingStoreAT, error: errorStoreAT, data: dataStoreAT }] = useLazyQuery(GetStoreWebAccessToken);
+    useEffect(() => {
+        if (dataStoreAT) {
+            setStoreLoginAttempt(true);
+
+            dispatch(setStore());
+            console.log("ACCESS TOKEN: " + dataStoreAT.getStorePrincipalWebAccessToken);
+            setAccessToken(dataStoreAT.getStorePrincipalWebAccessToken);
+            localStorage.setItem('token', dataStoreAT.getStorePrincipalWebAccessToken);
+            localStorage.setItem('entity', JSON.stringify({ entityName: 'store' }));
+            navigate("/");
+        }
+        else {
+            console.log("NO ACCESS TOKEN")
+        }
+    }, [dataStoreAT]);
+    // ========================== END ==========================
+
+    useEffect(() => {
+        if (errorBrand && errorStore && errorManager) {
+            toast.error("登入資訊錯誤，請再試一次。");
+        }
+    }, [errorStore, errorBrand, errorManager]);
+    // useEffect(() => {
+    //     console.log("managerLoginAttempt: " + managerLoginAttempt);
+    //     console.log("brandLoginAttempt: " + brandLoginAttempt);
+    //     console.log("storeLoginAttempt: " + storeLoginAttempt);
+
+    //     if (!(managerLoginAttempt && brandLoginAttempt && storeLoginAttempt)) {
+    //         console.log("ALL LOGIN FAILED");
+    //         toast.error("ALL LOGIN FAILED");
+    //     }
+    // }, []);
 
 
     //========================== FUNCTIONS ==========================
     const handleFormSubmit = (values) => {
 
-        const variables = {};
+        let variables = {};
         variables.account = values.account;
         variables.password = values.password;
+
+        //company login
         apolloManagerLogin({ variables });
 
-        console.log(variables);
+        //store login
+        apolloStoreLogin({ variables });
 
+
+        variables = {};
+
+        console.log("BRAND LOGIN");
+        variables.phone = {
+            country: "tw",
+            number: values.account
+        };
+        variables.password = values.password;
+        apolloBrandLogin({ variables });
+        console.log(variables);
     }
 
     return (
-        <Box className='login_page'  >
+        <div className='login_page'  >
             <div className="container">
                 <div className="box">
                     <Typography variant="h5" sx={{
                         color: "#111", fontSize: "13px", fontWeight: "300", ml: "2px", mb: "5px"
                     }}>
-                        COMPANY
+                        ADMIN
                     </Typography>
                     <span className="title">BEAR PAY</span>
                     <div>
@@ -195,7 +311,7 @@ const Login = () => {
                     </Box> */}
                 </div>
             </div>
-        </Box >
+        </div >
     )
 };
 

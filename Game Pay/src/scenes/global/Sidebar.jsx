@@ -116,7 +116,8 @@ const Sidebar = () => {
 
   const logout = () => {
     localStorage.clear();
-    navigate(`/login/${entityName}`);
+    // navigate(`/login/${entityName}`);
+    navigate(`/login`);
     client.clearStore();
   }
 

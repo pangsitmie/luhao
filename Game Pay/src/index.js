@@ -24,6 +24,7 @@ import { onError } from "@apollo/client/link/error";
 //REDUX
 import store from "./redux/store";
 import { Provider } from "react-redux";
+import Login from "./scenes/login/Login";
 
 let originalQuery;
 let originalVariables;
@@ -49,21 +50,24 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
       console.log("=========location=========");
       console.log(location);
+      console.log("ERROR PATH:" + path);
 
-      console.log(extensions.description);
 
-      if (extensions.code === "2x106") {
-        console.log("密碼錯誤");
-        toast.error("密碼錯誤");
-      }
+      // console.log(extensions.description);
+
+      // if (extensions.code === "2x106") {
+      //   console.log("密碼錯誤");
+      //   toast.error("密碼錯誤");
+      // }
+      // if (extensions.code === "2x102") {
+      //   console.log("無此帳號");
+      //   toast.error("無此帳號");
+      // }
       if (extensions.code === "Dx001") {
         console.log("重複的審核請求");
         toast.error("重複的審核請求");
       }
-      if (extensions.code === "2x102") {
-        console.log("無此帳號");
-        toast.error("無此帳號");
-      }
+
       if (extensions.code === "3x004") {
         //權限不足
         //navigate to /login
@@ -71,7 +75,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         toast.error("權限不足");
       }
 
-      console.log("ERROR PATH:" + path);
       if (message === "Token過期") {
         // this is used to clear client cache
         // client.clearStore();
@@ -135,18 +138,18 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         // Re-execute the original query with the updated token and original variables
         client.query({ query: originalQuery, variables: originalVariables });
       } else {
-        if (extensions.description[0]) {
-          const { constraints } = extensions.description[0];
-          const errorMessage = constraints && constraints.matches;
-          if (errorMessage) {
-            toast.error(errorMessage);
-          }
-          else {
-            toast.error(extensions.description);
-          }
-        } else {
-          toast.error(message);
-        }
+        // if (extensions.description[0]) {
+        //   const { constraints } = extensions.description[0];
+        //   const errorMessage = constraints && constraints.matches;
+        //   if (errorMessage) {
+        //     toast.error(errorMessage);
+        //   }
+        //   else {
+        //     toast.error(extensions.description);
+        //   }
+        // } else {
+        //   toast.error(message);
+        // }
       }
     });
   }
@@ -154,9 +157,9 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
 const link = from([
   errorLink,
-  // new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" }),
+  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" }),
   // new HttpLink({ uri: "https://market-qa.cloudprogrammingonline.com/graphql/" }),
-  new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
+  // new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
 ]);
 
 let authLink = setContext((_, { headers }) => {
@@ -190,7 +193,8 @@ root.render(
         <React.StrictMode>
           <Routes>
             <Route exact path="/*" element={<App />} />
-            <Route path="/login/*" element={<LoginProvider />} />
+            {/* <Route path="/login/*" element={<LoginProvider />} /> */}
+            <Route path="/login" element={<LoginProvider />} />
           </Routes>
         </React.StrictMode>
       </BrowserRouter>

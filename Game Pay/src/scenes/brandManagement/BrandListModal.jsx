@@ -181,7 +181,8 @@ export default function BrandListModal({ props }) {
             id: props.id
           }
         ],
-      }
+      },
+      skip: !modal, // Skip the query when modal is closed
     }
   );
   useEffect(() => {
@@ -250,6 +251,7 @@ export default function BrandListModal({ props }) {
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
                 validationSchema={checkoutSchema}
+                enableReinitialize={true}
               >
                 {({
                   values,
