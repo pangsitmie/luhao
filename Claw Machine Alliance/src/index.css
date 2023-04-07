@@ -36,11 +36,18 @@ a,
 a:link,
 a:visited,
 a:focus,
-a:hover,
 a:active {
-  color: #fff;
+  color: #0d60dd;
   text-decoration: none;
   cursor: pointer;
+}
+
+a:hover {
+  color: #0057D9 !important;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .header_item:hover {
@@ -113,6 +120,7 @@ span {
 .yellow {
   color: #ffaf25;
 }
+
 
 .blue {
   color: #0057D9;

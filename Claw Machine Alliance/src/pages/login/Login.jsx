@@ -153,7 +153,7 @@ const Login = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
-            // credentials: 'include', // Add this line to include credentials in the request
+            credentials: 'include', // Add this line to include credentials in the request
         };
 
         console.log(requestOptions);
@@ -172,6 +172,7 @@ const Login = () => {
             })
             .catch((error) => {
                 console.error(error);
+                toast.error(error.message);
                 // handle error here
             });
     };

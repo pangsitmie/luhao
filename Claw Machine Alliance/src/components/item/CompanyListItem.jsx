@@ -34,20 +34,37 @@ const CompanyListItem = ({ props, textColor, showDetails }) => {
             </Box>
             {showDetails ? (
                 <Box display={open ? "block" : "none"} className={"exhibition23_speaker_list_item_detail_box"}>
-                    <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
-                        電話: {details.phone}
-                    </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
-                        地址: {details.address}
-                    </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
-                        網站: {details.website}
-                    </Typography>
+                    {/* phone */}
+                    {
+                        details.phone ? (
+                            <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
+                                電話: {details.phone}
+                            </Typography>
+                        ) : null
+                    }
+
+                    {/* address */}
+                    {
+                        details.address ? (
+                            <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
+                                地址: {details.address}
+                            </Typography>
+                        ) : null
+                    }
+
+                    {/* website */}
+                    {
+                        details.website ? (
+                            <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
+                                網站: {details.website}
+                            </Typography>
+                        ) : null
+                    }
                 </Box>
             ) : (
-                <Box display={open ? "block" : "none"} className={"exhibition23_speaker_list_item_detail_box"}>
-                    <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
-                        請<a href="/login">登入</a>以查看更多信息。
+                <Box display={open ? "block" : "none"}>
+                    <Typography variant="h6" sx={{ fontWeight: "500", color: "#111" }}>
+                        請<a href="/login" className="bold"> 登入 </a>以查看更多信息。
                     </Typography>
                 </Box>
             )}

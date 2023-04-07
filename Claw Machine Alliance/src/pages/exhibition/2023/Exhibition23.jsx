@@ -217,7 +217,7 @@ const Exhibition23 = () => {
 
 
                 {/* row 2 */}
-                {/* <Box className={"exhibition_speaker_right_container card_box"}>
+                <Box className={"exhibition_speaker_right_container card_box"}>
                     <span></span>
                     <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "2rem" }} >
                         公司行號代表參展單位
@@ -232,10 +232,10 @@ const Exhibition23 = () => {
                     />
                     <Box display="grid" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" gap="1rem">
                         {exhibition2023Companies[1].data.map((item) => (
-                            <CompanyListItem props={item} />
+                            <CompanyListItem props={item} showDetails={loggedIn} />
                         ))}
                     </Box>
-                </Box> */}
+                </Box>
 
                 {/* row 3 */}
                 <Box className={"exhibition_speaker_right_container card_box"}>
@@ -244,11 +244,17 @@ const Exhibition23 = () => {
                         <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
                             <Box mb={"2rem"}>
                                 <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "1rem" }} >
+                                    贊助廠商:
+                                </Typography>
+
+                            </Box>
+                            <Box mb={"2rem"}>
+                                <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "1rem" }} >
                                     指導單位:
                                 </Typography>
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
                                     {exhibition2023Companies[2].data.map((item, index) => (
-                                        <CompanyListItem key={index} props={item} showDetails={loggedIn} />
+                                        <CompanyListItem key={index} props={item} showDetails={true} />
                                     ))}
                                 </Box>
                             </Box>
@@ -260,7 +266,7 @@ const Exhibition23 = () => {
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
 
                                     {exhibition2023Companies[3].data.map((item, index) => (
-                                        <CompanyListItem key={index} props={item} showDetails={loggedIn} />
+                                        <CompanyListItem key={index} props={item} showDetails={true} />
                                     ))}
                                 </Box>
                             </Box>
@@ -271,7 +277,7 @@ const Exhibition23 = () => {
                                 協辦單位:
                             </Typography>
                             {exhibition2023Companies[4].data.map((item, index) => (
-                                <CompanyListItem key={index} props={item} showDetails={loggedIn} />
+                                <CompanyListItem key={index} props={item} showDetails={true} />
                             ))}
                         </Box>
                     </Box>

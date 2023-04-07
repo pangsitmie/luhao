@@ -313,11 +313,6 @@ export default function MachineCommodityListModal({ props, storeData }) {
 
                                         <Box display="flex" justifyContent="center" >
                                             <Box display="flex" justifyContent="center" >
-                                                {/* <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
-                                                    <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
-                                                        {deleteTitle}
-                                                    </Typography>
-                                                </Button> */}
                                                 <Button type="submit" color="success" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", background: colors.grey[100] }}>
                                                     <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.grey[700] }}>
                                                         {confirmTitle}

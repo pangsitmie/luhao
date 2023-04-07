@@ -157,9 +157,9 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" }),
+  // new HttpLink({ uri: "https://market-test.cloudprogrammingonline.com/graphql/" }),
   // new HttpLink({ uri: "https://market-qa.cloudprogrammingonline.com/graphql/" }),
-  // new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
+  new HttpLink({ uri: "https://market.cloudprogrammingonline.com/graphql/" }),
 ]);
 
 let authLink = setContext((_, { headers }) => {

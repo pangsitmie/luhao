@@ -206,6 +206,12 @@
     "free_quantity":"Free Quantity",
     "================review================": "================review================",
     "not_reviewed": "Not Reviewed",
-    "reviewed": "Reviewed"
+    "reviewed": "Reviewed",
+    "x_time": "x time",
+    "================setting================": "================setting================",
+    "setting": "Setting",
+    "your_account": "Your Account",
+    "account_setting": "Account Setting",
+    "update_success": "Update Success"
 
 }

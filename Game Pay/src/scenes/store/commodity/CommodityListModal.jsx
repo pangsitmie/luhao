@@ -57,7 +57,8 @@ export default function MachineListModal({ props }) {
                         id: props.id
                     }
                 ],
-            }
+            },
+            skip: !modal, // Skip the query when modal is closed
         }
     );
     useEffect(() => {
@@ -140,6 +141,7 @@ export default function MachineListModal({ props }) {
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
                                 validationSchema={checkoutSchema}
+                                enableReinitialize={true}
                             >
                                 {({
                                     values,
