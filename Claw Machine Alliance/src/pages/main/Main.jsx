@@ -39,10 +39,10 @@ const Main = () => {
                 <img src={MAIN_HERO_FRONT} className={"main_hero_front"} alt="" />
 
                 <Box width={"40%"}>
-                    <Typography variant="h2" sx={{ color: "#fff", textTransform: "capitalize" }}>{t('discover')}</Typography>
-                    <Typography variant="h1" sx={{ mb: "2rem" }}>{t('taiwan')}</Typography>
-                    <Typography variant="h3" sx={{ textAlign: "left", color: "#fff", mb: "1rem" }} >{t('claw_machine_title2')}</Typography>
-                    <Typography variant="h5" sx={{ textAlign: "left", color: "#fff" }} >{t('claw_machine_title3')}</Typography>
+                    {/* <Typography variant="h2" sx={{ color: "#fff", textTransform: "capitalize" }}>{t('discover')}</Typography> */}
+                    <Typography variant="h1" sx={{ mb: "2rem" }}>{t('discover')}{t('taiwan')}</Typography>
+                    <Typography variant="h3" sx={{ textAlign: "left", color: "#fff", mb: "1rem" }} >{t('claw_machine_title2')} {t('claw_machine_title3')}</Typography>
+                    {/* <Typography variant="h5" sx={{ textAlign: "left", color: "#fff" }} >{t('claw_machine_title3')}</Typography> */}
                 </Box>
             </Box>
 

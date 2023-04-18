@@ -1,18 +1,27 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import './login.css'
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
     // 0 = login
     // 1 = register
     const [selected, setSelected] = useState(0);
     const [country, setCountry] = useState("TW");
     const handleCountryChange = (event) => {
         setCountry(event.target.value);
+    };
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
     };
 
     const [registerFormData, setFormData] = useState({
@@ -93,6 +102,7 @@ const Login = () => {
             })
             .catch((error) => {
                 console.error(error);
+                toast.error(error.message);
                 // handle error here
             });
     }
@@ -119,6 +129,7 @@ const Login = () => {
             })
             .catch((error) => {
                 console.error(error);
+                toast.error(error.message);
                 // handle error here
             });
     }
@@ -188,7 +199,7 @@ const Login = () => {
                                 <div className="toggle"></div>
                                 <div className="names">
                                     <Typography className='light' sx={{ fontWeight: "bold", color: "#111" }}>登入</Typography>
-                                    <Typography className='dark' sx={{ fontWeight: "bold", color: "#111" }}>注冊</Typography>
+                                    <Typography className='dark' sx={{ fontWeight: "bold", color: "#111" }}>註冊</Typography>
                                 </div>
                             </label>
                         </div>
@@ -249,7 +260,7 @@ const Login = () => {
                                             fullWidth
                                             required
                                             id="outlined-required"
-                                            label="密碼"
+                                            label={t('password')}
                                             type="password"
                                             name="password"
                                             value={loginFormData.password}
@@ -267,7 +278,7 @@ const Login = () => {
                                             required
                                             id="outlined-required"
                                             type={"text"}
-                                            label="名稱"
+                                            label={t('name')}
                                             name="name"
                                             value={registerFormData.name}
                                             onChange={handleFormChange}
@@ -332,12 +343,12 @@ const Login = () => {
                                                 <Typography
                                                     variant="h5"
                                                     sx={{ fontSize: "14px", fontWeight: "600" }}>
-                                                    發送驗證
+                                                    {t('send_verification')}
                                                 </Typography>
                                             </Button>
                                         </Box>
 
-                                        <TextField
+                                        {/* <TextField
                                             required
                                             fullWidth
                                             id="outlined-required"
@@ -347,12 +358,40 @@ const Login = () => {
                                             value={registerFormData.password}
                                             onChange={handleFormChange}
                                             sx={{ width: { xs: "100%" }, mb: "1rem" }}
-                                        />
+                                        /> */}
+                                        {/* PASSWORD INPUT */}
+                                        <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", borderRadius: "5px" }} >
+                                            <InputLabel htmlFor="filled-adornment-password">{t('password')}</InputLabel>
+                                            <FilledInput
+                                                // onBlur={handleBlur}
+                                                onChange={handleFormChange}
+                                                value={registerFormData.password}
+                                                name="password"
+                                                // error={!!touched.password && !!errors.password}
+                                                type={showPassword ? 'text' : 'password'}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                            edge="end"
+                                                        >
+                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                            />
+                                            {/* <FormHelperText error={!!touched.password && !!errors.password}>
+                                                {touched.password && errors.password}
+                                            </FormHelperText> */}
+                                        </FormControl>
+
                                         <TextField
                                             fullWidth
                                             required
                                             id="outlined-required"
-                                            label="驗證碼"
+                                            label={t('verification_code')}
                                             type="text"
                                             name="captcha"
                                             value={registerFormData.captcha}
@@ -364,7 +403,7 @@ const Login = () => {
                             <Box className='flex_cc' mt={"2rem"}>
                                 <Button onClick={handleFormSubmit} sx={{ width: "100%", bgcolor: "#FFF", padding: "1rem 4rem", borderRadius: "50px" }}>
                                     <Typography variant="h5" sx={{ color: "#111", fontSize: "14px", fontWeight: "600" }}>
-                                        確認
+                                        {selected === 0 ? t('login') : t('register')}
                                     </Typography>
                                 </Button>
                             </Box>

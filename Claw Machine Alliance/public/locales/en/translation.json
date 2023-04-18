@@ -49,5 +49,13 @@
     "map_title_span": "everywhere",
     "map_desc": "Explore featured claw machine stores as well as nearby famous attractions. We also provide information about food, clothing, and other entertainment!",
     "select_location": "Select location",
-    "discover": "discover "
+    "discover": "discover ",
+    "================= LOGIN =================": "================= LOGIN =================",
+    "name": "Name",
+    "password": "Password",
+    "login": "Login",
+    "register": "Register",
+    "forgot_password": "Forgot password?",
+    "send_verification": "Send verification code",
+    "verification_code": "Verification code"
 }

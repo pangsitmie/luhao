@@ -3,7 +3,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useEffect, useState } from "react";
 
-const CompanyListItem = ({ props, textColor, showDetails }) => {
+const CompanyListItem = ({ props, textColor, showDetails, showTopic }) => {
     const name = props.name;
     const details = props.details;
     const color = textColor || "#111";
@@ -32,6 +32,19 @@ const CompanyListItem = ({ props, textColor, showDetails }) => {
                     )}
                 </button>
             </Box>
+            {showTopic ? (
+                <Box display={open ? "block" : "none"} className={"exhibition23_speaker_list_item_detail_box"}>
+                    {/* topic */}
+                    {
+                        details.topic ? (
+                            <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
+                                營業項目: {details.topic}
+                            </Typography>
+                        ) : null
+                    }
+                </Box>
+            ) : null}
+
             {showDetails ? (
                 <Box display={open ? "block" : "none"} className={"exhibition23_speaker_list_item_detail_box"}>
                     {/* phone */}
@@ -60,6 +73,14 @@ const CompanyListItem = ({ props, textColor, showDetails }) => {
                             </Typography>
                         ) : null
                     }
+                    {
+                        !details.phone && !details.address && !details.website ? (
+                            <Typography variant="h6" sx={{ fontWeight: "500", color: color }}>
+                                暫無資料
+                            </Typography>
+                        ) : null
+                    }
+
                 </Box>
             ) : (
                 <Box display={open ? "block" : "none"}>

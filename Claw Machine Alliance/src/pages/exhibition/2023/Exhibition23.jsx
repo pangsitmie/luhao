@@ -1,9 +1,10 @@
-import { Box, Typography, Divider } from '@mui/material'
+import { Box, Typography, Divider, Button } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import WAVE_EXHIBITION from 'src/assets/wave_exhibition.png'
 import GLOBE from 'src/assets/globe.png'
 import WAVE_DIVIDER_BLUE from 'src/assets/wave_divider_blue.png'
-import EXHIBITION_CLAW_MACHINE from 'src/assets/exhibition_claw_machine_blue.gif'
+// import EXHIBITION_CLAW_MACHINE from 'src/assets/exhibition_claw_machine_blue.gif'
+import EXHIBITION_CLAW_MACHINE from 'src/assets/exhibition_claw_machine_blue1.gif'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import 'animate.css';
 
@@ -13,6 +14,7 @@ import './exhibition23.css'
 import CompanyListItem from 'src/components/item/CompanyListItem'
 import LoginFloating from 'src/components/floatingButtons/LoginFloating'
 import { Navigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 const Exhibition23 = () => {
     const [initialScrollPos, setInitialScrollPos] = useState(0);
     const [currentScrollPos, setCurrentScrollPos] = useState(0);
@@ -37,7 +39,21 @@ const Exhibition23 = () => {
         }
     }, [initialScrollPos, currentScrollPos]);
 
-    const rotation = (currentScrollPos - initialScrollPos) / 10;
+    const rotation = (currentScrollPos - initialScrollPos) / 4;
+
+
+    const handleJoinSponsor = () => {
+        const alert = window.confirm("需成爲本公會顧問團隊？");
+
+        if (alert) {
+            //mail to an email address
+            window.location.href = "mailto:gcvtaichungoffice@gmail.com"; // remove the extra "mailto:"
+        } else {
+            console.log("cancel");
+            toast.error("取消申請");
+            return;
+        }
+    };
 
 
     const checkSession = () => {
@@ -68,7 +84,7 @@ const Exhibition23 = () => {
         <>
             <LoginFloating visible={!loggedIn} />
             <Box className={"exhibition_hero"}>
-                <img src={WAVE_EXHIBITION} className={"wave_exhibition"} alt="" />
+                {/* <img src={WAVE_EXHIBITION} className={"wave_exhibition"} alt="" /> */}
                 <img
                     src={GLOBE}
                     className={"globe"}
@@ -76,56 +92,56 @@ const Exhibition23 = () => {
                     style={{ transform: `rotate(${-rotation}deg)` }}
                 />
                 <Box>
-                    <Typography variant="h3" sx={{ color: "#2D3436", mb: ".5rem", ml: "5px" }} >
+                    <Typography variant="h3" sx={{ color: "#FFF", mb: ".5rem", ml: "5px" }} >
                         2023 展覽
                     </Typography>
                     {/* <Typography variant="h2" sx={{ color: "#2D3436", mb: "2rem" }} >
                         Claw Snack
                         Taichung
                     </Typography> */}
-                    <Typography variant="h2" sx={{ fontWeight: "bold", textAlign: "left", color: "#0057D9", mb: "2rem" }} >
+                    <Typography variant="h1" sx={{ fontWeight: "bold", textAlign: "left", color: "#FFF", mb: "2rem" }} >
                         台中食品零食通路展
                     </Typography>
                     <Box display={"flex"} alignItems={"center"} mb={".8rem"} gap={"1rem"}>
-                        <Typography variant="h2" sx={{ color: "#111" }}  >
+                        <Typography variant="h2" sx={{ color: "#FFF" }}  >
                             4.27
                         </Typography>
                         <Divider
                             orientation="horizontal"
                             sx={{
-                                backgroundColor: "#111",
+                                backgroundColor: "#FFF",
                                 width: "20%",
                                 height: "5px"
                             }}
                         />
-                        <Typography variant="h2" sx={{ textAlign: "right", color: "#111" }} >
+                        <Typography variant="h2" sx={{ textAlign: "right", color: "#FFF" }} >
                             4.28
                         </Typography>
                     </Box>
                     <Box display={"flex"} alignItems={"center"} mb={"1rem"} gap={"1rem"}>
-                        <Typography variant="h4" sx={{ color: "#111" }} >
+                        <Typography variant="h4" sx={{ color: "#FFF" }} >
                             11.00 AM
                         </Typography>
                         <Divider
                             orientation="horizontal"
                             sx={{
-                                backgroundColor: "#111",
+                                backgroundColor: "#FFF",
                                 width: "10%",
                                 height: "2px"
                             }}
                         />
-                        <Typography variant="h4" sx={{ textAlign: "right", color: "#111" }}>
+                        <Typography variant="h4" sx={{ textAlign: "right", color: "#FFF" }}>
                             17.30 PM
                         </Typography>
                     </Box>
 
                     <Box >
-                        <Typography variant="h5" sx={{ fontWeight: "bold", color: "#0057D9" }} >
+                        {/* <Typography variant="h5" sx={{ fontWeight: "bold", color: "#FFF" }} >
                             地點
-                        </Typography>
+                        </Typography> */}
                         <Box >
-                            <Typography variant="h5" sx={{ fontWeight: "bold", color: "#2D3436" }} >
-                                台中軟體園區文創數位3D示範基地 <span className='blue'> 台中市大里區科技路一號 </span>
+                            <Typography variant="h5" sx={{ fontWeight: "bold", color: "#FFF" }} >
+                                台中軟體園區文創數位3D示範基地-台中市大里區科技路一號
                             </Typography>
                         </Box>
                     </Box>
@@ -134,16 +150,21 @@ const Exhibition23 = () => {
 
 
 
-            <Box m={"2rem 0 -10px"}>
+            {/* <Box m={"2rem 0 -10px"}>
                 <img src={WAVE_DIVIDER_BLUE} width="100%" height={"150px"} alt="" />
-            </Box>
+            </Box> */}
 
-            <Box bgcolor={"#1F57A7"} className={"exhibition_topic_title"}>
+            <Box
+                // sx={{ background: "linear-gradient(45deg, #6BA3E6 0%, #2062CC 100%)" }} 
+                sx={{ backgroundColor: "#1B5AC5" }}
+                className={"exhibition_topic_title"}>
                 <Typography variant="h3" sx={{ textAlign: "left", fontWeight: "600", color: "#FFF", width: "100%", lineHeight: "150%" }} >
                     首場台灣及進口知名零食 線上線下參展 效益遠播海內外結合自動販賣機 夾娃娃機 專業食品/娃娃/3C採購展。
                 </Typography>
             </Box>
-            <Box className={"flex_media"} bgcolor={"#1F57A7"} >
+            <Box
+                className={"flex_media"}
+                bgcolor={"#1B5AC5"} >
                 <Box className={"exhibition_topic_container"}>
                     <Box bgcolor={"#4077F6"} className={"exhibition_topic"} >
                         <Typography variant="h5" sx={{ fontWeight: "600", textAlign: "center", color: "#FFF" }} >
@@ -243,17 +264,28 @@ const Exhibition23 = () => {
                     <Box className={"flex_media"} justifyContent={"space-between !important"}>
                         <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
                             <Box mb={"2rem"}>
-                                <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "1rem" }} >
-                                    贊助廠商:
-                                </Typography>
+                                <Box display={"flex"} alignItems={"center"} mb={"1rem"} gap={"1rem"}>
+                                    <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7" }} >
+                                        贊助廠商:
+                                    </Typography>
+                                    <button className='btn_sponsor' onClick={handleJoinSponsor}>
+                                        我想參加贊助
+                                    </button>
+                                </Box>
 
+                                <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
+                                    {exhibition2023Companies[2].data.map((item, index) => (
+                                        <CompanyListItem key={index} props={item} showDetails={false} showTopic={true} />
+                                    ))}
+                                </Box>
                             </Box>
                             <Box mb={"2rem"}>
                                 <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7", mb: "1rem" }} >
                                     指導單位:
                                 </Typography>
+
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
-                                    {exhibition2023Companies[2].data.map((item, index) => (
+                                    {exhibition2023Companies[3].data.map((item, index) => (
                                         <CompanyListItem key={index} props={item} showDetails={true} />
                                     ))}
                                 </Box>
@@ -265,24 +297,22 @@ const Exhibition23 = () => {
                                 </Typography>
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
 
-                                    {exhibition2023Companies[3].data.map((item, index) => (
+                                    {exhibition2023Companies[4].data.map((item, index) => (
                                         <CompanyListItem key={index} props={item} showDetails={true} />
                                     ))}
                                 </Box>
                             </Box>
 
-
-
                             <Typography variant="h3" sx={{ textAlign: "left", color: "#1F57A7" }} >
                                 協辦單位:
                             </Typography>
-                            {exhibition2023Companies[4].data.map((item, index) => (
+                            {exhibition2023Companies[5].data.map((item, index) => (
                                 <CompanyListItem key={index} props={item} showDetails={true} />
                             ))}
                         </Box>
                     </Box>
                 </Box>
-            </Box>
+            </Box >
         </>
     )
 }

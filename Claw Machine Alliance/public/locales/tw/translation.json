@@ -31,7 +31,7 @@
     "chiayi": "嘉義",
     "kaoshiung": "高雄",
     "tainan": "台南",
-    "taiwan": "Taiwan",
+    "taiwan": "台灣",
     "locations_tc": "從宮原眼科到台中公園至一中商圈，不但可以觀賞優美造景以及探討文化歷史，再前往熱鬧的夜市品嘗在地美食及購物，遊玩各種不同的夾娃娃機，適合親子一同前往假日闔家出遊的熱門景點。",
     "locations_tpe": "走進大稻埕百年老街，接受文化洗禮還有霞海城隍廟沉澱心靈，再到寧夏夜市品嘗知名小吃，最後到河堤公園享受夜景及微醺的夜晚。",
     "locations_tainan": "隨處可見的名勝古蹟以及品味當地小吃，遊玩娃娃機，體驗豐富文化資產之餘還可以滿足趣味童心。",
@@ -49,5 +49,13 @@
     "map_title_span": "everywhere",
     "map_desc": "所有精選娃娃機店家一網打盡，還可以探索附近知名景點，幫你準備食衣育樂情報!",
     "select_location": "選擇地區",
-    "discover": "探索"
+    "discover": "探索",
+    "================= LOGIN =================": "================= LOGIN =================",
+    "name": "姓名",
+    "password": "密碼",
+    "login": "登入",
+    "register": "註冊",
+    "forgot_password": "忘記密碼",
+    "send_verification": "發送驗證碼",
+    "verification_code": "驗證碼"
 }

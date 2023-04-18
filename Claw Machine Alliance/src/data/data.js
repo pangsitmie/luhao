@@ -360,7 +360,7 @@ export const exhibition2023Companies = [
                 id: 1,
                 name: "優群貿易股份有限公司",
                 details: {
-                    phone: "02-2550-6515",
+                    phone: "04-23802333 #214",
                     address: "台中市南屯區新富三街3號",
                     website: "https://www.foodpro.com.tw/",
                 }
@@ -403,11 +403,11 @@ export const exhibition2023Companies = [
             },
             {
                 id: 6,
-                name: "錦倫實業股份有限公司",
+                name: "錦崙實業股份有限公司",
                 details: {
                     phone: "",
                     address: "",
-                    website: "https://page.line.me/hde2749g",
+                    website: "https://shp.ee/siznzhh",
                 }
             },
             {
@@ -416,7 +416,7 @@ export const exhibition2023Companies = [
                 details: {
                     phone: "04-2235-2345",
                     address: "台中市北屯區國強街210號",
-                    website: "",
+                    website: "http://www.swenfood.com.tw/",
                 }
             },
             {
@@ -467,7 +467,7 @@ export const exhibition2023Companies = [
                 id: 13,
                 name: "老楊食品股份有限公司",
                 details: {
-                    phone: "0800522109",
+                    phone: "05-2956520",
                     address: "嘉義縣大林鎮大埔美園區五路3號",
                     website: "https://www.tkfood.com.tw/",
                 }
@@ -494,8 +494,8 @@ export const exhibition2023Companies = [
                 id: 16,
                 name: "永恆世成有限公司",
                 details: {
-                    phone: "04-2320-5557 ",
-                    address: "北區雙十路二段107號1樓",
+                    phone: "03-327-0505",
+                    address: "台中市北區雙十路二段107號1樓",
                     website: "https://www.eternal-bc.com/",
                 }
             },
@@ -503,8 +503,8 @@ export const exhibition2023Companies = [
                 id: 17,
                 name: "弘志食品有限公司",
                 details: {
-                    phone: "",
-                    address: "",
+                    phone: "07-6333899",
+                    address: "高雄市阿蓮區復安51-28號",
                     website: "https://www.orange1688.com.tw/",
                 }
             },
@@ -512,9 +512,9 @@ export const exhibition2023Companies = [
                 id: 18,
                 name: "中華民國農會台農鮮乳廠",
                 details: {
-                    phone: "07-6333899 #28",
-                    address: "高雄市阿蓮區復安51-28號",
-                    website: "http://nfamilk.farmer.org.tw/",
+                    phone: "04-2359-2035",
+                    address: "台中市工業區13路1號",
+                    website: "http://nfamilk.farmer.org.tw/index.aspx",
                 }
             },
             {
@@ -539,9 +539,9 @@ export const exhibition2023Companies = [
                 id: 21,
                 name: "宜秦食品股份有限公司",
                 details: {
-                    phone: "0906-573355",
+                    phone: "04-22238428",
                     address: "臺中市北屯區橫坑巷47之11號",
-                    website: "",
+                    website: "https://www.porkking.com.tw/zh-TW",
                 }
             },
             {
@@ -557,18 +557,18 @@ export const exhibition2023Companies = [
                 id: 23,
                 name: "台灣優格食品股份有限公司",
                 details: {
-                    phone: "",
+                    phone: "04-7582448",
                     address: "",
-                    website: "",
+                    website: "https://www.cookieschool.com.tw/index.php",
                 }
             },
             {
                 id: 24,
                 name: "瑞春醬油有限公司",
                 details: {
-                    phone: "",
-                    address: "",
-                    website: "",
+                    phone: "05-5882288",
+                    address: "雲林縣西螺鎮延平路438號",
+                    website: "https://www.rueichun.com.tw",
                 }
             },
             {
@@ -593,18 +593,18 @@ export const exhibition2023Companies = [
                 id: 27,
                 name: "安德魯紳有限公司",
                 details: {
-                    phone: "",
-                    address: "",
-                    website: "",
+                    phone: "07-3382875",
+                    address: "屏東縣萬丹鄉大昌路952號",
+                    website: "www.sausage.com.tw",
                 }
             },
             {
                 id: 28,
                 name: "棠洋國際企業有限公司",
                 details: {
-                    phone: "",
-                    address: "",
-                    website: "",
+                    phone: "04-25320765",
+                    address: "台中市大雅區龍善一街196號",
+                    website: "https://lianghau.com.tw/",
                 }
             },
             {
@@ -613,25 +613,25 @@ export const exhibition2023Companies = [
                 details: {
                     phone: "0961585928",
                     address: "台中市南區新和街11號",
-                    website: "http://www.frozenfoods.com.tw/",
+                    website: "https://www.sharkschoice.com.tw/",
                 }
             },
             {
                 id: 30,
-                name: "嘻嘻哈哈_歡樂購",
+                name: "集食雲股份有限公司",
                 details: {
-                    phone: "",
-                    address: "",
-                    website: "",
+                    phone: "05-5360223",
+                    address: "雲林縣斗六市斗工十路7號",
+                    website: "https://www.instafoodclub.com/",
                 }
             },
             {
                 id: 31,
                 name: "神洋國際興業有限公司",
                 details: {
-                    phone: "",
+                    phone: "03-4891689",
                     address: "",
-                    website: "",
+                    website: "https://www.sangyang.com.tw/",
                 }
             },
             {
@@ -640,14 +640,14 @@ export const exhibition2023Companies = [
                 details: {
                     phone: "",
                     address: "",
-                    website: "",
+                    website: "https://www.facebook.com/LOVE0800607969?mibextid=LQQJ4d",
                 }
             },
             {
                 id: 33,
                 name: "川佐國際有限公司",
                 details: {
-                    phone: "",
+                    phone: "05-2276233",
                     address: "",
                     website: "",
                 }
@@ -672,7 +672,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 36,
-                name: "漢典有限公司",
+                name: "漢典食品股份有限公司",
                 details: {
                     phone: "05-696-5999",
                     address: "雲林縣二崙鄉復興村隆興9之2號1",
@@ -701,16 +701,213 @@ export const exhibition2023Companies = [
                 id: 39,
                 name: "小蠻牛有限公司",
                 details: {
+                    phone: "0936505159",
+                    address: "",
+                    website: "",
+                }
+            },
+            {
+                id: 40,
+                name: "酋長鳳梨",
+                details: {
+                    phone: "",
+                    address: "",
+                    website: "https://www.facebook.com/profile.php?id=100063995801142&mibextid=ZbWKwL",
+                }
+            },
+            {
+                id: 41,
+                name: "哈客愛",
+                details: {
+                    phone: "03-5803969",
+                    address: "新竹縣北埔鄉北埔村中豐路30號",
+                    website: "http://www.hakka-love.com.tw/",
+                }
+            },
+            {
+                id: 42,
+                name: "阿甘薯叔",
+                details: {
+                    phone: "05-7840600",
+                    address: "",
+                    website: "http://www.unclesweet.com/",
+                }
+            },
+            {
+                id: 43,
+                name: "集元果食品有限公司",
+                details: {
+                    phone: "049-2764562",
+                    address: "南投縣集集鎮富山里大坪巷38號",
+                    website: "https://www.jijibanana.net/cny-1",
+                }
+            },
+            {
+                id: 44,
+                name: "宜美全有限公司",
+                details: {
+                    phone: "0986017017",
+                    address: "豐原區育英路161號",
+                    website: "http://www.lepurcafe.com",
+                }
+            },
+            {
+                id: 45,
+                name: "華誠食品有限公司",
+                details: {
+                    phone: "047793826",
+                    address: "彰化縣福興鄉元中村復興路3-36號",
+                    website: "https://www.facebook.com/profile.php?id=100063668446200&mibextid=LQQJ4d",
+                }
+            },
+            {
+                id: 46,
+                name: "喬拉燕麥",
+                details: {
                     phone: "",
                     address: "",
                     website: "",
+                }
+            },
+            {
+                id: 47,
+                name: "樂米工坊",
+                details: {
+                    phone: "",
+                    address: "",
+                    website: "",
+                }
+            },
+            {
+                id: 48,
+                name: "櫻桃果咖啡",
+                details: {
+                    phone: "",
+                    address: "",
+                    website: "",
+                }
+            },
+            {
+                id: 49,
+                name: "ㄧ分為五好看",
+                details: {
+                    phone: "",
+                    address: "",
+                    website: "",
+                }
+            },
+            {
+                id: 50,
+                name: "總億食品工業股份有限公司",
+                details: {
+                    phone: "",
+                    address: "",
+                    website: "",
+                }
+            },
+            {
+                id: 51,
+                name: "長松食品有限公司",
+                details: {
+                    phone: "04-26338801",
+                    address: "台中市沙鹿區鎮南路一段319號",
+                    website: "https://www.chang-song.com.tw",
+                }
+            },
+            {
+                id: 52,
+                name: "哈克大師",
+                details: {
+                    phone: "04-24922133",
+                    address: "台中市大里區中興路一段二巷81弄19號",
+                    website: "https://www.huckmaster.com.tw",
+                }
+            },
+            {
+                id: 53,
+                name: "元明商店",
+                details: {
+                    phone: "04-2259-8000",
+                    address: "台中市西屯區朝富路18-2號1樓",
+                    website: "https://top-suncake.com.tw",
+                }
+            },
+            {
+                id: 53,
+                name: "元明商店",
+                details: {
+                    phone: "04-2259-8000",
+                    address: "台中市西屯區朝富路18-2號1樓",
+                    website: "https://top-suncake.com.tw",
+                }
+            },
+            {
+                id: 54,
+                name: "東利蛋糕成功店",
+                details: {
+                    phone: "04-2496-0086",
+                    address: "台中市大里區成功路389號",
+                    website: "https://www.dungli.com.tw/",
+                }
+            },
+            {
+                id: 55,
+                name: "九個太陽",
+                details: {
+                    phone: "04-22213639",
+                    address: "台中市台灣大道一段176號1樓",
+                    website: "https://www.ninesuns9999.com.tw",
+                }
+            },
+            {
+                id: 56,
+                name: "久久津乳酪本舖",
+                details: {
+                    phone: "04-22468808",
+                    address: "台中市北屯區崇德路二段203號",
+                    website: "https://www.joyjoygolden.com.tw",
+                }
+            },
+            {
+                id: 56,
+                name: "鮮味珍",
+                details: {
+                    phone: "04-22786535",
+                    address: "台中市太平區太平路688號",
+                    website: "https://www.xianweizhen-shop.com",
+                }
+            },
+            {
+                id: 56,
+                name: "皮皮家族禮品有限公司",
+                details: {
+                    phone: "",
+                    address: "台灣桃園市中壢區金鋒街33號",
+                    website: "http://www.pyi-pyi.com.tw/",
+                }
+            },
+        ]
+    },
+    // 贊助廠商
+    {
+        id: 2,
+        title: "贊助廠商",
+        data: [
+            {
+                id: 0,
+                name: "奇美佳實業有限公司",
+                details: {
+                    phone: "0423353552",
+                    address: "台中市烏日區慶光路80-5號",
+                    website: "https://www.qimega.com.tw/",
+                    topic: "3D產品設計"
                 }
             },
         ]
     },
     // 指導單位
     {
-        id: 2,
+        id: 3,
         title: "指導單位",
         data: [
             {
@@ -726,7 +923,7 @@ export const exhibition2023Companies = [
     },
     // 主辦單位
     {
-        id: 3,
+        id: 4,
         title: "主辦單位",
         data: [
             {
@@ -742,7 +939,7 @@ export const exhibition2023Companies = [
     },
     // 協辦單位 
     {
-        id: 3,
+        id: 5,
         title: "協辦單位",
         data: [
             {
@@ -765,6 +962,15 @@ export const exhibition2023Companies = [
             },
             {
                 id: 2,
+                name: "台中市電腦商業同業公會",
+                details: {
+                    phone: "04-2242-1717",
+                    address: "臺中市北屯區昌平路一段95-8號9樓",
+                    website: "https://www.tcca.org.tw/",
+                }
+            },
+            {
+                id: 3,
                 name: "雲林科技大學育成中心",
                 details: {
                     phone: "05-551-0225",
@@ -773,7 +979,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 3,
+                id: 4,
                 name: "大買家股份有限公司",
                 details: {
                     phone: "0424810456",
@@ -782,7 +988,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 4,
+                id: 5,
                 name: "桃園市自動販賣商業同業公會",
                 details: {
                     phone: "0931-063545",
@@ -791,7 +997,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 5,
+                id: 6,
                 name: "台中市自動販賣職業工會",
                 details: {
                     phone: "04-2331-8888",
@@ -800,7 +1006,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 6,
+                id: 7,
                 name: "彰化縣自動販賣商業同業公會",
                 details: {
                     phone: "04-2331-8888",
@@ -809,7 +1015,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 7,
+                id: 8,
                 name: "新竹市自動販賣商業同業公會",
                 details: {
                     phone: "03-5338338",
@@ -818,7 +1024,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 8,
+                id: 9,
                 name: "宜蘭縣自動販賣商業同業公會",
                 details: {
                     phone: "04-2331-8888",
@@ -826,6 +1032,7 @@ export const exhibition2023Companies = [
                     website: "https://www.3y.com.tw/",
                 }
             },
+
         ]
     }
 ];
