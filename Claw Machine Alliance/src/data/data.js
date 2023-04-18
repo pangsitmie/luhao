@@ -349,7 +349,7 @@ export const exhibition2023Companies = [
         data: [
             {
                 id: 0,
-                name: "台灣知日商流",
+                name: "台灣知日商流(股)公司",
                 details: {
                     phone: "04-22521128",
                     address: "",
@@ -456,7 +456,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 12,
-                name: "利傑國際(報名兩間)",
+                name: "利傑國際有限公司",
                 details: {
                     phone: "",
                     address: "",
@@ -465,7 +465,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 13,
-                name: "老楊食品",
+                name: "老楊食品股份有限公司",
                 details: {
                     phone: "0800522109",
                     address: "嘉義縣大林鎮大埔美園區五路3號",
@@ -528,7 +528,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 20,
-                name: "統一企業",
+                name: "統一企業（股）公司",
                 details: {
                     phone: "04-2359-2035",
                     address: "台中市工業區13路1號",
@@ -546,7 +546,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 22,
-                name: "東森全球事業股份有限公司",
+                name: "東森購物有限公司",
                 details: {
                     phone: "",
                     address: "",
@@ -582,7 +582,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 26,
-                name: "大買家",
+                name: "大買家股份有限公司",
                 details: {
                     phone: "",
                     address: "",
@@ -600,7 +600,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 28,
-                name: "好蝦冏男社有限公司",
+                name: "棠洋國際企業有限公司",
                 details: {
                     phone: "",
                     address: "",
@@ -618,34 +618,34 @@ export const exhibition2023Companies = [
             },
             {
                 id: 30,
-                name: "長城料理實業有限公司",
+                name: "嘻嘻哈哈_歡樂購",
                 details: {
-                    phone: "04-7284017",
-                    address: "彰化縣彰化市博愛街67號",
-                    website: "https://www.smartcook.com.tw/",
+                    phone: "",
+                    address: "",
+                    website: "",
                 }
             },
             {
                 id: 31,
-                name: "三易食品有限公司",
+                name: "神洋國際興業有限公司",
                 details: {
-                    phone: "04-23712123",
-                    address: "彰化縣花壇鄉中橋街68號",
-                    website: "https://www.sanyiicecream.com/",
+                    phone: "",
+                    address: "",
+                    website: "",
                 }
             },
             {
                 id: 32,
-                name: "漢典有限公司",
+                name: "金愛買商行",
                 details: {
-                    phone: "05-696-5999",
-                    address: "雲林縣二崙鄉復興村隆興9之2號1",
-                    website: "http://www.frozenfoods.com.tw/",
+                    phone: "",
+                    address: "",
+                    website: "",
                 }
             },
             {
                 id: 33,
-                name: "永康百貨玩具大批發",
+                name: "川佐國際有限公司",
                 details: {
                     phone: "",
                     address: "",
@@ -654,6 +654,42 @@ export const exhibition2023Companies = [
             },
             {
                 id: 34,
+                name: "長城料理實業有限公司",
+                details: {
+                    phone: "04-7284017",
+                    address: "彰化縣彰化市博愛街67號",
+                    website: "https://www.smartcook.com.tw/",
+                }
+            },
+            {
+                id: 35,
+                name: "三易食品有限公司",
+                details: {
+                    phone: "04-23712123",
+                    address: "彰化縣花壇鄉中橋街68號",
+                    website: "https://www.sanyiicecream.com/",
+                }
+            },
+            {
+                id: 36,
+                name: "漢典有限公司",
+                details: {
+                    phone: "05-696-5999",
+                    address: "雲林縣二崙鄉復興村隆興9之2號1",
+                    website: "http://www.frozenfoods.com.tw/",
+                }
+            },
+            {
+                id: 37,
+                name: "永康百貨玩具大批發",
+                details: {
+                    phone: "",
+                    address: "",
+                    website: "",
+                }
+            },
+            {
+                id: 38,
                 name: "奇奇玩具",
                 details: {
                     phone: "",
@@ -662,7 +698,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 35,
+                id: 39,
                 name: "小蠻牛有限公司",
                 details: {
                     phone: "",
