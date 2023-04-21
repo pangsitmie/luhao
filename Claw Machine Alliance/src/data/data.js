@@ -315,7 +315,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 5,
-                name: "美國蒙大拿州亞太辦事處",
+                name: "美國蒙大拿州亞太商務辦事處",
                 details: {
                     phone: "02-2725-1622",
                     address: "台北市信義區信義路5段5號7B-10室",
@@ -376,7 +376,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 3,
-                name: "安心肉乾食品有限公司",
+                name: "天印科技有限公司",
                 details: {
                     phone: "03-339-7755",
                     address: "桃園市大園區國際路一段 7 號",
@@ -546,7 +546,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 22,
-                name: "東森購物有限公司",
+                name: "東森消費聯盟經銷商",
                 details: {
                     phone: "",
                     address: "",
@@ -708,7 +708,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 40,
-                name: "酋長鳳梨",
+                name: "酋長鳳梨有限公司",
                 details: {
                     phone: "",
                     address: "",
@@ -717,7 +717,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 41,
-                name: "哈客愛",
+                name: "哈客愛食品有限公司",
                 details: {
                     phone: "03-5803969",
                     address: "新竹縣北埔鄉北埔村中豐路30號",
@@ -789,7 +789,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 49,
-                name: "ㄧ分為五好看",
+                name: "食在好味道",
                 details: {
                     phone: "",
                     address: "",
@@ -833,15 +833,6 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 53,
-                name: "元明商店",
-                details: {
-                    phone: "04-2259-8000",
-                    address: "台中市西屯區朝富路18-2號1樓",
-                    website: "https://top-suncake.com.tw",
-                }
-            },
-            {
                 id: 54,
                 name: "東利蛋糕成功店",
                 details: {
@@ -869,7 +860,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 56,
+                id: 57,
                 name: "鮮味珍",
                 details: {
                     phone: "04-22786535",
@@ -878,7 +869,7 @@ export const exhibition2023Companies = [
                 }
             },
             {
-                id: 56,
+                id: 58,
                 name: "皮皮家族禮品有限公司",
                 details: {
                     phone: "",
@@ -971,7 +962,7 @@ export const exhibition2023Companies = [
             },
             {
                 id: 3,
-                name: "雲林科技大學育成中心",
+                name: "國立雲林科技大學產學與智財育成營運中心",
                 details: {
                     phone: "05-551-0225",
                     address: "雲林縣斗六市科工二路26號3樓",
