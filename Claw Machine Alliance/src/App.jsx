@@ -17,6 +17,7 @@ import DDL from "./pages/places/DDL";
 import Exhibition23 from "./pages/exhibition/2023/Exhibition23";
 import Copy from "./components/copy/Copy";
 import Login from "./pages/login/Login";
+import FooterExhibition from "./components/footer/FooterExhibition";
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
           {/* exhibition */}
           <Route exact path="/exhibition/2023" element={<Exhibition23 />} />
         </Routes>
-        <Footer />
+        <FooterExhibition />
         <Copy />
       </ThemeProvider>
     </ColorModeContext.Provider>

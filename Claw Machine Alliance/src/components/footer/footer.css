@@ -64,7 +64,10 @@ footer a {
     transition: var(--transition);
 }
 
-
+.footer_exhibition_detail h5 {
+    font-size: 18px;
+    font-weight: 600;
+}
 
 /* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
 @media screen and (max-width: 1024px) {}
@@ -88,5 +91,9 @@ footer a {
         padding: 1rem 0rem;
         display: flex;
         justify-content: center;
+    }
+
+    .footer_exhibition_detail h5 {
+        font-size: 16px;
     }
 }

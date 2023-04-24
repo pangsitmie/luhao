@@ -275,7 +275,7 @@ const Exhibition23 = () => {
 
                                 <Box display={"flex"} flexDirection={"column"} gap={"1rem"}>
                                     {exhibition2023Companies[2].data.map((item, index) => (
-                                        <CompanyListItem key={index} props={item} showDetails={false} showTopic={true} />
+                                        <CompanyListItem key={index} props={item} showDetails={loggedIn} showTopic={true} />
                                     ))}
                                 </Box>
                             </Box>
