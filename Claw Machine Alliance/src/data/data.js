@@ -425,7 +425,7 @@ export const exhibition2023Companies = [
                 details: {
                     phone: "04-2656-5355",
                     address: "梧棲區福德里忠孝街226號1樓",
-                    website: "https://www.facebook.com/gtf2020tw/?paipv=0&eav=AfYcj2myBx62XtU9AZNtRZqJVRgV2uQeqz71LY-0DPztfM2h8z-tcNmL8e9Vi0XCTAU",
+                    website: "http://shopee.tw/gtf2020",
                 }
             },
             {
@@ -802,7 +802,7 @@ export const exhibition2023Companies = [
                 details: {
                     phone: "",
                     address: "",
-                    website: "",
+                    website: "http://www.mcfood-e.com.tw/main/",
                 }
             },
             {
