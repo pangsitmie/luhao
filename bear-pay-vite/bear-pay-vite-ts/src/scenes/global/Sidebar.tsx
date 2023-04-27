@@ -4,7 +4,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import Copy from "src/components/copy/Copy";
+// import Copy from "src/components/copy/Copy";
 
 // ICONS
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -12,9 +12,9 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import StoreIcon from '@mui/icons-material/Store';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import BusinessIcon from '@mui/icons-material/Business';
-import FeedIcon from '@mui/icons-material/Feed';
+// import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+// import BusinessIcon from '@mui/icons-material/Business';
+// import FeedIcon from '@mui/icons-material/Feed';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -26,7 +26,7 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 import LOGO from "../../assets/logo512.png";
-import STORE_LOGO from "../../assets/store_logo.png";
+// import STORE_LOGO from "../../assets/store_logo.png";
 
 // REDUX
 import { useDispatch, useSelector } from "react-redux";
@@ -35,9 +35,26 @@ import { useApolloClient } from '@apollo/client';
 
 // translate
 import { useTranslation } from 'react-i18next';
+import { RootState } from "../../redux/store";
 
+interface ItemProps {
+  title: string;
+  to: string;
+  icon: JSX.Element;
+  selected: string;
+  setSelected: (title: string) => void;
+  onClick?: () => void;
+}
 
-const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
+//item componenet
+const Item = ({
+  title,
+  to,
+  icon,
+  selected,
+  setSelected,
+  onClick,
+}: ItemProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -46,7 +63,6 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
       style={{
         color: colors.grey[100],
       }}
-      // onClick={() => setSelected(title)}
       onClick={onClick ? onClick : () => setSelected(title)}
       icon={icon}
     >
@@ -61,7 +77,7 @@ const Sidebar = () => {
   const { t } = useTranslation();
 
   // REDUX STORE
-  const { entityName } = useSelector((state) => state.entity);
+  const { entityName } = useSelector((state: RootState) => state.entity);
 
   const [name, setName] = useState("COMPANY");
   const [img, setImg] = useState(LOGO);
@@ -119,7 +135,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 950px)");
-    const handleMatchMediaChange = (e) => {
+    const handleMatchMediaChange = (e: any) => {
       setIsCollapsed(e.matches);
     };
     handleMatchMediaChange(mq);
@@ -335,6 +351,7 @@ const Sidebar = () => {
                         <Item
                           title={t('logout')}
                           icon={<LogoutIcon />}
+                          to="/login"
                           selected={selected}
                           setSelected={setSelected}
                           onClick={logout}
@@ -423,6 +440,7 @@ const Sidebar = () => {
                         </Typography>
                         <Item
                           title={t('logout')}
+                          to="/login"
                           icon={<LogoutIcon />}
                           selected={selected}
                           setSelected={setSelected}
@@ -498,6 +516,7 @@ const Sidebar = () => {
                         </Typography>
                         <Item
                           title={t('logout')}
+                          to="/login"
                           icon={<LogoutIcon />}
                           selected={selected}
                           setSelected={setSelected}
@@ -519,7 +538,7 @@ const Sidebar = () => {
             }
           </Box>
         </Menu>
-        <Copy />
+        {/* <Copy /> */}
       </ProSidebar>
     </Box>
   );

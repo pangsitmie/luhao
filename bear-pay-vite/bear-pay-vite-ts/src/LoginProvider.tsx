@@ -21,7 +21,7 @@ const LoginProvider = (props: Props) => {
 
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
       <React.StrictMode>
         <Login />
       </React.StrictMode>
@@ -29,8 +29,3 @@ const LoginProvider = (props: Props) => {
   )
 }
 export default LoginProvider
-
-
-
-
-

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./i18n";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -40,6 +40,10 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (!operation) {
     return;
   }
+  if (networkError) {
+    console.log("NETWORK ERROR");
+    console.log(networkError);
+  }
 
   if (graphQLErrors) {
     graphQLErrors.map(async ({ message, locations, path, extensions }) => {
@@ -61,16 +65,13 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         toast.error("重複的審核請求");
       }
 
-      // if (extensions.code === "3x004") {
-      //   console.log("權限不足");
-      // }
-      // if (extensions.code === "3x002" || extensions.code === "3x004") {
+      if (extensions.code === "3x004") {
+        console.log("權限不足");
+      }
+
       if (extensions.code === "3x002") {
-        if (extensions.code === "3x002")
-          console.log("TOKEN錯誤");
-        else
-          console.log("權限不足");
-        //navigate to login page
+        console.log("TOKEN錯誤");
+
         localStorage.clear();
         client.clearStore();
         window.location.href = "/login";
@@ -136,14 +137,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         console.log("QUERY: ");
         console.log(query);
 
-        // Use the client.mutate method to make the query
-        // const { data } = await client.mutate({
-        //   mutation: query,
-        //   variables: {
-        //     refreshToken: `Bearer ${login_token}`,
-        //   },
-        // });
-
         const newTokenPromise = client.mutate({
           mutation: query,
           variables: {
@@ -180,9 +173,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
         // Re-execute the original query with the updated token and original variables
         await executeOriginalQuery(operation);
-        // client.query({ query: originalQuery, variables: originalVariables });
-        // console.log("EXECUTE ORIGINAL QUERY FINISHED");
-
       }
     });
   }
@@ -209,12 +199,12 @@ const executeOriginalQuery = async (operation: any) => {
 
 
 // const reactEnv = process.env.REACT_APP_ENDPOINT;
-const reactEnv = import.meta.env.VITE_ENDPOINT;
+const viteEnv = import.meta.env.VITE_ENDPOINT;
 
-console.log("ENVIRONTMENT: " + reactEnv);
+console.log("ENVIRONTMENT: " + viteEnv);
 let uri;
 
-switch (reactEnv) {
+switch (viteEnv) {
   case 'main':
     uri = "https://market.cloudprogrammingonline.com/graphql/";
     break;
@@ -246,9 +236,6 @@ let authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  // link: link
-
-  //Use this if you want to use authLink
   link: authLink.concat(link),
 });
 

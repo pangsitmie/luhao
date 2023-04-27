@@ -1,26 +1,21 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { useQuery, useMutation, useLazyQuery, ApolloClient, ApolloCache } from '@apollo/client'
+import React, { useEffect, useState } from 'react'
+import { useMutation, useLazyQuery } from '@apollo/client'
 import { useNavigate } from 'react-router-dom';
-
-import "./login.css";
-import LOGIN_BG from "../../assets/login_bg.png"
-// import LOGO from "../../assets/logo512.png";
-
 import { ManagerLogin, BrandLogin, StoreLogin } from '../../graphQL/Mutations'
 import { GetManagerAccessToken, GetBrandPrincipalWebAccessToken, GetStoreWebAccessToken } from '../../graphQL/Queries'
-import Map from '../../components/Maps'
+
 // THEME
-import { ColorModeContext, tokens } from "../../theme";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { toast } from 'react-toastify';
 
 // REDUX
-import { useDispatch, useSelector } from "react-redux";
-import { setBrand, setCompany, setStore } from "../../redux/entity";
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+import { useDispatch } from "react-redux";
+import { setBrand, setStore } from "../../redux/entity";
+
+import "./login.css";
 
 
 const checkoutSchema = yup.object().shape({
@@ -29,8 +24,8 @@ const checkoutSchema = yup.object().shape({
 });
 
 const Login = () => {
-    const { t } = useTranslation();
     const dispatch = useDispatch();
+    let navigate = useNavigate();
 
     //========================== INITIAL VALUES ==========================
     const initialValues = {
@@ -38,23 +33,17 @@ const Login = () => {
         password: ""
     }
 
-    // ========================== STATES AND HANDLERS ==========================
-    let navigate = useNavigate();
 
     //  ========================== PASSWORD VISIBILITY ==========================
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const handleClickShowPassword = (): void => {
+        setShowPassword((show) => !show);
     };
 
-    const [isLoggedIn, setIsLogin] = useState(false);
-    const [accessToken, setAccessToken] = useState('');
-
-
-    const [managerLoginAttempt, setManagerLoginAttempt] = useState(false);
-    const [brandLoginAttempt, setBrandLoginAttempt] = useState(false);
-    const [storeLoginAttempt, setStoreLoginAttempt] = useState(false);
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        event.preventDefault();
+    };
+    //  ========================== END ==========================
 
 
     // ========================== COMPANY LOGIN ==========================
@@ -62,38 +51,39 @@ const Login = () => {
     // if login success we want to get the access token
     useEffect(() => {
         if (dataManager) {
-            // console.log("LOGIN TOKEN: " + dataManager.managerLogin);
             localStorage.setItem('login_token', dataManager.managerLogin);
-            setIsLogin(true);
-
             apolloGetManagerAccessToken({
                 variables: {
                     refreshToken: "Bearer " + dataManager.managerLogin
                 }
             });
         }
-        // if (errorManager) {
-        //     console.log(errorManager);
-        //     toast.error(errorManager.message);
-        // }
-    }, [dataManager, errorManager]);
+        if (errorManager) {
+            console.log(errorManager);
+        }
+        if (loadingManager) {
+            console.log("LOADING");
+        }
+    }, [dataManager, errorManager, loadingManager]);
 
     const [apolloGetManagerAccessToken, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(GetManagerAccessToken);
     useEffect(() => {
         if (data1) {
-            setManagerLoginAttempt(true);
-
             console.log("ACCESS TOKEN: " + data1.getManagerAccessToken);
-            setAccessToken(data1.getManagerAccessToken);
             localStorage.setItem('token', data1.getManagerAccessToken);
             localStorage.setItem('entity', JSON.stringify({ entityName: 'company' }));
-
             navigate("/");
+        }
+        if (error1) {
+            console.log(error1);
+        }
+        if (loading1) {
+            console.log("LOADING");
         }
         else {
             console.log("NO ACCESS TOKEN")
         }
-    }, [data1]);
+    }, [data1, error1, loading1]);
     // ========================== END ==========================
 
 
@@ -105,36 +95,39 @@ const Login = () => {
         if (dataBrand) {
             console.log("LOGIN TOKEN: " + dataBrand.brandPrincipalWebLogin);
             localStorage.setItem('login_token', dataBrand.brandPrincipalWebLogin);
-            setIsLogin(true);
-
             apolloGetBrandAccessToken({
                 variables: {
                     refreshToken: "Bearer " + dataBrand.brandPrincipalWebLogin
                 }
             });
         }
-        // if (errorBrand) {
-        //     console.log(errorBrand);
-        //     toast.error(errorBrand.message);
-        // }
-    }, [dataBrand, errorBrand]);
+        if (errorBrand) {
+            console.log(errorBrand);
+        }
+        if (loadingBrand) {
+            console.log("LOADING");
+        }
+    }, [dataBrand, errorBrand, loadingBrand]);
 
     const [apolloGetBrandAccessToken, { loading: loadingBrandAT, error: errorBrandAT, data: dataBrandAT }] = useLazyQuery(GetBrandPrincipalWebAccessToken);
     useEffect(() => {
         if (dataBrandAT) {
-            setBrandLoginAttempt(true);
-
             dispatch(setBrand());
             console.log("ACCESS TOKEN: " + dataBrandAT.getBrandPrincipalWebAccessToken);
-            setAccessToken(dataBrandAT.getBrandPrincipalWebAccessToken);
             localStorage.setItem('token', dataBrandAT.getBrandPrincipalWebAccessToken);
             localStorage.setItem('entity', JSON.stringify({ entityName: 'brand' }));
             navigate("/");
         }
+        if (errorBrandAT) {
+            console.log(errorBrandAT);
+        }
+        if (loadingBrandAT) {
+            console.log("LOADING");
+        }
         else {
             console.log("NO ACCESS TOKEN")
         }
-    }, [dataBrandAT]);
+    }, [dataBrandAT, loadingBrandAT, errorBrandAT]);
     // ========================== END ==========================
 
     // ========================== STORE LOGIN ==========================
@@ -144,27 +137,25 @@ const Login = () => {
         if (dataStore) {
             console.log("LOGIN TOKEN: " + dataStore.storePrincipalWebLogin);
             localStorage.setItem('login_token', dataStore.storePrincipalWebLogin);
-            setIsLogin(true);
-
             apolloGeStoreAccessToken({
                 variables: {
                     refreshToken: "Bearer " + dataStore.storePrincipalWebLogin
                 }
             });
         }
-        // if (errorStore) {
-        //     console.log(errorStore);
-        // }
+        if (errorStore) {
+            console.log(errorStore);
+        }
+        if (loadingStore) {
+            console.log("LOADING");
+        }
     }, [dataStore, errorStore]);
 
     const [apolloGeStoreAccessToken, { loading: loadingStoreAT, error: errorStoreAT, data: dataStoreAT }] = useLazyQuery(GetStoreWebAccessToken);
     useEffect(() => {
         if (dataStoreAT) {
-            setStoreLoginAttempt(true);
-
             dispatch(setStore());
             console.log("ACCESS TOKEN: " + dataStoreAT.getStorePrincipalWebAccessToken);
-            setAccessToken(dataStoreAT.getStorePrincipalWebAccessToken);
             localStorage.setItem('token', dataStoreAT.getStorePrincipalWebAccessToken);
             localStorage.setItem('entity', JSON.stringify({ entityName: 'store' }));
             navigate("/");
@@ -172,7 +163,7 @@ const Login = () => {
         else {
             console.log("NO ACCESS TOKEN")
         }
-    }, [dataStoreAT]);
+    }, [dataStoreAT, loadingStoreAT, errorStoreAT]);
     // ========================== END ==========================
 
     useEffect(() => {
@@ -184,18 +175,17 @@ const Login = () => {
 
 
     //========================== FUNCTIONS ==========================
-    const handleFormSubmit = (values: any) => {
+    const handleFormSubmit = (values: any): void => {
 
-        let variables = {};
+        let variables: any = {};
         variables.account = values.account;
         variables.password = values.password;
 
-        //company login
+        // company login
         apolloManagerLogin({ variables });
 
-        //store login
+        // store login
         apolloStoreLogin({ variables });
-
 
         variables = {};
 
@@ -208,6 +198,7 @@ const Login = () => {
         apolloBrandLogin({ variables });
         console.log(variables);
     }
+
 
     return (
         <div className='login_page'  >
