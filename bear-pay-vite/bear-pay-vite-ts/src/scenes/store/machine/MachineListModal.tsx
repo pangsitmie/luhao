@@ -1,23 +1,48 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { Formik, useFormikContext } from "formik";
+import { useState, useEffect } from "react";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { Formik } from "formik";
 import * as yup from "yup";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
-import "src/components/Modal/modal.css";
-import { tokens } from "src/theme";
-import ConfirmModal from "src/components/Modal/ConfirmModal";
-import { GetMachine, UnbindMachine, UnBanMachine, UpdateMachine, HealthCheck } from "src/graphQL/Queries";
-import { getRESTEndpoint, replaceNullWithEmptyString } from "src/utils/Utils";
+import { useQuery, useLazyQuery, useMutation, DocumentNode } from '@apollo/client'
+import "../../../components/Modal/modal.css";
+import { tokens } from "../../../theme";
+import ConfirmModal from "../../../components/Modal/ConfirmModal";
+import { GetMachine, UnbindMachine, UnBanMachine, HealthCheck } from "../../../graphQL/Queries";
+import { getRESTEndpoint, replaceNullWithEmptyString } from "../../../utils/Utils";
 import QRCode from "qrcode";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { PatchMachine } from "src/graphQL/Mutations";
-import { BRAND_PatchMachine } from "src/graphQL/BrandPrincipalMutations";
-import { STORE_PatchMachine, STORE_UpdateMachine } from "src/graphQL/StorePrincipalMutation";
+import { PatchMachine } from "../../../graphQL/Mutations";
+import { BRAND_PatchMachine } from "../../../graphQL/BrandPrincipalMutations";
+import { STORE_PatchMachine, STORE_UpdateMachine } from "../../../graphQL/StorePrincipalMutation";
 import { toast } from "react-toastify";
-import { STORE_GetBonusGamePaginatedConnection } from "src/graphQL/StorePrincipalQueries";
 import axios from "axios";
+import { Counter, Machine } from "../../../types/Machine";
+import Store from "../../../types/Store";
+import { RootState } from "../../../redux/store";
+
+type Props = {
+    props: Machine;
+    storeData: Store;
+    onUpdate: () => void;
+};
+
+interface FormValues {
+    id: string;
+    uuid: string;
+    nfc: string;
+    name: string;
+    code: string;
+    price: string;
+    qrCode: string;
+    // status: string;
+    connStatus: string;
+    desc: string;
+    coin: string;
+    gift: string;
+
+
+}
+
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -26,11 +51,8 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function MachineListModal({ props, storeData, onUpdate }) {
-    // console.log(" MachineListmodal props: ");
-    // console.log(props);
-
-    const { entityName } = useSelector((state) => state.entity);
+export default function MachineListModal({ props, storeData, onUpdate }: Props) {
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
 
     const theme = useTheme();
@@ -47,47 +69,56 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
     };
 
     const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
         setStatus(event.target.value);
     };
 
-    const [onlyWallet, setOnlyWallet] = useState(false);
-    const handleOnlyWalletChange = (event) => {
+    const [onlyWallet, setOnlyWallet] = useState("false");
+    const handleOnlyWalletChange = (event: SelectChangeEvent<string>) => {
         setOnlyWallet(event.target.value);
     };
 
     // counter
     const [counterCheck, setCounterCheck] = useState(true);
-    const handleCounterCheckChange = (event) => {
+    const handleCounterCheckChange = (event: any) => {
         setCounterCheck(event.target.checked);
     };
 
 
     const [countersToggle, setCountersToggle] = useState(false);
-    const handleCountersToggleChange = (event) => {
+    const handleCountersToggleChange = (event: any) => {
         setCountersToggle(event.target.checked);
     };
 
-    const [initialValues, setInitialValues] = useState({
-        id: -1,
-        UUID: "",
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        id: "",
+        uuid: "",
         nfc: "",
         name: "",
         code: "",
-        price: 0,
+        price: "",
         qrCode: "",
         // status: "",
         connStatus: "",
         desc: "",
+        coin: "",
+        gift: "",
+        // counters: [
+        //     {
+        //         counterType: "coin",
+        //         count: 0
+        //     },
+        //     {
+        //         counterType: "gift",
+        //         count: 0
+        //     }
+        // ]
+
     });
 
-    // useEffect(() => {
-    //     console.log(initialValues);
-    //     console.log(props)
-    // }, [props]);
 
 
-    let UPDATE_MACHINE_MUTATION;
+    let UPDATE_MACHINE_MUTATION: DocumentNode = PatchMachine;
     switch (entityName) {
         case 'company':
             UPDATE_MACHINE_MUTATION = PatchMachine;
@@ -118,6 +149,12 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
                 toast.success(t("update_success"));
             }
         }
+        if (error4) {
+            console.log(error4);
+        }
+        if (loading4) {
+            console.log(loading4);
+        }
     }, [data4]);
 
     // ===================== REMOVE MACHINE QUERY =====================
@@ -129,7 +166,7 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
     }, [data]);
 
     // HANDLE REMOVE MACHINE
-    const handleDelete = (e) => {
+    const handleDelete = () => {
         var result = window.confirm("Are you sure you want to unbind this machine?");
         if (result) {
             ApolloUnbindMachine({
@@ -166,20 +203,23 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
 
             setInitialValues({
                 id: props.id,
-                UUID: nonNullData.uuid,
+                uuid: nonNullData.uuid,
                 nfc: nonNullData.nfc,
                 name: nonNullData.name,
                 code: nonNullData.code,
                 price: nonNullData.price,
                 qrCode: nonNullData.qrCode,
-                status: nonNullData.status,
                 desc: nonNullData.description,
+                connStatus: nonNullData.connStatus,
+                coin: "",
+                gift: "",
             });
 
             setOnlyWallet(nonNullData.onlyWallet);
             setCounterCheck(nonNullData.counterInfo.counterCheck);
             setSelectedBonusGame({
-                id: nonNullData.bonusGameId
+                id: nonNullData.bonusGameId,
+                name: ''
             });
 
             generateQrCode(nonNullData.qrCode);
@@ -199,7 +239,7 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
             // console.log(Array.isArray(nonNullData.counterInfo.counters));
 
 
-            const countersArray = Object.values(nonNullData.counterInfo.counters);
+            const countersArray: Counter[] = Object.values(nonNullData.counterInfo.counters);
             if (Array.isArray(countersArray) && countersArray.length > 0) {
                 // if (true) {
                 setCountersToggle(true);
@@ -219,13 +259,13 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
 
 
     // ===================== BONUS GAMES =====================
-    const [bonusGameList, setBonusGameList] = useState([]);
-    const [selectedBonusGame, setSelectedBonusGame] = useState({
+    const [bonusGameList, setBonusGameList] = useState<{ id: string; name: string }[]>([]);
+    const [selectedBonusGame, setSelectedBonusGame] = useState<{ id: string; name: string }>({
         id: "",
         name: "",
     });
 
-    const handleBonusGameListChange = (e) => {
+    const handleBonusGameListChange = (e: SelectChangeEvent<string>) => {
         const targetId = e.target.value;
 
         //find the brand id from brand list
@@ -241,7 +281,7 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
         }
     };
 
-    const { loading: loadingHealthCheck, error: errorHealthCheck, data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
+    const { data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
     const REST_FetchBonusGameList = async () => {
         console.log("REST_FetchBonusGameList Called!")
         const MAX_RETRY_ATTEMPTS = 3;
@@ -303,26 +343,6 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
         }
     }, [modal]);
 
-
-    // const { loading: loadingInit2, error: errorInit2, data: dataInit2, refetch: refetch2 } = useQuery(STORE_GetBonusGamePaginatedConnection,
-    //     {
-    //         variables: {
-    //             next: { first: 50 },
-    //         },
-    //         skip: !modal || (entityName !== "store"), // Skip the query when modal is closed
-    //     },
-    // );
-
-    // useEffect(() => {
-    //     if (dataInit2) {
-    //         console.log("BONUS GAMES");
-    //         console.log(dataInit2);
-    //         setBonusGameList(dataInit2.getBonusGamesPaginatedConnectionForStorePrincipal.edges);
-    //     }
-    // }, [dataInit2]);
-
-
-
     //THIS IS STORE PRINCIPAL PATCH MACHINE INFO WITHOUTH REVIEW
     // THINGS THAT CAN BE PATCHED WITHOUT REVIEW:
     // 1. counterCheck
@@ -355,9 +375,9 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
 
 
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         console.log("Entity name" + entityName);
-        let variables = {};
+        let variables: any = {};
         // IF ENTITY NAME IS STORE
         if (entityName === "store") {
             // UPDATE MACHINE FOR STORE PRINCIPAL (NEED REVIEW)
@@ -377,7 +397,7 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
             // PATCH MACHINE DIRECTLY FOR STORE PRINCIPAL (NO REVIEW)
             variables = {
                 machineId: props.id,
-                statusId: initialValues.status === 'banned' ? null : status,
+                statusId: status === 'banned' ? null : status,
                 counterCheck: counterCheck,
             }
             if (values.nfc !== "") {
@@ -409,7 +429,7 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
                 name: values.name,
                 description: values.desc,
                 // nfc: values.nfc,
-                statusId: initialValues.status === 'banned' ? null : status,
+                statusId: status === 'banned' ? null : status,
                 price: parseInt(values.price),
                 counterCheck: counterCheck,
                 onlyWallet: onlyWallet,
@@ -437,7 +457,7 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
     };
 
     // ===================== BAN MACHINE QUERY =====================
-    const handleUnBan = (e) => {
+    const handleUnBan = () => {
         var result = window.confirm("Are you sure you want to unban this machine?");
         if (result) {
             ApolloUnBanMachine({
@@ -456,7 +476,7 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
 
     // qrcode
     const [imgUrl, setImgUrl] = useState(''); // for qr code generation
-    const generateQrCode = async (inputText) => {
+    const generateQrCode = async (inputText: string) => {
         try {
             const response = await QRCode.toDataURL(inputText);
             setImgUrl(response);
@@ -482,7 +502,10 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -568,9 +591,9 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
                                                 />
 
                                                 <FormControl sx={{ minWidth: 150 }}>
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{status}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned"}
+                                                        disabled={status === "banned"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -604,10 +627,10 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
                                                 label="UUID"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.UUID}
-                                                name="UUID"
-                                                error={!!touched.UUID && !!errors.UUID}
-                                                helperText={touched.UUID && errors.UUID}
+                                                value={values.uuid}
+                                                name="uuid"
+                                                error={!!touched.uuid && !!errors.uuid}
+                                                helperText={touched.uuid && errors.uuid}
                                                 sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
 
@@ -681,8 +704,8 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
                                                         label="Only wallet"
                                                         onChange={handleOnlyWalletChange}
                                                     >
-                                                        <MenuItem value={true}>{t('yes')}</MenuItem>
-                                                        <MenuItem value={false}>{t('no')}</MenuItem>
+                                                        <MenuItem value={"true"}>{t('yes')}</MenuItem>
+                                                        <MenuItem value={"false"}>{t('no')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
 
@@ -786,7 +809,7 @@ export default function MachineListModal({ props, storeData, onUpdate }) {
                                                 </Button>
 
                                                 {entityName === 'company' ? (
-                                                    values.status === "banned" ? (
+                                                    status === "banned" ? (
                                                         <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
                                                             backgroundColor: "transparent",
                                                             minWidth: "100px",

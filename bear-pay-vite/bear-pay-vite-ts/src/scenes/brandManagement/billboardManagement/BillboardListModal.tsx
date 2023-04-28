@@ -1,20 +1,40 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import React, { useState, useEffect, } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { useQuery, useLazyQuery, useMutation, DocumentNode } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
-import "src/components/Modal/modal.css";
-import IMG from "src/assets/user.png";
-import { tokens } from "src/theme";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { GetBillboard, RemoveBillboard, UnbanBillboard } from "src/graphQL/Queries";
-import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "src/utils/Utils";
-import { format } from 'date-fns';
-import ConfirmModal from "src/components/Modal/ConfirmModal";
-import LogoUpload from "src/components/Upload/LogoUpload";
-import { useDispatch, useSelector } from "react-redux";
+import "../../../components/Modal/modal.css";
+import { tokens } from "../../../theme";
+import ConfirmModal from "../../../components/Modal/ConfirmModal";
+import { getImgURL, replaceNullWithEmptyString } from "../../../utils/Utils";
+import LogoUpload from "../../../components/Upload/LogoUpload";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { PatchBillboard } from "src/graphQL/Mutations";
-import { BRAND_PatchBillboard } from "src/graphQL/BrandPrincipalMutations";
+import { toast } from "react-toastify";
+import Billboard from "../../../types/Billboard";
+import { RootState } from "../../../redux/store";
+import { PatchBillboard } from "../../../graphQL/Mutations";
+import { BRAND_PatchBillboard } from "../../../graphQL/BrandPrincipalMutations";
+import { GetBillboard, RemoveBillboard, UnbanBillboard } from "../../../graphQL/Queries";
+import { unixTimestampToDatetimeLocal } from "../../../utils/Utils";
+
+
+
+type Props = {
+    props: Billboard
+    onUpdate: () => void
+}
+interface FormValues {
+    billboardId: string;
+    title: string;
+    content: string;
+    description: string | null;
+    image: string;
+    startAt?: number;
+    endAt?: number;
+    status?: string;
+}
+
 
 const checkoutSchema = yup.object().shape({
     // storeId: yup.string().required("店面id必填"),
@@ -22,68 +42,49 @@ const checkoutSchema = yup.object().shape({
     content: yup.string().required("必填"),
 });
 
-
-export default function BillboardListModal({ props, onUpdate }) {
-    const { entityName } = useSelector((state) => state.entity);
+const BillboardListModal = ({ props, onUpdate }: Props) => {
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
+
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    //========================== INITIAL VALUES ==========================
-    const [initialValues, setInitialValues] = useState({
-        title: "",
-        content: "",
-        description: "",
-        // status is handled in state
-    });
-
-    //========================== INITIAL VALUES ==========================
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
-
-    const [modal, setModal] = useState(false);
+    // ========================== STATES AND HANDLERS ==========================
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), unbanTitle = t("unban");
 
     const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
         setStatus(event.target.value);
     };
 
-    const [startAtDate, setStartAtDate] = useState('');
-    function handleStartAtDateChange(event) {
+    const [modal, setModal] = useState(false); //open or close modal
+    const toggleModal = () => {
+        setModal(!modal);
+    };
+
+    const [startAtDate, setStartAtDate] = useState<string>('');
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
-    const [endAtDate, setEndAtDate] = useState('');
-    function handleEndAtDateChange(event) {
+    const [endAtDate, setEndAtDate] = useState<string>('');
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
+    //========================== INITIAL VALUES ==========================
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        billboardId: props.id,
+        title: "",
+        content: "",
+        description: "",
+        image: "",
+    });
+
     //========================== GRAPHQL ==========================
-    const [ApolloRemoveBillboard, { loading, error, data }] = useLazyQuery(RemoveBillboard);
-    useEffect(() => {
-        if (data) {
-            window.location.reload();
-        }
-    }, [data]);
 
-    const handleDelete = (e) => {
-        var result = window.confirm("Are you sure you want to delete this billboard?");
-        if (result) {
-            ApolloRemoveBillboard({
-                variables: {
-                    args: [
-                        {
-                            id: props.id
-                        }
-                    ]
-                }
-            })
-        }
-    };
-
-
-    //UPDATE BRAND MUTATION
-    let PATCH_BILLBOARD_MUTATION;
+    let PATCH_BILLBOARD_MUTATION: DocumentNode = PatchBillboard;
     switch (entityName) {
         case 'company':
             PATCH_BILLBOARD_MUTATION = PatchBillboard;
@@ -103,6 +104,7 @@ export default function BillboardListModal({ props, onUpdate }) {
         if (data2) {
             onUpdate();
             refetch();
+            toast.success(t("update_success"));
         }
     }, [data2]);
 
@@ -123,13 +125,13 @@ export default function BillboardListModal({ props, onUpdate }) {
         if (data3) {
             const nonNullData = replaceNullWithEmptyString(data3.getBillboard[0]);
 
-            console.log(nonNullData.startAt);
-            console.log(nonNullData.endAt);
             setInitialValues({
+                billboardId: nonNullData.id,
                 title: nonNullData.title,
                 content: nonNullData.content,
                 description: nonNullData.description,
                 status: nonNullData.status,
+                image: nonNullData.image,
             });
 
             const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
@@ -158,7 +160,7 @@ export default function BillboardListModal({ props, onUpdate }) {
         }
     }, [data4]);
 
-    const handleUnBan = (e) => {
+    const handleUnBan = () => {
         var result = window.confirm("Are you sure you want to unban this billboard?");
         if (result) {
             ApolloUnBanBillboard({
@@ -176,13 +178,38 @@ export default function BillboardListModal({ props, onUpdate }) {
         }
     }
 
+    const [ApolloRemoveBillboard, { loading, error, data }] = useLazyQuery(RemoveBillboard);
+    useEffect(() => {
+        if (data) {
+            onUpdate();
+            refetch();
+            toast.error(t("delete_success"));
+        }
+    }, [data]);
+    const handleDelete = () => {
+        var result = window.confirm("Are you sure you want to delete this billboard?");
+        if (result) {
+            ApolloRemoveBillboard({
+                variables: {
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ]
+                }
+            })
+        }
+    };
+
+
     // COVER UPLOAD
     const [imageFileName, setImageFileName] = useState("");
-    const handleUploadImageSucess = (name) => {
+    const handleUploadImageSucess = (name: string) => {
         setImageFileName(name);
     };
 
-    const handleFormSubmit = (values) => {
+
+    const handleFormSubmit = (values: FormValues) => {
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
@@ -190,12 +217,12 @@ export default function BillboardListModal({ props, onUpdate }) {
         let endAtUnix = endAtDateObj.getTime() / 1000;
         let nowUnix = Math.floor(Date.now() / 1000);
 
-        const variables = {
+        const variables: FormValues = {
             billboardId: props.id,
             title: values.title,
             content: values.content,
             image: imageFileName,
-            description: null,
+            description: values.description !== "" ? values.description : null,
         }
         //check if startAtUnix is filled
         if (isNaN(startAtUnix)) {
@@ -203,6 +230,7 @@ export default function BillboardListModal({ props, onUpdate }) {
         }
         //insert startAtUnix to variables
         variables.startAt = startAtUnix;
+
         //insert endAtUnix to variables if it is selected
         if (!isNaN(endAtUnix) && endAtUnix !== 0) {
             variables.endAt = endAtUnix;
@@ -210,8 +238,8 @@ export default function BillboardListModal({ props, onUpdate }) {
         if (values.description !== "") {
             variables.description = values.description;
         }
-        if (initialValues.status !== "banned") {
-            variables.statusId = status;
+        if (status !== "banned") {
+            variables.status = status;
         }
         // console.log(variables);
         if (endAtUnix < startAtUnix && !isNaN(endAtUnix)) {
@@ -223,15 +251,13 @@ export default function BillboardListModal({ props, onUpdate }) {
     };
 
 
-    const toggleModal = () => {
-        setModal(!modal);
-    };
 
     if (modal) {
         document.body.classList.add('active-modal')
     } else {
         document.body.classList.remove('active-modal')
     }
+
     return (
         <>
             {/* THE CONTENT OF THE BUTTON */}
@@ -242,7 +268,10 @@ export default function BillboardListModal({ props, onUpdate }) {
             {modal && (
                 <div className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -269,13 +298,13 @@ export default function BillboardListModal({ props, onUpdate }) {
 
                                                     <Box textAlign="center" display={"flex"} >
                                                         {(() => {
-                                                            if (initialValues.status === "disable") {
+                                                            if (status === "disable") {
                                                                 return (
                                                                     <Typography variant="h5" color={colors.primary[100]} >
                                                                         {t('disable')}
                                                                     </Typography>)
                                                             }
-                                                            if (initialValues.status === "banned") {
+                                                            if (status === "banned") {
                                                                 return (
                                                                     <Typography variant="h5" color={colors.redAccent[500]}>
                                                                         {t('banned')}
@@ -293,7 +322,7 @@ export default function BillboardListModal({ props, onUpdate }) {
 
                                                 <Box width={"65%"} display={"flex"} justifyContent={"flex-end"} >
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "billboard")} type={"billboard"} />
+                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "billboard") || ''} type={"billboard"} />
                                                 </Box>
                                             </Box>
 
@@ -317,9 +346,9 @@ export default function BillboardListModal({ props, onUpdate }) {
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }}>
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{status}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned"}
+                                                        disabled={status === "banned"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -391,15 +420,15 @@ export default function BillboardListModal({ props, onUpdate }) {
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
 
-                                            <Button onClick={handleDelete} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
+                                            <Button onClick={handleDelete} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #ff2f00" }}>
                                                 <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                     {deleteTitle}
                                                 </Typography>
                                             </Button>
 
                                             {entityName === 'company' ? (
-                                                values.status === "banned" ? (
-                                                    <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
+                                                status === "banned" ? (
+                                                    <Button onClick={handleUnBan} variant="contained" sx={{
                                                         backgroundColor: "transparent",
                                                         minWidth: "100px",
                                                         padding: ".5rem 1.5rem",
@@ -439,3 +468,4 @@ export default function BillboardListModal({ props, onUpdate }) {
         </>
     )
 }
+export default BillboardListModal

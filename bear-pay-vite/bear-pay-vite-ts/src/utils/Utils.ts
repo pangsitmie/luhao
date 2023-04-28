@@ -1,6 +1,6 @@
 import LOGO_IMG_PLACEHOLDER from "../assets/logo_img_placeholder.png";
 import COVER_IMG_PLACEHOLDER from "../assets/cover_img_placeholder900x300.png";
-import ADS_IMG_PLACEHOLDER from "../assets/ads_img_placeholder900x360.png";
+import ADS_IMG_PLACEHOLDER from "../assets/cover_img_placeholder900x300.png";
 import BILLBOARD_IMG_PLACEHOLDER from "../assets/billboard_img_placeholder600x600.png";
 
 export function replaceNullWithEmptyString(obj: { [key: string]: any }): { [key: string]: any } {
@@ -26,10 +26,10 @@ export function unixTimestampToDatetimeLocal(timestamp: number): string {
 
 
 
-const reactEnv = process.env.REACT_APP_ENDPOINT;
+const viteEnv = import.meta.env.VITE_ENDPOINT;
 
 function parseImgURL(filename: string) {
-  switch (reactEnv) {
+  switch (viteEnv) {
     case "main":
       return `https://file.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
     case "qa":
@@ -40,7 +40,7 @@ function parseImgURL(filename: string) {
 }
 
 export const getRESTEndpoint = () => {
-  switch (reactEnv) {
+  switch (viteEnv) {
     case "main":
       return "https://market.cloudprogrammingonline.com/restful";
     case "qa":

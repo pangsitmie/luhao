@@ -1,29 +1,47 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
-import { GetStore, UpdateStore, RemoveStore, UnbanStore } from "../../graphQL/Queries";
+import { useQuery, useLazyQuery, useMutation, DocumentNode } from "@apollo/client";
+import { GetStore, RemoveStore, UnbanStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
 } from 'react-places-autocomplete';
+
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { areaData } from "../../data/cityData";
-import { default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Loader from "../../components/loader/Loader";
 import Error from "../../components/error/Error";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { STORE_PatchStoreStatus, STORE_UpdateStore } from "src/graphQL/StorePrincipalMutation";
-import { PatchStore } from "src/graphQL/Mutations";
-import { BRAND_PatchStore } from "src/graphQL/BrandPrincipalMutations";
+import { STORE_PatchStoreStatus, STORE_UpdateStore } from "../../graphQL/StorePrincipalMutation";
+import { PatchStore } from "../../graphQL/Mutations";
+import { BRAND_PatchStore } from "../../graphQL/BrandPrincipalMutations";
 import { toast } from "react-toastify";
+import Store from "../../types/Store";
+import { RootState } from "../../redux/store";
+
+
+type Props = {
+    props: Store
+    onUpdate: () => void
+}
+
+interface FormValues {
+    id: string;
+    brandId: string;
+    brandName: string;
+    name: string;
+    intro: string;
+    principalName: string;
+    principalLineUrl: string;
+    principalEmail: string;
+}
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -39,8 +57,8 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function StoreListModal({ props, onUpdate }) {
-    const { entityName } = useSelector((state) => state.entity);
+export default function StoreListModal({ props, onUpdate }: Props) {
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
 
     const theme = useTheme();
@@ -58,10 +76,9 @@ export default function StoreListModal({ props, onUpdate }) {
         }
     }, [dataPatchStatus]);
 
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
         console.log(event.target.value)
         setStatus(event.target.value);
-        initialValues.status = event.target.value;
         PatchStoreStatus({
             variables: {
                 storeId: props.id,
@@ -71,31 +88,29 @@ export default function StoreListModal({ props, onUpdate }) {
     };
 
     //  ========================== PASSWORD VISIBILITY ==========================
-    // const [showPassword, setShowPassword] = useState(false);
-    // const handleClickShowPassword = () => setShowPassword((show) => !show);
-    // const handleMouseDownPassword = (event) => {
-    //     event.preventDefault();
-    // };
 
     var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
 
 
     // ========================== CITY ==========================
     const [cityFilter, setCityFilter] = useState('');
-    const [areaFilter, setAreaFilter] = useState([]); // list of area based on the city
+    const [areaFilter, setAreaFilter] = useState<string[]>([]); // list of area based on the city
     const [selectedArea, setSelectedArea] = useState(''); // selected area
 
-    const handleCityChange = (event) => {
-        setCityFilter(event.target.value);
-        setAreaFilter(areaData[event.target.value]);
+    const handleCityChange = (event: SelectChangeEvent<string>) => {
+        const selectedCity: string = event.target.value;
+        const selectedAreaData: string[] = areaData[selectedCity];
+        setCityFilter(selectedCity);
+        setAreaFilter(selectedAreaData);
         setSelectedArea('');
     };
-    const handleAreaChange = (event) => {
+
+    const handleAreaChange = (event: SelectChangeEvent<string>) => {
         setSelectedArea(event.target.value);
     };
 
 
-    const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
+    const [inputAddress, setInputAddress] = useState<string>(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
     const [{ address, coordinates }, setLocation] = useState({
         address: "",
         coordinates: {
@@ -105,7 +120,7 @@ export default function StoreListModal({ props, onUpdate }) {
     });
 
 
-    let UPDATE_STORE_MUTATION;
+    let UPDATE_STORE_MUTATION: DocumentNode = PatchStore;
     switch (entityName) {
         case 'company':
             UPDATE_STORE_MUTATION = PatchStore;
@@ -121,16 +136,14 @@ export default function StoreListModal({ props, onUpdate }) {
     }
 
 
-    const [initialValues, setInitialValues] = useState({
-        id: -1,
-        brandId: -1,
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        id: "",
+        brandId: "",
         brandName: "",
         name: "",
         intro: "",
         //locations get from location state
-        status: "",
         principalName: "",
-        principalAccount: "",
         // principalPassword: "",
         principalLineUrl: "https://lin.ee/",
         principalEmail: "",
@@ -187,17 +200,13 @@ export default function StoreListModal({ props, onUpdate }) {
             const nonNullData = replaceNullWithEmptyString(data3.getStore[0]);
             setInitialValues({
                 id: props.id,
-                status: nonNullData.status,
                 name: nonNullData.name,
                 intro: nonNullData.intro,
                 brandId: nonNullData.brand.id,
                 brandName: nonNullData.brand.name,
-                // city, district, and address is used in state
                 principalName: nonNullData.principal.name,
-                principalAccount: nonNullData.principal.account,
                 principalEmail: nonNullData.principal.email,
-                // principalPassword: "",
-                // princiapall password doesnt receive api data
+
                 principalLineUrl: nonNullData.principal.lineUrl,
             });
 
@@ -226,14 +235,17 @@ export default function StoreListModal({ props, onUpdate }) {
 
 
 
-    const handleLocationSelect = async value => {
+    const handleLocationSelect = async (value: any) => {
         const results = await geocodeByAddress(value);
         const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
         const latLng = await getLatLng(results[0]);
         const city = results[0].address_components[4].long_name;
         const district = results[0].address_components[3].long_name;
 
-        setInputAddress(value);
+        if (value.description) {
+            setInputAddress(value.description);
+        }
+
         setLocation({
             address: formattedAddress,
             coordinates: latLng
@@ -246,8 +258,7 @@ export default function StoreListModal({ props, onUpdate }) {
             setSelectedArea(district); // SET THE SELECTED AREA TO THE AREA OF THE SELECTED LOCATION
         }
 
-
-        console.log("city" + city + "district" + district + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
+        console.log("city" + city + "district" + district + "Coordinate:" + latLng.lat + "," + latLng.lng);
         //this.props.onAddressSelected();
     };
 
@@ -273,7 +284,7 @@ export default function StoreListModal({ props, onUpdate }) {
             window.location.reload();
         }
     }, [data4]);
-    const handleUnBan = (e) => {
+    const handleUnBan = () => {
         var result = window.confirm("Are you sure you want to unban this store?");
         if (result) {
             ApolloUnBanStore({
@@ -292,13 +303,13 @@ export default function StoreListModal({ props, onUpdate }) {
 
 
     const [coverFileName, setCoverFileName] = useState("");
-    const handleUploadCoverSucess = (name) => {
+    const handleUploadCoverSucess = (name: string) => {
         setCoverFileName(name);
     };
 
 
-    const handleFormSubmit = (values) => {
-        const variables = {
+    const handleFormSubmit = (values: FormValues) => {
+        const variables: any = {
             storeId: values.id,
             name: values.name,
             cover: coverFileName,
@@ -327,24 +338,6 @@ export default function StoreListModal({ props, onUpdate }) {
             variables.principal.email = values.principalEmail;
         }
 
-
-        // if coordinate is not updated
-        // if (coordinates.lat !== 0 && coordinates.lng !== 120) {
-        //     variables.location.coordinate = {
-        //         latitude: coordinates.lat,
-        //         longitude: coordinates.lng,
-        //     };
-        // }
-
-        //if password is empty, dont update password
-        // if (values.principalPassword !== "") {
-        //     variables.principal.password = values.principalPassword;
-        // }
-
-        //if status is not banned, update status
-        // if (initialValues.status !== "banned" && entityName === "store") {
-        //     variables.statusId = status;
-        // }
         console.log(variables);
         ApolloUpdateStore({ variables });
     };
@@ -371,7 +364,10 @@ export default function StoreListModal({ props, onUpdate }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -422,7 +418,7 @@ export default function StoreListModal({ props, onUpdate }) {
 
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"store"} />
+                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover") || ''} type={"store"} />
                                                 </Box>
                                             </Box>
 
@@ -455,9 +451,9 @@ export default function StoreListModal({ props, onUpdate }) {
                                                 />
                                                 { }
                                                 <FormControl sx={{ minWidth: 150 }} >
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{status}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned" || entityName === "company" || entityName === "brand"}
+                                                        disabled={status === "banned" || entityName === "company" || entityName === "brand"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -503,10 +499,8 @@ export default function StoreListModal({ props, onUpdate }) {
                                                 />
                                             </Box>
 
-                                            {/* <Typography variant="h5" sx={{ textAlign: "left", margin: ".5rem 0", color: colors.grey[200] }}>{t('location')}</Typography> */}
-
                                             <PlacesAutocomplete
-                                                className="places_autocomplete"
+                                                // className="places_autocomplete"
                                                 value={inputAddress}
                                                 onChange={setInputAddress}
                                                 onSelect={handleLocationSelect}
@@ -514,14 +508,14 @@ export default function StoreListModal({ props, onUpdate }) {
                                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                                     <div>
                                                         <TextField
-                                                            className="modal_input_textfield"
+                                                            // className="modal_input_textfield"
                                                             fullWidth
                                                             label={t('search_location')}
                                                             variant="filled"
-                                                            type="text"
+                                                            // type="text"
                                                             sx={{ mb: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
-                                                                placeholder: t('search_location'),
+                                                                placeholder: t('search_location') || 'Search Locations...',
                                                                 className: 'location-search-input',
                                                             })}
                                                         />
@@ -599,9 +593,6 @@ export default function StoreListModal({ props, onUpdate }) {
                                                     onChange={handleChange}
                                                     value={address}
                                                     name="address"
-                                                    error={!!touched.address && !!errors.address}
-                                                    helperText={touched.address && errors.address}
-                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
 
@@ -664,19 +655,21 @@ export default function StoreListModal({ props, onUpdate }) {
 
 
                                             {entityName === 'company' ? (
-                                                values.status === "banned" ? (
-                                                    <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{
-                                                        backgroundColor: "transparent",
-                                                        minWidth: "100px",
-                                                        padding: ".5rem 1.5rem",
-                                                        margin: "0 1rem",
-                                                        borderRadius: "10px",
-                                                        border: "2px solid #fff",
-                                                        '&:hover': {
+                                                status === "banned" ? (
+                                                    <Button onClick={handleUnBan}
+                                                        variant="contained"
+                                                        sx={{
                                                             backgroundColor: "transparent",
-                                                            opacity: ".9",
-                                                        }
-                                                    }}>
+                                                            minWidth: "100px",
+                                                            padding: ".5rem 1.5rem",
+                                                            margin: "0 1rem",
+                                                            borderRadius: "10px",
+                                                            border: "2px solid #fff",
+                                                            '&:hover': {
+                                                                backgroundColor: "transparent",
+                                                                opacity: ".9",
+                                                            }
+                                                        }}>
                                                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                             {unbanTitle}
                                                         </Typography>

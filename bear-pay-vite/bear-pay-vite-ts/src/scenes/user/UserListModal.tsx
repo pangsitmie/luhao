@@ -11,6 +11,7 @@ import { default_logo_360x360_filename } from "../../data/strings";
 import { useTranslation } from 'react-i18next';
 
 import USER_IMG from "../../assets/user.png";
+import Member from "../../types/member";
 
 interface InitialValuesType {
   id: number;
@@ -25,25 +26,6 @@ interface InitialValuesType {
 }
 
 
-type Member = {
-  id: number;
-
-  status: string;
-  profile: {
-    nickname: string;
-    birthday: string;
-    avatar: string;
-  };
-  phone: {
-    number: string;
-  };
-  career: {
-    continuousSignDays: string;
-    totalSignDays: string;
-    lastSignAt: string;
-  };
-}
-
 type Props = {
   props: Member;
 }
@@ -55,7 +37,7 @@ const UserListModal = ({ props }: Props) => {
   const colors = tokens(theme.palette.mode);
   const [modal, setModal] = useState(false);
 
-  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("unban");
+  var btnTitle = t("view"), modalTitle = t("details"), unbanTitle = t("unban");
 
   const initialValues: InitialValuesType = {
     id: 0,
@@ -91,16 +73,19 @@ const UserListModal = ({ props }: Props) => {
   }
 
   // GQL
-  const [ApolloUnbanUser, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(UnbanMember);
+  const [ApolloUnbanUser, { error: error1, data: data1 }] = useLazyQuery(UnbanMember);
   useEffect(() => {
     if (data1) {
       console.log(data1.getMember);
       window.location.reload();
     }
+    if (error1) {
+      console.log(error1);
+    }
     else {
       console.log("NO DATA")
     }
-  }, [data1]);
+  }, [data1, error1]);
 
 
 

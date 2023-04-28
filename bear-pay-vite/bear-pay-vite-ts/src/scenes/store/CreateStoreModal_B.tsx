@@ -1,23 +1,36 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery, } from "@apollo/client";
 import PlacesAutocomplete, {
     geocodeByAddress,
-    geocodeByPlaceId,
     getLatLng,
 } from 'react-places-autocomplete';
-import { GetBrandList } from "../../graphQL/Queries";
 import { areaData } from "../../data/cityData";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { BRAND_CreateStore, BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
+import { BRAND_CreateStore, } from "../../graphQL/BrandPrincipalQueries";
 import { useTranslation } from 'react-i18next';
+
+
+interface FormValues {
+    id: string;
+    brandId: string;
+    brandName: string;
+    name: string;
+    intro: string;
+    principalName: string;
+    principalAccount: string;
+    principalPassword: string;
+    principalLineUrl: string;
+    principalEmail: string;
+}
+
 
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
@@ -33,7 +46,6 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function CreateStoreModal_B() {
-    const isNonMobile = useMediaQuery("(min-width:600px)");
     const { t } = useTranslation();
 
     const theme = useTheme();
@@ -46,7 +58,7 @@ export default function CreateStoreModal_B() {
     //  ========================== PASSWORD VISIBILITY ==========================
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         event.preventDefault();
     };
 
@@ -55,28 +67,25 @@ export default function CreateStoreModal_B() {
         brandName: "null",
     });
 
-    // const { loading: , error, data } = useQuery(BRAND_GetBrandInfo);
-
     var btnTitle = t("create_store"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
 
 
     // ========================== CITY ==========================
     const [cityFilter, setCityFilter] = useState('');
-    const [areaFilter, setAreaFilter] = useState([]); // list of area based on the city
+    const [areaFilter, setAreaFilter] = useState<string[]>([]); // list of area based on the city
     const [selectedArea, setSelectedArea] = useState(''); // selected area
 
-    const handleCityChange = (event) => {
-        setCityFilter(event.target.value);
-        setAreaFilter(areaData[event.target.value]);
+    const handleCityChange = (event: SelectChangeEvent<string>) => {
+        const selectedCity: string = event.target.value;
+        const selectedAreaData: string[] = areaData[selectedCity];
+        setCityFilter(selectedCity);
+        setAreaFilter(selectedAreaData);
         setSelectedArea('');
     };
-    const handleAreaChange = (event) => {
+
+    const handleAreaChange = (event: SelectChangeEvent<string>) => {
         setSelectedArea(event.target.value);
     };
-
-    // useEffect(() => {
-    //     console.log("city:" + cityFilter + ", selected area:" + selectedArea);
-    // }, [cityFilter, areaFilter, selectedArea]);
 
 
     const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
@@ -88,7 +97,7 @@ export default function CreateStoreModal_B() {
         }
     });
 
-    const handleLocationSelect = async value => {
+    const handleLocationSelect = async (value: any) => {
         const results = await geocodeByAddress(value);
         const formattedAddress = results[0].address_components[0].long_name + results[0].address_components[1].long_name;
         const latLng = await getLatLng(results[0]);
@@ -108,11 +117,16 @@ export default function CreateStoreModal_B() {
             setSelectedArea(district); // SET THE SELECTED AREA TO THE AREA OF THE SELECTED LOCATION
         }
 
+
         console.log("city" + city + "district" + district + "Coordinate:" + coordinates.lat + "," + coordinates.lng);
         //this.props.onAddressSelected();
     };
 
-    const initialValues = {
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        id: "",
+        brandId: "",
+        brandName: "",
+
         name: "",
         intro: "",
 
@@ -122,7 +136,7 @@ export default function CreateStoreModal_B() {
         principalPassword: "",
         principalLineUrl: "https://lin.ee/",
         principalEmail: "",
-    };
+    });
 
     // =================== BRAND LIST ===================
 
@@ -137,12 +151,12 @@ export default function CreateStoreModal_B() {
 
 
     const [coverFileName, setCoverFileName] = useState("");
-    const handleUploadCoverSucess = (name) => {
+    const handleUploadCoverSucess = (name: string) => {
         setCoverFileName(name);
     };
 
-    const handleFormSubmit = (values) => {
-        const variables = {
+    const handleFormSubmit = (values: FormValues) => {
+        const variables: any = {
             args: [
                 {
                     id: brandId
@@ -201,7 +215,10 @@ export default function CreateStoreModal_B() {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
 
 
@@ -228,7 +245,7 @@ export default function CreateStoreModal_B() {
                                                 </Box>
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"store"} />
+                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover") || ''} type={"store"} />
                                                 </Box>
                                             </Box>
 
@@ -266,7 +283,7 @@ export default function CreateStoreModal_B() {
 
                                             {/* Search Store location */}
                                             <PlacesAutocomplete
-                                                className="places_autocomplete"
+                                                // className="places_autocomplete"
                                                 value={inputAddress}
                                                 onChange={setInputAddress}
                                                 onSelect={handleLocationSelect}
@@ -274,20 +291,20 @@ export default function CreateStoreModal_B() {
                                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                                     <div>
                                                         <TextField
-                                                            className="modal_input_textfield"
+                                                            // className="modal_input_textfield"
                                                             fullWidth
                                                             label={t('search_location')}
                                                             variant="filled"
-                                                            type="text"
-                                                            sx={{ margin: "1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                            // type="text"
+                                                            sx={{ mb: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                             {...getInputProps({
-                                                                placeholder: t('search_location'),
+                                                                placeholder: t('search_location') || 'Search Locations...',
                                                                 className: 'location-search-input',
                                                             })}
                                                         />
                                                         <div className="autocomplete-dropdown-container">
                                                             {loading && <div>Loading...</div>}
-                                                            {suggestions.map((suggestion, index) => {
+                                                            {suggestions.map(suggestion => {
                                                                 const className = suggestion.active
                                                                     ? 'suggestion-item--active'
                                                                     : 'suggestion-item';
@@ -297,7 +314,6 @@ export default function CreateStoreModal_B() {
                                                                     : { backgroundColor: colors.primary[400], color: colors.grey[300], cursor: 'pointer', borderRadius: '5px', fontSize: '1rem', padding: '0.5rem', margin: "0.5rem" }; //background color
                                                                 return (
                                                                     <div
-                                                                        key={index} // add a unique key prop
                                                                         {...getSuggestionItemProps(suggestion, {
                                                                             className,
                                                                             style,
@@ -364,8 +380,6 @@ export default function CreateStoreModal_B() {
                                                     value={address}
                                                     name="address"
                                                     required // add the required prop
-                                                    error={!!touched.address && !!errors.address}
-                                                    helperText={touched.address && errors.address}
                                                     sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>

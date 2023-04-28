@@ -14,25 +14,7 @@ import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useTranslation } from 'react-i18next';
 import UserListModal from './UserListModal';
-
-type Member = {
-    id: number;
-
-    status: string;
-    profile: {
-        nickname: string;
-        birthday: string;
-        avatar: string;
-    };
-    phone: {
-        number: string;
-    };
-    career: {
-        continuousSignDays: string;
-        totalSignDays: string;
-        lastSignAt: string;
-    };
-}
+import Member from '../../types/member';
 
 type Props = {}
 

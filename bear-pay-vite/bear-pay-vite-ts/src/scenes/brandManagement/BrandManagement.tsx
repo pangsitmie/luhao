@@ -6,7 +6,7 @@ import { GetBrandListPagination, SearchBrandByName } from '../../graphQL/Queries
 import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries';
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 // ICONS
@@ -15,45 +15,43 @@ import SearchIcon from "@mui/icons-material/Search";
 import BrandListModal from './BrandListModal';
 
 // COMPONENETS
-import CreateBrandModal from './CreateBrandModal';
+// import CreateBrandModal from './CreateBrandModal';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import Pagination from 'src/components/Pagination';
-import Loader from 'src/components/loader/Loader';
+import Pagination from '../../components/Pagination';
+import Loader from '../../components/loader/Loader';
 import { useLazyQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
+import { RootState } from '../../redux/store';
+import Brand from '../../types/Brand';
+import CreateBrandModal from './CreateBrandModal';
 
-const BrandManagement = () => {
-    const { entityName } = useSelector((state) => state.entity);
+interface BrandNode {
+    node: Brand;
+}
+
+
+type Props = {}
+const BrandManagement = (props: Props) => {
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
-
 
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // ========================== STATES AND HANDLERS ==========================
-
-    // const [filter, setFilter] = useState('品牌名');
-    // const handleFilterChange = (e) => {
-    //     setFilter(e.target.value);
-    // };
 
     // LOADING STATE
     const [loadingState, setLoadingState] = useState(false);
-    const handleLoadingState = (loading) => {
+    const handleLoadingState = (loading: boolean) => {
         setLoadingState(loading);
     }
 
-    const [status, setStatus] = useState('');
-    const handleStatusChange = (e) => {
-        setStatus(e.target.value);
+    const [status, setStatus] = useState<string>('');
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
+        setStatus(event.target.value);
     };
 
-    const [review, setReview] = useState('');
-    const handleReviewChange = (e) => {
-        setReview(e.target.value);
-    };
 
     //========================== GRAPHQL ==========================
 
@@ -74,9 +72,10 @@ const BrandManagement = () => {
 
     // ====================== PAGINATION ======================
 
-    const [initBrands, setInitBrands] = useState([]);
-    const [brands, setBrands] = useState([]);
-    const handlePageChange = (data) => {
+    const [initBrands, setInitBrands] = useState<BrandNode[]>([]);
+    const [brands, setBrands] = useState<BrandNode[]>([]);
+
+    const handlePageChange = (data: BrandNode[]) => {
         setBrands(data);
         setInitBrands(data);
     }
@@ -87,14 +86,14 @@ const BrandManagement = () => {
     };
 
     // ========================== SEARCH ==========================
-    const searchValueRef = useRef('');
+    const searchValueRef = useRef<HTMLInputElement>(null);
 
     const [ApolloSearchBrandByName, { loading, error, data }] = useLazyQuery(SearchBrandByName);
     useEffect(() => {
         if (data) {
             console.log(data);
             if (data.getBrand.length > 0) {
-                const searchData = [{ node: data.getBrand[0] }];
+                const searchData: BrandNode[] = [{ node: { ...data.getBrand[0] } }];
                 console.log(searchData);
                 setBrands(searchData);
             } else {
@@ -106,21 +105,21 @@ const BrandManagement = () => {
         }
     }, [data])
 
-    const submitSearch = () => {
+    const submitSearch = (): void => {
         // LOG SEARCH STATES
-        let value = searchValueRef.current.value;
-        if (value === "") {
+        let searchValue = searchValueRef.current?.value || "";
+        if (searchValue === "") {
             setBrands(initBrands);
             return;
         }
 
-        console.log("search " + value);
+        console.log("search " + searchValue);
 
         ApolloSearchBrandByName({
             variables: {
                 args: [
                     {
-                        name: value
+                        name: searchValue
                     }
                 ]
             }
@@ -129,10 +128,12 @@ const BrandManagement = () => {
         console.log("search finish");
     };
 
-    // ========================== RETURN ==========================
+
+
+
+
     return (
-        // here
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display={"flex"} flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>{t("brand_management")}</h1>
             </Box>
@@ -143,11 +144,13 @@ const BrandManagement = () => {
                 {/* name Search */}
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}
-                    maxWidth={140}>
-                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('brand_name')} inputRef={searchValueRef} />
+                    maxWidth={140}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}>
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('brand_name') || ''} inputRef={searchValueRef} />
                 </Box>
                 <FormControl sx={{ width: 100 }} >
                     <InputLabel id="demo-simple-select-label" >{t('status')}</InputLabel>
@@ -164,22 +167,6 @@ const BrandManagement = () => {
                         <MenuItem value={"停用"}>{t('disable')}</MenuItem>
                     </Select>
                 </FormControl>
-                {/* <FormControl sx={{ minWidth: 100 }} >
-                    <InputLabel id="demo-simple-select-label" >審核</InputLabel>
-                    <Select
-                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={review}
-                        label="Review"
-                        onChange={handleReviewChange}
-                    >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"通過"}>通過</MenuItem>
-                        <MenuItem value={"待審核"}>待審核</MenuItem>
-                        <MenuItem value={"封鎖"}>封鎖</MenuItem>
-                    </Select>
-                </FormControl> */}
 
                 {/* SEARCH BTN */}
                 <Button sx={{
@@ -216,23 +203,27 @@ const BrandManagement = () => {
             {/* here */}
             {/* TABLE DIV */}
             <Box
-                backgroundColor={colors.primary[400]}
                 borderRadius="10px"
                 height={"50%"}
+                sx={{
+                    backgroundColor: colors.primary[400],
+                }}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
                     justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
                     p="15px"
+                    sx={{
+                        color: colors.grey[100],
+                    }}
                 >
                     {/* pagination */}
                     <Pagination
                         QUERY={BRAND_INIT_QUERY}
                         HANDLE_PAGE_CHANGE={handlePageChange}
-                        TYPE={PAGINATION_PATH_TYPE}
+                        TYPE={PAGINATION_PATH_TYPE || ''}
                         REFETCH={refetchCount}
                         HANDLE_LOADING_STATE={handleLoadingState}
                     />
@@ -242,8 +233,10 @@ const BrandManagement = () => {
                     justifyContent="space-between"
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
-                    background={colors.grey[300]}
                     p="10px"
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("brand_name")}</Typography>
@@ -264,10 +257,12 @@ const BrandManagement = () => {
 
                 {/* here */}
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}
                 >
                     {/* MAP DATA */}
                     {loadingState ?
@@ -279,7 +274,7 @@ const BrandManagement = () => {
                         :
                         brands.map((brand, i) => (
                             <Box
-                                key={`${brand.id}-${i}`}
+                                key={`${brand.node.id}-${i}`}
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"
@@ -348,5 +343,4 @@ const BrandManagement = () => {
         </Box >
     )
 }
-
 export default BrandManagement

@@ -14,6 +14,21 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
 
+
+type Props = {}
+
+interface FormValues {
+  name: string;
+  intro: string;
+  principalName: string;
+  principalPhone: string;
+  principalPassword: string;
+  principalLineUrl: string;
+  principalEmail: string;
+  vatNumber: string;
+  brandCoinName: string;
+}
+
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
@@ -26,15 +41,14 @@ const checkoutSchema = yup.object().shape({
   brandCoinName: yup.string().required("required"),
 });
 
-
-export default function CreateBrandModal() {
+const CreateBrandModal = (props: Props) => {
   const { t } = useTranslation();
   //THEME
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState<FormValues>({
     name: "",
     intro: "",
     vatNumber: "",
@@ -45,7 +59,7 @@ export default function CreateBrandModal() {
     principalEmail: "",
     principalPhone: "",
     brandCoinName: "",
-  };
+  });
 
   // ========================== STATES AND HANDLERS ==========================
   var btnTitle = t("create_brand"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
@@ -56,20 +70,21 @@ export default function CreateBrandModal() {
   };
 
   //  ========================== PASSWORD VISIBILITY ==========================
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const handleClickShowPassword = () => setShowPassword((show: boolean) => !show);
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
   };
 
 
   // ========================== FILE UPLOAD ==========================
-  const [logoFileName, setLogoFileName] = useState('');
-  const handleUploadLogoSuccess = (name) => {
+  const [logoFileName, setLogoFileName] = useState<string>('');
+  const handleUploadLogoSuccess = (name: string) => {
     setLogoFileName(name);
   };
-  const [coverFileName, setCoverFileName] = useState('');
-  const handleUploadCoverSucess = (name) => {
+
+  const [coverFileName, setCoverFileName] = useState<string>('');
+  const handleUploadCoverSucess = (name: string) => {
     setCoverFileName(name);
   };
 
@@ -89,7 +104,7 @@ export default function CreateBrandModal() {
 
 
   // ========================== FUNCTIONS ==========================
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = (values: FormValues) => {
     console.log("SEND CREATE BRAND API REQUEST");
 
     const variables = {
@@ -105,16 +120,13 @@ export default function CreateBrandModal() {
         phone: {
           country: "tw",
           number: values.principalPhone
-        }
+        },
+        email: values.principalEmail !== "" ? values.principalEmail : undefined,
       },
+      intro: values.intro !== "" ? values.intro : undefined,
     };
 
-    if (values.intro !== "") {
-      variables.intro = values.intro;
-    }
-    if (values.principalEmail !== "") {
-      variables.principal.email = values.principalEmail;
-    }
+
     console.log(variables);
     ApolloCreateBrand({ variables });
   };
@@ -126,7 +138,6 @@ export default function CreateBrandModal() {
     document.body.classList.remove('active-modal')
   }
 
-  // ========================== RETURN ==========================
   return (
     <>
       {/* THE CONTENT OF THE BUTTON */}
@@ -136,12 +147,14 @@ export default function CreateBrandModal() {
       {modal && (
         <Box className="modal" >
           <Box onClick={toggleModal} className="overlay"></Box>
-          <Box className="modal-content" backgroundColor={colors.primary[500]}>
+          <Box className="modal-content"
+            sx={{
+              backgroundColor: colors.primary[500],
+            }}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "10px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                 {btnTitle}
               </Typography>
-
               <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
@@ -162,12 +175,12 @@ export default function CreateBrandModal() {
                       <Box display="flex" m={"1rem 0"} gap={".5rem"}>
                         <Box width={"30%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
                           {/* UPLOAD LOGO COMPONENT */}
-                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={getImgURL(logoFileName, "logo")} type={"brand"} />
+                          <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={getImgURL(logoFileName, "logo") || ''} type={"brand"} />
                         </Box>
 
                         <Box width={"70%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
                           {/* UPLOAD COVER COMPONENET */}
-                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"brand"} />
+                          <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover") || ''} type={"brand"} />
                         </Box>
                       </Box>
 
@@ -344,5 +357,6 @@ export default function CreateBrandModal() {
       )
       }
     </>
-  );
+  )
 }
+export default CreateBrandModal

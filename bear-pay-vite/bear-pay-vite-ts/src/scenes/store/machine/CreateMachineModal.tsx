@@ -1,18 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import "src/components/Modal/modal.css";
-import { tokens } from "src/theme";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { CreateMachineFromGetStores } from "src/graphQL/Queries";
+import { DocumentNode, useMutation } from "@apollo/client";
 
 import { useTranslation } from 'react-i18next';
-import { CreateMachineForManager } from "src/graphQL/Mutations";
+import { CreateMachineForManager } from "../../../graphQL/Mutations";
 import { useSelector } from "react-redux";
-import { BRAND_CreateMachine } from "src/graphQL/BrandPrincipalMutations";
-import { STORE_CreateMachine } from "src/graphQL/StorePrincipalMutation";
+import { BRAND_CreateMachine } from "../../../graphQL/BrandPrincipalMutations";
+import { STORE_CreateMachine } from "../../../graphQL/StorePrincipalMutation";
+import Store from "../../../types/Store";
+import { RootState } from "../../../redux/store";
+
+import "../../../components/Modal/modal.css";
+import { tokens } from "../../../theme";
+
 // {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
+
+
+type Props = {
+    props: Store;
+};
+
+interface FormValues {
+    storeId: string;
+    storeName: string;
+
+    name: string;
+    code: string;
+    nfc: string;
+    price: string;
+    description: string;
+    counterCoin: string;
+    counterGift: string;
+}
+
 
 const checkoutSchema = yup.object().shape({
     storeId: yup.string().required("店面id必填"),
@@ -23,14 +45,13 @@ const checkoutSchema = yup.object().shape({
     // description: yup.string().required("備註必填"),
 });
 
-
-export default function CreateMachineModal({ props }) {
-    const { entityName } = useSelector((state) => state.entity);
+export default function CreateMachineModal({ props }: Props) {
+    const { entityName } = useSelector((state: RootState) => state.entity);
 
     const { t } = useTranslation();
     const theme = useTheme();
 
-    let CREATE_MACHINE_MUTATION;
+    let CREATE_MACHINE_MUTATION: DocumentNode = CreateMachineForManager;
     switch (entityName) {
         case 'company':
             CREATE_MACHINE_MUTATION = CreateMachineForManager;
@@ -50,36 +71,35 @@ export default function CreateMachineModal({ props }) {
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
     const [counterCheck, setCounterCheck] = useState(true);
-    const handleCounterCheckChange = (event) => {
+    const handleCounterCheckChange = (event: any) => {
         setCounterCheck(event.target.checked);
     };
 
     const [countersToggle, setCountersToggle] = useState(false);
-    const handleCountersToggleChange = (event) => {
+    const handleCountersToggleChange = (event: any) => {
         setCountersToggle(event.target.checked);
     };
 
-    const [onlyWallet, setOnlyWallet] = useState(false);
-    const handleOnlyWalletChange = (event) => {
+    const [onlyWallet, setOnlyWallet] = useState<string>("false");
+    const handleOnlyWalletChange = (event: SelectChangeEvent<string>) => {
         setOnlyWallet(event.target.value);
     };
 
-    var btnTitle = t("add_new"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("add_new"), confirmTitle = t("confirm");
 
-    const initialValues = {
+    const [initialValues, setInitialValues] = useState<FormValues>({
         storeId: "",
         storeName: "",
         name: "",
         nfc: "",
         code: "",
-        price: 1,
+        price: "",
         description: "",
         counterCoin: "",
         counterGift: ""
-    };
+    });
 
-    initialValues.storeId = props.id;
-    initialValues.storeName = props.name;
+
 
 
 
@@ -90,16 +110,22 @@ export default function CreateMachineModal({ props }) {
             console.log(data.getStore);
             window.location.reload();
         }
+        if (error) {
+            console.log(error);
+        }
+        if (loading) {
+            console.log(loading);
+        }
     }, [data]);
 
-    const handleFormSubmit = (values) => {
-        const variables = {
+    const handleFormSubmit = (values: FormValues) => {
+        const variables: any = {
             storeId: props.id,
             name: values.name,
             code: values.code,
             price: parseInt(values.price),
             counterCheck: counterCheck,
-            onlyWallet: onlyWallet,
+            onlyWallet: onlyWallet === "true" ? true : false,
         };
         if (values.nfc !== "") {
             variables.nfc = values.nfc;
@@ -143,9 +169,11 @@ export default function CreateMachineModal({ props }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
-                            {initialValues.username}
                             <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                                 {btnTitle}
                             </Typography>
@@ -282,8 +310,8 @@ export default function CreateMachineModal({ props }) {
                                                         label="Only wallet"
                                                         onChange={handleOnlyWalletChange}
                                                     >
-                                                        <MenuItem value={true}>{t('yes')}</MenuItem>
-                                                        <MenuItem value={false}>{t('no')}</MenuItem>
+                                                        <MenuItem value={"true"}>{t('yes')}</MenuItem>
+                                                        <MenuItem value={"false"}>{t('no')}</MenuItem>
                                                     </Select>
                                                 </FormControl>
 

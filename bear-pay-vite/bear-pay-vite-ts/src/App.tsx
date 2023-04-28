@@ -10,17 +10,19 @@ import Sidebar from "./scenes/global/Sidebar";
 import NotFound from "./components/404/NotFound";
 import Dashboard from "./scenes/dashboard/Dashboard";
 import UserManagement from "./scenes/user/UserManagement";
+import BrandManagement from "./scenes/brandManagement/BrandManagement";
+import BillboardManagement from "./scenes/brandManagement/billboardManagement/BillboardManagement";
+import StoreManagement from "./scenes/store/StoreManagement";
+import MachineManagement from "./scenes/store/machine/MachineManagement";
 
 
 
-type Props = {}
 
-const App = (props: Props) => {
+const App = () => {
   const { t } = useTranslation();
 
   const { entityName } = useSelector((state: RootState) => state.entity);
   const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
 
 
   //check if token is null if null navigate to login
@@ -97,13 +99,13 @@ const App = (props: Props) => {
                         path="/user-management"
                         element={<UserManagement />}
                       />
-                      {/* <Route
+                      <Route
                         path="/brand-management"
                         element={<BrandManagement />}
-                      /> */}
+                      />
 
                       {/* MANAGEMENT */}
-                      {/* <Route
+                      <Route
                         path="/billboard-management"
                         element={<BillboardManagement />}
                       />
@@ -111,14 +113,14 @@ const App = (props: Props) => {
                         path="/store-management"
                         element={<StoreManagement />}
                       />
-                      <Route
+                      {/* <Route
                         path="/commodity-management"
                         element={<CommodityManagement />}
-                      />
+                      /> */}
                       <Route
                         path="/machine-management"
                         element={<MachineManagement />}
-                      /> */}
+                      />
 
                       {/* NOTIFICATION */}
                       {/* <Route path="/system-notification" element={<SystemNotificationManagement />} />
@@ -172,11 +174,105 @@ const App = (props: Props) => {
                     </>
                   ) : entityName === "brand" ? (
                     <>
+                      {/* <Route path="/" element={<BrandDashboard />} />
+                      <Route path="/dashboard" element={<BrandDashboard />} />
+                      <Route path="/setting" element={<Setting />} /> */}
 
+                      <Route
+                        path="/brand-management"
+                        element={<BrandManagement />}
+                      />
+                      <Route
+                        path="/billboard-management"
+                        element={<BillboardManagement />}
+                      />
+                      <Route
+                        path="/store-management"
+                        element={<StoreManagement />}
+                      />
+                      {/* <Route
+                        path="/commodity-management"
+                        element={<CommodityManagement />}
+                      />
+                      <Route
+                        path="/reward-management"
+                        element={<RewardManagement />}
+                      />
+                      <Route
+                        path="/machine-management"
+                        element={<MachineManagement />}
+                      />
+                      <Route
+                        path="/brand-coins"
+                        element={<BrandCoinManagement />}
+                      /> */}
+                      {/* <Route
+                        path="/gift-code"
+                        element={<GiftCodeManagement />}
+                      /> */}
+
+                      {/* STATISTIC */}
+                      {/* <Route path="/statistic" element={<StatisticList />} />
+                      <Route
+                        path="/statistic-management"
+                        element={<StatisticManagement />}
+                      />
+                      <Route
+                        path="/statistic-management/finance"
+                        element={<FinanceStatistic />}
+                      />
+                      <Route
+                        path="/statistic-management/machine"
+                        element={<MachineStatisticPeriod />}
+                      /> */}
+
+                      {/* REVIEW */}
+                      {/* <Route path="/review" element={<ReviewManagement />} /> */}
                     </>
                   ) : entityName === "store" ? (
                     <>
+                      {/* <Route path="/" element={<StoreDashboard />} />
+                      <Route path="/dashboard" element={<StoreDashboard />} />
+                      <Route path="/setting" element={<Setting />} /> */}
 
+                      <Route
+                        path="/store-management"
+                        element={<StoreManagement />}
+                      />
+                      {/* <Route
+                        path="/commodity-management"
+                        element={<CommodityManagement />}
+                      />
+                      <Route
+                        path="/reward-management"
+                        element={<RewardManagement />}
+                      /> */}
+                      <Route
+                        path="/machine-management"
+                        element={<MachineManagement />}
+                      />
+                      {/* <Route
+                        path="/bonus-game"
+                        element={<BonusGameManagement />}
+                      /> */}
+
+                      {/* STATISTIC */}
+                      {/* <Route path="/statistic" element={<StatisticList />} />
+                      <Route
+                        path="/statistic-management"
+                        element={<StatisticManagement />}
+                      />
+                      <Route
+                        path="/statistic-management/finance"
+                        element={<FinanceStatistic />}
+                      />
+                      <Route
+                        path="/statistic-management/machine"
+                        element={<MachineStatisticPeriod />}
+                      /> */}
+
+                      {/* REVIEW */}
+                      {/* <Route path="/review" element={<ReviewManagement />} /> */}
                     </>
                   ) : (
                     <Navigate to="/404" />

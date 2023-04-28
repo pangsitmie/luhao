@@ -2,26 +2,34 @@ import React, { useState, useRef } from 'react'
 import { Box } from '@mui/material'
 import { useMutation } from '@apollo/client';
 import { UploadBrandLogo, UploadBillboardImage } from '../../graphQL/Mutations';
-import { defaultLogoURL } from '../../data/strings';
 
+type ImageType = 'brand' | 'logo' | 'billboard';
 
-const LogoUpload = (props) => {
+type Props = {
+    handleSuccess: (fileName: string) => void;
+    imagePlaceHolder: string;
+    type: ImageType;
+}
+const LogoUpload = ({ handleSuccess, imagePlaceHolder, type }: Props) => {
     const stringPlaceHolder = {
+        brand: "Upload 900x300 image",
         logo: "Upload 360x360 image",
         billboard: "Upload 600x600 image",
     }
-    const [ApolloBrandUploadLogo, { loading, error, data: brandData }] = useMutation(UploadBrandLogo);
-    const [ApolloBillboardUploadImage, { loading: billboardLoading, error: billboardError, data: billboardData }] = useMutation(UploadBillboardImage);
+    const [ApolloBrandUploadLogo, { }] = useMutation(UploadBrandLogo);
+    const [ApolloBillboardUploadImage, { }] = useMutation(UploadBillboardImage);
 
-    const [selectedImage, setSelectedImage] = useState(null)
-    const fileInput = useRef(null);
+    const [selectedImage, setSelectedImage] = useState<string>('')
+    const fileInput = useRef<HTMLInputElement>(null);
 
     const handleClick = () => {
-        fileInput.current.click();
+        if (fileInput.current) {
+            fileInput.current.click();
+        }
     };
 
     //function to use apollo uplooad store cover
-    const billboardUploadImage = (file) => {
+    const billboardUploadImage = (file: File) => {
         // get the upload uri
         ApolloBillboardUploadImage({
             variables: {
@@ -44,7 +52,7 @@ const LogoUpload = (props) => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("Billboard Image Upload:" + data.payload.filename);
-                    props.handleSuccess(data.payload.filename);
+                    handleSuccess(data.payload.filename);
                     alert("Upload Billboard Image Successful!");
                 })
                 .catch((error) => {
@@ -54,7 +62,7 @@ const LogoUpload = (props) => {
     };
 
     //function to use apollo uplooad store cover
-    const brandUploadLogo = (file) => {
+    const brandUploadLogo = (file: File) => {
         // get the upload uri
         ApolloBrandUploadLogo({
             variables: {
@@ -77,7 +85,7 @@ const LogoUpload = (props) => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("LogoUpload:" + data.payload.filename);
-                    props.handleSuccess(data.payload.filename);
+                    handleSuccess(data.payload.filename);
                     alert("Upload Logo Successful!");
                 })
                 .catch((error) => {
@@ -87,13 +95,13 @@ const LogoUpload = (props) => {
         });
     };
 
-    const handleChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedImage(URL.createObjectURL(file));
-        if (event.target.files.length > 0) {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files && event.target.files[0];
+        if (file) {
+            setSelectedImage(URL.createObjectURL(file));
             // a file was selected, proceed with the upload
             console.log("file selected");
-            switch (props.type) {
+            switch (type) {
                 case "brand":
                     brandUploadLogo(file);
                     break;
@@ -108,6 +116,7 @@ const LogoUpload = (props) => {
             // no file was selected, do nothing
             console.log("no file selected");
         }
+
     };
 
 
@@ -123,11 +132,11 @@ const LogoUpload = (props) => {
                         width="120px"
                         height="120px"
                         style={{ cursor: "pointer", borderRadius: "50%" }}
-                        src={selectedImage || props.imagePlaceHolder}
+                        src={selectedImage || imagePlaceHolder}
                         onClick={handleClick}
                     />
                     <Box className="img_overlay logo_overlay">
-                        <Box className="hover-text">{stringPlaceHolder[props.type]}</Box>
+                        <Box className="hover-text">{stringPlaceHolder[type]}</Box>
                     </Box>
                 </Box>
                 <input

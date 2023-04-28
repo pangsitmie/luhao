@@ -2,45 +2,62 @@ import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import "src/components/Modal/modal.css";
-import { tokens } from "src/theme";
+import { tokens } from "../../../theme";
 import { useLazyQuery } from "@apollo/client";
-import { CreateBillboard } from "src/graphQL/Queries";
-import LogoUpload from "src/components/Upload/LogoUpload";
-import { getImgURL } from "src/utils/Utils";
+
+
 import { useTranslation } from 'react-i18next';
+import Brand from "../../../types/Brand";
+import { CreateBillboard } from "../../../graphQL/Queries";
+import LogoUpload from "../../../components/Upload/LogoUpload";
+import { getImgURL } from "../../../utils/Utils";
+import "../../../components/Modal/modal.css";
+
+
+type Props = {
+    props: Brand;
+}
+
+interface FormValues {
+    title: string;
+    content: string;
+    description: string | null;
+    image: string;
+    startAt?: number;
+    endAt?: number;
+    status?: string;
+}
 
 const checkoutSchema = yup.object().shape({
-    // storeId: yup.string().required("店面id必填"),
     title: yup.string().required("必填"),
     content: yup.string().required("必填"),
 });
 
 
-export default function CreateBillboardModal({ props }) {
+export default function CreateBillboardModal({ props }: Props) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
     const { t } = useTranslation();
-    const [startAtDate, setStartAtDate] = useState('');
-    const [endAtDate, setEndAtDate] = useState('');
 
-    function handleStartAtDateChange(event) {
+    const [startAtDate, setStartAtDate] = useState('');
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
-    function handleEndAtDateChange(event) {
+    const [endAtDate, setEndAtDate] = useState('');
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
-    // var btnTitle = "新增告示牌", confirmTitle = "新增", cancelTitle = "取消";
-    var btnTitle = t("create"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("create"), confirmTitle = t("create");
 
-    const initialValues = {
+    const [initialValues, setInitialValues] = useState<FormValues>({
         title: "",
         content: "",
         description: "",
-    };
+        image: "",
+    });
 
     // GQL
     const [ApolloCreateBillboard, { loading, error, data }] = useLazyQuery(CreateBillboard);
@@ -57,11 +74,11 @@ export default function CreateBillboardModal({ props }) {
 
     // IMAGE UPLOAD
     const [imageFileName, setImageFileName] = useState('');
-    const handleUploadImageSucess = (name) => {
+    const handleUploadImageSucess = (name: string) => {
         setImageFileName(name);
     };
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
@@ -70,7 +87,7 @@ export default function CreateBillboardModal({ props }) {
         let nowUnix = Math.floor(Date.now() / 1000);
 
 
-        const variables = {
+        const variables: any = {
             args: [
                 {
                     id: props.id
@@ -119,7 +136,10 @@ export default function CreateBillboardModal({ props }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
 
                             <Formik
@@ -149,7 +169,7 @@ export default function CreateBillboardModal({ props }) {
                                                 </Box>
                                                 <Box width={"65%"} display={"flex"} justifyContent={"flex-end"} >
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "billboard")} type={"billboard"} />
+                                                    <LogoUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "billboard") || ''} type={"billboard"} />
                                                 </Box>
                                             </Box>
 

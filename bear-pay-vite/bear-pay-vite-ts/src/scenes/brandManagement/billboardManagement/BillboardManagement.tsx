@@ -1,22 +1,26 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { format } from 'date-fns';
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "src/theme";
+import { Box, Button, Typography, useTheme } from "@mui/material";
+import { ColorModeContext, tokens } from "../../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { GetBillboardListPagination, SearchBillboardByTitle } from 'src/graphQL/Queries';
-import CreateBillboardModal from './CreateBillboardModal';
-import BillboardListModal from './BillboardListModal';
-import Pagination from 'src/components/Pagination';
+import { GetBillboardListPagination, SearchBillboardByTitle } from '../../../graphQL/Queries';
 import { useTranslation } from 'react-i18next';
-import Loader from 'src/components/loader/Loader';
 import { toast } from 'react-toastify';
+import Billboard from '../../../types/Billboard';
+import Pagination from '../../../components/Pagination';
+import Loader from '../../../components/loader/Loader';
+import BillboardListModal from './BillboardListModal';
+import CreateBillboardModal from './CreateBillboardModal';
 
+interface BillboardNode {
+    node: Billboard;
+}
 const BillboardManagement = () => {
     const location = useLocation();
     const state = location.state;
@@ -28,12 +32,12 @@ const BillboardManagement = () => {
     const colorMode = useContext(ColorModeContext);
 
     // ====================== PAGINATION ======================
-    const [initData, setInitData] = useState([]);
-    const [billboardData, setBillboardData] = useState([]);
+    const [initData, setInitData] = useState<BillboardNode[]>([]);
+    const [billboardData, setBillboardData] = useState<BillboardNode[]>([]);
 
-    const handlePageChange = (data) => {
-        setBillboardData(data);
+    const handlePageChange = (data: BillboardNode[]) => {
         setInitData(data);
+        setBillboardData(data);
     }
 
     const [refetchCount, setRefetchCount] = useState(0);
@@ -43,13 +47,13 @@ const BillboardManagement = () => {
 
     // LOADING STATE
     const [loadingState, setLoadingState] = useState(false);
-    const handleLoadingState = (loading) => {
+    const handleLoadingState = (loading: boolean) => {
         setLoadingState(loading);
     }
 
 
     // ========================== SEARCH ==========================
-    const searchValueRef = useRef('');
+    const searchValueRef = useRef<HTMLInputElement>(null);
 
     const [ApolloSearchBillboardByTitle, { loading, error, data }] = useLazyQuery(SearchBillboardByTitle);
     useEffect(() => {
@@ -70,19 +74,19 @@ const BillboardManagement = () => {
 
     const submitSearch = () => {
         // LOG SEARCH STATES
-        let value = searchValueRef.current.value;
-        if (value === "") {
+        let searchValue = searchValueRef.current?.value || "";
+        if (searchValue === "") {
             setBillboardData(initData);
             return;
         }
 
-        console.log("search " + value);
+        console.log("search " + searchValue);
 
         ApolloSearchBillboardByTitle({
             variables: {
                 args: [
                     {
-                        title: value
+                        title: searchValue
                     }
                 ]
             }
@@ -93,7 +97,7 @@ const BillboardManagement = () => {
 
 
     return (
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display={"flex"} flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>{state.data.name} - {t('billboards')}</h1>
             </Box>
@@ -103,10 +107,12 @@ const BillboardManagement = () => {
                 {/* name Search */}
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}
-                    maxWidth={140}>
+                    maxWidth={140}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}>
                     <InputBase sx={{ ml: 2, pr: 2 }} placeholder={`${t('billboards')} ${t('name')}`} inputRef={searchValueRef} />
                 </Box>
 
@@ -131,11 +137,13 @@ const BillboardManagement = () => {
 
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     marginLeft={"auto"}
                     padding={"0"}
                     height={"52px"}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}
                 >
                     <CreateBillboardModal props={state.data} />
                 </Box>
@@ -144,16 +152,17 @@ const BillboardManagement = () => {
 
             {/* TABLE DIV */}
             <Box
-                backgroundColor={colors.primary[400]}
                 borderRadius="10px"
                 height={"50%"}
+                sx={{
+                    backgroundColor: colors.primary[400],
+                }}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
                     justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
                     p="15px"
                 >
                     <Pagination
@@ -170,7 +179,6 @@ const BillboardManagement = () => {
                     justifyContent="space-between"
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
-                    background={colors.grey[300]}
                     p="10px"
                     maxHeight={"100px"}
                 >
@@ -192,7 +200,6 @@ const BillboardManagement = () => {
                 </Box>
 
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"100%"}
                     overflow={"auto"}
@@ -206,7 +213,7 @@ const BillboardManagement = () => {
                         :
                         billboardData.map((item, i) => (
                             <Box
-                                key={`${item.id}-${i}`}
+                                key={`${item.node.id}-${i}`}
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"
@@ -270,23 +277,5 @@ const BillboardManagement = () => {
     )
 }
 
-const defaultOptions = {
-    significantDigits: 2,
-    thousandsSeparator: ',',
-    decimalSeparator: '.',
-    symbol: 'NT'
-}
-
-const currencyFormatter = (value, options) => {
-    if (typeof value !== 'number') value = 0.0
-    options = { ...defaultOptions, ...options }
-    value = value.toFixed(options.significantDigits)
-
-    const [currency, decimal] = value.split('.')
-    return `${options.symbol} ${currency.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        options.thousandsSeparator
-    )}${options.decimalSeparator}${decimal}`
-}
 
 export default BillboardManagement

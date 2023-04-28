@@ -2,26 +2,34 @@ import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 // THEME
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "src/theme";
+import { ColorModeContext, tokens } from "../../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateMachineModal from './CreateMachineModal';
-import MachineListModal from './MachineListModal';
-import { GetMachineListPagination, HealthCheck, SearchMachineByName } from 'src/graphQL/Queries';
+// import MachineListModal from './MachineListModal';
+import { GetMachineListPagination, HealthCheck, SearchMachineByName } from '../../../graphQL/Queries';
 // QRCODE
 import QRCode from 'qrcode'
 import jsPDF from 'jspdf';
-import MachineCommodityListModal from './MachineCommodityItem';
+// import MachineCommodityListModal from './MachineCommodityItem';
 import { useTranslation } from 'react-i18next';
-import { PatchMachineFavorite } from 'src/graphQL/Mutations';
+import { PatchMachineFavorite } from '../../../graphQL/Mutations';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import { toast } from 'react-toastify';
-import Loader from 'src/components/loader/Loader';
+import Loader from '../../../components/loader/Loader';
 import axios from 'axios';
-import { getRESTEndpoint } from 'src/utils/Utils';
+import { getRESTEndpoint } from '../../../utils/Utils';
+import { Machine } from '../../../types/Machine';
+import MachineListModal from './MachineListModal';
+
+interface MachineQRCode {
+    machineName: string;
+    qrcode: string;
+}
+
 
 const MachineManagement = () => {
     const location = useLocation();
@@ -35,7 +43,7 @@ const MachineManagement = () => {
     const colorMode = useContext(ColorModeContext);
 
     // ========================== SEARCH ==========================
-    const searchValueRef = useRef('');
+    const searchValueRef = useRef<HTMLInputElement>(null);
 
     const [ApolloSearchMachineByName, { loading, error, data }] = useLazyQuery(SearchMachineByName);
     useEffect(() => {
@@ -58,8 +66,8 @@ const MachineManagement = () => {
 
     const submitSearch = () => {
         // LOG SEARCH STATES
-        let value = searchValueRef.current.value;
-        if (value === "") {
+        let searchValue = searchValueRef.current?.value || "";
+        if (searchValue === "") {
             setMachineDatas(initMachineDatas);
             return;
         }
@@ -68,7 +76,7 @@ const MachineManagement = () => {
             variables: {
                 args: [
                     {
-                        name: value
+                        name: searchValue
                     }
                 ]
             }
@@ -78,17 +86,17 @@ const MachineManagement = () => {
 
 
     // ====================== PAGINATION ======================
-    const [initMachineDatas, setInitMachineDatas] = useState([]);
-    const [machineDatas, setMachineDatas] = useState([]);
+    const [initMachineDatas, setInitMachineDatas] = useState<Machine[]>([]);
+    const [machineDatas, setMachineDatas] = useState<Machine[]>([]);
 
-    const handlePageChange = (data) => {
+    const handlePageChange = (data: Machine[]) => {
         setMachineDatas(data);
         setInitMachineDatas(data);
     }
 
     // LOADING STATE
     const [loadingState, setLoadingState] = useState(false);
-    const handleLoadingState = (loading) => {
+    const handleLoadingState = (loading: boolean) => {
         setLoadingState(loading);
     }
 
@@ -155,7 +163,15 @@ const MachineManagement = () => {
 
     const [ApolloPatchMachineFavorite, { loading: loadingPatch, error: errorPatch, data: dataPatch }] = useMutation(PatchMachineFavorite);
 
-    const handlePatchMachineFavorite = (selectedId, favoriteBool) => {
+    useEffect(() => {
+        if (dataPatch) {
+            triggerRefetch();
+        }
+        if (errorPatch) {
+            toast.error(errorPatch.message);
+        }
+    }, [dataPatch])
+    const handlePatchMachineFavorite = (selectedId: string, favoriteBool: boolean) => {
         console.log("machineId: " + selectedId);
         console.log("set Favorite to: " + !favoriteBool);
 
@@ -165,8 +181,6 @@ const MachineManagement = () => {
                 favorite: !favoriteBool
             },
         });
-
-        triggerRefetch();
         if (favoriteBool) {
             toast.error("Machine removed from favorite!");
         } else {
@@ -206,13 +220,13 @@ const MachineManagement = () => {
     const [imgUrls, setImgUrls] = useState({});
     useEffect(() => {
         if (REST_MachineQRCodes) {
-            for (const item of REST_MachineQRCodes) {
+            for (const item of REST_MachineQRCodes as MachineQRCode[]) {
                 generateQrCode(item.machineName, item.qrcode);
             }
         }
     }, [REST_MachineQRCodes]);
 
-    const generateQrCode = async (machineName, qrCodePaypload) => {
+    const generateQrCode = async (machineName: string, qrCodePaypload: string) => {
         try {
             const response = await QRCode.toDataURL(qrCodePaypload);
             setImgUrls(prevUrls => ({ ...prevUrls, [machineName]: response }));
@@ -222,10 +236,10 @@ const MachineManagement = () => {
     }
 
     //create pdf
-    function createPdfWithImages(images, keys) {
+    function createPdfWithImages(images: string[], keys: string[]): jsPDF {
         const doc = new jsPDF();
 
-        images.forEach((imageUrl, index) => {
+        images.forEach((imageUrl: string, index: number) => {
             const x = index % 2 === 0 ? 10 : 105;
             const y = Math.floor(index / 2) % 2 === 0 ? 10 : 148;
             doc.addImage(imageUrl, 'JPEG', x, y, 88, 88);
@@ -234,12 +248,13 @@ const MachineManagement = () => {
                 doc.addPage();
             }
         });
+
         return doc;
     }
 
     function downloadPdf() {
         const keys = Object.keys(imgUrls);
-        const images = Object.values(imgUrls);
+        const images: string[] = Object.values(imgUrls);
         // const keys = Object.keys(imgUrls).slice(startIndex, endIndex);
         // const images = Object.values(imgUrls).slice(startIndex, endIndex);
 
@@ -251,7 +266,7 @@ const MachineManagement = () => {
     // if (error) return <Error />;
 
     return (
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display="flex" flexDirection={"column"}>
             <Box height={"15%"}>
                 <h1 className='userManagement_title'>{state.data.name} - {t('machines')}</h1>
             </Box>
@@ -261,11 +276,12 @@ const MachineManagement = () => {
                 {/* name Search */}
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}
-                    maxWidth={140}>
-                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('machine_name')} inputRef={searchValueRef} />
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}>
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('machine_name') || ''} inputRef={searchValueRef} />
                 </Box>
 
                 {/* SEARCH BTN */}
@@ -320,33 +336,23 @@ const MachineManagement = () => {
 
             {/* TABLE DIV */}
             <Box
-                backgroundColor={colors.primary[400]}
                 borderRadius="10px"
                 height={"45%"}
+                sx={{
+                    backgroundColor: colors.primary[400],
+                }}
             >
-                {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
                     justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
                     p="15px"
-                >
-                    {/* <Pagination
-                        QUERY={GetMachineListPagination}
-                        HANDLE_PAGE_CHANGE={handlePageChange}
-                        TYPE={"GET_MACHINE_LIST"}
-                        ARGS_ID={state.data.id}
-                        REFETCH={refetchCount}
-                        HANDLE_LOADING_STATE={handleLoadingState}
-                    /> */}
-                </Box>
+                ></Box>
                 <Box
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
-                    background={colors.grey[300]}
                     p="10px"
                 >
                     <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -371,10 +377,12 @@ const MachineManagement = () => {
 
                 {/* machine data map here */}
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"100%"}
                     overflow={"auto"}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}
                 >
                     {loadingState ?
                         (
@@ -389,17 +397,17 @@ const MachineManagement = () => {
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"
-                                borderBottom={`3px solid ${colors.primary[500]}`}
+                                borderBottom={i === machineDatas.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                                 p="10px"
                             >
                                 <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                     {
                                         item.favorite === true ?
-                                            <IconButton onClick={() => { handlePatchMachineFavorite(item.node.id, item.node.favorite) }}>
+                                            <IconButton onClick={() => { handlePatchMachineFavorite(item.id, item.favorite) }}>
                                                 <StarRateIcon sx={{ color: "#ffb703" }} />
                                             </IconButton>
                                             :
-                                            <IconButton onClick={() => { handlePatchMachineFavorite(item.node.id, item.node.favorite) }}>
+                                            <IconButton onClick={() => { handlePatchMachineFavorite(item.id, item.favorite) }}>
                                                 <StarBorderIcon />
                                             </IconButton>
                                     }
@@ -430,7 +438,7 @@ const MachineManagement = () => {
                                     display={"flex"}
                                     alignItems={"center"} justifyContent={"center"}
                                     borderRadius="4px">
-                                    <MachineCommodityListModal props={item} storeData={state.data} onUpdate={() => triggerRefetch()} />
+                                    {/* <MachineCommodityListModal props={item} storeData={state.data} onUpdate={() => triggerRefetch()} /> */}
                                 </Box>
                                 <Box
                                     width={"20%"}

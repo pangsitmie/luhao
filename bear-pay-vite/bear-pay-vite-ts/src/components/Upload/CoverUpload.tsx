@@ -2,10 +2,20 @@ import React, { useState, useRef } from 'react'
 import { Box } from '@mui/material'
 import { useMutation } from '@apollo/client';
 import { UploadAdsImage, UploadBrandCover, UploadStoreCover } from '../../graphQL/Mutations';
-import { defaultCoverURL } from '../../data/strings';
+// import { defaultCoverURL } from '../../data/strings';
 
 
-const CoverUpload = (props) => {
+type ImageType = 'brand' | 'store' | 'banner' | 'placement';
+
+
+type Props = {
+    handleSuccess: (fileName: string) => void;
+    imagePlaceHolder: string;
+    type: ImageType;
+}
+
+
+const CoverUpload = ({ handleSuccess, imagePlaceHolder, type }: Props) => {
     const stringPlaceHolder = {
         brand: "Upload 900x300 image",
         store: "Upload 900x300 image",
@@ -13,18 +23,20 @@ const CoverUpload = (props) => {
         placement: "Upload 900x300 image",
     }
 
-    const [ApolloBrandUploadCover, { loading, error, data: brandData }] = useMutation(UploadBrandCover);
-    const [ApolloStoreUploadCover, { loading: storeLoading, error: storeError, data: storeData }] = useMutation(UploadStoreCover);
-    const [ApolloAdsUploadImage, { loading: adsLoading, error: adsError, data: adsData }] = useMutation(UploadAdsImage);
+    const [ApolloBrandUploadCover, { }] = useMutation(UploadBrandCover);
+    const [ApolloStoreUploadCover, { }] = useMutation(UploadStoreCover);
+    const [ApolloAdsUploadImage, { }] = useMutation(UploadAdsImage);
 
-    const [selectedImage, setSelectedImage] = useState(null)
-    const fileInput = useRef(null);
+    const [selectedImage, setSelectedImage] = useState<string>('')
+    const fileInput = useRef<HTMLInputElement>(null);
 
     const handleClick = () => {
-        fileInput.current.click();
+        if (fileInput.current) {
+            fileInput.current.click();
+        }
     };
 
-    const brandUploadCover = (file) => {
+    const brandUploadCover = (file: File) => {
         // get the upload uri
         ApolloBrandUploadCover({
             variables: {
@@ -47,7 +59,7 @@ const CoverUpload = (props) => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("CoverUpload:" + data.payload.filename);
-                    props.handleSuccess(data.payload.filename);
+                    handleSuccess(data.payload.filename);
                     alert("Upload Cover Successful!");
                 })
                 .catch((error) => {
@@ -57,7 +69,7 @@ const CoverUpload = (props) => {
     };
 
     //function to use apollo uplooad store cover
-    const storeUploadCover = (file) => {
+    const storeUploadCover = (file: File) => {
         // get the upload uri
         ApolloStoreUploadCover({
             variables: {
@@ -80,7 +92,7 @@ const CoverUpload = (props) => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("CoverUpload:" + data.payload.filename);
-                    props.handleSuccess(data.payload.filename);
+                    handleSuccess(data.payload.filename);
                     alert("Upload Cover Successful!");
                 })
                 .catch((error) => {
@@ -91,7 +103,7 @@ const CoverUpload = (props) => {
 
 
 
-    const adsUploadImage = (file) => {
+    const adsUploadImage = (file: File) => {
         // get the upload uri
         ApolloAdsUploadImage({
             variables: {
@@ -114,7 +126,7 @@ const CoverUpload = (props) => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("Advertisement Image Upload:" + data.payload.filename);
-                    props.handleSuccess(data.payload.filename);
+                    handleSuccess(data.payload.filename);
                     alert("Upload Advertisement Image Successful!");
                 })
                 .catch((error) => {
@@ -123,13 +135,15 @@ const CoverUpload = (props) => {
         });
     };
 
-    const handleChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedImage(URL.createObjectURL(file));
-        if (event.target.files.length > 0) {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files && event.target.files[0];
+
+        if (file) {
+            setSelectedImage(URL.createObjectURL(file));
+
             // a file was selected, proceed with the upload
             console.log("file selected");
-            switch (props.type) {
+            switch (type) {
                 case "brand":
                     brandUploadCover(file);
                     break;
@@ -161,14 +175,14 @@ const CoverUpload = (props) => {
                         alt="brand_cover"
                         width="100%"
                         height="100%"
-                        src={selectedImage || props.imagePlaceHolder}
+                        src={selectedImage || imagePlaceHolder}
                         style={{
                             cursor: "pointer", borderRadius: "12px"
                         }}
                         onClick={handleClick}
                     />
                     <Box className="img_overlay cover_overlay">
-                        <Box className="hover-text">{stringPlaceHolder[props.type]}</Box>
+                        <Box className="hover-text">{stringPlaceHolder[type]}</Box>
                     </Box>
                 </Box>
                 <input

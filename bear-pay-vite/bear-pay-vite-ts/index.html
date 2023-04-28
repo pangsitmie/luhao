@@ -9,8 +9,13 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- <script async
+    <script async
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArgiiJMKaInoFX55MJyORPdi932LqL66Y&libraries=places&region=TW&language=zh-TW&callback=initMap">
-    </script> -->
+    </script>
+     <script>
+      function initMap() {
+        console.log('initMap')
+      }
+    </script>
   </body>
 </html>
