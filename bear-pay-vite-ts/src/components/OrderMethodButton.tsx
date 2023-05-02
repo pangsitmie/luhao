@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { IconButton } from '@mui/material';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 
+type Props = {
+    CALLBACK_FUNCTION: (newMethod: string) => void
+}
 
-
-const OrderMethodButton = ({ CALLBACK_FUNCTION }) => {
+const OrderMethodButton = ({ CALLBACK_FUNCTION }: Props) => {
     const [isDescending, setIsDescending] = useState(false);
 
     const handleClick = () => {

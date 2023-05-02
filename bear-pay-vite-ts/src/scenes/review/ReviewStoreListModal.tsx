@@ -1,80 +1,60 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect, useRef } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { useQuery, useLazyQuery } from "@apollo/client";
-import { GetStore, UpdateStore, RemoveStore, UnbanStore, GetStoreReviewData } from "../../graphQL/Queries";
-import PlacesAutocomplete, {
-    geocodeByAddress,
-    getLatLng,
-} from 'react-places-autocomplete';
-import ConfirmModal from "../../components/Modal/ConfirmModal";
+import { useQuery } from "@apollo/client";
+import { GetStoreReviewData } from "../../graphQL/Queries";
+
 import { areaData } from "../../data/cityData";
-import { default_cover_900x300_filename } from "../../data/strings";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Loader from "../../components/loader/Loader";
 import Error from "../../components/error/Error";
-import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import RejectReviewButton from "./RejectReviewButton";
 import AcceptReviewButton from "./AcceptReviewButton";
-
-const checkoutSchema = yup.object().shape({
-    name: yup.string().required("required"),
-    status: yup.string().required("required"),
-    // intro: yup.string().required("required"),
-    brandId: yup.string().required("required"),
-    brandName: yup.string().required("required"),
-    // location_address: yup.string().required("required"),
-    principalName: yup.string().required("required"),
-    // principalPassword: yup.string().required("required"),
-    principalLineUrl: yup.string().required("required"),
-    principalEmail: yup.string().email("invalid email"),
-});
+import { ReviewItemType } from "../../types/Review";
 
 
-export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
+type Props = {
+    props: ReviewItemType;
+    onUpdate: () => void;
+    showButtons: boolean;
+};
 
-    console.log(props);
+const checkoutSchema = yup.object().shape({});
 
-    const { entityName } = useSelector((state) => state.entity);
+
+export default function ReviewStoreListModal({ props, onUpdate, showButtons }: Props) {
     const { t } = useTranslation();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [modal, setModal] = useState(false);
     const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
-        setStatus(event.target.value);
-    };
 
-    //  ========================== PASSWORD VISIBILITY ==========================
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details");
 
 
     // ========================== CITY ==========================
     const [cityFilter, setCityFilter] = useState('');
-    const [areaFilter, setAreaFilter] = useState([]); // list of area based on the city
+    const [areaFilter, setAreaFilter] = useState<string[]>([]); // list of area based on the city
     const [selectedArea, setSelectedArea] = useState(''); // selected area
 
-    const handleCityChange = (event) => {
-        setCityFilter(event.target.value);
-        setAreaFilter(areaData[event.target.value]);
+    const handleCityChange = (event: SelectChangeEvent<string>) => {
+        const selectedCity: string = event.target.value;
+        const selectedAreaData: string[] = areaData[selectedCity];
+        setCityFilter(selectedCity);
+        setAreaFilter(selectedAreaData);
         setSelectedArea('');
     };
-    const handleAreaChange = (event) => {
+
+    const handleAreaChange = (event: SelectChangeEvent<string>) => {
         setSelectedArea(event.target.value);
     };
+
 
 
     const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
@@ -90,18 +70,10 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
 
 
     const [initialValues, setInitialValues] = useState({
-        id: -1,
-        brandId: -1,
-        brandName: "",
+        id: "",
         name: "",
         intro: "",
-        //locations get from location state
-        status: "",
-
-
         principalName: "",
-        principalAccount: "",
-        principalPassword: "",
         principalLineUrl: "https://lin.ee/",
         principalEmail: "",
     });
@@ -128,17 +100,10 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
             console.log(nonNullData);
             setInitialValues({
                 id: props.id,
-                // status: nonNullData.status,
                 name: nonNullData.name,
                 intro: nonNullData.intro,
-                // brandId: nonNullData.brand.id,
-                // brandName: nonNullData.brand.name,
-                // city, district, and address is used in state
                 principalName: nonNullData.principalName,
-                // principalAccount: nonNullData.principal.account,
                 principalEmail: nonNullData.principalEmail,
-                principalPassword: "",
-                // princiapall password doesnt receive api data
                 principalLineUrl: nonNullData.principalLineUrl,
             });
 
@@ -150,6 +115,7 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
             setCityFilter(dataInit.getStoreReviewData[0].city);
             //set area
             setAreaFilter(areaData[dataInit.getStoreReviewData[0].city]);
+
             setSelectedArea(dataInit.getStoreReviewData[0].district);
             //set location
             setLocation((prevState) => ({
@@ -165,14 +131,10 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
 
 
     const [coverFileName, setCoverFileName] = useState("");
-    const handleUploadCoverSucess = (name) => {
-        setCoverFileName(name);
-    };
 
 
-    const handleFormSubmit = (values) => {
 
-    };
+    const handleFormSubmit = () => { };
 
     const toggleModal = () => {
         setModal(!modal);
@@ -196,7 +158,10 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -246,7 +211,7 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
 
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"store"} />
+                                                    <CoverUpload handleSuccess={() => { }} imagePlaceHolder={getImgURL(coverFileName, "cover") || ''} type={"store"} />
                                                 </Box>
                                             </Box>
 
@@ -277,24 +242,8 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
                                                     name="intro"
                                                     error={!!touched.intro && !!errors.intro}
                                                     helperText={touched.intro && errors.intro}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
-                                                { }
-                                                <FormControl sx={{ minWidth: 150 }} >
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
-                                                    <Select
-                                                        disabled={true}
-                                                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        value={status}
-                                                        label="status"
-                                                        onChange={handleStatusChange}
-                                                    >
-                                                        <MenuItem value={"normal"}>{t('normal')}</MenuItem>
-                                                        <MenuItem value={"disable"}>{t('disable')}</MenuItem>
-                                                    </Select>
-                                                </FormControl>
                                             </Box>
 
 
@@ -352,8 +301,6 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
                                                     onChange={handleChange}
                                                     value={address}
                                                     name="address"
-                                                    error={!!touched.address && !!errors.address}
-                                                    helperText={touched.address && errors.address}
                                                     sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
@@ -407,35 +354,6 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }) {
                                                     helperText={touched.principalEmail && errors.principalEmail}
                                                     sx={{ margin: " 0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-                                                {/* PASSWORD INPUT */}
-                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">{`${t('password')} ${t('optional')}`}</InputLabel>
-                                                    <FilledInput
-                                                        disabled={true}
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        value={values.principalPassword}
-                                                        name="principalPassword"
-                                                        error={!!touched.principalPassword && !!errors.principalPassword}
-                                                        type={showPassword ? 'text' : 'password'}
-                                                        endAdornment={
-                                                            <InputAdornment position="end">
-                                                                <IconButton
-                                                                    aria-label="toggle password visibility"
-                                                                    onClick={handleClickShowPassword}
-                                                                    onMouseDown={handleMouseDownPassword}
-                                                                    edge="end"
-                                                                >
-                                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        }
-                                                    />
-                                                    <FormHelperText
-                                                        error={!!touched.principalPassword && !!errors.principalPassword}>
-                                                        {touched.principalPassword && errors.principalPassword}
-                                                    </FormHelperText>
-                                                </FormControl>
                                             </Box>
 
                                             {showButtons && (

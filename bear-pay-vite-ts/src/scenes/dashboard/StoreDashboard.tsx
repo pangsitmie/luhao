@@ -1,10 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
-
-import App from '../../App';
-import "../../index.css";
 // THEME
-import { ColorModeContext, tokens } from "../../theme";
+import { tokens } from "../../theme";
 import { Box, Typography, useTheme } from "@mui/material";
 
 
@@ -16,16 +13,18 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import StatBox from "../../components/StatBox";
-import StatPercentBox from 'src/components/StatPercentBox';
+import StatPercentBox from '../../components/StatPercentBox';
 
 
-import { GetStoreStatistic, GetStoreStatisticPeriod } from 'src/graphQL/Queries';
-import { STORE_GetStoreInfo } from 'src/graphQL/StorePrincipalQueries';
-import Loader from 'src/components/loader/Loader';
-import Error from 'src/components/error/Error';
+import { GetStoreStatistic, GetStoreStatisticPeriod } from '../../graphQL/Queries';
+import { STORE_GetStoreInfo } from '../../graphQL/StorePrincipalQueries';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 import { useTranslation } from 'react-i18next';
 
-
+import "../../index.css";
+import { currencyFormatter, getCurrentDate, getCurrentEpoch, getToday6amEpoch, getTodayEpoch, numberFormatter } from '../../utils/Utils';
+import { StatisticPeriod, StatisticTotal } from '../../types/Statistic';
 
 const StoreDashboard = () => {
     //THEME
@@ -39,7 +38,7 @@ const StoreDashboard = () => {
     });
 
 
-    const { loading, error, data } = useQuery(STORE_GetStoreInfo);
+    const { data } = useQuery(STORE_GetStoreInfo);
     useEffect(() => {
         if (data) {
             setName(data.getStorePrincipal.name);
@@ -56,9 +55,6 @@ const StoreDashboard = () => {
     useEffect(() => {
         setStartAtDateEpoch((new Date(startAtDate).getTime() / 1000) - 7200);
     }, [startAtDate]);
-    function handleStartAtDateChange(event) {
-        setStartAtDate(event.target.value);
-    }
 
     const [endAtDate, setEndAtDate] = useState(getCurrentDate());
     useEffect(() => {
@@ -68,15 +64,19 @@ const StoreDashboard = () => {
             setEndAtDateEpoch(((new Date(endAtDate).getTime() / 1000) - 7201));
         }
     }, [endAtDate]);
-    function handleEndAtDateChange(event) {
-        setEndAtDate(event.target.value);
-    }
 
 
     const [startAtDateEpoch, setStartAtDateEpoch] = useState(getToday6amEpoch());
     const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
 
-    const [displayStatistic, setDisplayStatistic] = useState({});
+    const [displayStatistic, setDisplayStatistic] = useState<StatisticTotal>({
+        coinAmountTotal: 0,
+        coinQuantityTotal: 0,
+        giftAmountTotal: 0,
+        giftQuantityTotal: 0,
+        revenueRate: 0,
+        giftRate: 0
+    });
     const { loading: loadingStore, error: errorStore, data: dataStore } = useQuery(GetStoreStatistic, {
         variables: {
             args: [
@@ -98,7 +98,7 @@ const StoreDashboard = () => {
     }, [dataStore]);
 
     // ================================ GRAPH ================================
-    const [lineData, setLineData] = useState([]);
+    const [lineData, setLineData] = useState<StatisticPeriod[]>([]);
 
     const { loading: loadingStorePeriod, error: errorStorePeriod, data: dataStorePeriod } = useQuery(GetStoreStatisticPeriod, {
         variables: {
@@ -127,7 +127,7 @@ const StoreDashboard = () => {
 
 
     for (const item of lineData) {
-        let x = item.timestamp;
+        let x = item.timestamp.toString();
 
         x = new Date(item.timestamp * 1000).toLocaleString("default", {
             day: "numeric",
@@ -142,8 +142,8 @@ const StoreDashboard = () => {
     finalData.push({ id: t('total_expense'), color: "#fb8500", data: giftAmountTotal });
 
 
-    if (loadingStore, loadingStorePeriod) return <Loader />;
-    if (errorStore, errorStorePeriod) return <Error />;
+    if (loadingStorePeriod) return <Loader />;
+    if (errorStorePeriod) return <Error />;
 
     return (
         <Box m="20px">
@@ -357,54 +357,3 @@ const StoreDashboard = () => {
 }
 
 export default StoreDashboard
-
-const defaultOptions = {
-    significantDigits: '0',
-    thousandsSeparator: ',',
-    decimalSeparator: '.',
-    symbol: 'NT'
-}
-
-const currencyFormatter = (value, options) => {
-    if (typeof value !== 'number') value = 0.0
-    options = { ...defaultOptions, ...options }
-    value = value.toFixed(options.significantDigits)
-
-    const [currency, decimal] = value.split('.')
-    return `${options.symbol} ${currency.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        options.thousandsSeparator
-    )}`
-}
-
-const numberFormatter = (value, options) => {
-    if (typeof value !== 'number') value = 0.0
-    options = { ...defaultOptions, ...options }
-    value = value.toFixed(options.significantDigits)
-
-    const [number] = value.split('.')
-    return `${number.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        options.thousandsSeparator
-    )}`
-}
-
-const getCurrentDate = () => {
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = ("0" + (date.getMonth() + 1)).slice(-2)
-    const day = ("0" + date.getDate()).slice(-2)
-
-
-    return `${year}-${month}-${day}`
-}
-
-const getTodayEpoch = () => {
-    return (new Date(getCurrentDate()).getTime() / 1000);
-}
-const getCurrentEpoch = () => {
-    return Math.floor(new Date().getTime() / 1000);
-}
-const getToday6amEpoch = () => {
-    return (new Date(getCurrentDate() + " 06:00:00").getTime() / 1000);
-}

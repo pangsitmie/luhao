@@ -4,23 +4,24 @@ import { useQuery } from '@apollo/client'
 
 // THEME
 import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "src/theme";
+import { ColorModeContext, tokens } from "../../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import CreateCommodityModal from './CreateCommodityModal';
-import CommodityListModal from './CommodityListModal';
-import { GetCommodityList, HealthCheck } from 'src/graphQL/Queries';
-import Pagination from 'src/components/Pagination';
-import Refresh from 'src/components/Refresh';
+// import CreateCommodityModal from './CreateCommodityModal';
+// import CommodityListModal from './CommodityListModal';
+import { HealthCheck } from '../../../graphQL/Queries';
+
 
 // QRCODE
-import Loader from 'src/components/loader/Loader';
-import Error from 'src/components/error/Error';
+import Loader from '../../../components/loader/Loader';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { getRESTEndpoint } from 'src/utils/Utils';
+import { getRESTEndpoint } from '../../../utils/Utils';
 import { toast } from 'react-toastify';
+import Commodity from '../../../types/Commodity';
+import CommodityListModal from './CommodityListModal';
+import CreateCommodityModal from './CreateCommodityModal';
 
 
 const CommodityManagement = () => {
@@ -36,19 +37,21 @@ const CommodityManagement = () => {
   // ====================== STATES ======================
   // LOADING STATE
   const [loadingState, setLoadingState] = useState(false);
-  const handleLoadingState = (loading) => {
-    setLoadingState(loading);
-  }
 
 
-  const [initCommodityDatas, setInitCommodityDatas] = useState([]);
-  const [commodityDatas, setCommodityDatas] = useState([]);
+  const [initCommodityDatas, setInitCommodityDatas] = useState<Commodity[]>([]);
+  const [commodityDatas, setCommodityDatas] = useState<Commodity[]>([]);
 
   //REF
-  const searchRef = useRef('');
+  const searchValueRef = useRef<HTMLInputElement>(null);
 
   // ====================== GET MACHINE LIST REST ======================
-  const { loading: loadingHealthCheck, error: errorHealthCheck, data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
+  const { refetch: refetchHealthCheck } = useQuery(HealthCheck);
+
+  const [refetchCount, setRefetchCount] = useState(0);
+  const triggerRefetch = () => {
+    setRefetchCount(refetchCount + 1);
+  };
 
   const REST_FetchCommodityList = async () => {
     const MAX_RETRY_ATTEMPTS = 3;
@@ -98,16 +101,17 @@ const CommodityManagement = () => {
 
   useEffect(() => {
     REST_FetchCommodityList();
-  }, []);
+  }, [refetchCount]);
 
 
 
   //FUNCTIONS
-  const submitSearch = () => {
+  const submitSearch = (): void => {
     //CALL SEARCH FUNCTION
-    let value = searchRef.current.value;
-    if (value.length > 2) {
-      let search = arraySearch(commodityDatas, value);
+    let searchValue = searchValueRef.current?.value || "";
+
+    if (searchValue.length > 2) {
+      let search = arraySearch(commodityDatas, searchValue);
       setCommodityDatas(search)
     } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
       setCommodityDatas(initCommodityDatas)
@@ -115,18 +119,17 @@ const CommodityManagement = () => {
   }
 
   //SEARCH FUNCTION
-  const arraySearch = (array, keyword) => {
+  const arraySearch = (array: Commodity[], keyword: string) => {
     const searchTerm = keyword
 
     return array.filter(value => {
-      return value.code.match(new RegExp(searchTerm, 'g')) ||
-        value.name.match(new RegExp(searchTerm, 'g'))
+      return value.name.match(new RegExp(searchTerm, 'g'))
     })
   }
 
 
   return (
-    <Box p={2} position="flex" flexDirection={"column"}>
+    <Box p={2} display="flex" flexDirection={"column"}>
       <Box height={"15%"}>
         <h1 className='userManagement_title'>{state.data.name} - {t('products')}</h1>
       </Box>
@@ -136,11 +139,13 @@ const CommodityManagement = () => {
         {/* name Search */}
         <Box
           display="flex"
-          backgroundColor={colors.primary[400]}
           borderRadius="10px"
           height={"52px"}
-          maxWidth={150}>
-          <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder={t('product_name')} inputRef={searchRef} />
+          maxWidth={150}
+          sx={{
+            backgroundColor: colors.primary[400],
+          }}>
+          <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder={t('product_name') || ''} inputRef={searchValueRef} />
         </Box>
 
         {/* SEARCH BTN */}
@@ -175,33 +180,26 @@ const CommodityManagement = () => {
 
       {/* TABLE DIV */}
       <Box
-        backgroundColor={colors.primary[400]}
         borderRadius="10px"
         height={"45%"}
+        sx={{
+          backgroundColor: colors.primary[400],
+        }}
       >
         {/* PAGINATION & REFRESH DIV */}
         <Box
           display="flex"
           justifyContent="center"
           borderBottom={`0px solid ${colors.primary[500]}`}
-          colors={colors.grey[100]}
           p="15px"
         >
-          <Box width={"90%"}>
-            {/* pagination */}
-            {/* <Pagination
-              limit={limit}
-              offset={offset}
-              onPageChange={handlePageChange}
-            /> */}
-          </Box>
+
         </Box>
         <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
           borderBottom={`4px solid ${colors.primary[500]}`}
-          background={colors.grey[300]}
           p="10px"
         >
           <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -214,13 +212,15 @@ const CommodityManagement = () => {
             <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('stock')}</Typography>
           </Box>
           <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('detail')}</Typography>
+            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('add_transaction')}</Typography>
+          </Box>
+          <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
+            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('details')}</Typography>
           </Box>
         </Box>
 
         {/* machine data map here */}
         <Box
-          backgroundColor={colors.primary[400]}
           borderRadius="10px"
           height={"100%"}
           overflow={"auto"}
@@ -238,7 +238,7 @@ const CommodityManagement = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                borderBottom={`3px solid ${colors.primary[500]}`}
+                borderBottom={i === commodityDatas.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                 p="10px"
               >
                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
@@ -249,7 +249,14 @@ const CommodityManagement = () => {
                   display={"flex"}
                   alignItems={"center"} justifyContent={"center"}
                   borderRadius="4px">
-                  <CommodityListModal props={item} />
+                  <CommodityListModal props={item} onUpdate={triggerRefetch} />
+                </Box>
+                <Box
+                  width={"25%"}
+                  display={"flex"}
+                  alignItems={"center"} justifyContent={"center"}
+                  borderRadius="4px">
+                  <CommodityListModal props={item} onUpdate={triggerRefetch} />
                 </Box>
               </Box>
             ))}

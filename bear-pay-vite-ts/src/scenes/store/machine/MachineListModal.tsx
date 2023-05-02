@@ -39,8 +39,6 @@ interface FormValues {
     desc: string;
     coin: string;
     gift: string;
-
-
 }
 
 

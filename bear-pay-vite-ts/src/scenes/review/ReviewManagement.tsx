@@ -1,28 +1,27 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react'
 // QUERIES
 import { useQuery } from '@apollo/client'
 import { GetReviewList } from '../../graphQL/Queries'
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
-import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { unixTimestampToDatetimeLocal } from 'src/utils/Utils';
+import { unixTimestampToDatetimeLocal } from '../../utils/Utils';
+// import ReviewBrandListModal from './ReviewBrandListModal';
+// import ReviewStoreListModal from './ReviewStoreListModal';
+// import ReviewMachineListModal from './ReviewMachineListModal';
+import ReviewBonusGameListModal from './ReviewBonusGameListModal';
+import { ReviewItemType } from '../../types/Review';
 import ReviewBrandListModal from './ReviewBrandListModal';
 import ReviewStoreListModal from './ReviewStoreListModal';
 import ReviewMachineListModal from './ReviewMachineListModal';
-import { toast } from 'react-toastify';
-import ReviewBonusGameListModal from './ReviewBonusGameListModal';
 
 
 const ReviewManagement = () => {
-    const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
 
     //========================== THEME ==========================
@@ -31,20 +30,12 @@ const ReviewManagement = () => {
 
     // ========================== STATES AND HANDLERS ==========================
 
-    const [filter, setFilter] = useState('');
-    const handleFilterChange = (e) => {
-        setFilter(e.target.value);
-    };
 
     const [status, setStatus] = useState('');
-    const handleStatusChange = (e) => {
+    const handleStatusChange = (e: SelectChangeEvent<string>) => {
         setStatus(e.target.value);
     };
 
-    const [review, setReview] = useState('');
-    const handleReviewChange = (e) => {
-        setReview(e.target.value);
-    };
 
     const [refetchCount, setRefetchCount] = useState(0);
     const triggerRefetch = () => {
@@ -58,16 +49,10 @@ const ReviewManagement = () => {
 
     // ========================== REF ==========================
     const searchValueRef = useRef('');
-    const filterRef = useRef('');
 
     //========================== GRAPHQL ==========================
 
-    const [initNotReviewedItems, setInitNotReviewedItems] = useState([]);
-    const [notReviewedItems, setnotReviewedItems] = useState([]);
-
-    const [initReviewedItems, setInitReviewedItems] = useState([]);
-    const [reviewedItems, setReviewedItems] = useState([]);
-
+    const [notReviewedItems, setnotReviewedItems] = useState<ReviewItemType[]>([]);
 
 
     const { loading: loadingNotReviewed, error: errorNotReviewed, data: dataNotReviewed, refetch: refetchNotReviewed } = useQuery(GetReviewList, {
@@ -76,54 +61,19 @@ const ReviewManagement = () => {
         }
     });
 
-    // const { loading: loadingReviewed, error: errorReviewed, data: dataReviewed, refetch: refetchReviewed } = useQuery(GetReviewList, {
-    //     variables: {
-    //         onlyNotReview: false,
-    //     }
-    // });
-
     useEffect(() => {
         if (dataNotReviewed) {
-            setInitNotReviewedItems(dataNotReviewed.getReviewList); //all brand datas
             setnotReviewedItems(dataNotReviewed.getReviewList); //datas for display   
         }
-        // if (dataReviewed) {
-        //     setInitReviewedItems(dataReviewed.getReviewList); //all brand datas
-        //     setReviewedItems(dataReviewed.getReviewList); //datas for display         
-        // }
     }, [dataNotReviewed]);
 
-    // ========================== FUNCTIONS ==========================
-    const submitSearch = () => {
-        // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
-
-        //CALL SEARCH FUNCTION
-        let value = searchValueRef.current.value;
-        if (value.length > 2) {
-            let search = arraySearch(reviewedItems, value);
-            setnotReviewedItems(search)
-        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setnotReviewedItems(initNotReviewedItems)
-        }
-    };
-
-    //SEARCH FUNCTION
-    const arraySearch = (array, keyword, filter) => {
-        const searchTerm = keyword
-
-        return array.filter(value => {
-            return value.name.match(new RegExp(searchTerm, 'g')) ||
-                value.principal.name.match(new RegExp(searchTerm, 'g'))
-        })
-    }
 
     if (loadingNotReviewed) return <Loader />;
     if (errorNotReviewed) return <Error />;
     // ========================== RETURN ==========================
     return (
         // here
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>{t("review")}</h1>
             </Box>
@@ -133,11 +83,13 @@ const ReviewManagement = () => {
                 {/* name Search */}
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}
-                    maxWidth={140}>
-                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('name')} inputRef={searchValueRef} />
+                    maxWidth={140}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}>
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('name') || ''} inputRef={searchValueRef} />
                 </Box>
                 <FormControl sx={{ width: 100 }} >
                     <InputLabel id="demo-simple-select-label" >{t('status')}</InputLabel>
@@ -155,39 +107,26 @@ const ReviewManagement = () => {
                     </Select>
                 </FormControl>
 
-                {/* SEARCH BTN */}
-                <Button sx={{
-                    backgroundColor: colors.primary[300],
-                    color: colors.grey[100],
-                    minWidth: "120px",
-                    height: "52px",
-                    borderRadius: "10px",
-                    ':hover': {
-                        bgcolor: colors.primary[300],
-                        border: '1px solid white',
-                    }
-                }}
-                    onClick={submitSearch}>
-                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
-                    <Typography color={"white"} variant="h5" fontWeight="500" sx={{ textTransform: "capitalize" }}>
-                        {t("search")}
-                    </Typography>
-                </Button>
+
             </Box>
 
             {/* TABLE DIV */}
             <Box display={"flex"} gap={"1rem"}>
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"50%"}
                     width={"100%"}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}
                 >
                     {/* PAGINATION & REFRESH DIV */}
                     <Box
                         borderBottom={`0px solid ${colors.primary[500]}`}
-                        colors={colors.grey[100]}
                         p="15px 25px"
+                        sx={{
+                            color: colors.grey[100],
+                        }}
                     >
                         <Typography color={colors.grey[100]} variant="h4" fontWeight="600">{t('待審核')}</Typography>
                     </Box>
@@ -196,7 +135,6 @@ const ReviewManagement = () => {
                         justifyContent="space-between"
                         alignItems="center"
                         borderBottom={`4px solid ${colors.primary[500]}`}
-                        background={colors.grey[300]}
                         p="10px"
                     >
                         <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -215,10 +153,12 @@ const ReviewManagement = () => {
 
                     {/* here */}
                     <Box
-                        backgroundColor={colors.primary[400]}
                         borderRadius="10px"
                         height={"100%"}
                         overflow={"auto"}
+                        sx={{
+                            backgroundColor: colors.primary[400],
+                        }}
                     >
                         {/* MAP DATA */}
                         {notReviewedItems.map((item, i) => (
@@ -232,7 +172,7 @@ const ReviewManagement = () => {
                             >
                                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.reviewId}</Box>
                                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.type}</Box>
-                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(item.createdAt)}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(parseInt(item.createdAt))}</Box>
                                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                     {
                                         item.type === "brand" ?

@@ -14,6 +14,15 @@ import BrandManagement from "./scenes/brandManagement/BrandManagement";
 import BillboardManagement from "./scenes/brandManagement/billboardManagement/BillboardManagement";
 import StoreManagement from "./scenes/store/StoreManagement";
 import MachineManagement from "./scenes/store/machine/MachineManagement";
+import StatisticList from "./scenes/statistics/StatisticList";
+import CommodityManagement from "./scenes/store/commodity/CommodityManagement";
+import StatisticManagement from "./scenes/statistics/StatisticManagement";
+import FinanceStatistic from "./scenes/statistics/FinanceStatistic";
+import MachineStatisticPeriod from "./scenes/statistics/MachineStatisticPeriod";
+import BrandDashboard from "./scenes/dashboard/BrandDashboard";
+import StoreDashboard from "./scenes/dashboard/StoreDashboard";
+import BonusGameManagement from "./scenes/bonusGame/BonusGameManagement";
+import ReviewManagement from "./scenes/review/ReviewManagement";
 
 
 
@@ -113,10 +122,10 @@ const App = () => {
                         path="/store-management"
                         element={<StoreManagement />}
                       />
-                      {/* <Route
+                      <Route
                         path="/commodity-management"
                         element={<CommodityManagement />}
-                      /> */}
+                      />
                       <Route
                         path="/machine-management"
                         element={<MachineManagement />}
@@ -151,7 +160,7 @@ const App = () => {
                       /> */}
 
                       {/* STATISTIC */}
-                      {/* <Route path="/statistic" element={<StatisticList />} />
+                      <Route path="/statistic" element={<StatisticList />} />
                       <Route
                         path="/statistic-management"
                         element={<StatisticManagement />}
@@ -163,20 +172,20 @@ const App = () => {
                       <Route
                         path="/statistic-management/machine"
                         element={<MachineStatisticPeriod />}
-                      /> */}
+                      />
 
                       {/* <Route path="/promotion" element={<Promotion />} /> */}
                       {/* SYSTEM */}
                       {/* <Route path="/version" element={<VersionManagement />} /> */}
 
                       {/* REVIEW */}
-                      {/* <Route path="/review" element={<ReviewManagement />} /> */}
+                      <Route path="/review" element={<ReviewManagement />} />
                     </>
                   ) : entityName === "brand" ? (
                     <>
-                      {/* <Route path="/" element={<BrandDashboard />} />
+                      <Route path="/" element={<BrandDashboard />} />
                       <Route path="/dashboard" element={<BrandDashboard />} />
-                      <Route path="/setting" element={<Setting />} /> */}
+                      {/* <Route path="/setting" element={<Setting />} /> */}
 
                       <Route
                         path="/brand-management"
@@ -190,29 +199,29 @@ const App = () => {
                         path="/store-management"
                         element={<StoreManagement />}
                       />
-                      {/* <Route
+                      <Route
                         path="/commodity-management"
                         element={<CommodityManagement />}
                       />
-                      <Route
+                      {/* <Route
                         path="/reward-management"
                         element={<RewardManagement />}
-                      />
+                      /> */}
                       <Route
                         path="/machine-management"
                         element={<MachineManagement />}
                       />
-                      <Route
+                      {/* <Route
                         path="/brand-coins"
                         element={<BrandCoinManagement />}
-                      /> */}
+                      />  */}
                       {/* <Route
                         path="/gift-code"
                         element={<GiftCodeManagement />}
                       /> */}
 
                       {/* STATISTIC */}
-                      {/* <Route path="/statistic" element={<StatisticList />} />
+                      <Route path="/statistic" element={<StatisticList />} />
                       <Route
                         path="/statistic-management"
                         element={<StatisticManagement />}
@@ -224,26 +233,26 @@ const App = () => {
                       <Route
                         path="/statistic-management/machine"
                         element={<MachineStatisticPeriod />}
-                      /> */}
+                      />
 
                       {/* REVIEW */}
-                      {/* <Route path="/review" element={<ReviewManagement />} /> */}
+                      <Route path="/review" element={<ReviewManagement />} />
                     </>
                   ) : entityName === "store" ? (
                     <>
-                      {/* <Route path="/" element={<StoreDashboard />} />
+                      <Route path="/" element={<StoreDashboard />} />
                       <Route path="/dashboard" element={<StoreDashboard />} />
-                      <Route path="/setting" element={<Setting />} /> */}
+                      {/* <Route path="/setting" element={<Setting />} /> */}
 
                       <Route
                         path="/store-management"
                         element={<StoreManagement />}
                       />
-                      {/* <Route
+                      <Route
                         path="/commodity-management"
                         element={<CommodityManagement />}
                       />
-                      <Route
+                      {/* <Route
                         path="/reward-management"
                         element={<RewardManagement />}
                       /> */}
@@ -251,13 +260,13 @@ const App = () => {
                         path="/machine-management"
                         element={<MachineManagement />}
                       />
-                      {/* <Route
+                      <Route
                         path="/bonus-game"
                         element={<BonusGameManagement />}
-                      /> */}
+                      />
 
                       {/* STATISTIC */}
-                      {/* <Route path="/statistic" element={<StatisticList />} />
+                      <Route path="/statistic" element={<StatisticList />} />
                       <Route
                         path="/statistic-management"
                         element={<StatisticManagement />}
@@ -269,7 +278,7 @@ const App = () => {
                       <Route
                         path="/statistic-management/machine"
                         element={<MachineStatisticPeriod />}
-                      /> */}
+                      />
 
                       {/* REVIEW */}
                       {/* <Route path="/review" element={<ReviewManagement />} /> */}

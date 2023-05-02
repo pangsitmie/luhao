@@ -1,19 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
-import "src/components/Modal/modal.css";
-import { tokens } from "src/theme";
-import { GetCommodity, RemoveMachine, UnBanMachine } from "src/graphQL/Queries";
-import { replaceNullWithEmptyString } from "src/utils/Utils";
+import { useQuery, useMutation, DocumentNode } from '@apollo/client'
+import { tokens } from "../../../theme";
+import { GetCommodity } from "../../../graphQL/Queries";
+import { replaceNullWithEmptyString } from "../../../utils/Utils";
 import { useTranslation } from 'react-i18next';
 import { useSelector } from "react-redux";
-import { PatchCommodity } from "src/graphQL/Mutations";
-import { STORE_PatchCommodity } from "src/graphQL/StorePrincipalMutation";
-import { BRAND_PatchCommodity } from "src/graphQL/BrandPrincipalMutations";
+import { PatchCommodity } from "../../../graphQL/Mutations";
+import { STORE_PatchCommodity } from "../../../graphQL/StorePrincipalMutation";
+import { BRAND_PatchCommodity } from "../../../graphQL/BrandPrincipalMutations";
 import { toast } from "react-toastify";
+import Commodity from "../../../types/Commodity";
+import { RootState } from "../../../redux/store";
+import "../../../components/Modal/modal.css";
+
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -22,27 +24,36 @@ const checkoutSchema = yup.object().shape({
     // desc: yup.string().required("required"),
 });
 
+type Props = {
+    props: Commodity
+    onUpdate: () => void
+}
 
-export default function MachineListModal({ props }) {
-    const { entityName } = useSelector((state) => state.entity);
+interface FormValues {
+    id: string;
+    uuid: string;
+    name: string;
+    price: string;
+    stock: string;
+}
+
+export default function CommodityListModal({ props, onUpdate }: Props) {
+    const { entityName } = useSelector((state: RootState) => state.entity);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { t } = useTranslation();
     const [modal, setModal] = useState(false);
+
     //REF
-    const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
-        setStatus(event.target.value);
-    };
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update");
 
-
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
-    const [initialValues, setInitialValues] = useState({
-        id: 0,
-        UUID: "",
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        id: "",
+        uuid: "",
         name: "",
-        price: 0,
-        stock: 0,
+        price: "",
+        stock: "",
     });
 
 
@@ -50,7 +61,7 @@ export default function MachineListModal({ props }) {
 
 
     // ===================== INITIAL VALUES FROM GETMACHINE =====================
-    const { loading: loading3, error: error3, data: data3, refetch } = useQuery(GetCommodity
+    const { data: data3, refetch } = useQuery(GetCommodity
         , {
             variables: {
                 args: [
@@ -69,7 +80,7 @@ export default function MachineListModal({ props }) {
                 // ...initialValues,
                 // ...nonNullData
                 id: nonNullData.id,
-                UUID: nonNullData.uuid,
+                uuid: nonNullData.uuid,
                 name: nonNullData.name,
                 price: nonNullData.price,
                 stock: nonNullData.stock,
@@ -78,7 +89,7 @@ export default function MachineListModal({ props }) {
     }, [data3]);
 
 
-    let PATCH_COMMODITY_MUTATION;
+    let PATCH_COMMODITY_MUTATION: DocumentNode = PatchCommodity;
     switch (entityName) {
         case 'company':
             PATCH_COMMODITY_MUTATION = PatchCommodity;
@@ -96,17 +107,22 @@ export default function MachineListModal({ props }) {
     const [ApolloUpdateCommodity, { loading: loading4, error: error4, data: data4 }] = useMutation(PATCH_COMMODITY_MUTATION);
     useEffect(() => {
         if (data4) {
-            // onUpdate();
+            onUpdate();
             refetch();
             toast.success(t("update_success"));
-            // window.location.reload();
+        }
+        if (error4) {
+            console.log(error4);
+        }
+        if (loading4) {
+            console.log("Loading");
         }
     }, [data4]);
 
 
 
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         const variables = {
             commodityId: props.id,
             name: values.name,
@@ -139,7 +155,11 @@ export default function MachineListModal({ props }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500]
+                        }}
+                    >
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -158,39 +178,10 @@ export default function MachineListModal({ props }) {
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"} >
 
-                                            <Box display={"flex"} >
-                                                <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-                                                    <Typography variant="h2" sx={{ fontSize: "2rem", fontWeight: "600", color: colors.grey[200] }}>
-                                                        {modalTitle}
-                                                    </Typography>
-                                                    {(() => {
-                                                        if (initialValues.status === "disable") {
-                                                            return (
-                                                                <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
-                                                                    {t('disable')}
-                                                                </Typography>)
-                                                        }
-                                                        else if (initialValues.status === "banned") {
-                                                            return (
-                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    {t('banned')}
-                                                                </Typography>)
-                                                        }
-                                                        else if (initialValues.status === "removed") {
-                                                            return (
-                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    {t('removed')}
-                                                                </Typography>)
-                                                        }
-                                                        else {
-                                                            return (
-                                                                <Typography variant="h5" color={colors.greenAccent[300]} sx={{ margin: ".5rem 0" }}>
-                                                                    {t('normal')}
-                                                                </Typography>)
-                                                        }
-                                                    })()}
-
-                                                </Box>
+                                            <Box pb={"1.5rem"}>
+                                                <Typography variant="h2" sx={{ fontSize: "2rem", fontWeight: "600", color: colors.grey[200] }}>
+                                                    {modalTitle}
+                                                </Typography>
                                             </Box>
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
@@ -200,10 +191,10 @@ export default function MachineListModal({ props }) {
                                                 label="UUID"
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                value={values.UUID}
+                                                value={values.uuid}
                                                 name="UUID"
-                                                error={!!touched.UUID && !!errors.UUID}
-                                                helperText={touched.UUID && errors.UUID}
+                                                error={!!touched.uuid && !!errors.uuid}
+                                                helperText={touched.uuid && errors.uuid}
                                                 sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
 
@@ -272,7 +263,7 @@ export default function MachineListModal({ props }) {
                             </Formik>
                         </Box >
                     </Box>
-                </Box>
+                </Box >
             )
             }
         </>

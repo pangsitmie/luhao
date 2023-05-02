@@ -1,39 +1,37 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { GetBrandReviewData, } from "../../graphQL/Queries";
-import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { PatchBrand } from "src/graphQL/Mutations";
-import { BRAND_UpdateBrand } from "src/graphQL/BrandPrincipalQueries";
 import AcceptReviewButton from "./AcceptReviewButton";
 import RejectReviewButton from "./RejectReviewButton";
+import { RootState } from "../../redux/store";
+import { ReviewItemType } from "../../types/Review";
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
+
+
+type Props = {
+    props: ReviewItemType,
+    onUpdate: () => void,
+    showButtons: boolean
+}
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
-    // intro: yup.string().required("required"),
-    principalName: yup.string().required("required"),
-    principalLineUrl: yup.string().required("required"),
-    principalPassword: yup.string().matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"),
-    principalLineUrl: yup.string().required("required"),
-    vatNumber: yup.string().required("required"),
-    brandCoinName: yup.string().required("required"),
+
 });
 
 
-export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
-    const { entityName } = useSelector((state) => state.entity);
+export default function ReviewBrandListModal({ props, onUpdate, showButtons }: Props) {
     const { t } = useTranslation();
     // console.log(props.reviewId);
 
@@ -51,31 +49,23 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
         setModal(!modal);
     };
 
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
 
     const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
         setStatus(event.target.value);
     };
 
 
     //========================== INITIAL VALUES ==========================
     const [initialValues, setInitialValues] = useState({
-        id: -1,
+        id: "",
         status: "",
         name: "",
         intro: "",
-        principalName: "",
-        principaPhone: "",
-        principalPassword: "",
-        principalLineUrl: "",
-        principalEmail: "",
         vatNumber: "",
-        brandCoinName: "",
+        principalName: "",
+        principalEmail: "",
+        principalLineUrl: "",
     });
     //========================== GRAPHQL ==========================
 
@@ -83,7 +73,7 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
 
 
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = () => {
 
     };
 
@@ -97,6 +87,7 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
     );
     useEffect(() => {
         if (dataInit) {
+            console.log("brand data init")
             console.log(dataInit);
             const nonNullData = replaceNullWithEmptyString(dataInit.getBrandReviewData[0]);
 
@@ -107,8 +98,8 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
                 vatNumber: nonNullData.vatNumber,
                 intro: nonNullData.intro,
                 principalName: nonNullData.principalName,
-                principalLineUrl: nonNullData.principalLineUrl,
                 principalEmail: nonNullData.principalEmail,
+                principalLineUrl: nonNullData.principalLineUrl,
                 //password doesnt have initial value
             });
 
@@ -128,14 +119,10 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
 
     // =========================== FILE UPLOAD ===========================
     const [logoFileName, setLogoFileName] = useState('');
-    const handleUploadLogoSuccess = (name) => {
-        setLogoFileName(name);
-    };
+
 
     const [coverFileName, setCoverFileName] = useState('');
-    const handleUploadCoverSucess = (name) => {
-        setCoverFileName(name);
-    };
+
 
     //========================== RENDER ==========================
     if (modal) {
@@ -154,7 +141,10 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -175,39 +165,18 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
                                                 {modalTitle}
                                             </Typography>
 
-                                            <Box textAlign="center" display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                                {(() => {
-                                                    if (initialValues.status === "disable") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                                {t("disable")}
-                                                            </Typography>)
-                                                    }
-                                                    if (initialValues.status === "banned") {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                {t("banned")}
-                                                            </Typography>)
-                                                    }
-                                                    else {
-                                                        return (
-                                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                                {t("normal")}
-                                                            </Typography>)
-                                                    }
-                                                })()}
-                                            </Box>
+
 
                                             {/* UPLOAD LOGO & COVER BOX */}
                                             <Box display="flex" m={"1rem 0"} gap={".5rem"}>
                                                 <Box width={"30%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
                                                     {/* UPLOAD LOGO COMPONENT */}
-                                                    <LogoUpload handleSuccess={handleUploadLogoSuccess} imagePlaceHolder={getImgURL(logoFileName, "logo")} type={"brand"} />
+                                                    <LogoUpload handleSuccess={() => { }} imagePlaceHolder={getImgURL(logoFileName, "logo") || ''} type={"brand"} />
                                                 </Box>
 
                                                 <Box width={"70%"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadCoverSucess} imagePlaceHolder={getImgURL(coverFileName, "cover")} type={"brand"} />
+                                                    <CoverUpload handleSuccess={() => { }} imagePlaceHolder={getImgURL(coverFileName, "cover") || ''} type={"brand"} />
                                                 </Box>
                                             </Box>
 
@@ -239,24 +208,8 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
                                                     name="vatNumber"
                                                     error={!!touched.vatNumber && !!errors.vatNumber}
                                                     helperText={touched.vatNumber && errors.vatNumber}
-                                                    sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
-
-                                                <FormControl sx={{ minWidth: 150 }}>
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
-                                                    <Select
-                                                        disabled={true}
-                                                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        value={status}
-                                                        label="status"
-                                                        onChange={handleStatusChange}
-                                                    >
-                                                        <MenuItem value={"normal"}>{t('normal')}</MenuItem>
-                                                        <MenuItem value={"disable"}>{t('disable')}</MenuItem>
-                                                    </Select>
-                                                </FormControl>
                                             </Box>
 
                                             <TextField
@@ -280,50 +233,20 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
                                             <Typography variant="h5" sx={{ textAlign: "left", margin: "1rem 0 .5rem 0", color: colors.grey[200] }}>{t('principal_name')}</Typography>
 
 
-                                            <Box display={"flex"} justifyContent={"space-between"} >
-                                                <TextField
-                                                    fullWidth
-                                                    disabled={true}
-                                                    variant="filled"
-                                                    type="text"
-                                                    label={`${t('person_name')}`}
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principalName}
-                                                    name="principalName"
-                                                    error={!!touched.principalName && !!errors.principalName}
-                                                    helperText={touched.principalName && errors.principalName}
-                                                    sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-
-                                                {/* PASSWORD INPUT */}
-                                                <FormControl fullWidth variant="filled" sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }} >
-                                                    <InputLabel htmlFor="filled-adornment-password">{t("password")} {t('optional')}</InputLabel>
-                                                    <FilledInput
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        value={values.principalPassword}
-                                                        name="principalPassword"
-                                                        error={!!touched.principalPassword && !!errors.principalPassword}
-                                                        type={showPassword ? 'text' : 'password'}
-                                                        endAdornment={
-                                                            <InputAdornment position="end">
-                                                                <IconButton
-                                                                    aria-label="toggle password visibility"
-                                                                    onClick={handleClickShowPassword}
-                                                                    onMouseDown={handleMouseDownPassword}
-                                                                    edge="end"
-                                                                >
-                                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        }
-                                                    />
-                                                    <FormHelperText error={!!touched.principalPassword && !!errors.principalPassword}>
-                                                        {touched.principalPassword && errors.principalPassword}
-                                                    </FormHelperText>
-                                                </FormControl>
-                                            </Box>
+                                            <TextField
+                                                fullWidth
+                                                disabled={true}
+                                                variant="filled"
+                                                type="text"
+                                                label={`${t('person_name')}`}
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.principalName}
+                                                name="principalName"
+                                                error={!!touched.principalName && !!errors.principalName}
+                                                helperText={touched.principalName && errors.principalName}
+                                                sx={{ marginBottom: "1rem", mr: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
+                                            />
 
                                             <Box display={"flex"} justifyContent={"space-between"} >
                                                 <TextField
@@ -338,20 +261,6 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
                                                     name="principalLineUrl"
                                                     error={!!touched.principalLineUrl && !!errors.principalLineUrl}
                                                     helperText={touched.principalLineUrl && errors.principalLineUrl}
-                                                    sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                                />
-                                                <TextField
-                                                    disabled={true}
-                                                    fullWidth
-                                                    variant="filled"
-                                                    type="text"
-                                                    label={t("phone")}
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChange}
-                                                    value={values.principaPhone}
-                                                    name="principaPhone"
-                                                    error={!!touched.principaPhone && !!errors.principaPhone}
-                                                    helperText={touched.principaPhone && errors.principaPhone}
                                                     sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
 
@@ -371,20 +280,7 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }) {
                                                 />
                                             </Box>
 
-                                            <TextField
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                disabled={true}
-                                                label={t("brand_coin_name")}
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.brandCoinName}
-                                                name="brandCoinName"
-                                                error={!!touched.brandCoinName && !!errors.brandCoinName}
-                                                helperText={touched.brandCoinName && errors.brandCoinName}
-                                                sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
-                                            />
+
                                         </Box>
 
                                         {showButtons && (

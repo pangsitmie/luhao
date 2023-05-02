@@ -1,15 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useQuery } from '@apollo/client'
 
-import "../../index.css";
-import { GetBrandStatistic, GetBrandStatisticPeriod, GetStoreListByBrand, GetStoreStatistic } from '../../graphQL/Queries'
-import { BRAND_GetBrandInfo } from 'src/graphQL/BrandPrincipalQueries';
+import { GetBrandStatistic, GetBrandStatisticPeriod } from '../../graphQL/Queries'
+import { BRAND_GetBrandInfo } from '../../graphQL/BrandPrincipalQueries';
 
 // THEME
-import { ColorModeContext, tokens } from "../../theme";
+import { tokens } from "../../theme";
 import { Box, Typography, useTheme } from "@mui/material";
-import * as yup from "yup";
-
 
 import SavingsIcon from '@mui/icons-material/Savings';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -20,13 +17,17 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import StatBox from "../../components/StatBox";
-import StatPercentBox from 'src/components/StatPercentBox';
+import StatPercentBox from '../../components/StatPercentBox';
 
 
-import Loader from 'src/components/loader/Loader';
-import Error from 'src/components/error/Error';
+import Loader from '../../components/loader/Loader';
+import Error from '../../components/error/Error';
 
 import { useTranslation } from 'react-i18next';
+import { StatisticPeriod, StatisticTotal } from '../../types/Statistic';
+import { currencyFormatter, getCurrentDate, getCurrentEpoch, getToday6amEpoch, getTodayEpoch, numberFormatter } from '../../utils/Utils';
+import "../../index.css";
+
 
 const BrandDashboard = () => {
     const { t } = useTranslation();
@@ -41,7 +42,7 @@ const BrandDashboard = () => {
     });
 
     // GET BRAND INFO
-    const { loading, error, data } = useQuery(BRAND_GetBrandInfo);
+    const { data } = useQuery(BRAND_GetBrandInfo);
     useEffect(() => {
         if (data) {
             setName(data.getBrandPrincipal.name);
@@ -58,9 +59,7 @@ const BrandDashboard = () => {
     useEffect(() => {
         setStartAtDateEpoch((new Date(startAtDate).getTime() / 1000) - 7200);
     }, [startAtDate]);
-    function handleStartAtDateChange(event) {
-        setStartAtDate(event.target.value);
-    }
+
 
     const [endAtDate, setEndAtDate] = useState(getCurrentDate());
     useEffect(() => {
@@ -70,15 +69,21 @@ const BrandDashboard = () => {
             setEndAtDateEpoch(((new Date(endAtDate).getTime() / 1000) - 7201));
         }
     }, [endAtDate]);
-    function handleEndAtDateChange(event) {
-        setEndAtDate(event.target.value);
-    }
+
 
     const [startAtDateEpoch, setStartAtDateEpoch] = useState(getToday6amEpoch());
     const [endAtDateEpoch, setEndAtDateEpoch] = useState(getCurrentEpoch());
 
-    const [displayStatistic, setDisplayStatistic] = useState({});
-    const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatistic, {
+    const [displayStatistic, setDisplayStatistic] = useState<StatisticTotal>({
+        coinAmountTotal: 0,
+        coinQuantityTotal: 0,
+        giftAmountTotal: 0,
+        giftQuantityTotal: 0,
+        revenueRate: 0,
+        giftRate: 0
+    });
+
+    const { data: dataBrand } = useQuery(GetBrandStatistic, {
         variables: {
             args: [
                 {
@@ -101,7 +106,7 @@ const BrandDashboard = () => {
 
 
     // ================================ GRAPH ================================
-    const [lineData, setLineData] = useState([]);
+    const [lineData, setLineData] = useState<StatisticPeriod[]>([]);
 
     const { loading: loadingBrandPeriod, error: errorBrandPeriod, data: dataBrandPeriod } = useQuery(GetBrandStatisticPeriod, {
         variables: {
@@ -124,12 +129,10 @@ const BrandDashboard = () => {
 
     // ===================== GRAPH DATA =====================
     const finalData = [];
-
     const coinAmountTotal = [], giftAmountTotal = [];
 
-
     for (const item of lineData) {
-        let x = item.timestamp;
+        let x = item.timestamp.toString();
 
         x = new Date(item.timestamp * 1000).toLocaleString("default", {
             day: "numeric",
@@ -145,8 +148,8 @@ const BrandDashboard = () => {
 
 
 
-    if (loadingBrand, loadingBrandPeriod) return <Loader />;
-    if (errorBrand, errorBrandPeriod) return <Error />;
+    if (loadingBrandPeriod) return <Loader />;
+    if (errorBrandPeriod) return <Error />;
 
     return (
         <Box m="20px">
@@ -364,55 +367,3 @@ const BrandDashboard = () => {
 }
 
 export default BrandDashboard
-
-const defaultOptions = {
-    significantDigits: '0',
-    thousandsSeparator: ',',
-    decimalSeparator: '.',
-    symbol: 'NT'
-}
-
-const currencyFormatter = (value, options) => {
-    if (typeof value !== 'number') value = 0.0
-    options = { ...defaultOptions, ...options }
-    value = value.toFixed(options.significantDigits)
-
-    const [currency, decimal] = value.split('.')
-    return `${options.symbol} ${currency.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        options.thousandsSeparator
-    )}`
-}
-
-const numberFormatter = (value, options) => {
-    if (typeof value !== 'number') value = 0.0
-    options = { ...defaultOptions, ...options }
-    value = value.toFixed(options.significantDigits)
-
-    const [number] = value.split('.')
-    return `${number.replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        options.thousandsSeparator
-    )}`
-}
-
-const getCurrentDate = () => {
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = ("0" + (date.getMonth() + 1)).slice(-2)
-    const day = ("0" + date.getDate()).slice(-2)
-
-    return `${year}-${month}-${day}`
-}
-const getToday6amEpoch = () => {
-    return (new Date(getCurrentDate() + " 06:00:00").getTime() / 1000);
-}
-
-const getTodayEpoch = () => {
-    return (new Date(getCurrentDate()).getTime() / 1000);
-}
-const getCurrentEpoch = () => {
-    return Math.floor(new Date().getTime() / 1000);
-}
-
-

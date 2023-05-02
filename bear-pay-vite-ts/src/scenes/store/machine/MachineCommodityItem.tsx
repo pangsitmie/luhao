@@ -1,21 +1,38 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
-import "src/components/Modal/modal.css";
-import { tokens } from "src/theme";
-import { GetMachineCommodity, GetCommodityList, HealthCheck } from "src/graphQL/Queries";
-import { getRESTEndpoint, replaceNullWithEmptyString } from "src/utils/Utils";
+import { useQuery, useMutation, DocumentNode } from '@apollo/client'
+import { tokens } from "../../../theme";
+import { GetMachineCommodity, HealthCheck } from "../../../graphQL/Queries";
+import { getRESTEndpoint, replaceNullWithEmptyString } from "../../../utils/Utils";
 import { useTranslation } from 'react-i18next';
-import { bindCommodityToMachine } from "src/graphQL/Mutations";
-import { BRAND_BindCommodity } from "src/graphQL/BrandPrincipalMutations";
-import { useDispatch, useSelector } from "react-redux";
+import { bindCommodityToMachine } from "../../../graphQL/Mutations";
+import { BRAND_BindCommodity } from "../../../graphQL/BrandPrincipalMutations";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { STORE_BindCommodityToMachine } from "src/graphQL/StorePrincipalMutation";
+import { STORE_BindCommodityToMachine } from "../../../graphQL/StorePrincipalMutation";
+import { Machine } from "../../../types/Machine";
+import Store from "../../../types/Store";
+import { RootState } from "../../../redux/store";
+import Commodity from "../../../types/Commodity";
+import "../../../components/Modal/modal.css";
 
+
+type Props = {
+    props: Machine;
+    storeData: Store;
+    onUpdate: () => void;
+};
+
+interface FormValues {
+    id: string;
+    uuid?: string;
+    name: string;
+    price: number;
+    stock: number;
+}
 
 const checkoutSchema = yup.object().shape({
     // name: yup.string().required("required"),
@@ -25,26 +42,27 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function MachineCommodityListModal({ props, storeData, onUpdate }) {
-    const { entityName } = useSelector((state) => state.entity);
-
+export default function MachineCommodityListModal({ props, storeData, onUpdate }: Props) {
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
-    // console.log("STORE DATA: " + storeData.id);
-    // console.log(props.id); // this is the machine id
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    var btnTitle = t('link_product'), confirmTitle = t('update'), deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+
+
     const [modal, setModal] = useState(false);
     //REF
     const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
         setStatus(event.target.value);
     };
 
 
 
-    var btnTitle = t('link_product'), confirmTitle = t('update'), deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
-    const [initialValues, setInitialValues] = useState({
-        id: 0,
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        id: "",
         uuid: "",
         name: "",
         price: 0,
@@ -52,15 +70,15 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
     });
 
     // =================== COMMODITY LIST ===================
-    const [selectedCommodity, setSelectedCommodity] = useState({
+    const [selectedCommodity, setSelectedCommodity] = useState<FormValues>({
         id: "null",
         name: "null",
         price: 0,
         stock: 0,
     });
 
-    const [commodityListFilter, setCommodityListFilter] = useState('');
-    const [commodityList, setCommodityList] = useState([]);
+    const [commodityListFilter, setCommodityListFilter] = useState<string>('');
+    const [commodityList, setCommodityList] = useState<Commodity[]>([]);
 
 
     const { loading: loadingHealthCheck, error: errorHealthCheck, data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
@@ -124,9 +142,7 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
 
 
 
-
-
-    const handleCommodityListChange = (e) => {
+    const handleCommodityListChange = (e: SelectChangeEvent<string>) => {
         const targetId = e.target.value;
 
         //find the brand id from brand list
@@ -171,7 +187,7 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
     }, [data3]);
 
 
-    let BIND_COMMODITY_MUTATION;
+    let BIND_COMMODITY_MUTATION: DocumentNode = bindCommodityToMachine;
     switch (entityName) {
         case 'company':
             BIND_COMMODITY_MUTATION = bindCommodityToMachine;
@@ -201,7 +217,7 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
 
 
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         const variables = {
             machineId: props.id,
             commodityId: selectedCommodity.id,
@@ -230,7 +246,10 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -255,19 +274,19 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
                                                         {btnTitle}
                                                     </Typography>
                                                     {(() => {
-                                                        if (initialValues.status === "disable") {
+                                                        if (status === "disable") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
                                                                     {t('disable')}
                                                                 </Typography>)
                                                         }
-                                                        else if (initialValues.status === "banned") {
+                                                        else if (status === "banned") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
                                                                     {t('banned')}
                                                                 </Typography>)
                                                         }
-                                                        else if (initialValues.status === "removed") {
+                                                        else if (status === "removed") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
                                                                     {t('deleted')}
@@ -295,8 +314,8 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
                                                     onChange={handleChange}
                                                     value={selectedCommodity.id}
                                                     name="ID"
-                                                    error={!!touched.UUID && !!errors.UUID}
-                                                    helperText={touched.UUID && errors.UUID}
+                                                    error={!!touched.uuid && !!errors.uuid}
+                                                    helperText={touched.uuid && errors.uuid}
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <TextField className="modal_input_textfield"

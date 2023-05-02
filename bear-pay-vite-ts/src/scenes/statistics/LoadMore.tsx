@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 const PAGE_SIZE = 10;
 
 const RESPONSE_PATH = [
-    // { GET_BRAND_LIST: "managerGetBrandsPaginatedConnection" },
     { GET_MACHINE_STATISTIC_LIST: "getStore.0.getStoreMachinesStatisticsTotalPaginatedConnection" },
 ];
 

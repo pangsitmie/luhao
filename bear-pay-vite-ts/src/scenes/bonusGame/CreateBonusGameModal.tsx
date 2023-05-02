@@ -5,20 +5,28 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { CreateBrand, ManagerCreateGiftCode } from "../../graphQL/Mutations";
-// import { defaultCoverURL, defaultLogoURL, default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
-import LogoUpload from "../../components/Upload/LogoUpload";
-import CoverUpload from "../../components/Upload/CoverUpload";
-import { getImgURL } from "../../utils/Utils";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { STORE_CreateBonusGame } from "src/graphQL/StorePrincipalMutation";
-import { STORE_GetStoreCurrency } from "src/graphQL/StorePrincipalQueries";
+import { STORE_CreateBonusGame } from "../../graphQL/StorePrincipalMutation";
+import { STORE_GetStoreCurrency } from "../../graphQL/StorePrincipalQueries";
+import { RootState } from "../../redux/store";
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
+
+
+type Props = {
+    onUpdate: () => void
+};
+
+interface FormValues {
+    storeId: string,
+    name: string,
+    description: string,
+    maxCurrencyAmount: string,
+    currencyId: string,
+    currencyName: string
+
+}
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -26,9 +34,8 @@ const checkoutSchema = yup.object().shape({
     maxCurrencyAmount: yup.number().required("required"),
 });
 
-
-export default function CreateGiftCodeModal({ props, onUpdate }) {
-    const { entityName } = useSelector((state) => state.entity);
+export default function CreateGiftCodeModal({ onUpdate }: Props) {
+    const { entityName } = useSelector((state: RootState) => state.entity);
 
     const { t } = useTranslation();
     //THEME
@@ -36,17 +43,17 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
     const colors = tokens(theme.palette.mode);
 
     //========================== INITIAL VALUES ==========================
-    const [initialValues, setInitialValues] = useState({
+    const [initialValues, setInitialValues] = useState<FormValues>({
         storeId: "",
         name: "",
         description: "",
-        maxCurrencyAmount: 0,
+        maxCurrencyAmount: "",
         currencyId: "0",
         currencyName: ""
     });
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("create"), confirmTitle = t("confirm");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -54,12 +61,12 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
     };
 
     const [startAtDate, setStartAtDate] = useState('');
-    function handleStartAtDateChange(event) {
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
     const [endAtDate, setEndAtDate] = useState('');
-    function handleEndAtDateChange(event) {
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
@@ -76,9 +83,11 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
             setInitialValues({
                 storeId: dataCurrency.getStorePrincipal.stores[0].id,
                 currencyId: dataCurrency.getStorePrincipal.stores[0].brand.currency.id,
-                currencyName: dataCurrency.getStorePrincipal.stores[0].brand.currency.name
+                currencyName: dataCurrency.getStorePrincipal.stores[0].brand.currency.name,
+                name: "",
+                description: "",
+                maxCurrencyAmount: ""
             })
-            // initialValues.currencyId = dataCurrency.getStorePrincipal.stores[0].brand.currency.id;
         }
     }, [dataCurrency]);
 
@@ -88,6 +97,7 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
         if (data) {
             onUpdate();
             toast.success(t('create_success'));
+            setModal(false);
             // window.location.reload();
         }
     }, [data]);
@@ -95,7 +105,7 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
 
 
     // ========================== FUNCTIONS ==========================
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         console.log("SEND CREATE BONUSE GAME API REQUEST");
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
@@ -106,7 +116,7 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
         let nowUnix = Math.floor(Date.now() / 1000);
 
 
-        const variables = {
+        const variables: any = {
             storeId: values.storeId,
             name: values.name,
             description: values.description,
@@ -205,7 +215,10 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
             {modal && (
                 <Box className="modal" >
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Typography variant="h2" sx={{ mb: "10px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                                 {btnTitle}
@@ -328,8 +341,6 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
                                                     value={startAtDate}
                                                     name="startAt"
                                                     onChange={handleStartAtDateChange}
-                                                    error={!!touched.startAt && !!errors.startAt}
-                                                    helperText={touched.startAt && errors.startAt}
                                                     sx={{ marginBottom: "1rem", mr: '1rem' }}
                                                     InputLabelProps={{
                                                         shrink: true,
@@ -344,8 +355,6 @@ export default function CreateGiftCodeModal({ props, onUpdate }) {
                                                     value={endAtDate}
                                                     name="endAt"
                                                     onChange={handleEndAtDateChange}
-                                                    error={!!touched.endAt && !!errors.endAt}
-                                                    helperText={touched.endAt && errors.endAt}
                                                     sx={{ marginBottom: "1rem" }}
                                                     InputLabelProps={{
                                                         shrink: true,

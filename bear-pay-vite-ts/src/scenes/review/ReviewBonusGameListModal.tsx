@@ -1,37 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { GetBrandReviewData, } from "../../graphQL/Queries";
-import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import { PatchBrand } from "src/graphQL/Mutations";
-import { BRAND_GetBonusGame, BRAND_GetBonusGameReviewData, BRAND_GetMachineReviewData, BRAND_UpdateBrand } from "src/graphQL/BrandPrincipalQueries";
+import { useSelector } from "react-redux";
+import { BRAND_GetBonusGame, BRAND_GetBonusGameReviewData } from "../../graphQL/BrandPrincipalQueries";
 import AcceptReviewButton from "./AcceptReviewButton";
 import RejectReviewButton from "./RejectReviewButton";
+import { ReviewItemType } from "../../types/Review";
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
+
+type Props = {
+    props: ReviewItemType,
+    onUpdate: () => void,
+    showButtons: boolean
+}
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
-    // intro: yup.string().required("required"),
-    principalName: yup.string().required("required"),
-    principalLineUrl: yup.string().required("required"),
-    principalPassword: yup.string().matches(passwordRegex, "must contain at least one letter and one number, and be at least six characters long"),
-    principalLineUrl: yup.string().required("required"),
-    vatNumber: yup.string().required("required"),
-    brandCoinName: yup.string().required("required"),
+
 });
 
 
-export default function ReviewBonusGameListModal({ props, onUpdate, showButtons }) {
-    const { entityName } = useSelector((state) => state.entity);
+export default function ReviewBonusGameListModal({ props, onUpdate, showButtons }: Props) {
     const { t } = useTranslation();
 
 
@@ -52,19 +47,13 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
     };
 
 
-
-    const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
-        setStatus(event.target.value);
-    };
-
     const [startAtDate, setStartAtDate] = useState('');
-    function handleStartAtDateChange(event) {
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
     const [endAtDate, setEndAtDate] = useState('');
-    function handleEndAtDateChange(event) {
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
@@ -82,9 +71,7 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
 
 
 
-    const handleFormSubmit = (values) => {
-
-    };
+    const handleFormSubmit = () => { };
     //========================== GRAPHQL ==========================
 
     const { loading, error, data } = useQuery(BRAND_GetBonusGame
@@ -131,28 +118,6 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
         }
     }, [data, dataInit]);
 
-    // useEffect(() => {
-    //     if (dataInit) {
-    //         console.log(dataInit);
-    //         const nonNullData = replaceNullWithEmptyString(dataInit.getBonusGameReviewData[0]);
-
-    //         setInitialValues({
-    //             id: nonNullData.id,
-    //             type: nonNullData.type,
-    //             maxCurrencyAmount: nonNullData.maxCurrencyAmount,
-    //             //password doesnt have initial value
-    //         });
-
-    //         const startAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.startAt);
-    //         setStartAtDate(startAtDateTimeLocal);
-
-    //         if (nonNullData.endAt !== "") {
-    //             const endAtDateTimeLocal = unixTimestampToDatetimeLocal(nonNullData.endAt);
-    //             setEndAtDate(endAtDateTimeLocal);
-    //         }
-    //     }
-    // }, [dataInit]);
-
     //========================== RENDER ==========================
     if (modal) {
         document.body.classList.add('active-modal')
@@ -170,7 +135,10 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -193,19 +161,19 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
                                                         {modalTitle}
                                                     </Typography>
                                                     {(() => {
-                                                        if (initialValues.status === "disable") {
+                                                        if (status === "disable") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
                                                                     {t('disable')}
                                                                 </Typography>)
                                                         }
-                                                        else if (initialValues.status === "banned") {
+                                                        else if (status === "banned") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
                                                                     {t('banned')}
                                                                 </Typography>)
                                                         }
-                                                        else if (initialValues.status === "removed") {
+                                                        else if (status === "removed") {
                                                             return (
                                                                 <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
                                                                     {t('deleted')}
@@ -296,8 +264,6 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
                                                     value={startAtDate}
                                                     name="startAt"
                                                     onChange={handleStartAtDateChange}
-                                                    error={!!touched.startAt && !!errors.startAt}
-                                                    helperText={touched.startAt && errors.startAt}
                                                     sx={{ marginBottom: "1rem", mr: '1rem' }}
                                                     InputLabelProps={{
                                                         shrink: true,
@@ -313,8 +279,6 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
                                                     value={endAtDate}
                                                     name="endAt"
                                                     onChange={handleEndAtDateChange}
-                                                    error={!!touched.endAt && !!errors.endAt}
-                                                    helperText={touched.endAt && errors.endAt}
                                                     sx={{ marginBottom: "1rem" }}
                                                     InputLabelProps={{
                                                         shrink: true,

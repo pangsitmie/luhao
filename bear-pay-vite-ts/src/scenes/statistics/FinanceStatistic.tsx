@@ -1,22 +1,25 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Box, Button, Typography, useTheme, IconButton, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { Box, Button, Typography, useTheme, IconButton, TextField, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { tokens } from "../../theme";
 import LineChart from "../../components/LineChart";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-// import Header from '../../components/Header';
 import { useQuery } from '@apollo/client'
-
-// import { mockLineData } from "src/data/mockData";
-import { GetMachineConnectionRecord, GetMachineStatisticPeriod } from 'src/graphQL/Queries';
+import { GetStoreListByBrand, GetBrandStatisticPeriod, GetStoreStatisticPeriod } from '../../graphQL/Queries';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { currencyFormatter, getCurrentDate, getCurrentEpoch, getToday6amEpoch, getTodayEpoch, getWeekAgoDate, getYesterdayDate } from 'src/utils/Utils';
-import BarChart from 'src/components/BarChart';
+import { RootState } from '../../redux/store';
+import Store from '../../types/Store';
+import { StatisticPeriod } from '../../types/Statistic';
+import { currencyFormatter, getCurrentDate, getCurrentEpoch, getToday6amEpoch, getTodayEpoch, getWeekAgoDate, getYesterdayDate } from '../../utils/Utils';
 
-const MachineStatisticPeriod = () => {
-    const { entityName } = useSelector((state) => state.entity);
+type SelectedItem = {
+    id: number;
+    entityName: string;
+}
+
+const FinanceStatistic = () => {
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
     const location = useLocation();
     const state = location.state;
@@ -30,7 +33,7 @@ const MachineStatisticPeriod = () => {
     useEffect(() => {
         setStartAtDateEpoch((new Date(startAtDate).getTime() / 1000) - 7200);
     }, [startAtDate]);
-    function handleStartAtDateChange(event) {
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
@@ -42,7 +45,7 @@ const MachineStatisticPeriod = () => {
             setEndAtDateEpoch(((new Date(endAtDate).getTime() / 1000) - 7201));
         }
     }, [endAtDate]);
-    function handleEndAtDateChange(event) {
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
@@ -51,6 +54,8 @@ const MachineStatisticPeriod = () => {
     const [displayHour, setDisplayHour] = useState(true);
 
     useEffect(() => {
+        // console.log("startAtDateEpoch", startAtDateEpoch);
+        // console.log("endAtDateEpoch", endAtDateEpoch);
         const epochDifference = endAtDateEpoch - startAtDateEpoch;
         // console.log(epochDifference);
         setDisplayHour(epochDifference < 604800);
@@ -74,19 +79,53 @@ const MachineStatisticPeriod = () => {
         }
     }, [startAtDateEpoch, endAtDateEpoch]);
 
+    const [storeList, setStoreList] = useState<Store[]>([]);
+    const [storeListFilter, setStoreListFilter] = useState<string>('');
+    const [selectedItem, setSelectedItem] = useState<SelectedItem>({
+        id: entityName === "store" ? state.data.id : -1,
+        entityName: state.data.name
+    });
 
+    const { data: dataStoreList } = useQuery(GetStoreListByBrand,
+        {
+            variables: {
+                args: [
+                    {
+                        id: state.data.id,
+                    }
+                ]
+            },
+            skip: entityName === "store"
+        }
+    );
+    useEffect(() => {
+        if (dataStoreList) {
+            setStoreList([{ id: -1, name: '無' }, ...dataStoreList.getBrand[0].managerGetStores]);
+        }
+    }, [dataStoreList]);
 
-
+    const handleStoreListChange = (e: SelectChangeEvent<string>) => {
+        const targetId = e.target.value;
+        //find the brand id from brand list
+        const store = storeList.find(store => store.id === targetId);
+        if (store) {
+            setSelectedItem(
+                {
+                    id: parseInt(store.id),
+                    entityName: parseInt(store.id) === -1 ? state.data.name : store.name
+                }
+            );
+            setStoreListFilter(targetId);
+        }
+    };
 
 
 
     // ===================== GRAPH DATA =====================
-    const [period, setPeriod] = useState('hour');
-    const [lineData, setLineData] = useState([]);
+    const [period, setPeriod] = useState<string>('hour');
+    const [lineData, setLineData] = useState<StatisticPeriod[]>([]);
 
-    const [connRecordData, setConnRecordData] = useState([]);
-
-    const { loading: loadingMachine, error: errorMachine, data: dataMachine } = useQuery(GetMachineStatisticPeriod, {
+    const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatisticPeriod, {
         variables: {
             args: [
                 {
@@ -97,39 +136,33 @@ const MachineStatisticPeriod = () => {
             startAt: startAtDateEpoch,
             endAt: endAtDateEpoch
         },
-        // skip: selectedItem.id !== -1 || entityName === "store" //skip if store is selected
+        skip: selectedItem.id !== -1 || entityName === "store" //skip if store is selected
     });
 
-    const { loading: loadingCon, error: errorCon, data: dataCon } = useQuery(GetMachineConnectionRecord, {
+
+    const { loading: loadingStore, error: errorStore, data: dataStore } = useQuery(GetStoreStatisticPeriod, {
         variables: {
             args: [
                 {
-                    id: state.data.id
+                    id: selectedItem.id,
                 }
             ],
             timeGranularity: period,
             startAt: startAtDateEpoch,
             endAt: endAtDateEpoch
         },
-        // skip if time difference it more than 1 day
-        skip: (endAtDateEpoch - startAtDateEpoch) > 86400
+        skip: selectedItem.id === -1
     });
 
 
-
     useEffect(() => {
-        if (dataMachine) {
-            // console.log(dataMachine);
-            setLineData(dataMachine.getMachine[0].statisticsPeriod);
+        if (dataBrand) {
+            setLineData(dataBrand.getBrand[0].getStatisticsPeriod);
         }
-    }, [dataMachine]);
-
-    useEffect(() => {
-        if (dataCon) {
-            console.log(dataCon.getMachine[0].connRecord.connRecords);
-            setConnRecordData(dataCon.getMachine[0].connRecord.connRecords);
+        if (dataStore) {
+            setLineData(dataStore.getStore[0].getStatisticsPeriod);
         }
-    }, [dataCon]);
+    }, [dataBrand, dataStore]);
 
     const setToday = () => {
         setStartAtDate(getCurrentDate());
@@ -155,12 +188,8 @@ const MachineStatisticPeriod = () => {
         giftQuantityTotal = [];
 
 
-    const handleClick = (selected) => {
-        setPeriod(selected);
-    };
-
     for (const item of lineData) {
-        let x = item.timestamp;
+        let x = item.timestamp.toString();
         switch (period) {
             case 'hour':
                 x = new Date(item.timestamp * 1000).toLocaleString("default", {
@@ -201,6 +230,8 @@ const MachineStatisticPeriod = () => {
         giftQuantityTotal.push({ x, y: item.giftQuantityTotal });
     }
 
+
+
     finalData.push({ id: t('total_earning'), color: "#6a994e", data: coinQuantityTotal });
     finalData.push({ id: t('total_coin'), color: "#219ebc", data: coinAmountTotal });
     finalData.push({ id: t('total_expense'), color: "#fb8500", data: giftAmountTotal });
@@ -216,27 +247,16 @@ const MachineStatisticPeriod = () => {
         setTotalEarning(total);
     }, [lineData]);
 
-    // ===================== CONNECTION RECORD DATA =====================
 
-    const finalConRecData = [];
-    const conData = [];
-    for (const item of connRecordData) {
-        let x = item.timestamp;
-        // console.log(item.timestamp);
-        x = new Date(item.timestamp * 1000).toLocaleString("default", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true
-        });
-        x = x.replace(/\d{1,2}, /, ''); // Remove day from x value
-        conData.push({ x, y: item.connStatus });
-    }
 
+    const handleClick = (selected: string) => {
+        setPeriod(selected);
+    };
 
     return (
         <Box m="20px" >
             {/* HEADER */}
-            <Box Box display="flex" alignItems="center" gap={"1rem"} mb={"1rem"} >
+            <Box display="flex" alignItems="center" gap={"1rem"} mb={"1rem"} >
                 <Box>
                     <IconButton onClick={() => window.history.back()}>
                         <ArrowBackIcon />
@@ -244,7 +264,7 @@ const MachineStatisticPeriod = () => {
                 </Box>
                 <Box>
                     <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{ m: "0 0 5px 0" }}>
-                        {state.data.name} {t('machine')}{t('details')}
+                        {t('financial_details')}
                     </Typography>
                 </Box>
             </Box >
@@ -253,9 +273,10 @@ const MachineStatisticPeriod = () => {
             </Box> */}
 
             <Box
+                display={"flex"}
                 alignItems={"center"}
                 justifyContent={"space-between"}
-                className={"flex_media"}
+                // className={"flex_media"}
                 mb={"1rem"}
             >
                 <Box display={"flex"} gap={"1rem"} >
@@ -283,6 +304,33 @@ const MachineStatisticPeriod = () => {
                         }}
                     />
                 </Box>
+
+                <FormControl sx={{ minWidth: "120px", display: entityName === "store" ? "none" : "block" }}>
+                    <InputLabel id="demo-simple-select-label" >{t('store_filter')}</InputLabel>
+                    <Select
+                        required
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={storeListFilter}
+                        label="storeListFilter"
+                        onChange={handleStoreListChange}
+                        sx={{
+                            borderRadius: "10px",
+                            background: colors.primary[400],
+                            height: "100%",
+                            width: "100%"
+                        }}
+                    >
+                        {storeList.map((item, i) => (
+                            <MenuItem
+                                value={item.id}
+                                key={`${i}`}
+                            >
+                                {item.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </Box>
 
 
@@ -447,70 +495,13 @@ const MachineStatisticPeriod = () => {
                         </Box>
 
                     </Box>
-
-
                     <Box height="400px" m="-20px 20px 0 0">
                         <LineChart isDashboard={true} data={finalData} />
                     </Box>
                 </Box>
             </Box>
-
-
-            {/* SECOND GRAPH */}
-            <Box
-                mt="20px"
-                display="grid"
-                gridTemplateColumns="repeat(12, 1fr)"
-                gridAutoRows="100px"
-                gap="20px"
-            >
-                <Box
-                    gridColumn="span 12"
-                    gridRow="span 3"
-                    borderRadius={"12px"}
-                    sx={{
-                        backgroundColor: "rgba(255, 255, 255, 0.074)",
-                        border: "1px solid rgba(255, 255, 255, 0.222)",
-                        webkitBackdropFilter: "blur(20px)",
-                        backdropFilter: "blur(20px)",
-                    }}
-                >
-                    <Box
-                        mt="25px"
-                        p="0 30px"
-                        display="flex "
-                        justifyContent="space-between"
-                        alignItems="center"
-                    >
-                        <Box>
-                            <Typography
-                                variant="h3"
-                                fontWeight="bold"
-                                color={colors.primary[100]}
-                                mb="10px"
-                            >
-                                {t('machine_con_rec')}
-                            </Typography>
-                            <Typography variant="h6" sx={{ textTransform: "none", color: colors.grey[100], fontWeight: "500", mb: "10px" }}>
-                                {t('data_shown_text_con')}
-                            </Typography>
-
-                        </Box>
-                    </Box>
-
-
-                    <Box height="400px" m="-20px 20px 0 0">
-                        <BarChart data={conData} />
-                    </Box>
-                </Box>
-            </Box>
-
-
-
-
-
         </Box >
     )
 }
 
-export default MachineStatisticPeriod
+export default FinanceStatistic

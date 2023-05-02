@@ -1,27 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import React, { useState, useEffect } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { useMutation, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { CreateBrand, ManagerCreateGiftCode } from "../../graphQL/Mutations";
-// import { defaultCoverURL, defaultLogoURL, default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
-import LogoUpload from "../../components/Upload/LogoUpload";
-import CoverUpload from "../../components/Upload/CoverUpload";
-import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from "react-redux";
-import { BRAND_GetGiftCodes } from "src/graphQL/BrandPrincipalQueries";
-import { GetGiftCode, RemoveGiftCode, UpdateGiftCode } from "src/graphQL/Queries";
-import { format } from 'date-fns';
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { STORE_GetBonusGame } from "src/graphQL/StorePrincipalQueries";
-import { STORE_PatchBonusGame, STORE_PatchBonusGameStatus, STORE_UpdateBonusGame } from "src/graphQL/StorePrincipalMutation";
+import { STORE_GetBonusGame } from "../../graphQL/StorePrincipalQueries";
+import { STORE_PatchBonusGame, STORE_PatchBonusGameStatus, STORE_UpdateBonusGame } from "../../graphQL/StorePrincipalMutation";
+import { RootState } from "../../redux/store";
+import { BonusGameType } from "../../types/BonusGame";
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
+
+
+type Props = {
+    props: BonusGameType,
+    onUpdate: () => void
+}
+
+interface FormValues {
+    id: string,
+    name: string,
+    type: string,
+    description: string,
+    nowCurrencyAmount: string,
+    maxCurrencyAmount: string,
+
+}
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -29,8 +37,8 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function BonusGameListModal({ props, onUpdate }) {
-    const { entityName } = useSelector((state) => state.entity);
+export default function BonusGameListModal({ props, onUpdate }: Props) {
+    const { entityName } = useSelector((state: RootState) => state.entity);
 
     const { t } = useTranslation();
     //THEME
@@ -38,13 +46,13 @@ export default function BonusGameListModal({ props, onUpdate }) {
     const colors = tokens(theme.palette.mode);
 
     //========================== INITIAL VALUES ==========================
-    const [initialValues, setInitialValues] = useState({
-        storeId: "",
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        id: "",
         name: "",
+        type: "",
         description: "",
-        maxCurrencyAmount: 0,
-        currencyId: "0",
-        currencyName: ""
+        nowCurrencyAmount: "",
+        maxCurrencyAmount: "",
     });
 
 
@@ -59,13 +67,13 @@ export default function BonusGameListModal({ props, onUpdate }) {
 
     const [status, setStatus] = useState('disable');
 
-    const [startAtDate, setStartAtDate] = useState('');
-    function handleStartAtDateChange(event) {
+    const [startAtDate, setStartAtDate] = useState<string>('');
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
-    const [endAtDate, setEndAtDate] = useState('');
-    function handleEndAtDateChange(event) {
+    const [endAtDate, setEndAtDate] = useState<string>('');
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
@@ -121,10 +129,9 @@ export default function BonusGameListModal({ props, onUpdate }) {
         }
     }, [dataStatus]);
 
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
         console.log(event.target.value)
         setStatus(event.target.value);
-        initialValues.status = event.target.value;
         ApolloPatchBonusGameStatus({
             variables: {
                 bonusGameIds: props.id,
@@ -134,7 +141,7 @@ export default function BonusGameListModal({ props, onUpdate }) {
     };
 
     // ========================== FUNCTIONS ==========================
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
@@ -143,7 +150,7 @@ export default function BonusGameListModal({ props, onUpdate }) {
 
         let nowUnix = Math.floor(Date.now() / 1000);
 
-        let variables = {
+        let variables: any = {
             bonusGameId: props.id,
             storeId: props.storeId,
             typeId: "roulette2",
@@ -197,20 +204,6 @@ export default function BonusGameListModal({ props, onUpdate }) {
 
     const handleDelete = () => {
         var result = window.confirm("Are you sure you want to delete this item?");
-        // if (result) {
-        //     ApolloRemoveGiftCode({
-        //         variables: {
-        //             args: [
-        //                 {
-        //                     id: props.id
-        //                 }
-        //             ]
-        //         }
-        //     })
-        //     console.log("deleted");
-        // } else {
-        //     console.log("not deleted");
-        // }
     };
     // ========================== MODAL TOGGLE ==========================
     if (modal) {
@@ -229,7 +222,10 @@ export default function BonusGameListModal({ props, onUpdate }) {
             {modal && (
                 <Box className="modal" >
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Typography variant="h2" sx={{ mb: "10px", fontSize: "2rem", fontWeight: "600", color: "white" }}>
                                 {modalTitle}
@@ -289,9 +285,9 @@ export default function BonusGameListModal({ props, onUpdate }) {
                                                     sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }} >
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{status}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned" || entityName === "company" || entityName === "brand"}
+                                                        disabled={status === "banned" || entityName === "company" || entityName === "brand"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -322,7 +318,7 @@ export default function BonusGameListModal({ props, onUpdate }) {
                                             <Box display={"flex"} justifyContent={"space-between"} gap={"1rem"}>
 
                                                 <TextField
-                                                    disabled={"true"}
+                                                    disabled={true}
                                                     id="outlined-multiline-flexible"
                                                     multiline
                                                     fullWidth
@@ -340,7 +336,7 @@ export default function BonusGameListModal({ props, onUpdate }) {
                                                     sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
-                                                    disabled={"true"}
+                                                    disabled={true}
                                                     id="outlined-multiline-flexible"
                                                     multiline
                                                     fullWidth
@@ -370,8 +366,6 @@ export default function BonusGameListModal({ props, onUpdate }) {
                                                     value={startAtDate}
                                                     name="startAt"
                                                     onChange={handleStartAtDateChange}
-                                                    error={!!touched.startAt && !!errors.startAt}
-                                                    helperText={touched.startAt && errors.startAt}
                                                     sx={{ marginBottom: "1rem", mr: '1rem' }}
                                                     InputLabelProps={{
                                                         shrink: true,
@@ -386,8 +380,6 @@ export default function BonusGameListModal({ props, onUpdate }) {
                                                     value={endAtDate}
                                                     name="endAt"
                                                     onChange={handleEndAtDateChange}
-                                                    error={!!touched.endAt && !!errors.endAt}
-                                                    helperText={touched.endAt && errors.endAt}
                                                     sx={{ marginBottom: "1rem" }}
                                                     InputLabelProps={{
                                                         shrink: true,

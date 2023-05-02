@@ -2,7 +2,12 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import ProgressCircle from "./ProgressCircle";
 
-const StatPercentBox = ({ title, subtitle, progress, }) => {
+type Props = {
+  title: string,
+  subtitle: string,
+  progress: string
+}
+const StatPercentBox = ({ title, subtitle, progress }: Props) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 

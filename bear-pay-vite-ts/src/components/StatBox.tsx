@@ -1,17 +1,14 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   title: number | string;
   subtitle: string;
   icon: any;
   progress?: string;
-  increase: string;
-  textColor: string;
+  increase?: string;
+  textColor?: string;
 };
-const StatBox = ({ title, subtitle, icon, progress, increase, textColor }: Props) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+const StatBox = ({ title, subtitle, icon, increase, textColor }: Props) => {
 
   return (
     <Box width="100%" m="15px 20px">

@@ -1,14 +1,13 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useQuery, gql, useLazyQuery } from '@apollo/client'
-import { format } from 'date-fns';
-import SearchIcon from "@mui/icons-material/Search";
+
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, SelectChangeEvent } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 
-import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic, GetMachineListPagination, GetStoreMachineStatisticsPagination } from '../../graphQL/Queries'
+import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic } from '../../graphQL/Queries'
 
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
@@ -24,16 +23,29 @@ import StatBox from "../../components/StatBox";
 import StatPercentBox from '../../components/StatPercentBox';
 import Header from '../../components/Header';
 import StatBoxSplit from '../../components/StatBoxSplit';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { useTranslation } from 'react-i18next';
-import Pagination from 'src/components/Pagination';
-import StatisticPagination from './StatisticPagination';
-import OrderMethodButton from 'src/components/OrderMethodButton';
 import MachineStatistic from './MachineStatistic';
-import { currencyFormatter, getCurrentDate, getCurrentEpoch, getToday6amEpoch, getTodayEpoch, getWeekAgoDate, getYesterdayDate, numberFormatter } from 'src/utils/Utils';
+import { currencyFormatter, getCurrentDate, getCurrentEpoch, getToday6amEpoch, getTodayEpoch, getWeekAgoDate, getYesterdayDate, numberFormatter } from '../../utils/Utils';
+import Store from '../../types/Store';
+import { RootState } from '../../redux/store';
+import { StatisticTotal } from '../../types/Statistic';
+
+
+
+
+type SelectedItem = {
+    id: number;
+    entityName: string;
+}
+
+
+
+
+
 const StatisticManagement = () => {
-    const { entityName } = useSelector((state) => state.entity);
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
 
     const location = useLocation();
@@ -45,14 +57,13 @@ const StatisticManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     const [startAtDate, setStartAtDate] = useState(getCurrentDate());
     useEffect(() => {
         const newStartDate = (new Date(startAtDate).getTime() / 1000) - 7200;
         setStartAtDateEpoch(newStartDate);
     }, [startAtDate]);
-    function handleStartAtDateChange(event) {
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
@@ -64,7 +75,7 @@ const StatisticManagement = () => {
             setEndAtDateEpoch(((new Date(endAtDate).getTime() / 1000) - 7201));
         }
     }, [endAtDate]);
-    function handleEndAtDateChange(event) {
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
@@ -105,31 +116,17 @@ const StatisticManagement = () => {
 
 
 
-
-
-
-    const submitSearch = () => {
-        // console.log(brandRef.current.value + " " + searchRef.current.value + searchFilter + cityFilter);
-        // //CALL SEARCH FUNCTION
-        // let brandValue = brandRef.current.value;
-        // let storeValue = searchRef.current.value;
-        // if (brandValue.length > 2 && storeValue.length === 0) {
-        //     let search = brandArraySearch(stores, brandValue);
-        //     setStores(search)
-        // }
-        // else if (brandValue.length === 0 && storeValue.length > 2) {
-        //     let search = storeArraySearch(stores, storeValue);
-        //     setStores(search)
-        // }
-        // else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-        //     setStores(initStores)
-        // }
-    }
-
-    const [displayStatistic, setDisplayStatistic] = useState({});
-    const [storeList, setStoreList] = useState([]);
-    const [storeListFilter, setStoreListFilter] = useState('');
-    const [selectedItem, setSelectedItem] = useState({
+    const [displayStatistic, setDisplayStatistic] = useState<StatisticTotal>({
+        coinAmountTotal: 0,
+        coinQuantityTotal: 0,
+        giftAmountTotal: 0,
+        giftQuantityTotal: 0,
+        revenueRate: 0,
+        giftRate: 0
+    });
+    const [storeList, setStoreList] = useState<Store[]>([]);
+    const [storeListFilter, setStoreListFilter] = useState<string>('');
+    const [selectedItem, setSelectedItem] = useState<SelectedItem>({
         id: entityName === "store" ? state.data.id : -1,
         entityName: state.data.name
     });
@@ -198,29 +195,27 @@ const StatisticManagement = () => {
     }, [dataBrand, dataStore]);
 
     // ========================
-    const handleStoreListChange = (e) => {
+    const handleStoreListChange = (e: SelectChangeEvent<string>) => {
         const targetId = e.target.value;
         //find the brand id from brand list
         const store = storeList.find(store => store.id === targetId);
         if (store) {
             setSelectedItem(
                 {
-                    id: store.id,
-                    entityName: store.id === -1 ? state.data.name : store.name
+                    id: parseInt(store.id),
+                    entityName: parseInt(store.id) === -1 ? state.data.name : store.name
                 }
             );
             setStoreListFilter(targetId);
         }
     };
-    console.log(displayStatistic.giftRate);
 
-    if (loadingBrand, loadingStore) return <Loader />;
-    if (errorBrand, errorStore) return <Error />;
+    if (loadingStore) return <Loader />;
+    if (errorStore) return <Error />;
 
     return (
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display="flex" flexDirection={"column"}>
             <Box
-
                 height={"10%"}
                 mb={"1rem"}
             >
@@ -694,7 +689,7 @@ const StatisticManagement = () => {
                     </Box>
 
                     {/* the list is handled in this componenet */}
-                    <MachineStatistic STORE_ID={selectedItem.id} START_AT_DATE_EPOCH={startAtDateEpoch} END_AT_DATE_EPOCH={endAtDateEpoch} />
+                    <MachineStatistic STORE_ID={selectedItem.id.toString()} START_AT_DATE_EPOCH={startAtDateEpoch} END_AT_DATE_EPOCH={endAtDateEpoch} />
                 </Box>
             )}
         </Box >

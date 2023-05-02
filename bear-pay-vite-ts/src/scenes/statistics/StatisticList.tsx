@@ -1,27 +1,34 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
-import { useQuery } from '@apollo/client'
+import React, { useEffect, useState, useRef, } from 'react'
 // QUERIES
 import { GetAllBrands, GetBrandListPagination } from '../../graphQL/Queries'
-import { BRAND_GetAllBrands, BRAND_GetBrandList } from '../../graphQL/BrandPrincipalQueries'
-import { STORE_GetAllStores } from 'src/graphQL/StorePrincipalQueries';
+import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries'
+import { STORE_GetAllStores } from '../../graphQL/StorePrincipalQueries';
 
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
-// ICONS
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+
 import { Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
-import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import { RootState } from '../../redux/store';
+import Brand from '../../types/Brand';
+import Store from '../../types/Store';
+
+
+interface BrandNode {
+    node: Brand;
+}
+interface StoreNode {
+    node: Store;
+}
 
 const StatisticList = () => {
-    const { entityName } = useSelector((state) => state.entity);
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
     //========================== THEME ==========================
     const theme = useTheme();
@@ -32,18 +39,18 @@ const StatisticList = () => {
     const searchValueRef = useRef('');
 
     //========================== GRAPHQL ==========================
-    const [initBrands, setInitBrands] = useState([]);
-    const [brands, setBrands] = useState([]);
+    const [initBrands, setInitBrands] = useState<BrandNode[] | StoreNode[]>([]);
+    const [brands, setBrands] = useState<BrandNode[] | StoreNode[]>([]);
 
     // LOADING STATE
     const [loadingState, setLoadingState] = useState(false);
-    const handleLoadingState = (loading) => {
+    const handleLoadingState = (loading: boolean) => {
         setLoadingState(loading);
     }
 
 
     let LIST_QUERY;
-    let PAGINATION_PATH_TYPE;
+    let PAGINATION_PATH_TYPE: string = '';
 
     switch (entityName) {
         case 'company':
@@ -63,66 +70,44 @@ const StatisticList = () => {
 
     // ====================== PAGINATION ======================
 
-    const handlePageChange = (data) => {
+    const handlePageChange = (data: BrandNode[]) => {
         setBrands(data);
         setInitBrands(data);
     }
 
     // ========================== FUNCTIONS ==========================
-    const submitSearch = () => {
-        // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current.value + " ");
-
-        //CALL SEARCH FUNCTION
-        let value = searchValueRef.current.value;
-        if (value.length > 2) {
-            let search = arraySearch(brands, value);
-            setBrands(search)
-        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setBrands(initBrands)
-        }
-    };
-
-    //SEARCH FUNCTION
-    const arraySearch = (array, keyword, filter) => {
-        const searchTerm = keyword
-
-        return array.filter(value => {
-            return value.name.match(new RegExp(searchTerm, 'g')) ||
-                value.principal.name.match(new RegExp(searchTerm, 'g'))
-        })
-    }
 
     // ========================== RETURN ==========================
     return (
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>{t('statistic')}</h1>
             </Box>
 
-            {/* here */}
-
-
-            {/* here */}
             {/* TABLE DIV */}
             <Box
-                backgroundColor={colors.primary[400]}
                 borderRadius="10px"
                 height={"100%"}
+                sx={{
+                    backgroundColor: colors.primary[400],
+                }}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
                     justifyContent="space-between"
                     borderBottom={`0px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
                     p="15px 0 10px 0"
+                    sx={{
+                        color: colors.grey[100],
+                    }}
                 >
                     <Pagination
                         QUERY={LIST_QUERY}
                         HANDLE_PAGE_CHANGE={handlePageChange}
                         TYPE={PAGINATION_PATH_TYPE}
                         HANDLE_LOADING_STATE={handleLoadingState}
+                        REFETCH={0}
                     />
                 </Box>
                 <Box
@@ -130,7 +115,6 @@ const StatisticList = () => {
                     justifyContent="space-between"
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
-                    background={colors.grey[300]}
                     p="10px"
                 >
                     <Box display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -144,7 +128,6 @@ const StatisticList = () => {
 
                 {/* here */}
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"100%"}
                     overflow={"auto"}
@@ -159,7 +142,7 @@ const StatisticList = () => {
                         :
                         brands.map((brand, i) => (
                             <Box
-                                key={`${brand.id}-${i}`}
+                                key={`${brand.node.id}-${i}`}
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"

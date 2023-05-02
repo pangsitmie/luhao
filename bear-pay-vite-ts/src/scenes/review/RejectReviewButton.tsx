@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { Button, Typography, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import { RejectReview } from "src/graphQL/Mutations";
-import { useTheme } from "@emotion/react";
+import { Button, Typography, TextField, Dialog, DialogActions, DialogContent, DialogTitle, useTheme } from "@mui/material";
+import { RejectReview } from "../../graphQL/Mutations";
 import { tokens } from "../../theme";
 import { useTranslation } from 'react-i18next';
 import { toast } from "react-toastify";
 
-const RejectReviewButton = ({ REQUEST_ID, onUpdate }) => {
+type Props = {
+    REQUEST_ID: string,
+    onUpdate: () => void
+}
+
+
+const RejectReviewButton = ({ REQUEST_ID, onUpdate }: Props) => {
     const { t } = useTranslation();
 
     const theme = useTheme();

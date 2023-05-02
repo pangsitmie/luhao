@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import "src/components/Modal/modal.css";
-import { tokens } from "src/theme";
+import { tokens } from "../../../theme";
 import { useLazyQuery } from "@apollo/client";
-import { CreateCommodity } from "src/graphQL/Queries";
+import { CreateCommodity } from "../../../graphQL/Queries";
 import { useTranslation } from 'react-i18next';
-// {店面id、機台碼、NFCID、機台名稱、機台單次花費金額、備註}
+import Store from "../../../types/Store";
+import "../../../components/Modal/modal.css";
+
 
 const checkoutSchema = yup.object().shape({
     storeId: yup.string().required("店面id必填"),
@@ -16,44 +17,37 @@ const checkoutSchema = yup.object().shape({
     stock: yup.string().required("商品庫存必填"),
     // description: yup.string().required("備註必填"),
 });
+type Props = {
+    props: Store
+}
 
+interface FormValues {
+    storeId: string;
+    storeName: string;
+    name: string;
+    price: string;
+    stock: string;
+}
 
-export default function CreateRewardModal({ props }) {
+export default function CreateCommodityModal({ props }: Props) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { t } = useTranslation();
+
     const [modal, setModal] = useState(false);
-    const [counterCheck, setCounterCheck] = useState(true);
-    const handleCounterCheckChange = (event) => {
-        setCounterCheck(event.target.value);
-    };
 
-    const [countersToggle, setCountersToggle] = useState(false);
-    const handleCountersToggleChange = (event) => {
-        setCountersToggle(event.target.checked);
-    };
+    var btnTitle = t("create"), confirmTitle = t("create");
 
-
-    var btnTitle = t("create"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
-
-    const initialValues = {
-        storeId: "",
-        storeName: "",
+    const [initialValues, setInitialValues] = useState<FormValues>({
+        storeId: props.id,
+        storeName: props.name,
         name: "",
-        code: "",
         price: "",
-        description: "",
-        counterCoin: "",
-        counterGift: ""
-    };
-
-    initialValues.storeId = props.id;
-    initialValues.storeName = props.name;
-
-
+        stock: "",
+    });
 
     // GQL
-    const [ApolloCreateCommodity, { loading, error, data }] = useLazyQuery(CreateCommodity);
+    const [ApolloCreateCommodity, { data }] = useLazyQuery(CreateCommodity);
     useEffect(() => {
         if (data) {
             console.log(data.getStore);
@@ -61,7 +55,7 @@ export default function CreateRewardModal({ props }) {
         }
     }, [data]);
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         const variables = {
             args: [
                 {
@@ -95,9 +89,11 @@ export default function CreateRewardModal({ props }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
-                            {initialValues.username}
                             <Typography variant="h2" sx={{ mb: "30px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                                 {btnTitle}
                             </Typography>

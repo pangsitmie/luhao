@@ -8,7 +8,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateMachineModal from './CreateMachineModal';
 // import MachineListModal from './MachineListModal';
-import { GetMachineListPagination, HealthCheck, SearchMachineByName } from '../../../graphQL/Queries';
+import { HealthCheck, SearchMachineByName } from '../../../graphQL/Queries';
 // QRCODE
 import QRCode from 'qrcode'
 import jsPDF from 'jspdf';
@@ -24,6 +24,7 @@ import axios from 'axios';
 import { getRESTEndpoint } from '../../../utils/Utils';
 import { Machine } from '../../../types/Machine';
 import MachineListModal from './MachineListModal';
+import MachineCommodityListModal from './MachineCommodityItem';
 
 interface MachineQRCode {
     machineName: string;
@@ -111,6 +112,7 @@ const MachineManagement = () => {
     const { loading: loadingHealthCheck, error: errorHealthCheck, data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
 
     const REST_FetchMachineList = async () => {
+        console.log("REST_FetchMachineList");
         const MAX_RETRY_ATTEMPTS = 3;
         let retryCount = 0;
 
@@ -128,7 +130,7 @@ const MachineManagement = () => {
                         'Content-Type': 'application/json',
                     }
                 });
-
+                console.log(response);
                 if (response.data && response.data.data) {
                     console.log(response.data.data);
                     setMachineDatas(response.data.data);
@@ -438,7 +440,7 @@ const MachineManagement = () => {
                                     display={"flex"}
                                     alignItems={"center"} justifyContent={"center"}
                                     borderRadius="4px">
-                                    {/* <MachineCommodityListModal props={item} storeData={state.data} onUpdate={() => triggerRefetch()} /> */}
+                                    <MachineCommodityListModal props={item} storeData={state.data} onUpdate={() => triggerRefetch()} />
                                 </Box>
                                 <Box
                                     width={"20%"}

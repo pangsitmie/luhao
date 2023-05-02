@@ -1,62 +1,43 @@
-import React, { useState, useContext, useRef, useEffect, useMemo } from 'react'
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Collapse } from "@mui/material";
+import React, { useState, useContext, useRef, useEffect } from 'react'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Collapse, SelectChangeEvent } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 import { useTranslation } from 'react-i18next';
-import OrderMethodButton from 'src/components/OrderMethodButton';
+import OrderMethodButton from '../../components/OrderMethodButton';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import LoadMore from './LoadMore';
-import { currencyFormatter, getRESTEndpoint, numberFormatter } from 'src/utils/Utils';
+import { currencyFormatter, getRESTEndpoint, numberFormatter } from '../../utils/Utils';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Loader from 'src/components/loader/Loader';
+import Loader from '../../components/loader/Loader';
 import SearchIcon from "@mui/icons-material/Search";
 import { toast } from 'react-toastify';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { HealthCheck } from 'src/graphQL/Queries';
+import { useQuery } from '@apollo/client';
+import { HealthCheck } from '../../graphQL/Queries';
+import { MachineStatisticTotal } from '../../types/Statistic';
 
-const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }) => {
+type Props = {
+    STORE_ID: string,
+    START_AT_DATE_EPOCH: number,
+    END_AT_DATE_EPOCH: number
+}
+const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: Props) => {
     const { t } = useTranslation();
-    const searchValueRef = useRef('');
 
-    const revenueFilterRef = useRef(500);
-    const revenueRateFilterRef = useRef(75);
-    const giftRateFilterRef = useRef(25);
-
-    // const [revenueFilter, setRevenueFilter] = useState(500);
-    // const handleRevenueFilterChange = (event) => {
-    //     setRevenueFilter(event.target.value);
-    // };
-
-    // const [revenueRateFilter, setRevenueRateFilter] = useState(75);
-    // const handleRevenueRateFilterChange = (event) => {
-    //     setRevenueRateFilter(event.target.value);
-    // };
-
-    // const [giftRateFilter, setGiftRateFilter] = useState(25);
-    // const handleGiftRateFilterChange = (event) => {
-    //     setGiftRateFilter(event.target.value);
-    // };
-
-
-
+    const revenueFilterRef = useRef<HTMLInputElement>();
+    const revenueRateFilterRef = useRef<HTMLInputElement>();
+    const giftRateFilterRef = useRef<HTMLInputElement>();
 
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-    const [initMachineDatas, setInitMachineDatas] = useState([]);
-    const [machineDatas, setMachineDatas] = useState([]);
+    const [initMachineDatas, setInitMachineDatas] = useState<MachineStatisticTotal[]>([]);
+    const [machineDatas, setMachineDatas] = useState<MachineStatisticTotal[]>([]);
 
-    //TO LOAD MORE AND APPEND DATA FROM LOAD MORE COMPONENET
-    const handlePageChange = (data) => {
-        setInitMachineDatas(prevState => [...prevState, ...data]);
-        setMachineDatas(prevState => [...prevState, ...data]);
-    }
 
     const [filter, setFilter] = useState('name');
-    const handleFilterChange = (e) => {
+    const handleFilterChange = (e: SelectChangeEvent<string>) => {
         setMachineDatas([]);
         setInitMachineDatas([]);
         setFilter(e.target.value);
@@ -71,9 +52,9 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }) 
 
     // LOADING STATE
     const [loadingState, setLoadingState] = useState(false);
-    const handleLoadingState = (loading) => {
-        setLoadingState(loading);
-    }
+    // const handleLoadingState = (loading: boolean) => {
+    //     setLoadingState(loading);
+    // }
 
 
     const [isGiftCollapsed, setIsGiftCollapsed] = useState(true);
@@ -151,42 +132,27 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }) 
         }
     };
 
-
-
-
-
     useEffect(() => {
         REST_FetchMachineStatistics();
     }, [START_AT_DATE_EPOCH, END_AT_DATE_EPOCH, filter, orderMethod]);
 
-
-
-    //SEARCH FUNCTION
-    const arraySearch = (array, keyword, filter) => {
-        const searchTerm = keyword
-
-        return array.filter(value => {
-            return value.node.name.match(new RegExp(searchTerm, 'g'))
-        })
-    }
     const submitSearch = () => {
         //CALL SEARCH FUNCTION
         console.log("SEARCH CLICKED");
-        console.log(revenueFilterRef.current.value);
-        console.log(revenueRateFilterRef.current.value);
-        console.log(giftRateFilterRef.current.value);
+        console.log(revenueFilterRef.current?.value);
+        console.log(revenueRateFilterRef.current?.value);
+        console.log(giftRateFilterRef.current?.value);
 
-        //
         const filterMachineData = () => {
             // return machineDatas;
             return machineDatas.map((item) => {
-                let isBellowRevenueFilter = item.coinAmountTotal < revenueFilterRef.current.value;
+                let isBellowRevenueFilter = item.coinAmountTotal < parseInt(revenueFilterRef.current?.value ?? "0");
 
-                let isAboveRevenueRateFilter = parseInt(item.revenueRate - 5) > parseInt(revenueRateFilterRef.current.value);
-                let isBellowRevenueRateFilter = parseInt(item.revenueRate + 5) < parseInt(revenueRateFilterRef.current.value);
+                let isAboveRevenueRateFilter = (item.revenueRate - 5) > parseInt(revenueRateFilterRef.current?.value ?? "0");
+                let isBellowRevenueRateFilter = (item.revenueRate + 5) < parseInt(revenueRateFilterRef.current?.value ?? "0");
 
-                let isAboveGiftRateFilter = parseInt(item.giftRate - 5) > parseInt(giftRateFilterRef.current.value);
-                let isBellowGiftRateFilter = parseInt(item.giftRate + 5) < parseInt(giftRateFilterRef.current.value);
+                let isAboveGiftRateFilter = (item.giftRate - 5) > parseInt(giftRateFilterRef.current?.value ?? "0");
+                let isBellowGiftRateFilter = (item.giftRate + 5) < parseInt(giftRateFilterRef.current?.value ?? "0");
 
                 let isBlueHighlighted = (isAboveRevenueRateFilter || isBellowGiftRateFilter);
                 let isRedHighlighted = (isBellowRevenueFilter || isBellowRevenueRateFilter || isAboveGiftRateFilter);
