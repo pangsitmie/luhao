@@ -23,6 +23,9 @@ import BrandDashboard from "./scenes/dashboard/BrandDashboard";
 import StoreDashboard from "./scenes/dashboard/StoreDashboard";
 import BonusGameManagement from "./scenes/bonusGame/BonusGameManagement";
 import ReviewManagement from "./scenes/review/ReviewManagement";
+import DepositManagement from "./scenes/deposit/DepositManagement";
+import SystemNotificationManagement from "./scenes/notification/SystemNotificationManagement";
+import AdsManagement from "./scenes/ads/AdsManagement";
 
 
 
@@ -132,29 +135,29 @@ const App = () => {
                       />
 
                       {/* NOTIFICATION */}
-                      {/* <Route path="/system-notification" element={<SystemNotificationManagement />} />
+                      <Route path="/system-notification" element={<SystemNotificationManagement />} />
                       <Route path="/system-ads" element={<AdsManagement />} />
-                      <Route path="/partner" element={<PartnerManagement />} />
-                      <Route path="/partner-ads" element={<PartnerAdsManagement />} /> */}
+                      {/* <Route path="/partner" element={<PartnerManagement />} /> */}
+                      {/* <Route path="/partner-ads" element={<PartnerAdsManagement />} /> */}
 
                       {/* FINANCE */}
-                      {/* <Route
+                      <Route
                         path="/deposit-management"
                         element={<DepositManagement />}
                       />
-                      <Route
+                      {/* <Route
                         path="/reward-management"
                         element={<RewardManagement />}
-                      />
-                      <Route
+                      /> */}
+                      {/* <Route
                         path="/system-coins"
                         element={<SystemCoinManagement />}
-                      />
-                      <Route
+                      /> */}
+                      {/* <Route
                         path="/brand-coins"
                         element={<BrandCoinManagement />}
-                      />
-                      <Route
+                      /> */}
+                      {/* <Route
                         path="/gift-code"
                         element={<GiftCodeManagement />}
                       /> */}

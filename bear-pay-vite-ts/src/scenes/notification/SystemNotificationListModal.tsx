@@ -8,6 +8,7 @@ import { tokens } from "../../theme";
 import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
+import { NotificationSchedulesType, NotificationType } from "../../types/Notification";
 
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
@@ -16,21 +17,32 @@ const checkoutSchema = yup.object().shape({
   rewardId: yup.string().required("required"),
 });
 
+type Props = {
+  props: NotificationSchedulesType
+}
+interface FormValues {
+  title: string;
+  type: string;
+  content: string;
+  comments: string;
+  triggerAtDate: string;
+  expireAtDate: string;
 
+}
 
-export default function SystemNotificationListModal({ props }) {
+export default function SystemNotificationListModal({ props }: Props) {
   const { t } = useTranslation();
   //========================== THEME ==========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+  var btnTitle = t("view"), modalTitle = t("details");
 
   const [modal, setModal] = useState(false); //open or close modal
 
 
   // ========================== STATES AND HANDLERS ==========================
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues, setInitialValues] = useState<FormValues>({
     title: "",
     type: "",
     content: "",
@@ -40,13 +52,13 @@ export default function SystemNotificationListModal({ props }) {
   });
 
   useEffect(() => {
-    const expireAtDate = props.expireAt === null ? t('none') : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss');
+    const expireAtDate = props.notification.expireAt === null ? t('none') : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss');
 
     setInitialValues({
       title: props.notification.title,
-      type: props.notification.type.name,
+      type: props.notification.type,
       content: props.notification.content,
-      comments: props.comment,
+      comments: props.comments,
       triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
       expireAtDate: expireAtDate,
     });
@@ -77,7 +89,7 @@ export default function SystemNotificationListModal({ props }) {
   };
 
 
-  const handleFormSubmit = (values) => { };
+  const handleFormSubmit = () => { };
 
   const toggleModal = () => {
     setModal(!modal);
@@ -98,7 +110,10 @@ export default function SystemNotificationListModal({ props }) {
       {modal && (
         <div className="modal">
           <Box onClick={toggleModal} className="overlay"></Box>
-          <Box className="modal-content" backgroundColor={colors.primary[500]}>
+          <Box className="modal-content"
+            sx={{
+              backgroundColor: colors.primary[500],
+            }}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                 {modalTitle}
@@ -196,7 +211,7 @@ export default function SystemNotificationListModal({ props }) {
                       />
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <button onClick={handleDelete} class="btn_delete noselect"><span class="text">{t('delete')}</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
+                      <button onClick={handleDelete} className="btn_delete noselect"><span className="text">{t('delete')}</span><span className="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                     </Box>
                   </form>
                 )}

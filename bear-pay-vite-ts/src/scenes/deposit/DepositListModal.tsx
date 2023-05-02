@@ -1,27 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Checkbox, FilledInput, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { useQuery, useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { GetDepositItem, UpdateDepositItem, RemoveDepositItem, } from "../../graphQL/Queries";
-import ConfirmModal from "../../components/Modal/ConfirmModal";
-import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
+import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
+import { DepositItemType } from "../../types/Deposit";
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
 });
 
+type Props = {
+    props: DepositItemType
+}
+interface FormValues {
+    name: string;
+    description: string;
+}
 
-export default function DepositListModal({ props }) {
+export default function DepositListModal({ props }: Props) {
     const { t } = useTranslation();
 
-    const [rewardToggle, setRewardToggle] = useState(false);
-    const handleRewardToggleChange = (event) => {
+    const [rewardToggle, setRewardToggle] = useState<boolean>(false);
+    const handleRewardToggleChange = (event: any) => {
         setRewardToggle(event.target.checked);
     };
 
@@ -30,15 +36,13 @@ export default function DepositListModal({ props }) {
     const colors = tokens(theme.palette.mode);
 
 
-    const [purchaseRecords, setPurchaseRecords] = useState([]);
+    const [purchaseRecords, setPurchaseRecords] = useState<DepositItemType[]>([]);
     useEffect(() => {
         console.log(purchaseRecords);
     }, [purchaseRecords]);
 
     const [typeId, setTypeId] = useState(0);
-    const handleTypeIdChange = (event) => {
-        setTypeId(event.target.value);
-    };
+
 
     //========================== INITIAL VALUES ==========================
     const [initialValues, setInitialValues] = useState({
@@ -57,7 +61,7 @@ export default function DepositListModal({ props }) {
     });
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -66,17 +70,17 @@ export default function DepositListModal({ props }) {
 
 
     const [startAtDate, setStartAtDate] = useState('');
-    function handleStartAtDateChange(event) {
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
     const [endAtDate, setEndAtDate] = useState('');
-    function handleEndAtDateChange(event) {
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
     const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
         setStatus(event.target.value);
     };
 
@@ -87,7 +91,7 @@ export default function DepositListModal({ props }) {
     const [ApolloUpdateDepositItem, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(UpdateDepositItem);
     // ============ REMOVE BRAND ============
     const [ApolloRemoveDepositItem, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveDepositItem);
-    const handleDelete = (e) => {
+    const handleDelete = () => {
         var result = window.confirm("Are you sure you want to delete this item?");
         if (result) {
             ApolloRemoveDepositItem({
@@ -110,7 +114,7 @@ export default function DepositListModal({ props }) {
         }
     }, [dataUpdate, dataRemove]);
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         const variables = {
             args: [
                 {
@@ -194,7 +198,10 @@ export default function DepositListModal({ props }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -221,6 +228,12 @@ export default function DepositListModal({ props }) {
                                                         return (
                                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                                 {t("disable")}
+                                                            </Typography>)
+                                                    }
+                                                    if (status === "expired") {
+                                                        return (
+                                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                                {t("expired")}
                                                             </Typography>)
                                                     }
                                                     else {
@@ -409,8 +422,8 @@ export default function DepositListModal({ props }) {
                                                         onChange={handleChange}
                                                         value={values.reward}
                                                         name="reward"
-                                                        error={!!touched.principalPhone && !!errors.principalPhone}
-                                                        helperText={touched.principalPhone && errors.principalPhone}
+                                                        error={!!touched.reward && !!errors.reward}
+                                                        helperText={touched.reward && errors.reward}
                                                         sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                     />
                                                     <TextField
@@ -431,7 +444,7 @@ export default function DepositListModal({ props }) {
                                             </Box>
                                         </Box>
                                         <Box display="flex" justifyContent="center" >
-                                            <Button onClick={handleDelete} id={values.id} variant="contained" sx={{
+                                            <Button onClick={handleDelete} variant="contained" sx={{
                                                 backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff",
                                                 ':hover': {
                                                     bgcolor: colors.grey[300],
@@ -466,29 +479,41 @@ export default function DepositListModal({ props }) {
                                         {t('deposit_history')}
                                     </Typography>
                                 </Box>
-                                <Box
-                                    backgroundColor={colors.primary[400]}
-                                    borderRadius="8px"
-                                    height={"200px"}
-                                    overflow={"auto"}
-                                >
-                                    {/* MAP DATA */}
-                                    {purchaseRecords.map((item, i) => (
-                                        <Box
-                                            key={`${item.id}-${i}`}
-                                            display="flex"
-                                            justifyContent="space-between"
-                                            alignItems="center"
-                                            borderBottom={i === purchaseRecords.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
-                                            p="10px"
-                                        >
-                                            <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id}</Box>
-                                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(item.createdAt)}</Box>
-                                            <Box width={"40%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.purchaseId}</Box>
-                                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.status}</Box>
+                                {
+                                    purchaseRecords.length === 0 ?
+                                        <Box display="flex" justifyContent="center" alignItems="center" height={"200px"}>
+                                            <Typography variant="h4" sx={{ textAlign: "center", mb: "1rem", fontWeight: "600", color: colors.grey[200] }}>
+                                                {t('no_deposit_history')}
+                                            </Typography>
                                         </Box>
-                                    ))}
-                                </Box>
+                                        :
+                                        <Box
+                                            borderRadius="8px"
+                                            height={"200px"}
+                                            overflow={"auto"}
+                                            sx={{
+                                                backgroundColor: colors.primary[400],
+                                            }}
+                                        >
+                                            {/* MAP DATA */}
+                                            {purchaseRecords.map((item, i) => (
+                                                <Box
+                                                    key={`${item.id}-${i}`}
+                                                    display="flex"
+                                                    justifyContent="space-between"
+                                                    alignItems="center"
+                                                    borderBottom={i === purchaseRecords.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                                    p="10px"
+                                                >
+                                                    <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id}</Box>
+                                                    <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(item.createdAt)}</Box>
+                                                    <Box width={"40%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.purchaseId}</Box>
+                                                    <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.status}</Box>
+                                                </Box>
+                                            ))}
+                                        </Box>
+                                }
+
 
                             </Box>
                         </Box >

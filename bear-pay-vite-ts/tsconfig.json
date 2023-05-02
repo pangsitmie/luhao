@@ -5,6 +5,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "types": ["dotenv"],
+    "incremental": true,
+
     // node
     "typeRoots": [
       "./node_modules/@types"

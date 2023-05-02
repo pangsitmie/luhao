@@ -227,5 +227,8 @@
     "bonus_game": "Bonus Game",
     "max_currency_amount": "Max Currency Amount",
     "now_currency_amount": "Now Current Amount",
-    "earning": "Earning"
+    "earning": "Earning",
+    "no_deposit_history": "No Deposit History",
+    "expired": "Expired"
+
 }

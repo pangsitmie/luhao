@@ -612,6 +612,7 @@ query ManagerGetAllNotificationSchedules {
       content
       type
       expireAt
+      status
     }
   }
 }

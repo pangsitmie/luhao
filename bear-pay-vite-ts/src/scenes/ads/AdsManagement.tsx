@@ -1,26 +1,22 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
-// import { format } from 'date-fns';
 
 // QUERIES
 import { GetAdsList } from '../../graphQL/Queries'
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 // ICONS
-import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link } from 'react-router-dom';
-import { replaceNullWithEmptyString } from '../../utils/Utils';
 import { format } from 'date-fns';
 import AdsListModal from './AdsListModal';
 import CreateAdsModal from './CreateAdsModal';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
-import Pagination from '../../components/Pagination';
-import Refresh from '../../components/Refresh';
 import { useTranslation } from 'react-i18next';
+import { AdsType } from '../../types/Ads';
+
 const AdsManagement = () => {
     const { t } = useTranslation();
     //========================== THEME ==========================
@@ -28,40 +24,18 @@ const AdsManagement = () => {
     const colors = tokens(theme.palette.mode);
 
     // ========================== STATES AND HANDLERS ==========================
-    const [filter, setFilter] = useState('品牌名');
-    const handleFilterChange = (e) => {
-        setFilter(e.target.value);
-    };
+
 
     const [status, setStatus] = useState('');
-    const handleStatusChange = (e) => {
-        setStatus(e.target.value);
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
+        setStatus(event.target.value);
     };
-
-    const [review, setReview] = useState('');
-    const handleReviewChange = (e) => {
-        setReview(e.target.value);
-    };
-
-    // ========================== REF ==========================
-
-    // PAGINATION
-    // const handlePageChange = ({ limit, offset }) => {
-    //     setLimit(limit);
-    //     setOffset(offset);
-    // }
-
-
-    const searchValueRef = useRef('');
-    const filterRef = useRef('品牌名');
 
     //========================== GRAPHQL ==========================
     const { loading, error, data } = useQuery(GetAdsList);
-    const [initAds, setInitAds] = useState([]);
-    const [ads, setAds] = useState([]);
+    const [ads, setAds] = useState<AdsType[]>([]);
     useEffect(() => {
         if (data) {
-            setInitAds(data.managerGetAdvertisements); //all brand datas
             setAds(data.managerGetAdvertisements); //datas for display
         }
     }, [data]);
@@ -72,7 +46,7 @@ const AdsManagement = () => {
 
     // ========================== RETURN ==========================
     return (
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>{t('system_ads')}</h1>
             </Box>
@@ -95,7 +69,7 @@ const AdsManagement = () => {
                         <MenuItem value={"停用"}>{t('disable')}</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ width: 140 }} >
+                {/* <FormControl sx={{ width: 140 }} >
                     <InputLabel id="demo-simple-select-label" >{t('review')}</InputLabel>
                     <Select
                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
@@ -110,7 +84,7 @@ const AdsManagement = () => {
                         <MenuItem value={"待審核"}>{t('pending')}</MenuItem>
                         <MenuItem value={"封鎖"}>{t('banned')}</MenuItem>
                     </Select>
-                </FormControl>
+                </FormControl> */}
                 {/* SEARCH BTN */}
                 <Button sx={{
                     backgroundColor: colors.primary[300],
@@ -131,13 +105,15 @@ const AdsManagement = () => {
                 </Button>
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     marginLeft={"auto"}
                     padding={"0"}
                     height={"52px"}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}
                 >
-                    <CreateAdsModal />
+                    {/* <CreateAdsModal /> */}
                 </Box>
 
             </Box>
@@ -145,25 +121,22 @@ const AdsManagement = () => {
 
             {/* TABLE DIV */}
             <Box
-                backgroundColor={colors.primary[400]}
                 borderRadius="10px"
                 height={"50%"}
+                sx={{
+                    backgroundColor: colors.primary[400],
+                }}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
                     justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
                     p="15px"
+
                 >
-                    <Box width={"90%"}>
-                        {/* pagination */}
-                        {/* <Pagination
-                            limit={limit}
-                            offset={offset}
-                            onPageChange={handlePageChange}
-                        /> */}
+                    <Box width={"100%"}>
+
                     </Box>
 
 
@@ -173,7 +146,6 @@ const AdsManagement = () => {
                     justifyContent="space-between"
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
-                    background={colors.grey[300]}
                     p="10px"
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -193,7 +165,6 @@ const AdsManagement = () => {
                     </Box>
                 </Box>
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}

@@ -228,7 +228,11 @@
     "bonus_game": "輪盤小遊戲",
     "max_currency_amount": "最大付費幣數量",
     "now_currency_amount": "目前付費幣數量",
-    "earning": "收益"
+    "earning": "收益",
+    "no_deposit_history": "沒有儲值紀錄",
+    "expired": "已過期"
+
+
 
 
 

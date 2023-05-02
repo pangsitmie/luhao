@@ -14,6 +14,12 @@ const checkoutSchema = yup.object().shape({
   comments: yup.string().required("required"), //this one is required by the api
 });
 
+interface FormValues {
+  title: string;
+  content: string;
+  comments: string;
+  rewardId: string;
+}
 
 export default function CreateSystemNotificationModal() {
   const { t } = useTranslation();
@@ -22,37 +28,34 @@ export default function CreateSystemNotificationModal() {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState<FormValues>({
     title: "",
     content: "",
     comments: "",
     rewardId: "",
-  };
+  });
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+  var btnTitle = t("create"), confirmTitle = t("confirm");
 
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
   };
 
-  const [notifType, setNotifType] = useState('system');
-  const handleNotifTypeChange = (event) => {
-    setNotifType(event.target.value);
-  };
+
 
   const [triggerAtDate, setTriggerAtDate] = useState('');
-  function handleTriggerAtDateChange(event) {
+  function handleTriggerAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTriggerAtDate(event.target.value);
   }
 
   const [expireAtDate, setExpireAtDate] = useState('');
-  function handleExpireAtDateChange(event) {
+  function handleExpireAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setExpireAtDate(event.target.value);
   }
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = (values: FormValues) => {
     const triggerAtDateObj = new Date(triggerAtDate);
     const expireAtDateObj = new Date(expireAtDate);
 
@@ -62,7 +65,7 @@ export default function CreateSystemNotificationModal() {
     let nowUnix = Math.floor(Date.now() / 1000);
 
 
-    const variables = {
+    const variables: any = {
       comment: values.comments,
       // triggerAt: triggerAtUnix,
       notification: {
@@ -118,7 +121,10 @@ export default function CreateSystemNotificationModal() {
       {modal && (
         <Box className="modal">
           <Box onClick={toggleModal} className="overlay"></Box>
-          <Box className="modal-content" backgroundColor={colors.primary[500]}>
+          <Box className="modal-content"
+            sx={{
+              backgroundColor: colors.primary[500],
+            }}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                 {btnTitle}
@@ -212,7 +218,7 @@ export default function CreateSystemNotificationModal() {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                      />  
+                      />
                     </Box>
                     <Box display="flex" justifyContent="center" >
                       <button className="my-button" type="submit">{confirmTitle}</button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { useQuery } from '@apollo/client'
 import { Formik } from "formik";
@@ -7,7 +7,7 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { replaceNullWithEmptyString } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
-import { BRAND_GetMachineReviewData, BRAND_UpdateBrand } from "../../graphQL/BrandPrincipalQueries";
+import { BRAND_GetMachineReviewData } from "../../graphQL/BrandPrincipalQueries";
 import AcceptReviewButton from "./AcceptReviewButton";
 import RejectReviewButton from "./RejectReviewButton";
 import { ReviewItemType } from "../../types/Review";
@@ -86,6 +86,12 @@ export default function ReviewMachineListModal({ props, onUpdate, showButtons }:
             });
 
             setOnlyWallet(nonNullData.onlyWallet);
+        }
+        if (errorInit) {
+            console.log(errorInit);
+        }
+        if (loadingInit) {
+            console.log(loadingInit);
         }
     }, [dataInit]);
 

@@ -1,21 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Checkbox, FilledInput, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { Box, Button, Checkbox, FilledInput, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { CreateDepositItem } from "../../graphQL/Mutations";
 
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
+
+interface FormValues {
+    name: string;
+    price: string;
+    walletValue: string;
+    description: string;
+    maxPurchaseNum: string;
+    reward: string;
+    receiveDaysOverdue: string;
+}
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
-
+    walletValue: yup.string().required("required"),
 });
 
 
@@ -26,23 +33,23 @@ export default function CreateDepositModal() {
     const colors = tokens(theme.palette.mode);
 
     const [rewardToggle, setRewardToggle] = useState(false);
-    const handleRewardToggleChange = (event) => {
+    const handleRewardToggleChange = (event: any) => {
         setRewardToggle(event.target.checked);
     };
 
     //========================== INITIAL VALUES ==========================
-    const initialValues = {
+    const [initialValues, setInitialValues] = useState<FormValues>({
         name: "",
-        price: 0,
-        walletValue: 0,
+        price: "",
+        walletValue: "",
         description: "",
-        maxPurchaseNum: 0,
-        reward: 0,
-        receiveDaysOverdue: 0,
-    };
+        maxPurchaseNum: "",
+        reward: "",
+        receiveDaysOverdue: "",
+    });
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("create"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("create"), confirmTitle = t("confirm");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -51,17 +58,17 @@ export default function CreateDepositModal() {
 
     // 0 = standing, 1 = limited
     const [typeId, setTypeId] = useState(0);
-    const handleTypeIdChange = (event) => {
+    const handleTypeIdChange = (event: any) => {
         setTypeId(event.target.value);
     };
 
     const [startAtDate, setStartAtDate] = useState('');
-    function handleStartAtDateChange(event) {
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
     const [endAtDate, setEndAtDate] = useState('');
-    function handleEndAtDateChange(event) {
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
@@ -76,7 +83,7 @@ export default function CreateDepositModal() {
 
 
     // ========================== FUNCTIONS ==========================
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         console.log("create deposit item started");
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
@@ -85,7 +92,7 @@ export default function CreateDepositModal() {
         let endAtUnix = endAtDateObj.getTime() / 1000;
         let nowUnix = Math.floor(Date.now() / 1000);
 
-        const variables = {
+        const variables: any = {
             type: typeId === 0 ? "standing" : "limited",
             name: values.name,
             price: parseInt(values.price),
@@ -146,7 +153,10 @@ export default function CreateDepositModal() {
             {modal && (
                 <Box className="modal" >
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Typography variant="h2" sx={{ mb: "25px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                                 {btnTitle} {t('deposit_item')}
@@ -211,8 +221,8 @@ export default function CreateDepositModal() {
                                                 onChange={handleChange}
                                                 value={values.description}
                                                 name="description"
-                                                error={!!touched.intro && !!errors.intro}
-                                                helperText={touched.intro && errors.intro}
+                                                error={!!touched.description && !!errors.description}
+                                                helperText={touched.description && errors.description}
                                                 sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                             />
 
@@ -228,8 +238,8 @@ export default function CreateDepositModal() {
                                                     value={values.walletValue}
                                                     name="walletValue"
                                                     required // add the required prop
-                                                    error={!!touched.principalPhone && !!errors.principalPhone}
-                                                    helperText={touched.principalPhone && errors.principalPhone}
+                                                    error={!!touched.walletValue && !!errors.walletValue}
+                                                    helperText={touched.walletValue && errors.walletValue}
                                                     sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
@@ -242,8 +252,8 @@ export default function CreateDepositModal() {
                                                     value={values.price}
                                                     name="price"
                                                     required // add the required prop
-                                                    error={!!touched.principalPhone && !!errors.principalPhone}
-                                                    helperText={touched.principalPhone && errors.principalPhone}
+                                                    error={!!touched.price && !!errors.price}
+                                                    helperText={touched.price && errors.price}
                                                     sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
@@ -272,8 +282,6 @@ export default function CreateDepositModal() {
                                                     value={startAtDate}
                                                     name="startAt"
                                                     onChange={handleStartAtDateChange}
-                                                    error={!!touched.startAt && !!errors.startAt}
-                                                    helperText={touched.startAt && errors.startAt}
                                                     sx={{ marginBottom: "1rem", mr: '1rem' }}
                                                     InputLabelProps={{
                                                         shrink: true,
@@ -288,8 +296,6 @@ export default function CreateDepositModal() {
                                                     value={endAtDate}
                                                     name="endAt"
                                                     onChange={handleEndAtDateChange}
-                                                    error={!!touched.endAt && !!errors.endAt}
-                                                    helperText={touched.endAt && errors.endAt}
                                                     sx={{ marginBottom: "1rem" }}
                                                     InputLabelProps={{
                                                         shrink: true,
@@ -322,8 +328,8 @@ export default function CreateDepositModal() {
                                                         onChange={handleChange}
                                                         value={values.reward}
                                                         name="reward"
-                                                        error={!!touched.principalPhone && !!errors.principalPhone}
-                                                        helperText={touched.principalPhone && errors.principalPhone}
+                                                        error={!!touched.reward && !!errors.reward}
+                                                        helperText={touched.reward && errors.reward}
                                                         sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                     />
                                                     <TextField

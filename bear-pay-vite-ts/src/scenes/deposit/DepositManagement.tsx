@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react'
 
 // QUERIES
 import { useQuery } from '@apollo/client'
@@ -7,69 +6,33 @@ import { GetDepositList } from '../../graphQL/Queries'
 // import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries';
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 // ICONS
 import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
 
 // COMPONENETS
-import Pagination from '../../components/Pagination';
-import Refresh from '../../components/Refresh';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
-import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import DepositListModal from './DepositListModal';
 import CreateDepositModal from './CreateDepositModal';
+import { DepositItemType } from '../../types/Deposit';
 
 const DepositManagement = () => {
-    const { entityName } = useSelector((state) => state.entity);
     const { t } = useTranslation();
-
 
     //========================== THEME ==========================
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // ========================== STATES AND HANDLERS ==========================
-
-    const [filter, setFilter] = useState('');
-    const handleFilterChange = (e) => {
-        setFilter(e.target.value);
-    };
-
-    const [status, setStatus] = useState('');
-    const handleStatusChange = (e) => {
-        setStatus(e.target.value);
-    };
-
-    const [review, setReview] = useState('');
-    const handleReviewChange = (e) => {
-        setReview(e.target.value);
-    };
 
     // ========================== REF ==========================
     const searchValueRef = useRef('');
-    const filterRef = useRef('');
 
-    //========================== GRAPHQL ==========================
-
-
-
-    // PAGINATION
-    const [limit, setLimit] = useState(5);
-    const [offset, setOffset] = useState(0);
-    const handlePageChange = ({ limit, offset }) => {
-        setLimit(limit);
-        setOffset(offset);
-    }
-
-    const [initStandingItems, setInitStandingItems] = useState([]);
-    const [standingItems, setStandingItems] = useState([]);
-    const [initLimitedItems, setInitLimitedItems] = useState([]);
-    const [limitedItems, setLimitedItems] = useState([]);
+    const [standingItems, setStandingItems] = useState<DepositItemType[]>([]);
+    const [limitedItems, setLimitedItems] = useState<DepositItemType[]>([]);
     useEffect(() => {
         console.log(standingItems);
     }, [standingItems])
@@ -82,7 +45,6 @@ const DepositManagement = () => {
     });
     useEffect(() => {
         if (dataStanding) {
-            setInitStandingItems(dataStanding.managerGetDepositItems || []); //all brand datas
             setStandingItems(dataStanding.managerGetDepositItems || []); //datas for display   
         }
     }, [dataStanding]);
@@ -95,42 +57,19 @@ const DepositManagement = () => {
     });
     useEffect(() => {
         if (dataLimited) {
-            setInitLimitedItems(dataLimited.managerGetDepositItems); //all brand datas
             setLimitedItems(dataLimited.managerGetDepositItems); //datas for display         
         }
     }, [dataLimited]);
 
     // ========================== FUNCTIONS ==========================
-    const submitSearch = () => {
-        // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
 
-        //CALL SEARCH FUNCTION
-        let value = searchValueRef.current.value;
-        if (value.length > 2) {
-            let search = arraySearch(limitedItems, value);
-            setStandingItems(search)
-        } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-            setStandingItems(initStandingItems)
-        }
-    };
 
-    //SEARCH FUNCTION
-    const arraySearch = (array, keyword, filter) => {
-        const searchTerm = keyword
-
-        return array.filter(value => {
-            return value.name.match(new RegExp(searchTerm, 'g')) ||
-                value.principal.name.match(new RegExp(searchTerm, 'g'))
-        })
-    }
-
-    if (loadingStanding, errorLimited) return <Loader />;
-    if (errorStanding, errorLimited) return <Error />;
+    if (errorLimited) return <Loader />;
+    if (errorLimited) return <Error />;
     // ========================== RETURN ==========================
     return (
         // here
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>{t("deposit_management")}</h1>
             </Box>
@@ -140,46 +79,15 @@ const DepositManagement = () => {
                 {/* name Search */}
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}
-                    maxWidth={140}>
-                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('name')} inputRef={searchValueRef} />
+                    maxWidth={140}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}>
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('name') || ''} inputRef={searchValueRef} />
                 </Box>
-                <FormControl sx={{ width: 100 }} >
-                    <InputLabel id="demo-simple-select-label" >{t('status')}</InputLabel>
-                    <Select
-                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={status}
-                        label={t("status")}
-                        onChange={handleStatusChange}
-                    >
-                        <MenuItem value={"無"}>{t('none')}</MenuItem>
-                        <MenuItem value={"正常"}>{t('normal')}</MenuItem>
-                        <MenuItem value={"停用"}>{t('disable')}</MenuItem>
-                    </Select>
-                </FormControl>
 
-                {/* SEARCH BTN */}
-                <Button sx={{
-                    backgroundColor: colors.primary[300],
-                    color: colors.grey[100],
-                    minWidth: "120px",
-                    height: "52px",
-                    borderRadius: "10px",
-                    ':hover': {
-                        bgcolor: colors.primary[300],
-                        border: '1px solid white',
-                    }
-                }}
-                    onClick={submitSearch}>
-                    <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
-                    <Typography color={"white"} variant="h5" fontWeight="500" sx={{ textTransform: "capitalize" }}>
-                        {t("search")}
-                    </Typography>
-                </Button>
 
 
                 <Box
@@ -190,22 +98,21 @@ const DepositManagement = () => {
                 >
                     <CreateDepositModal />
                 </Box>
-
-
             </Box>
 
             {/* TABLE DIV */}
             <Box display={"flex"} gap={"1rem"}>
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"50%"}
                     width={"100%"}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}
                 >
                     {/* PAGINATION & REFRESH DIV */}
                     <Box
                         borderBottom={`0px solid ${colors.primary[500]}`}
-                        colors={colors.grey[100]}
                         p="15px 25px"
                     >
                         <Typography color={colors.grey[100]} variant="h4" fontWeight="600">常駐</Typography>
@@ -215,8 +122,10 @@ const DepositManagement = () => {
                         justifyContent="space-between"
                         alignItems="center"
                         borderBottom={`4px solid ${colors.primary[500]}`}
-                        background={colors.grey[300]}
                         p="10px"
+                        sx={{
+                            backgroundColor: colors.primary[400],
+                        }}
                     >
                         <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                             <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("name")}</Typography>
@@ -231,10 +140,12 @@ const DepositManagement = () => {
 
                     {/* here */}
                     <Box
-                        backgroundColor={colors.primary[400]}
                         borderRadius="10px"
                         height={"100%"}
                         overflow={"auto"}
+                        sx={{
+                            backgroundColor: colors.primary[400],
+                        }}
                     >
                         {/* MAP DATA */}
                         {standingItems.map((item, i) => (
@@ -256,15 +167,16 @@ const DepositManagement = () => {
                     </Box>
                 </Box>
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"50%"}
                     width={"100%"}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}
                 >
                     {/* PAGINATION & REFRESH DIV */}
                     <Box
                         borderBottom={`0px solid ${colors.primary[500]}`}
-                        colors={colors.grey[100]}
                         p="15px 25px"
                     >
                         <Typography color={colors.grey[100]} variant="h4" fontWeight="600">限時</Typography>
@@ -274,8 +186,8 @@ const DepositManagement = () => {
                         justifyContent="space-between"
                         alignItems="center"
                         borderBottom={`4px solid ${colors.primary[500]}`}
-                        background={colors.grey[300]}
                         p="10px"
+
                     >
                         <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"}>
                             <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t("name")}</Typography>
@@ -290,7 +202,6 @@ const DepositManagement = () => {
 
                     {/* here */}
                     <Box
-                        backgroundColor={colors.primary[400]}
                         borderRadius="12px"
                         height={"100%"}
                         overflow={"auto"}
