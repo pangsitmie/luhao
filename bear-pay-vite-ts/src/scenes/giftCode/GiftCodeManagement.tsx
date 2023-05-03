@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react'
 
 // QUERIES
-import { useQuery } from '@apollo/client'
-import { GetAllBrands, GetBrandListPagination, ManagerGetGiftCodes } from '../../graphQL/Queries'
-import { BRAND_GetAllBrands, BRAND_GetGiftCodes } from '../../graphQL/BrandPrincipalQueries';
+import { DocumentNode, useQuery } from '@apollo/client'
+import { ManagerGetGiftCodes } from '../../graphQL/Queries'
+import { BRAND_GetGiftCodes } from '../../graphQL/BrandPrincipalQueries';
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 // ICONS
@@ -15,19 +14,16 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
 // COMPONENETS
-// import BrandListModal from './BrandListModal';
-// import CreateBrandModal from './CreateBrandModal';
-import Refresh from '../../components/Refresh';
-import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
+
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import Pagination from 'src/components/Pagination';
 import CreateBonusGameModal from './CreateGiftCodeModal';
 import GiftCodeListModal from './GiftCodeListModal';
+import { RootState } from '../../redux/store';
+import { GiftCodeType } from '../../types/GiftCode';
 
 const GiftCodeManagement = () => {
-    const { entityName } = useSelector((state) => state.entity);
+    const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
 
 
@@ -37,33 +33,33 @@ const GiftCodeManagement = () => {
 
     // ========================== STATES AND HANDLERS ==========================
 
-    const [filter, setFilter] = useState('品牌名');
-    const handleFilterChange = (e) => {
-        setFilter(e.target.value);
-    };
+    // const [filter, setFilter] = useState('品牌名');
+    // const handleFilterChange = (e) => {
+    //     setFilter(e.target.value);
+    // };
 
     const [status, setStatus] = useState('');
-    const handleStatusChange = (e) => {
+    const handleStatusChange = (e: SelectChangeEvent<string>) => {
         setStatus(e.target.value);
     };
 
     const [review, setReview] = useState('');
-    const handleReviewChange = (e) => {
+    const handleReviewChange = (e: SelectChangeEvent<string>) => {
         setReview(e.target.value);
     };
 
     // ========================== REF ==========================
-    const searchValueRef = useRef('');
+    const searchValueRef = useRef<HTMLInputElement>(null);
     const filterRef = useRef('品牌名');
 
     //========================== GRAPHQL ==========================
 
 
-    const [initItems, setInitItems] = useState([]);
-    const [items, setItems] = useState([]);
+    const [initItems, setInitItems] = useState<GiftCodeType[]>([]);
+    const [items, setItems] = useState<GiftCodeType[]>([]);
 
-    let INIT_DATA_QUERY;
-    let PATH;
+    let INIT_DATA_QUERY: DocumentNode = ManagerGetGiftCodes;
+    let PATH: string = '';
 
     switch (entityName) {
         case 'company':
@@ -100,11 +96,11 @@ const GiftCodeManagement = () => {
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
         // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
+        console.log("search: " + searchValueRef.current?.value + " " + status + " " + review);
 
         //CALL SEARCH FUNCTION
-        let value = searchValueRef.current.value;
-        if (value.length > 2) {
+        let value = searchValueRef.current?.value;
+        if (value && value.length > 2) {
             let search = arraySearch(items, value);
             setItems(search)
         } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
@@ -113,19 +109,18 @@ const GiftCodeManagement = () => {
     };
 
     //SEARCH FUNCTION
-    const arraySearch = (array, keyword, filter) => {
+    const arraySearch = (array: GiftCodeType[], keyword: string) => {
         const searchTerm = keyword
 
         return array.filter(value => {
-            return value.name.match(new RegExp(searchTerm, 'g')) ||
-                value.principal.name.match(new RegExp(searchTerm, 'g'))
+            return value.name.match(new RegExp(searchTerm, 'g'))
         })
     }
 
     // ========================== RETURN ==========================
     return (
         // here
-        <Box p={2} position="flex" flexDirection={"column"}>
+        <Box p={2} display="flex" flexDirection={"column"}>
             <Box height={"10%"}>
                 <h1 className='userManagement_title'>{t("gift_code")}{t('management')}</h1>
             </Box>
@@ -135,11 +130,13 @@ const GiftCodeManagement = () => {
                 {/* name Search */}
                 <Box
                     display="flex"
-                    backgroundColor={colors.primary[400]}
                     borderRadius="10px"
                     height={"52px"}
-                    maxWidth={140}>
-                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('brand_name')} inputRef={searchValueRef} />
+                    maxWidth={140}
+                    sx={{
+                        backgroundColor: colors.primary[400],
+                    }}>
+                    <InputBase sx={{ ml: 2, pr: 2 }} placeholder={t('brand_name') || ''} inputRef={searchValueRef} />
                 </Box>
                 <FormControl sx={{ width: 100 }} >
                     <InputLabel id="demo-simple-select-label" >{t('status')}</InputLabel>
@@ -208,16 +205,17 @@ const GiftCodeManagement = () => {
             {/* here */}
             {/* TABLE DIV */}
             <Box
-                backgroundColor={colors.primary[400]}
                 borderRadius="10px"
                 height={"50%"}
+                sx={{
+                    backgroundColor: colors.primary[400],
+                }}
             >
                 {/* PAGINATION & REFRESH DIV */}
                 <Box
                     display="flex"
                     justifyContent="center"
                     borderBottom={`0px solid ${colors.primary[500]}`}
-                    colors={colors.grey[100]}
                     p="15px"
                 >
                 </Box>
@@ -226,7 +224,6 @@ const GiftCodeManagement = () => {
                     justifyContent="space-between"
                     alignItems="center"
                     borderBottom={`4px solid ${colors.primary[500]}`}
-                    background={colors.grey[300]}
                     p="10px"
                 >
                     <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"}>
@@ -248,7 +245,6 @@ const GiftCodeManagement = () => {
 
                 {/* here */}
                 <Box
-                    backgroundColor={colors.primary[400]}
                     borderRadius="12px"
                     height={"100%"}
                     overflow={"auto"}
@@ -260,7 +256,7 @@ const GiftCodeManagement = () => {
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
-                            borderBottom={i === item.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                            borderBottom={i === items.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
                             p="10px"
                         >
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
@@ -268,19 +264,19 @@ const GiftCodeManagement = () => {
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.reward.content.amount}</Box>
                             <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
                                 {(() => {
-                                    if (item.status === "disable") {
+                                    if (status === "disable") {
                                         return (
                                             <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("disable")}
                                             </Typography>)
                                     }
-                                    else if (item.status === "banned") {
+                                    else if (status === "banned") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("banned")}
                                             </Typography>)
                                     }
-                                    else if (item.status === "removed") {
+                                    else if (status === "removed") {
                                         return (
                                             <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
                                                 {t("deleted")}

@@ -80,7 +80,7 @@ mutation PatchMachineForManager(
 }
 `
 // COINS
-export const ManagerCreateCurrencyReward = gql`
+export const ManagerCreateCurrencyReward1 = gql`
 mutation ManagerCreateCurrencyReward(
   $currencyId: String!
   $sourceType: EManagerCreateRewardSourceType!
@@ -116,6 +116,36 @@ mutation ManagerCreateCurrencyReward(
     )
   }
 }
+`
+export const ManagerCreateCurrencyReward = gql`
+mutation CreateCurrencyRewardForManager(
+  $belongToRole: EManagerRewardBelongToRole!
+  $belongToId: ID!
+  $amount: Int!
+  $currencyId: String!
+  $sourceType: EManagerCreateRewardSourceType!
+  $startAt: Int!
+  $receiveDaysOverdue: Int
+  $description: String
+  $endAt: Int
+  $limit: Int
+) {
+  createCurrencyRewardForManager(
+    belongToRole: $belongToRole
+    belongToId: $belongToId
+    amount: $amount
+    currencyId: $currencyId
+    sourceType: $sourceType
+    startAt: $startAt
+    receiveDaysOverdue: $receiveDaysOverdue
+    description: $description
+    endAt: $endAt
+    limit: $limit
+  ) {
+    id
+  }
+}
+
 `
 export const CreateMachineForManager = gql`
 mutation CreateMachineForManager(
@@ -207,7 +237,7 @@ mutation PatchBrandBillboardForManager(
   $image: String
   $startAt: Int
   $endAt: Int
-  $statusId: EUpdateBrandBillboardStatus
+  $status: EUpdateBrandBillboardStatus
 ) {
   patchBrandBillboardForManager(
     billboardId: $billboardId
@@ -217,10 +247,9 @@ mutation PatchBrandBillboardForManager(
     image: $image
     startAt: $startAt
     endAt: $endAt
-    statusId: $statusId
+    status: $status
   )
 }
-
 `
 export const UploadBillboardImage = gql`
 mutation GenBillboardImageUploadURI($mimetype: String!, $fileSize: Int!) {

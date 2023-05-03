@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { useLazyQuery, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -11,14 +11,25 @@ import ConfirmModal from "../../components/Modal/ConfirmModal";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { default_ads_image_900x360_filename } from "../../data/strings";
 import { useTranslation } from 'react-i18next';
+import { AdsType } from "../../types/Ads";
 
 const checkoutSchema = yup.object().shape({
     url: yup.string().required("required"),
 });
 
 
+type Props = {
+    props: AdsType
+}
 
-export default function AdsListModal({ props }) {
+interface FormValues {
+    image: string;
+    url: string;
+    description: string;
+    type: string;
+}
+
+export default function AdsListModal({ props }: Props) {
     const { t } = useTranslation();
     //========================== THEME ==========================
     const theme = useTheme();
@@ -30,7 +41,7 @@ export default function AdsListModal({ props }) {
 
 
     // ========================== STATES AND HANDLERS ==========================
-    const [initialValues, setInitialValues] = useState({
+    const [initialValues, setInitialValues] = useState<FormValues>({
         image: "",
         url: "https://",
         description: "",
@@ -39,16 +50,16 @@ export default function AdsListModal({ props }) {
     });
 
     const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
         setStatus(event.target.value);
     };
     const [startAtDate, setStartAtDate] = useState('');
-    function handleStartAtDateChange(event) {
+    function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setStartAtDate(event.target.value);
     }
 
     const [endAtDate, setEndAtDate] = useState('');
-    function handleEndAtDateChange(event) {
+    function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
         setEndAtDate(event.target.value);
     }
 
@@ -68,10 +79,11 @@ export default function AdsListModal({ props }) {
     );
     useEffect(() => {
         if (data) {
-
             const nonNullData = replaceNullWithEmptyString(data.getAdvertisement[0]);
+            console.log("ADS LSIT MODAL")
             console.log(nonNullData);
             setInitialValues({
+                image: nonNullData.image,
                 url: nonNullData.url,
                 description: nonNullData.description,
                 type: nonNullData.type,
@@ -127,7 +139,7 @@ export default function AdsListModal({ props }) {
         }
     }, [data2]);
 
-    const handleUnBan = (e) => {
+    const handleUnBan = () => {
         var result = window.confirm("Are you sure you want to unban this Advertisement?");
         if (result) {
             ApolloUnBanAds({
@@ -153,11 +165,11 @@ export default function AdsListModal({ props }) {
     }, [data3]);
 
     const [imageFileName, setImageFileName] = useState(default_ads_image_900x360_filename);
-    const handleUploadImageSucess = (name) => {
+    const handleUploadImageSucess = (name: string) => {
         setImageFileName(name);
     };
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: FormValues) => {
         const startAtDateObj = new Date(startAtDate);
         const endAtDateObj = new Date(endAtDate);
 
@@ -165,7 +177,7 @@ export default function AdsListModal({ props }) {
         let endAtUnix = endAtDateObj.getTime() / 1000;
         let nowUnix = Math.floor(Date.now() / 1000);
 
-        const variables = {
+        const variables: any = {
             args: [
                 {
                     id: props.id,
@@ -187,7 +199,7 @@ export default function AdsListModal({ props }) {
         if (values.description !== "") {
             variables.description = values.description;
         }
-        if (initialValues.status !== "banned") {
+        if (status !== "banned") {
             variables.statusId = status;
         }
         // console.log(variables)
@@ -220,7 +232,10 @@ export default function AdsListModal({ props }) {
             {modal && (
                 <Box className="modal">
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Formik
                                 onSubmit={handleFormSubmit}
@@ -248,7 +263,7 @@ export default function AdsListModal({ props }) {
                                                 </Box>
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "ads")} type={values.type} />
+                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "ads") || ''} type={values.type} />
                                                 </Box>
                                             </Box>
 
@@ -270,9 +285,9 @@ export default function AdsListModal({ props }) {
                                                     sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <FormControl sx={{ minWidth: 150 }} >
-                                                    <InputLabel id="demo-simple-select-label" >{initialValues.status}</InputLabel>
+                                                    <InputLabel id="demo-simple-select-label" >{status}</InputLabel>
                                                     <Select
-                                                        disabled={initialValues.status === "banned"}
+                                                        disabled={status === "banned"}
                                                         sx={{ borderRadius: "10px", background: colors.primary[400] }}
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
@@ -333,8 +348,8 @@ export default function AdsListModal({ props }) {
                                                     </Typography>
                                                 </Button>
 
-                                                {values.status === "banned" ? (
-                                                    <Button onClick={handleUnBan} id={values.id} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
+                                                {status === "banned" ? (
+                                                    <Button onClick={handleUnBan} variant="contained" sx={{ minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff" }}>
                                                         <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: "white" }}>
                                                             {unbanTitle}
                                                         </Typography>

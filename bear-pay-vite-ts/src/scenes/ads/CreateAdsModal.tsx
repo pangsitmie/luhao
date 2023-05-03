@@ -12,14 +12,12 @@ import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
     url: yup.string().required("required"),
-
 });
 
 interface FormValues {
     url: string;
     description: string;
 }
-type ImageType = 'brand' | 'store' | 'banner' | 'placement';
 
 
 export default function CreateAdsModal() {
@@ -33,8 +31,8 @@ export default function CreateAdsModal() {
 
 
     // ========================== STATES AND HANDLERS ==========================
-    const [typeId, setTypeId] = useState<ImageType>('banner');
-    const handleTypeIdChange = (event: SelectChangeEvent<ImageType>) => {
+    const [typeId, setTypeId] = useState<string>('banner');
+    const handleTypeIdChange = (event: SelectChangeEvent<string>) => {
         setTypeId(event.target.value);
     };
 

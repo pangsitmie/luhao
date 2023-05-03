@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -8,7 +8,6 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import { CreateStore } from "../../graphQL/Queries";
 import PlacesAutocomplete, {
     geocodeByAddress,
-    geocodeByPlaceId,
     getLatLng,
 } from 'react-places-autocomplete';
 import { GetBrandList } from "../../graphQL/Queries";
@@ -16,9 +15,9 @@ import { areaData } from "../../data/cityData";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTranslation } from 'react-i18next';
 import Brand from "../../types/Brand";
+import { toast } from "react-toastify";
 
 
 
@@ -44,7 +43,13 @@ const checkoutSchema = yup.object().shape({
     principalName: yup.string().required("required"),
     principalAccount: yup.string().required("required"),
     principalPassword: yup.string().required("required").matches(passwordRegex),
-    principalLineUrl: yup.string().required("required"),
+    //the principal line url must be in the format of https://lin.ee/ and followed by any characters
+    principalLineUrl: yup.string()
+        .required("Please enter a lin.ee URL")
+        .matches(
+            /^(https:\/\/lin.ee\/).+$/,
+            "Please enter a valid https://lin.ee/ followed with some characters"
+        ),
     principalEmail: yup.string().email("invalid email"),
 });
 
@@ -178,14 +183,19 @@ export default function CreateStoreModal() {
         if (data) {
             window.location.reload();
         }
-    }, [data]);
+        if (error) {
+            toast.error(error.message);
+        }
+        if (loading) {
+            console.log(loading);
+        }
+    }, [data, error, loading]);
 
 
     const [coverFileName, setCoverFileName] = useState('');
     const handleUploadCoverSucess = (name: string) => {
         setCoverFileName(name);
     };
-
     const handleFormSubmit = (values: FormValues) => {
         const variables: any = {
             args: [

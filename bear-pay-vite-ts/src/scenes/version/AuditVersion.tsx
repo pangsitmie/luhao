@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Box, TextField, Typography, useTheme } from "@mui/material";
 import { useMutation, useQuery } from '@apollo/client'
 import { Formik } from "formik";
@@ -7,23 +7,30 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { UpdateGamePayVersion } from "../../graphQL/Mutations";
 // ICONS
-import InputBase from "@mui/material/InputBase";
 import { GetCurrentVersion } from "../../graphQL/Queries";
 import { useTranslation } from 'react-i18next';
 
+
+interface FormValues {
+    server: string;
+    android: string;
+    ios: string;
+}
+
 const checkoutSchema = yup.object().shape({
-    // android: yup.string().required("請輸入版本號"),
-    // ios: yup.string().required("請輸入版本號"),
 });
 
-const GamePayVersion = () => {
+
+
+
+const AuditVersion = () => {
     const { t } = useTranslation();
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
 
-    const [initialValues, setInitialValues] = useState({
+    const [initialValues, setInitialValues] = useState<FormValues>({
         server: "",
         android: "",
         ios: "",
@@ -31,7 +38,7 @@ const GamePayVersion = () => {
 
     const { data } = useQuery(GetCurrentVersion, {
         variables: {
-            clientName: "gamePay"
+            clientName: "audit"
         }
     })
     useEffect(() => {
@@ -51,9 +58,9 @@ const GamePayVersion = () => {
         }
     }, [versionData]);
 
-    const handleFormSubmit = (values) => {
-        const variables = {
-            clientName: "gamePay",
+    const handleFormSubmit = (values: FormValues) => {
+        const variables: any = {
+            clientName: "audit",
         };
         if (values.android) {
             variables.android = values.android;
@@ -61,19 +68,19 @@ const GamePayVersion = () => {
         if (values.ios) {
             variables.ios = values.ios;
         }
+
         if (values.android === "" && values.ios === "")
             return alert("請輸入版本號");
         ApolloUpdateVersion({ variables });
     }
 
+
     return (
-        <Box pr={2}>
-            <Box className="container"
-            >
-                <Box className="box"
-                    border={"1px solid #111"}>
+        <Box pl={2}>
+            <div className="container">
+                <div className="box">
                     <Typography variant="h3" sx={{ mt: "5px", fontSize: "1.5rem", fontWeight: "500", color: colors.grey[200] }}>
-                        Game Pay {t('version')}
+                        Audit System {t('version')}
                     </Typography>
                     <Typography variant="h3" sx={{ fontSize: ".9rem", fontWeight: "500", color: colors.grey[200] }}>
                         {t('server_version')}: {initialValues.server}
@@ -142,10 +149,10 @@ const GamePayVersion = () => {
                     <div>
 
                     </div>
-                </Box>
-            </Box>
-        </Box>
+                </div>
+            </div>
+        </Box >
     )
 }
 
-export default GamePayVersion
+export default AuditVersion

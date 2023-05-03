@@ -10,11 +10,35 @@ import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
 import { replaceNullWithEmptyString } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
+import { NotificationSchedulesType } from "../../types/Notification";
 
 const checkoutSchema = yup.object().shape({});
 
+type Props = {
+  props: NotificationSchedulesType
+}
 
-export default function SystemCoinListModal({ props }) {
+interface FormValues {
+  title: string;
+  content: string;
+  comment: string;
+  rewardId: string;
+  triggerAtDate: string;
+  expireAt: string;
+  currencyID: string;
+  currencyName: string;
+  currencyAmount: string;
+  receiveDaysOverdue: string;
+  rewardLimit: string;
+  rewardDescription: string;
+  rewardStatus: string;
+  startAt: string;
+  endAt: string;
+}
+
+
+export default function SystemCoinListModal({ props }: Props) {
+  console.log(props);
   const { t } = useTranslation();
   //========================== THEME ==========================
   const theme = useTheme();
@@ -27,28 +51,16 @@ export default function SystemCoinListModal({ props }) {
     setModal(!modal);
   };
 
-  const [notifType, setNotifType] = useState('system');
-  const handleNotifTypeChange = (event) => {
-    setNotifType(event.target.value);
-  };
-  const [triggerAtDate, setTriggerAtDate] = useState('');
-  function handleTriggerAtDateChange(event) {
-    setTriggerAtDate(event.target.value);
-  }
 
-  const [expireAtDate, setExpireAtDate] = useState('');
-  function handleExpireAtDateChange(event) {
-    setExpireAtDate(event.target.value);
-  }
 
   //========================== INITIAL VALUES ==========================
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues, setInitialValues] = useState<FormValues>({
     title: "",
     content: "",
     comment: "",
     rewardId: "",
     triggerAtDate: "",
-    expireAtDate: "",
+    expireAt: "",
     currencyID: "",
     currencyName: "",
     currencyAmount: "",
@@ -65,17 +77,17 @@ export default function SystemCoinListModal({ props }) {
         title: props.notification.title,
         content: props.notification.content,
         comment: props.comment,
-        rewardId: props.rewardId,
-        triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
-        expireAtDate: props.notification.expireAt === null ? t("none") : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+        rewardId: props.notification.reward.id,
+        triggerAtDate: props.triggerAt === null ? t("none") : format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+        expireAt: props.notification.expireAt === null ? t("none") : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         currencyID: props.notification.reward.content.currency.id,
         currencyName: props.notification.reward.content.currency.name,
-        currencyAmount: props.notification.reward.content.amount,
-        receiveDaysOverdue: props.notification.reward.receiveDaysOverdue === null ? t("none"): props.notification.reward.receiveDaysOverdue,
-        rewardLimit: props.notification.reward.limit === null ? t("none") : props.notification.reward.limit,
+        currencyAmount: props.notification.reward.content.amount.toString(),
+        receiveDaysOverdue: props.notification.reward.receiveDaysOverdue === null ? t("none") : props.notification.reward.receiveDaysOverdue.toString(),
+        rewardLimit: props.notification.reward.limit === null ? t("none") : props.notification.reward.limit.toString(),
         rewardDescription: props.notification.reward.description === null ? t("none") : props.notification.reward.description,
-        rewardStatus: props.notification.reward.status.name,
-        startAt: props.notification.reward.startAt === null ? t("none"): format(new Date(props.notification.reward.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+        rewardStatus: props.notification.reward.status,
+        startAt: props.notification.reward.startAt === null ? t("none") : format(new Date(props.notification.reward.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         endAt: props.notification.reward.endAt === null ? t("none") : format(new Date(props.notification.reward.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
       });
     }
@@ -105,7 +117,7 @@ export default function SystemCoinListModal({ props }) {
     }
   };
 
-  const handleFormSubmit = (values) => { };
+  const handleFormSubmit = () => { };
 
   if (modal) {
     document.body.classList.add('active-modal')
@@ -122,7 +134,10 @@ export default function SystemCoinListModal({ props }) {
       {modal && (
         <Box className="modal">
           <Box onClick={toggleModal} className="overlay"></Box>
-          <Box className="modal-content" backgroundColor={colors.primary[500]}>
+          <Box className="modal-content"
+            sx={{
+              backgroundColor: colors.primary[500],
+            }}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                 {btnTitle}
@@ -203,8 +218,6 @@ export default function SystemCoinListModal({ props }) {
                           onChange={handleChange}
                           value={values.triggerAtDate}
                           name="triggerAtDate"
-                          error={!!touched.triggerAtDate && !!errors.triggerAtDate}
-                          helperText={touched.triggerAtDate && errors.triggerAtDate}
                           sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
@@ -215,10 +228,8 @@ export default function SystemCoinListModal({ props }) {
                           label={t('expire_at_time')}
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.expireAtDate}
+                          value={values.expireAt}
                           name="expireAtDate"
-                          error={!!touched.expireAtDate && !!errors.expireAtDate}
-                          helperText={touched.expireAtDate && errors.expireAtDate}
                           sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                       </Box>
@@ -354,7 +365,7 @@ export default function SystemCoinListModal({ props }) {
 
                     </Box>
                     <Box display="flex" justifyContent="center" >
-                      <button onClick={handleDelete} className="btn_delete noselect"><span className="text">移除</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
+                      <button onClick={handleDelete} className="btn_delete noselect"><span className="text">移除</span><span className="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                     </Box>
                   </form>
                 )}

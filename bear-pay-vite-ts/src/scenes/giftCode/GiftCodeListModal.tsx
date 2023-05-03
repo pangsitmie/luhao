@@ -1,24 +1,37 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, TextField, Typography, useTheme } from "@mui/material";
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { useLazyQuery, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
-import { CreateBrand, ManagerCreateGiftCode } from "../../graphQL/Mutations";
-// import { defaultCoverURL, defaultLogoURL, default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
-import LogoUpload from "../../components/Upload/LogoUpload";
-import CoverUpload from "../../components/Upload/CoverUpload";
-import { getImgURL } from "../../utils/Utils";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { replaceNullWithEmptyString } from "../../utils/Utils";
+
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from "react-redux";
+import { GetGiftCode, RemoveGiftCode, UpdateGiftCode } from "../../graphQL/Queries";
+import { format } from 'date-fns';
 import { toast } from "react-toastify";
-import { BRAND_CreateGiftCode } from "src/graphQL/BrandPrincipalMutations";
+import { GiftCodeType } from "../../types/GiftCode";
+import { RootState } from "../../redux/store";
 
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d_!@#]{6,}$/;
 
+
+type Props = {
+    props: GiftCodeType
+    onUpdate: () => void
+}
+
+interface FormValues {
+    name: string;
+    code: string;
+    description: string;
+    coinAmount: string;
+    limit: string;
+    receiveDaysOverdue: string;
+    startAt: string;
+    endAt: string;
+}
 const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
     code: yup.string().required("required"),
@@ -26,8 +39,8 @@ const checkoutSchema = yup.object().shape({
 });
 
 
-export default function CreateBonusGameModal({ onUpdate }) {
-    const { entityName } = useSelector((state) => state.entity);
+export default function GiftCodeListModal({ props, onUpdate }: Props) {
+    const { entityName } = useSelector((state: RootState) => state.entity);
 
     const { t } = useTranslation();
     //THEME
@@ -35,112 +48,140 @@ export default function CreateBonusGameModal({ onUpdate }) {
     const colors = tokens(theme.palette.mode);
 
     //========================== INITIAL VALUES ==========================
-    const initialValues = {
+    const [initialValues, setInitialValues] = useState<FormValues>({
         name: "",
         code: "",
         description: "",
         coinAmount: "",
         limit: "",
         receiveDaysOverdue: "",
-        // startAtDate: "",
-        // endAtDate: "",
-    };
+        startAt: "",
+        endAt: "",
+    });
+
+
+
+    useEffect(() => {
+        console.log("INITIAL VALUES CHANGE");
+        console.log(initialValues);
+    }, [initialValues]);
+
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
         setModal(!modal);
     };
 
-    const [startAtDate, setStartAtDate] = useState('');
-    function handleStartAtDateChange(event) {
-        setStartAtDate(event.target.value);
-    }
+    const [status, setStatus] = useState('disable');
+    const handleStatusChange = (event: SelectChangeEvent<string>) => {
+        setStatus(event.target.value);
+    };
 
-    const [endAtDate, setEndAtDate] = useState('');
-    function handleEndAtDateChange(event) {
-        setEndAtDate(event.target.value);
-    }
 
-    let CREATE_GIFT_CODE_MUTATION;
-    switch (entityName) {
-        case 'company':
-            CREATE_GIFT_CODE_MUTATION = ManagerCreateGiftCode;
-            break;
-        case 'brand':
-            CREATE_GIFT_CODE_MUTATION = BRAND_CreateGiftCode;
-            break;
-        default:
-            break;
-    }
+
+    // INITIAL VALUES FROM GET BRAND QUERY
+    const { loading: loadingInit, error: errorInit, data: dataInit } = useQuery(GetGiftCode
+        , {
+            variables: {
+                args: [
+                    {
+                        id: props.id
+                    }
+                ],
+            },
+            skip: !modal, // Skip the query when modal is closed
+        }
+    );
+    useEffect(() => {
+        if (dataInit) {
+            const nonNullData = replaceNullWithEmptyString(dataInit.getGiftCode[0]);
+            console.log(nonNullData);
+            console.log(nonNullData.reward.receiveDaysOverdue.length === 0)
+
+            setInitialValues({
+                name: nonNullData.name,
+                code: nonNullData.code,
+                description: nonNullData.description,
+                coinAmount: nonNullData.reward.content.amount,
+                limit: nonNullData.reward.limit.length === 0 ? t("none") : nonNullData.reward.limit,
+                receiveDaysOverdue: nonNullData.reward.receiveDaysOverdue ? t("none") : nonNullData.reward.receiveDaysOverdue,
+                startAt: nonNullData.reward.startAt ? t("none") : format(new Date(nonNullData.reward.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+                endAt: nonNullData.reward.endAt.length === 0 ? t("none") : format(new Date(nonNullData.reward.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
+            });
+
+            setStatus(nonNullData.status);
+
+        }
+    }, [dataInit]);
+
+    // let UPDATE_GIFT_CODE_MUTATION;
+    // switch (entityName) {
+    //     case 'company':
+    //         UPDATE_GIFT_CODE_MUTATION = UpdateGiftCode;
+    //         break;
+    //     case 'brand':
+    //         UPDATE_GIFT_CODE_MUTATION = UpdateGiftCode;
+    //         break;
+    //     default:
+    //         break;
+    // }
 
     //========================== GRAPHQL ==========================
-    const [ApolloCreateGiftCode, { loading, error, data }] = useMutation(CREATE_GIFT_CODE_MUTATION);
-    useEffect(() => {
-        if (data) {
-            onUpdate();
-            toast.success(t('create_success'));
-            // window.location.reload();
-        }
-    }, [data]);
+    const [ApolloUpdateGiftCode, { loading, error, data }] = useLazyQuery(UpdateGiftCode);
 
-
+    const [ApolloRemoveGiftCode, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveGiftCode);
 
     // ========================== FUNCTIONS ==========================
-    const handleFormSubmit = (values) => {
-        console.log("SEND CREATE GIFT CODE API REQUEST");
-        const startAtDateObj = new Date(startAtDate);
-        const endAtDateObj = new Date(endAtDate);
-
-        let startAtUnix = startAtDateObj.getTime() / 1000;
-        let endAtUnix = endAtDateObj.getTime() / 1000;
-
-        let nowUnix = Math.floor(Date.now() / 1000);
-
-
-        const variables = {
-            name: values.name,
-            code: values.code,
-            coinAmount: parseInt(values.coinAmount),
-            // description: values.description,
+    const handleFormSubmit = (values: FormValues) => {
+        const variables: any = {
+            args: [{
+                id: props.id,
+            }],
+            status: status,
         };
-
-        // check if startAtUnix is filled
-        if (isNaN(startAtUnix)) {
-            startAtUnix = nowUnix;
-        }
-
-        //insert startAtUnix to variables
-        variables.startAt = startAtUnix;
-
-        //insert endAtUnix to variables if it is selected
-        if (!isNaN(endAtUnix)) {
-            variables.endAt = endAtUnix;
-        }
-
-
-        if (endAtUnix < startAtUnix) {
-            alert("End date must be greater than start date");
-            return;
-        }
-
-
-        if (values.receiveDaysOverdue > 0) {
-            variables.receiveDaysOverdue = parseInt(values.receiveDaysOverdue);
+        if (values.name) {
+            variables.name = values.name;
         }
         if (values.description) {
             variables.description = values.description;
         }
-        if (values.limit > 0) {
-            variables.limit = parseInt(values.limit);
-        }
 
         console.log(variables);
-        ApolloCreateGiftCode({ variables });
+        ApolloUpdateGiftCode({ variables });
     };
 
+    useEffect(() => {
+        if (data) {
+            toast.success(t("update_success"));
+        }
+        if (dataRemove) {
+            toast.error(t("delete_success"));
+        }
+        onUpdate();
+    }, [data, dataRemove]);
+
+
+
+    const handleDelete = () => {
+        var result = window.confirm("Are you sure you want to delete this item?");
+        if (result) {
+            ApolloRemoveGiftCode({
+                variables: {
+                    args: [
+                        {
+                            id: props.id
+                        }
+                    ]
+                }
+            })
+            console.log("deleted");
+        } else {
+            console.log("not deleted");
+        }
+    };
     // ========================== MODAL TOGGLE ==========================
     if (modal) {
         document.body.classList.add('active-modal')
@@ -158,16 +199,42 @@ export default function CreateBonusGameModal({ onUpdate }) {
             {modal && (
                 <Box className="modal" >
                     <Box onClick={toggleModal} className="overlay"></Box>
-                    <Box className="modal-content" backgroundColor={colors.primary[500]}>
+                    <Box className="modal-content"
+                        sx={{
+                            backgroundColor: colors.primary[500],
+                        }}>
                         <Box m="20px">
                             <Typography variant="h2" sx={{ mb: "10px", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                                 {btnTitle}
                             </Typography>
+                            <Box textAlign="center" mb={"1rem"} >
+                                {(() => {
+                                    if (status === "disable") {
+                                        return (
+                                            <Typography variant="h5" color={colors.primary[100]} >
+                                                {t('disable')}
+                                            </Typography>)
+                                    }
+                                    if (status === "banned") {
+                                        return (
+                                            <Typography variant="h5" color={colors.redAccent[500]}>
+                                                {t('banned')}
+                                            </Typography>)
+                                    }
+                                    else {
+                                        return (
+                                            <Typography variant="h5" color={colors.greenAccent[500]}>
+                                                {t('normal')}
+                                            </Typography>)
+                                    }
+                                })()}
+                            </Box>
 
                             <Formik
                                 onSubmit={handleFormSubmit}
                                 initialValues={initialValues}
                                 validationSchema={checkoutSchema}
+                                enableReinitialize={true}
                             >
                                 {({
                                     values,
@@ -179,7 +246,7 @@ export default function CreateBonusGameModal({ onUpdate }) {
                                 }) => (
                                     <form onSubmit={handleSubmit}>
                                         <Box>
-                                            <Box display={"flex"} justifyContent={"space-between"}>
+                                            <Box display={"flex"} justifyContent={"space-between"} gap={"1rem"}>
                                                 <TextField className="modal_input_textfield"
                                                     fullWidth
                                                     variant="filled"
@@ -192,10 +259,12 @@ export default function CreateBonusGameModal({ onUpdate }) {
                                                     required // add the required prop
                                                     error={!!touched.name && !!errors.name}
                                                     helperText={touched.name && errors.name}
-                                                    sx={{ marginBottom: "1rem", mr: '1rem', backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                    sx={{ marginBottom: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                                 />
+
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="text"
                                                     label={t('gift_code')}
@@ -209,6 +278,21 @@ export default function CreateBonusGameModal({ onUpdate }) {
                                                     helperText={touched.code && errors.code}
                                                     sx={{ margin: "0 0rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
+                                                <FormControl sx={{ minWidth: 150 }}>
+                                                    <InputLabel id="demo-simple-select-label" >{status}</InputLabel>
+                                                    <Select
+                                                        disabled={status === "banned"}
+                                                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={status}
+                                                        label="status"
+                                                        onChange={handleStatusChange}
+                                                    >
+                                                        <MenuItem value={"normal"}>{t('normal')}</MenuItem>
+                                                        <MenuItem value={"disable"}>{t('disable')}</MenuItem>
+                                                    </Select>
+                                                </FormControl>
                                             </Box>
                                             <TextField
                                                 fullWidth
@@ -235,7 +319,7 @@ export default function CreateBonusGameModal({ onUpdate }) {
                                                     id="outlined-multiline-flexible"
                                                     multiline
                                                     fullWidth
-                                                    maxRows={4}
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="number"
                                                     required // add the required prop
@@ -254,6 +338,7 @@ export default function CreateBonusGameModal({ onUpdate }) {
                                                     variant="filled"
                                                     type="number"
                                                     label={t('currency_limit')}
+                                                    disabled={true}
                                                     placeholder="Null是不限制 或 1~60"
                                                     onBlur={handleBlur}
                                                     onChange={handleChange}
@@ -265,6 +350,7 @@ export default function CreateBonusGameModal({ onUpdate }) {
                                                 />
                                                 <TextField
                                                     fullWidth
+                                                    disabled={true}
                                                     variant="filled"
                                                     type="number"
                                                     label={t('currency_days_limit')}
@@ -282,41 +368,52 @@ export default function CreateBonusGameModal({ onUpdate }) {
                                             <Box display={"flex"} justifyContent={"space-between"}>
                                                 <TextField
                                                     fullWidth
-                                                    id="datetime-local"
+                                                    disabled={true}
+                                                    variant="filled"
+                                                    type="text"
                                                     label={t('start_time')}
-                                                    type="datetime-local"
-                                                    // defaultValue="2017-05-24T10:30"
-                                                    value={startAtDate}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.startAt}
                                                     name="startAt"
-                                                    onChange={handleStartAtDateChange}
                                                     error={!!touched.startAt && !!errors.startAt}
                                                     helperText={touched.startAt && errors.startAt}
-                                                    sx={{ marginBottom: "1rem", mr: '1rem' }}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
+                                                    sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                                 <TextField
                                                     fullWidth
-                                                    id="datetime-local"
+                                                    disabled={true}
+                                                    variant="filled"
+                                                    type="text"
                                                     label={t('end_time')}
-                                                    type="datetime-local"
-                                                    // defaultValue="2017-05-24T10:30"
-                                                    value={endAtDate}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.endAt}
                                                     name="endAt"
-                                                    onChange={handleEndAtDateChange}
                                                     error={!!touched.endAt && !!errors.endAt}
                                                     helperText={touched.endAt && errors.endAt}
-                                                    sx={{ marginBottom: "1rem" }}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
+                                                    sx={{ margin: "0rem 0rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                                                 />
                                             </Box>
-
                                         </Box>
-                                        <Box display="flex" justifyContent="center" >
-                                            <button className="my-button" type="submit">{confirmTitle}</button>
+
+                                        <Box display={"flex"} justifyContent={"center"} gap={"1rem"}>
+                                            <Button onClick={handleDelete} variant="contained" sx={{
+                                                backgroundColor: colors.primary[400], minWidth: "100px", padding: ".5rem 1.5rem", margin: "0 1rem", borderRadius: "10px", border: "2px solid #fff",
+                                                ':hover': {
+                                                    bgcolor: colors.grey[300],
+                                                    border: '1px solid' + colors.primary[800],
+                                                    color: "white"
+                                                }
+                                            }}>
+                                                <Typography variant="h5" sx={{ textAlign: "center", fontSize: ".9rem", color: colors.primary[100] }}>
+                                                    {deleteTitle}
+                                                </Typography>
+                                            </Button>
+
+                                            <Box display="flex" justifyContent="center" >
+                                                <button className="my-button" type="submit">{confirmTitle}</button>
+                                            </Box>
                                         </Box>
                                     </form>
                                 )}

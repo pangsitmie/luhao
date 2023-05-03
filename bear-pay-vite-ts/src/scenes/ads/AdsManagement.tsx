@@ -113,7 +113,7 @@ const AdsManagement = () => {
                         backgroundColor: colors.primary[400],
                     }}
                 >
-                    {/* <CreateAdsModal /> */}
+                    <CreateAdsModal />
                 </Box>
 
             </Box>
@@ -136,10 +136,7 @@ const AdsManagement = () => {
 
                 >
                     <Box width={"100%"}>
-
                     </Box>
-
-
                 </Box>
                 <Box
                     display="flex"

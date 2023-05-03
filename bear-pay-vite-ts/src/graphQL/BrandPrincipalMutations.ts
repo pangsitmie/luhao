@@ -44,7 +44,7 @@ mutation PatchBrandBillboardForBrandPrincipal(
   $image: String
   $startAt: Int
   $endAt: Int
-  $statusId: EUpdateBrandBillboardStatus
+  $status: EUpdateBrandBillboardStatus
 ) {
   patchBrandBillboardForBrandPrincipal(
     billboardId: $billboardId
@@ -54,7 +54,7 @@ mutation PatchBrandBillboardForBrandPrincipal(
     image: $image
     startAt: $startAt
     endAt: $endAt
-    statusId: $statusId
+    status: $status
   )
 }
 `

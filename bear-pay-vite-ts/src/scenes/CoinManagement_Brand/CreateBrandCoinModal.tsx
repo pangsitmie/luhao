@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { useQuery, useMutation } from '@apollo/client'
+import { useQuery, useMutation, DocumentNode } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { ManagerCreateCurrencyReward } from "../../graphQL/Mutations";
 import { GetBrandList } from "../../graphQL/Queries";
-import { BRAND_CreateCurrencyReward } from "src/graphQL/BrandPrincipalMutations";
-import { useDispatch, useSelector } from "react-redux";
-import { BRAND_GetBrandCurrencyList, BRAND_GetBrandInfo } from "src/graphQL/BrandPrincipalQueries";
+import { BRAND_CreateCurrencyReward } from "../../graphQL/BrandPrincipalMutations";
+import { useSelector } from "react-redux";
+import { BRAND_GetBrandCurrencyList } from "../../graphQL/BrandPrincipalQueries";
 import { useTranslation } from 'react-i18next';
+import { RootState } from "../../redux/store";
 
 
 
@@ -35,7 +35,7 @@ const checkoutSchema = yup.object().shape({
 
 export default function CreateBrandCoinModal() {
   const { t } = useTranslation();
-  const { entityName } = useSelector((state) => state.entity);
+  const { entityName } = useSelector((state: RootState) => state.entity);
 
   //========================== THEME ==========================
   const theme = useTheme();
@@ -52,23 +52,24 @@ export default function CreateBrandCoinModal() {
   const handleNotifTypeChange = (event) => {
     setNotifType(event.target.value);
   };
+
   const [triggerAtDate, setTriggerAtDate] = useState('');
-  function handleTriggerAtDateChange(event) {
+  function handleTriggerAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTriggerAtDate(event.target.value);
   }
 
   const [expireAtDate, setExpireAtDate] = useState('');
-  function handleExpireAtDateChange(event) {
+  function handleExpireAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setExpireAtDate(event.target.value);
   }
 
   const [startAtDate, setStartAtDate] = useState('');
-  function handleStartAtDateChange(event) {
+  function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setStartAtDate(event.target.value);
   }
 
   const [endAtDate, setEndAtDate] = useState('');
-  function handleEndAtDateChange(event) {
+  function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setEndAtDate(event.target.value);
   }
 
@@ -93,8 +94,8 @@ export default function CreateBrandCoinModal() {
 
   //========================== GRAPHQL ==========================
 
-  let GET_BRAND_LIST_QUERY;
-  let CREATE_FREE_REWARD_MUTATION;
+  let GET_BRAND_LIST_QUERY: DocumentNode = GetBrandList;
+  let CREATE_FREE_REWARD_MUTATION: DocumentNode = ManagerCreateCurrencyReward;
 
   switch (entityName) {
     case 'company':
@@ -252,7 +253,10 @@ export default function CreateBrandCoinModal() {
       {modal && (
         <Box className="modal">
           <Box onClick={toggleModal} className="overlay"></Box>
-          <Box className="modal-content" backgroundColor={colors.primary[500]}>
+          <Box className="modal-content"
+            sx={{
+              backgroundColor: colors.primary[500],
+            }}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                 {btnTitle}
@@ -350,7 +354,7 @@ export default function CreateBrandCoinModal() {
                       </Box>
 
                       <Typography variant="h4" sx={{ m: "1rem 0", textAlign: "center", fontSize: "1rem", fontWeight: "600", color: "#cecece" }}>
-                      {t('reward')}
+                        {t('reward')}
                       </Typography>
 
 

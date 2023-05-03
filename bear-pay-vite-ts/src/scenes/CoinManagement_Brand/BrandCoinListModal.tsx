@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
-import { replaceNullWithEmptyString } from "../../utils/Utils";
-import { BRAND_DeleteNotification } from "src/graphQL/BrandPrincipalQueries";
-import { useDispatch, useSelector } from "react-redux";
+import { BRAND_DeleteNotification } from "../../graphQL/BrandPrincipalQueries";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
+import { NotificationSchedulesType } from "../../types/Notification";
+import { RootState } from "../../redux/store";
 
 
 const checkoutSchema = yup.object().shape({
@@ -20,11 +20,13 @@ const checkoutSchema = yup.object().shape({
   comments: yup.string().required("required"),
   rewardId: yup.string().required("required"),
 });
+type Props = {
+  props: NotificationSchedulesType;
+};
 
-
-export default function BrandCoinListModal({ props }) {
+export default function BrandCoinListModal({ props: Props }) {
   const { t } = useTranslation();
-  const { entityName } = useSelector((state) => state.entity);
+  const { entityName } = useSelector((state: RootState) => state.entity);
 
   //========================== THEME ==========================
   const theme = useTheme();

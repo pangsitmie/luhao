@@ -1,7 +1,5 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import React from "react";
+import { Box, Typography } from "@mui/material";
 import GamePayVersion from "./GamePayVersion";
-import { tokens } from "../../theme";
 import AuditVersion from "./AuditVersion";
 import { useTranslation } from 'react-i18next';
 
@@ -9,8 +7,6 @@ import { useTranslation } from 'react-i18next';
 const VersionManagement = () => {
     const { t } = useTranslation();
     //THEME
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
 
     return (
         <Box p={2}>

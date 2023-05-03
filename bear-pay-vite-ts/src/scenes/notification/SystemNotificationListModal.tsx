@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
@@ -8,7 +8,7 @@ import { tokens } from "../../theme";
 import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
-import { NotificationSchedulesType, NotificationType } from "../../types/Notification";
+import { NotificationSchedulesType } from "../../types/Notification";
 
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
@@ -24,7 +24,7 @@ interface FormValues {
   title: string;
   type: string;
   content: string;
-  comments: string;
+  comment: string;
   triggerAtDate: string;
   expireAtDate: string;
 
@@ -46,7 +46,7 @@ export default function SystemNotificationListModal({ props }: Props) {
     title: "",
     type: "",
     content: "",
-    comments: "",
+    comment: "",
     triggerAtDate: "",
     expireAtDate: "",
   });
@@ -58,7 +58,7 @@ export default function SystemNotificationListModal({ props }: Props) {
       title: props.notification.title,
       type: props.notification.type,
       content: props.notification.content,
-      comments: props.comments,
+      comment: props.comment,
       triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
       expireAtDate: expireAtDate,
     });
@@ -172,13 +172,13 @@ export default function SystemNotificationListModal({ props }: Props) {
                         fullWidth
                         variant="filled"
                         type="text"
-                        label={t('comments')}
+                        label={t('description')}
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.comments}
+                        value={values.comment}
                         name="comments"
-                        error={!!touched.comments && !!errors.comments}
-                        helperText={touched.comments && errors.comments}
+                        error={!!touched.comment && !!errors.comment}
+                        helperText={touched.comment && errors.comment}
                         sx={{ marginBottom: "1rem", marginRight: "1rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
                       <TextField

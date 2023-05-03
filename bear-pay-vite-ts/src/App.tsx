@@ -26,6 +26,10 @@ import ReviewManagement from "./scenes/review/ReviewManagement";
 import DepositManagement from "./scenes/deposit/DepositManagement";
 import SystemNotificationManagement from "./scenes/notification/SystemNotificationManagement";
 import AdsManagement from "./scenes/ads/AdsManagement";
+import SystemCoinManagement from "./scenes/CoinManagement_System/SystemCoinManagement";
+import GiftCodeManagement from "./scenes/giftCode/GiftCodeManagement";
+import VersionManagement from "./scenes/version/VersionManagement";
+import BrandCoinManagement from "./scenes/CoinManagement_Brand/BrandCoinManagement";
 
 
 
@@ -149,18 +153,18 @@ const App = () => {
                         path="/reward-management"
                         element={<RewardManagement />}
                       /> */}
-                      {/* <Route
+                      <Route
                         path="/system-coins"
                         element={<SystemCoinManagement />}
-                      /> */}
-                      {/* <Route
+                      />
+                      <Route
                         path="/brand-coins"
                         element={<BrandCoinManagement />}
-                      /> */}
-                      {/* <Route
+                      />
+                      <Route
                         path="/gift-code"
                         element={<GiftCodeManagement />}
-                      /> */}
+                      />
 
                       {/* STATISTIC */}
                       <Route path="/statistic" element={<StatisticList />} />
@@ -179,7 +183,7 @@ const App = () => {
 
                       {/* <Route path="/promotion" element={<Promotion />} /> */}
                       {/* SYSTEM */}
-                      {/* <Route path="/version" element={<VersionManagement />} /> */}
+                      <Route path="/version" element={<VersionManagement />} />
 
                       {/* REVIEW */}
                       <Route path="/review" element={<ReviewManagement />} />

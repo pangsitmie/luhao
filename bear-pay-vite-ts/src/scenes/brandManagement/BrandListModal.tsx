@@ -153,6 +153,7 @@ const BrandListModal = ({ props, onUpdate }: Props) => {
     }
     if (dataRemove) {
       onUpdate();
+      toast.success(t("delete_success"));
     }
     if (dataUnBan) {
       onUpdate();

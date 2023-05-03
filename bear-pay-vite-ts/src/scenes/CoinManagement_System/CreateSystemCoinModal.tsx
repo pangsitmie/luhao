@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -9,6 +9,31 @@ import { ManagerCreateCurrencyReward } from "../../graphQL/Mutations";
 import { useTranslation } from 'react-i18next';
 
 
+
+
+interface FormValues {
+  receiveDaysOverdue: string;
+  // belongToRole: string;
+  // belongToId: string;
+  amount: string;
+  currencyId: string;
+  // sourceType: string;
+  // triggerAt: string;
+  // startAt: string;
+  // endAt: string;
+  description: string;
+  limit: string;
+  comment: string;
+  title: string;
+  content: string;
+  // type: string;
+  // expireAt: string;
+
+
+
+}
+
+
 const checkoutSchema = yup.object().shape({
   title: yup.string().required("required"),
   content: yup.string().required("required"),
@@ -16,10 +41,10 @@ const checkoutSchema = yup.object().shape({
   // triggerAt: yup.string().required("required"),
   // expireAt: yup.string().required("required"),
 
-  currencyAmount: yup.number().required("required"),
+  amount: yup.number().required("required"),
   receiveDaysOverdue: yup.number().required("required"),
-  rewardLimit: yup.number().required("required"),
-  rewardDescription: yup.string().required("required"),
+  limit: yup.number().required("required"),
+  // description: yup.string().required("required"),
 
   // startAt: yup.string().required("required"),
   // endAt: yup.string().required("required"),
@@ -39,49 +64,41 @@ export default function CreateSystemCoinModal() {
     setModal(!modal);
   };
 
-  const [notifType, setNotifType] = useState('system');
-  const handleNotifTypeChange = (event) => {
-    setNotifType(event.target.value);
-  };
-  const [triggerAtDate, setTriggerAtDate] = useState('');
-  function handleTriggerAtDateChange(event) {
-    setTriggerAtDate(event.target.value);
 
-    // const newInitialValues = { ...initialValues };
-    // newInitialValues.triggerAt = event.target.value;
-    // setInitialValues(newInitialValues);
+  const [triggerAtDate, setTriggerAtDate] = useState('');
+  function handleTriggerAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setTriggerAtDate(event.target.value);
   }
 
   const [expireAtDate, setExpireAtDate] = useState('');
-  function handleExpireAtDateChange(event) {
+  function handleExpireAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setExpireAtDate(event.target.value);
   }
 
   const [startAtDate, setStartAtDate] = useState('');
-  function handleStartAtDateChange(event) {
+  function handleStartAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setStartAtDate(event.target.value);
   }
 
   const [endAtDate, setEndAtDate] = useState('');
-  function handleEndAtDateChange(event) {
+  function handleEndAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
     setEndAtDate(event.target.value);
   }
 
   //========================== INITIAL VALUES ==========================
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues, setInitialValues] = useState<FormValues>({
     title: "",
     content: "",
     comment: "",
-    rewardId: "",
-    triggerAt: "",
-    expireAt: "",
-    currencyID: "",
-    currencyAmount: "",
+    // triggerAt: "",
+    // expireAt: "",
+    currencyId: "",
+    amount: "",
     receiveDaysOverdue: "",
-    rewardLimit: "",
-    rewardDescription: "",
-    startAt: "",
-    endAt: "",
+    limit: "",
+    description: "",
+    // startAt: "",
+    // endAt: "",
   });
 
 
@@ -103,7 +120,7 @@ export default function CreateSystemCoinModal() {
 
 
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = (values: FormValues) => {
     const triggerAtDateObj = new Date(triggerAtDate);
     const expireAtDateObj = new Date(expireAtDate);
     const startAtDateObj = new Date(startAtDate);
@@ -116,18 +133,18 @@ export default function CreateSystemCoinModal() {
 
     let nowUnix = Math.floor(Date.now() / 1000);
 
-    const variables = {
+    const variables: any = {
       receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
       belongToRole: "manager",
       belongToId: "1",
-      amount: parseInt(values.currencyAmount),
+      amount: parseInt(values.amount),
       currencyId: "1",
       sourceType: "direct",
       // triggerAt: triggerAtUnix,
       // startAt: startAtUnix,
       // endAt: endAtUnix,
-      description: values.rewardDescription,
-      limit: parseInt(values.rewardLimit),
+      description: values.description,
+      limit: parseInt(values.limit),
       comment: values.comment,
       notification: {
         type: "freeCoin",
@@ -138,33 +155,33 @@ export default function CreateSystemCoinModal() {
     }
 
     //check if startAtUnix is filled
-    if (isNaN(triggerAtUnix)) {
-      triggerAtUnix = nowUnix;
-    }
+    // if (isNaN(triggerAtUnix)) {
+    //   triggerAtUnix = nowUnix;
+    // }
     if (isNaN(startAtUnix)) {
       startAtUnix = nowUnix;
     }
 
     //insert startAtUnix to variables
-    variables.triggerAt = triggerAtUnix;
+    // variables.triggerAt = triggerAtUnix;
     variables.startAt = startAtUnix;
 
     //insert endAtUnix to variables if it is selected
     if (!isNaN(endAtUnix)) {
       variables.endAt = endAtUnix;
     }
-    if (!isNaN(expireAtUnix)) {
-      variables.notification.expireAt = expireAtUnix;
-    }
+    // if (!isNaN(expireAtUnix)) {
+    //   variables.notification.expireAt = expireAtUnix;
+    // }
 
     if (endAtUnix < startAtUnix) {
       alert("End date must be greater than start date");
       return;
     }
-    if (expireAtUnix < triggerAtUnix) {
-      alert("expire date must be greater than trigger date");
-      return;
-    }
+    // if (expireAtUnix < triggerAtUnix) {
+    //   alert("expire date must be greater than trigger date");
+    //   return;
+    // }
     console.log(variables);
 
     ApolloCreateSystemFreeCoinNotification({ variables });
@@ -187,7 +204,10 @@ export default function CreateSystemCoinModal() {
       {modal && (
         <Box className="modal">
           <Box onClick={toggleModal} className="overlay"></Box>
-          <Box className="modal-content" backgroundColor={colors.primary[500]}>
+          <Box className="modal-content"
+            sx={{
+              backgroundColor: colors.primary[500],
+            }}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: colors.grey[200] }}>
                 {btnTitle}
@@ -264,8 +284,6 @@ export default function CreateSystemCoinModal() {
                           value={triggerAtDate}
                           name="triggerAt"
                           onChange={handleTriggerAtDateChange}
-                          error={!!touched.triggerAt && !!errors.triggerAt}
-                          helperText={touched.triggerAt && errors.triggerAt}
                           sx={{ marginBottom: "1rem", mr: '1rem' }}
                           InputLabelProps={{
                             shrink: true,
@@ -281,8 +299,6 @@ export default function CreateSystemCoinModal() {
                           value={expireAtDate}
                           name="expireAt"
                           onChange={handleExpireAtDateChange}
-                          error={!!touched.expireAt && !!errors.expireAt}
-                          helperText={touched.expireAt && errors.expireAt}
                           sx={{ marginBottom: "1rem" }}
                           InputLabelProps={{
                             shrink: true,
@@ -301,10 +317,10 @@ export default function CreateSystemCoinModal() {
                         label={t('reward_description')}
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.rewardDescription}
-                        name="rewardDescription"
-                        error={!!touched.rewardDescription && !!errors.rewardDescription}
-                        helperText={touched.rewardDescription && errors.rewardDescription}
+                        value={values.description}
+                        name="description"
+                        error={!!touched.description && !!errors.description}
+                        helperText={touched.description && errors.description}
                         sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                       />
 
@@ -316,10 +332,10 @@ export default function CreateSystemCoinModal() {
                           label={t('amount')}
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.currencyAmount}
-                          name="currencyAmount"
-                          error={!!touched.currencyAmount && !!errors.currencyAmount}
-                          helperText={touched.currencyAmount && errors.currencyAmount}
+                          value={values.amount}
+                          name="amount"
+                          error={!!touched.amount && !!errors.amount}
+                          helperText={touched.amount && errors.amount}
                           sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
@@ -330,10 +346,10 @@ export default function CreateSystemCoinModal() {
                           placeholder="Null是不限制 或 1~60"
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          value={values.rewardLimit}
-                          name="rewardLimit"
-                          error={!!touched.rewardLimit && !!errors.rewardLimit}
-                          helperText={touched.rewardLimit && errors.rewardLimit}
+                          value={values.limit}
+                          name="limit"
+                          error={!!touched.limit && !!errors.limit}
+                          helperText={touched.limit && errors.limit}
                           sx={{ margin: "0rem 1rem 1rem 0rem", backgroundColor: colors.primary[400], borderRadius: "5px" }}
                         />
                         <TextField
@@ -352,10 +368,6 @@ export default function CreateSystemCoinModal() {
                         />
                       </Box>
 
-
-
-
-
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <TextField
                           fullWidth
@@ -366,8 +378,6 @@ export default function CreateSystemCoinModal() {
                           value={startAtDate}
                           name="startAt"
                           onChange={handleStartAtDateChange}
-                          error={!!touched.startAt && !!errors.startAt}
-                          helperText={touched.startAt && errors.startAt}
                           sx={{ marginBottom: "1rem", mr: '1rem' }}
                           InputLabelProps={{
                             shrink: true,
@@ -382,8 +392,6 @@ export default function CreateSystemCoinModal() {
                           value={endAtDate}
                           name="endAt"
                           onChange={handleEndAtDateChange}
-                          error={!!touched.endAt && !!errors.endAt}
-                          helperText={touched.endAt && errors.endAt}
                           sx={{ marginBottom: "1rem" }}
                           InputLabelProps={{
                             shrink: true,

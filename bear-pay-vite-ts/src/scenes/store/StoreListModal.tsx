@@ -155,8 +155,8 @@ export default function StoreListModal({ props, onUpdate }: Props) {
     const [ApolloRemoveStore, { loading, error, data }] = useLazyQuery(RemoveStore);
     useEffect(() => {
         if (data) {
-            console.log("REMOVE SUCCESS");
-            window.location.reload();
+            onUpdate();
+            toast.success(t("delete_success"));
         }
     }, [data]);
 

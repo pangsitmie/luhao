@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 // QUERIES
 import { ManagerGetAllNotificationSchedules } from '../../graphQL/Queries'
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, useTheme } from "@mui/material";
+import { Box, Button, SelectChangeEvent, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 // ICONS
@@ -16,7 +16,7 @@ import SystemNotificationListModal from './SystemNotificationListModal';
 import Loader from '../../components/loader/Loader';
 import Error from '../../components/error/Error';
 import { useTranslation } from 'react-i18next';
-import { NotificationSchedulesType, NotificationType } from '../../types/Notification';
+import { NotificationSchedulesType } from '../../types/Notification';
 
 const SystemNotificationManagement = () => {
     const { t } = useTranslation();
