@@ -58,7 +58,7 @@ export default function BonusGameListModal({ props, onUpdate }: Props) {
 
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -79,7 +79,7 @@ export default function BonusGameListModal({ props, onUpdate }: Props) {
 
 
     // INITIAL VALUES FROM GET BRAND QUERY
-    const { loading: loadingInit, error: errorInit, data: dataInit, refetch } = useQuery(STORE_GetBonusGame
+    const { data: dataInit, refetch } = useQuery(STORE_GetBonusGame
         , {
             variables: {
                 bonusGameId: props.id
@@ -117,10 +117,10 @@ export default function BonusGameListModal({ props, onUpdate }: Props) {
 
 
     //========================== GRAPHQL ==========================
-    const [ApolloPatchBonusGame, { loading: loadingPatch, error: errorPatch, data: dataPatch }] = useMutation(STORE_PatchBonusGame);
-    const [ApolloUpdateBonusGame, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useMutation(STORE_UpdateBonusGame);
+    const [ApolloPatchBonusGame, { data: dataPatch }] = useMutation(STORE_PatchBonusGame);
+    const [ApolloUpdateBonusGame, { data: dataUpdate }] = useMutation(STORE_UpdateBonusGame);
 
-    const [ApolloPatchBonusGameStatus, { loading: loadingStatus, error: errorStatus, data: dataStatus }] = useMutation(STORE_PatchBonusGameStatus);
+    const [ApolloPatchBonusGameStatus, { data: dataStatus }] = useMutation(STORE_PatchBonusGameStatus);
     useEffect(() => {
         if (dataStatus) {
             onUpdate();
@@ -203,7 +203,7 @@ export default function BonusGameListModal({ props, onUpdate }: Props) {
 
 
     const handleDelete = () => {
-        var result = window.confirm("Are you sure you want to delete this item?");
+        // var result = window.confirm("Are you sure you want to delete this item?");
     };
     // ========================== MODAL TOGGLE ==========================
     if (modal) {

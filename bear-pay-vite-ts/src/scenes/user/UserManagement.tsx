@@ -15,9 +15,8 @@ import { useTranslation } from 'react-i18next';
 import UserListModal from './UserListModal';
 import Member from '../../types/member';
 
-type Props = {}
 
-const UserManagement = (props: Props) => {
+const UserManagement = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { t } = useTranslation();

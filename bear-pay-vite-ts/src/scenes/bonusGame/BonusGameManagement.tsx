@@ -15,6 +15,7 @@ import CreateGiftCodeModal from './CreateBonusGameModal';
 import BonusGameListModal from './BonusGameListModal';
 import { STORE_GetBonusGamePaginatedConnection } from '../../graphQL/StorePrincipalQueries';
 import { BonusGameType } from '../../types/BonusGame';
+import Loader from '../../components/loader/Loader';
 
 interface BonusGameNode {
     node: BonusGameType;
@@ -200,58 +201,65 @@ const BonusGameManagement = () => {
                     }}
                 >
                     {/* MAP DATA */}
-                    {items.map((item, i) => (
-                        <Box
-                            key={`${item.node.id}-${i}`}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            borderBottom={i === items.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
-                            p="10px"
-                        >
-                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.id}{item.node.name}</Box>
-                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.type}</Box>
-                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                {(() => {
-                                    if (item.node.status === "disable") {
-                                        return (
-                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("disable")}
-                                            </Typography>)
-                                    }
-                                    else if (item.node.status === "banned") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("banned")}
-                                            </Typography>)
-                                    }
-                                    else if (item.node.status === "removed") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("deleted")}
-                                            </Typography>)
-                                    }
-                                    else if (item.node.status === "notReview") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("not_reviewed")}
-                                            </Typography>)
-                                    }
-                                    else {
-                                        return (
-                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("normal")}
-                                            </Typography>)
-                                    }
-                                })()}
+                    {loadingState ?
+                        (
+                            <Box p={"1rem"}>
+                                <Loader />
                             </Box>
+                        )
+                        :
+                        items.map((item, i) => (
+                            <Box
+                                key={`${item.node.id}-${i}`}
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                borderBottom={i === items.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                p="10px"
+                            >
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.id}{item.node.name}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.node.type}</Box>
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    {(() => {
+                                        if (item.node.status === "disable") {
+                                            return (
+                                                <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("disable")}
+                                                </Typography>)
+                                        }
+                                        else if (item.node.status === "banned") {
+                                            return (
+                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("banned")}
+                                                </Typography>)
+                                        }
+                                        else if (item.node.status === "removed") {
+                                            return (
+                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("deleted")}
+                                                </Typography>)
+                                        }
+                                        else if (item.node.status === "notReview") {
+                                            return (
+                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("not_reviewed")}
+                                                </Typography>)
+                                        }
+                                        else {
+                                            return (
+                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("normal")}
+                                                </Typography>)
+                                        }
+                                    })()}
+                                </Box>
 
 
-                            <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                <BonusGameListModal props={item.node} onUpdate={triggerRefetch} />
+                                <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    <BonusGameListModal props={item.node} onUpdate={triggerRefetch} />
+                                </Box>
                             </Box>
-                        </Box>
-                    ))}
+                        ))}
 
                 </Box>
 

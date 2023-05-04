@@ -1,6 +1,6 @@
-import { useState, useContext, useRef, useEffect } from 'react'
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Collapse, SelectChangeEvent } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { useState, useRef, useEffect } from 'react'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, TextField, InputAdornment, TableCell, TableBody, Collapse, SelectChangeEvent } from "@mui/material";
+import { tokens } from "../../theme";
 import { useTranslation } from 'react-i18next';
 import OrderMethodButton from '../../components/OrderMethodButton';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -34,7 +34,6 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     // const [initMachineDatas, setInitMachineDatas] = useState<MachineStatisticTotal[]>([]);
     const [machineDatas, setMachineDatas] = useState<MachineStatisticTotal[]>([]);
@@ -85,7 +84,7 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
 
 
 
-    const { loading: loadingHealthCheck, error: errorHealthCheck, data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
+    const { refetch: refetchHealthCheck } = useQuery(HealthCheck);
     const REST_FetchMachineStatistics = async () => {
         const MAX_RETRY_ATTEMPTS = 3;
         let retryCount = 0;

@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext, useRef, useLayoutEffect } from 'react'
-import { useLocation } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
+import { useRef } from 'react'
+
 
 // THEME
-import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { Box, Button, Typography, useTheme } from "@mui/material";
+import { tokens } from "../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
@@ -13,13 +12,8 @@ const RewardManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     // ====================== STATES ======================
-
-
-    const [initDatas, setInitDatas] = useState([]);
-    const [data, setData] = useState([]);
 
 
 
@@ -49,8 +43,6 @@ const RewardManagement = () => {
     // }
 
 
-    // if (loading) return <Loader />;
-    // if (error) return <Error />;
 
     return (
         <Box p={2} display="flex" flexDirection={"column"}>

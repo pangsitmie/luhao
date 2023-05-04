@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, SelectChangeEvent } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, TextField, SelectChangeEvent } from "@mui/material";
 import { tokens } from "../../theme";
 
 import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic } from '../../graphQL/Queries'
@@ -49,7 +49,6 @@ const StatisticManagement = () => {
 
     const location = useLocation();
     const state = location.state;
-    const searchRef = useRef('');
 
 
 
@@ -157,7 +156,7 @@ const StatisticManagement = () => {
 
 
     // ======================== GET BRAND STATISTIC ========================
-    const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatistic, {
+    const { data: dataBrand } = useQuery(GetBrandStatistic, {
         variables: {
             args: [
                 {

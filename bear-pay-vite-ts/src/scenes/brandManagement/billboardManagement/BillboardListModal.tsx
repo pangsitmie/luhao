@@ -99,7 +99,7 @@ const BillboardListModal = ({ props, onUpdate }: Props) => {
             break;
     }
 
-    const [ApolloUpdateBillboard, { loading: loading2, error: error2, data: data2 }] = useMutation(PATCH_BILLBOARD_MUTATION);
+    const [ApolloUpdateBillboard, { data: data2 }] = useMutation(PATCH_BILLBOARD_MUTATION);
     useEffect(() => {
         if (data2) {
             onUpdate();

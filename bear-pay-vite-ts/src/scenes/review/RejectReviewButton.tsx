@@ -20,7 +20,7 @@ const RejectReviewButton = ({ REQUEST_ID, onUpdate }: Props) => {
 
     const [reason, setReason] = useState("");
     const [open, setOpen] = useState(false);
-    const [ApolloRejectReview, { data, loading, error }] = useMutation(RejectReview);
+    const [ApolloRejectReview, { data }] = useMutation(RejectReview);
     const handleReject = () => {
         if (reason) {
             ApolloRejectReview({

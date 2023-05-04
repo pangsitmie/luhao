@@ -1,7 +1,6 @@
-import { Box, IconButton, Typography, useTheme } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next';
-import { tokens } from '../../theme';
-import { useState } from 'react';
+
 
 
 type Props = {
@@ -11,9 +10,6 @@ type Props = {
 
 const MachineStatisticCommodityList = ({ commodityRecords, collapsed }: Props) => {
     const { t } = useTranslation();
-    //THEME
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
 
 
     return (

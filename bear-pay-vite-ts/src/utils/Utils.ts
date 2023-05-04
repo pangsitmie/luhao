@@ -116,7 +116,7 @@ const defaultNumberFormatterOptions: NumberFormatterOptions = {
 export function numberFormatter(value: number, options?: NumberFormatterOptions): string {
   if (typeof value !== 'number') value = 0;
   options = { ...defaultNumberFormatterOptions, ...options };
-  const [integer, decimal = ''] = value.toFixed(0).split('.');
+  const [integer = ''] = value.toFixed(0).split('.');
   return `${integer.replace(/\B(?=(\d{3})+(?!\d))/g, options.thousandsSeparator)}`;
 }
 
@@ -143,8 +143,8 @@ export const getCurrentDate = () => {
   const month = ("0" + (date.getMonth() + 1)).slice(-2)
   const day = ("0" + date.getDate()).slice(-2)
 
-  const hour = ("0" + date.getHours()).slice(-2)
-  const minute = ("0" + date.getMinutes()).slice(-2)
+  // const hour = ("0" + date.getHours()).slice(-2)
+  // const minute = ("0" + date.getMinutes()).slice(-2)
 
   return `${year}-${month}-${day}`
 }
@@ -156,8 +156,8 @@ export const getYesterdayDate = () => {
   const month = ("0" + (date.getMonth() + 1)).slice(-2)
   const day = ("0" + date.getDate()).slice(-2)
 
-  const hour = ("0" + date.getHours()).slice(-2)
-  const minute = ("0" + date.getMinutes()).slice(-2)
+  // const hour = ("0" + date.getHours()).slice(-2)
+  // const minute = ("0" + date.getMinutes()).slice(-2)
 
   return `${year}-${month}-${day}`
 }
@@ -182,8 +182,8 @@ export const getWeekAgoDate = () => {
   const month = ("0" + (date.getMonth() + 1)).slice(-2)
   const day = ("0" + date.getDate()).slice(-2)
 
-  const hour = ("0" + date.getHours()).slice(-2)
-  const minute = ("0" + date.getMinutes()).slice(-2)
+  // const hour = ("0" + date.getHours()).slice(-2)
+  // const minute = ("0" + date.getMinutes()).slice(-2)
 
   return `${year}-${month}-${day}`
 }

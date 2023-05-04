@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom';
 
 // QUERIES
 import { GetStoreListPagination, SearchStoreByName } from '../../graphQL/Queries'
 
 // THEME
-import { Box, Button, SelectChangeEvent, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 // ICONS
@@ -53,12 +53,6 @@ const StoreManagement = () => {
         SetInitStores(data);
     }
 
-    // STATES
-    const [searchFilter, setSearchFilter] = useState('');
-    const [cityFilter, setCityFilter] = useState('');
-    const handleCityChange = (event: SelectChangeEvent<string>) => {
-        setCityFilter(event.target.value);
-    };
 
     // LOADING STATE
     const [loadingState, setLoadingState] = useState(false);
@@ -80,6 +74,9 @@ const StoreManagement = () => {
             } else {
                 toast.error(t('cant_find'));
             }
+        }
+        if (loading) {
+            console.log("loading");
         }
         if (error) {
             toast.error(error.message);

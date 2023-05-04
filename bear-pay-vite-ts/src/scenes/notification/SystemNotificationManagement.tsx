@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useQuery } from '@apollo/client'
 import { format } from 'date-fns';
 import SearchIcon from "@mui/icons-material/Search";
@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 // QUERIES
 import { ManagerGetAllNotificationSchedules } from '../../graphQL/Queries'
 // THEME
-import { Box, Button, SelectChangeEvent, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 // ICONS
@@ -14,7 +14,6 @@ import InputBase from "@mui/material/InputBase";
 import CreateSystemNotificationModal from './CreateSystemNotificationModal';
 import SystemNotificationListModal from './SystemNotificationListModal';
 import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
 import { useTranslation } from 'react-i18next';
 import { NotificationSchedulesType } from '../../types/Notification';
 
@@ -24,11 +23,6 @@ const SystemNotificationManagement = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // ========================== STATES AND HANDLERS ==========================
-    const [status, setStatus] = useState('');
-    const handleStatusChange = (event: SelectChangeEvent<string>) => {
-        setStatus(event.target.value);
-    };
 
     // ========================== REF ==========================
     const searchValueRef = useRef('');

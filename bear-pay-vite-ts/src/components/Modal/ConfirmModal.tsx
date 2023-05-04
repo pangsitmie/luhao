@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Input, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
-import { Formik } from "formik";
+import { Box, Button, TextField, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import * as yup from "yup";
 import { useLazyQuery } from '@apollo/client'
 import { BanMember, BanBrand, BanStore, BanBillboard, BanMachine, BanAds } from "../../graphQL/Queries";
 import "./ConfirmModal.css";
 import { useTranslation } from 'react-i18next';
 
-
-const checkoutSchema = yup.object().shape({
-    reason: yup.string().required("required"),
-});
-
-export default function ConfirmModal({ props: any }) {
+export default function ConfirmModal({ props }: any) {
     const { t } = useTranslation();
     //THEME
     const theme = useTheme();
@@ -23,64 +16,41 @@ export default function ConfirmModal({ props: any }) {
         setModal(!modal);
     };
 
-    const expireAtRef = useRef('') //creating a refernce for TextField Component
-    const reasonRef = useRef('') //creating a refernce for TextField Component
+    const reasonRef = useRef<HTMLInputElement>(null) //creating a refernce for TextField Component
 
 
     // BAN BRAND
-    const [ApolloBanBrand, { loading, error, data }] = useLazyQuery(BanBrand);
-    useEffect(() => {
-        if (data) {
-            window.location.reload();
-        }
-    }, [data]);
+    const [ApolloBanBrand, { error, data }] = useLazyQuery(BanBrand);
 
     // BAN STORE
-    const [ApolloBanStore, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(BanStore);
-    useEffect(() => {
-        if (data1) {
-            window.location.reload();
-        }
-    }, [data1]);
+    const [ApolloBanStore, { error: error1, data: data1 }] = useLazyQuery(BanStore);
 
     // BAN STORE
-    const [ApolloBanMember, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(BanMember);
-    useEffect(() => {
-        if (data2) {
-            window.location.reload();
-        }
-    }, [data2]);
+    const [ApolloBanMember, { error: error2, data: data2 }] = useLazyQuery(BanMember);
 
     // BAN BILLBOARD
-    const [ApolloBanBillboard, { loading: loading3, error: error3, data: data3 }] = useLazyQuery(BanBillboard);
-    useEffect(() => {
-        if (data3) {
-            window.location.reload();
-        }
-    }, [data3]);
+    const [ApolloBanBillboard, { error: error3, data: data3 }] = useLazyQuery(BanBillboard);
 
     // BAN MACHINE
-    const [ApolloBanMachine, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(BanMachine);
-    useEffect(() => {
-        if (data4) {
-            window.location.reload();
-        }
-    }, [data4]);
+    const [ApolloBanMachine, { error: error4, data: data4 }] = useLazyQuery(BanMachine);
 
     // BAN ADS
-    const [ApolloBanAds, { loading: loading5, error: error5, data: data5 }] = useLazyQuery(BanAds);
+    const [ApolloBanAds, { error: error5, data: data5 }] = useLazyQuery(BanAds);
+
     useEffect(() => {
-        if (data5) {
+        if (data || data1 || data2 || data3 || data4 || data5) {
             window.location.reload();
         }
-    }, [data5]);
-
+        if (error || error1 || error2 || error3 || error4 || error5) {
+            console.log(error || error1 || error2 || error3 || error4 || error5);
+        }
+    }, [data, data1, data2, data3, data4, data5, error, error1, error2, error3, error4, error5]);
 
 
 
     //date
     const [date, setDate] = useState('');
-    const [unixTime, setUnixTime] = useState<number | null>(0);
+    const [unixTime, setUnixTime] = useState<number>(0);
 
     useEffect(() => {
         const dateObject = new Date(date);
@@ -102,7 +72,7 @@ export default function ConfirmModal({ props: any }) {
         console.log("TARGET ID: " + props.type);
 
         console.log(unixSecond);
-        console.log(reasonRef.current.value);
+        console.log(reasonRef.current?.value);
         switch (props.type) {
             case "brand":
                 ApolloBanBrand({
@@ -112,8 +82,8 @@ export default function ConfirmModal({ props: any }) {
                                 id: targetId
                             }
                         ],
-                        expireAt: parseInt(unixSecond),
-                        reason: reasonRef.current.value
+                        expireAt: unixSecond,
+                        reason: reasonRef.current?.value
                     }
                 })
             case "store":
@@ -124,8 +94,8 @@ export default function ConfirmModal({ props: any }) {
                                 id: targetId
                             }
                         ],
-                        expireAt: parseInt(unixSecond),
-                        reason: reasonRef.current.value
+                        expireAt: unixSecond,
+                        reason: reasonRef.current?.value
                     }
                 })
             case "member":
@@ -140,8 +110,8 @@ export default function ConfirmModal({ props: any }) {
                                 }
                             }
                         ],
-                        expireAt: parseInt(unixSecond),
-                        reason: reasonRef.current.value
+                        expireAt: unixSecond,
+                        reason: reasonRef.current?.value
                     }
                 })
             case "billboard":
@@ -152,8 +122,8 @@ export default function ConfirmModal({ props: any }) {
                                 id: targetId
                             }
                         ],
-                        expireAt: parseInt(unixSecond),
-                        reason: reasonRef.current.value
+                        expireAt: unixSecond,
+                        reason: reasonRef.current?.value
                     }
                 })
             case "machine":
@@ -164,8 +134,8 @@ export default function ConfirmModal({ props: any }) {
                                 id: targetId
                             }
                         ],
-                        expireAt: parseInt(unixSecond),
-                        reason: reasonRef.current.value
+                        expireAt: unixSecond,
+                        reason: reasonRef.current?.value
                     }
                 })
             case "ads":
@@ -176,8 +146,8 @@ export default function ConfirmModal({ props: any }) {
                                 id: targetId
                             }
                         ],
-                        expireAt: parseInt(unixSecond),
-                        reason: reasonRef.current.value
+                        expireAt: unixSecond,
+                        reason: reasonRef.current?.value
                     }
                 })
         }

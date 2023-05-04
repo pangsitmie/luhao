@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { useQuery } from '@apollo/client'
 import { Formik } from "formik";
@@ -7,7 +7,6 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
-import { useSelector } from "react-redux";
 import { BRAND_GetBonusGame, BRAND_GetBonusGameReviewData } from "../../graphQL/BrandPrincipalQueries";
 import AcceptReviewButton from "./AcceptReviewButton";
 import RejectReviewButton from "./RejectReviewButton";
@@ -39,7 +38,7 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
 
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -74,7 +73,7 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
     const handleFormSubmit = () => { };
     //========================== GRAPHQL ==========================
 
-    const { loading, error, data } = useQuery(BRAND_GetBonusGame
+    const { data } = useQuery(BRAND_GetBonusGame
         , {
             variables: {
                 bonusGameId: props.sourceId
@@ -84,7 +83,7 @@ export default function ReviewBonusGameListModal({ props, onUpdate, showButtons 
 
 
     // INITIAL VALUES FROM GET BRAND QUERY
-    const { loading: loadingInit, error: errorInit, data: dataInit } = useQuery(BRAND_GetBonusGameReviewData
+    const { data: dataInit } = useQuery(BRAND_GetBonusGameReviewData
         , {
             variables: {
                 reviewIds: props.reviewId

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
@@ -17,7 +17,7 @@ import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import Loader from "../../components/loader/Loader";
 import Error from "../../components/error/Error";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { STORE_PatchStoreStatus, STORE_UpdateStore } from "../../graphQL/StorePrincipalMutation";
 import { PatchStore } from "../../graphQL/Mutations";
@@ -74,6 +74,12 @@ export default function StoreListModal({ props, onUpdate }: Props) {
             refetch();
             toast.success(t("status_changed"));
         }
+        if (errorPatchStatus) {
+            toast.error(t("update_failed"));
+        }
+        if (loadingPatchStatus) {
+            console.log("loadingPatchStatus");
+        }
     }, [dataPatchStatus]);
 
     const handleStatusChange = (event: SelectChangeEvent<string>) => {
@@ -89,7 +95,7 @@ export default function StoreListModal({ props, onUpdate }: Props) {
 
     //  ========================== PASSWORD VISIBILITY ==========================
 
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), unbanTitle = t("unban");
 
 
     // ========================== CITY ==========================
@@ -162,7 +168,7 @@ export default function StoreListModal({ props, onUpdate }: Props) {
 
 
     //UPDATE STORE MUTATION
-    const [ApolloUpdateStore, { loading: loading2, error: error2, data: data2 }] = useMutation(UPDATE_STORE_MUTATION);
+    const [ApolloUpdateStore, { error: error2, data: data2 }] = useMutation(UPDATE_STORE_MUTATION);
     useEffect(() => {
         if (data2) {
             onUpdate();
@@ -182,7 +188,7 @@ export default function StoreListModal({ props, onUpdate }: Props) {
     }, [data2]);
 
     // INITIAL VALUES FROM GET STORE QUERY
-    const { loading: loading3, error: error3, data: data3, refetch } = useQuery(GetStore
+    const { data: data3, refetch } = useQuery(GetStore
         , {
             variables: {
                 args: [
@@ -278,7 +284,7 @@ export default function StoreListModal({ props, onUpdate }: Props) {
     };
 
     // UNBAN MUTATION
-    const [ApolloUnBanStore, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanStore);
+    const [ApolloUnBanStore, { data: data4 }] = useLazyQuery(UnbanStore);
     useEffect(() => {
         if (data4) {
             window.location.reload();
@@ -577,11 +583,12 @@ export default function StoreListModal({ props, onUpdate }: Props) {
                                                         onChange={handleAreaChange}
                                                         required // add the required prop
                                                     >
-                                                        {areaFilter.map((area, i) => (
-                                                            <MenuItem value={area} key={area}>
+                                                        {areaFilter.map((area, index) => (
+                                                            <MenuItem value={area} key={index}>
                                                                 {area}
                                                             </MenuItem>
                                                         ))}
+
                                                     </Select>
                                                 </FormControl>
                                                 <TextField

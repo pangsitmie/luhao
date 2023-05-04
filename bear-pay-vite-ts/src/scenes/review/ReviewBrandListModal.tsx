@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -9,12 +9,9 @@ import { GetBrandReviewData, } from "../../graphQL/Queries";
 import { getImgURL, replaceNullWithEmptyString } from "../../utils/Utils";
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import AcceptReviewButton from "./AcceptReviewButton";
 import RejectReviewButton from "./RejectReviewButton";
-import { RootState } from "../../redux/store";
 import { ReviewItemType } from "../../types/Review";
 
 
@@ -42,7 +39,7 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }: P
 
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -50,10 +47,7 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }: P
     };
 
 
-    const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event: SelectChangeEvent<string>) => {
-        setStatus(event.target.value);
-    };
+    // const [status, setStatus] = useState('disable');
 
 
     //========================== INITIAL VALUES ==========================
@@ -78,7 +72,7 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }: P
     };
 
     // INITIAL VALUES FROM GET BRAND QUERY
-    const { loading: loadingInit, error: errorInit, data: dataInit } = useQuery(GetBrandReviewData
+    const { data: dataInit } = useQuery(GetBrandReviewData
         , {
             variables: {
                 reviewIds: props.reviewId
@@ -110,9 +104,9 @@ export default function ReviewBrandListModal({ props, onUpdate, showButtons }: P
                 setCoverFileName(nonNullData.cover);
             }
             //set status only if not banned
-            if (nonNullData.status !== "banned") {
-                setStatus(nonNullData.status)
-            }
+            // if (nonNullData.status !== "banned") {
+            //     setStatus(nonNullData.status)
+            // }
 
         }
     }, [dataInit]);

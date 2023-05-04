@@ -85,7 +85,7 @@ const App = () => {
   return (
     <React.Fragment>
       <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme} >
           <CssBaseline />
           {isMobile && isPortrait && (
             <div className="rotate-screen">

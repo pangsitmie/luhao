@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -67,7 +67,7 @@ const Pagination = ({ QUERY, HANDLE_PAGE_CHANGE, TYPE, ARGS_ID, REFETCH, HANDLE_
     };
 
 
-    const { loading, error, data, fetchMore, refetch } = useQuery(QUERY, {
+    const { loading, data, fetchMore, refetch } = useQuery(QUERY, {
         variables: {
             args: [{ id: ARGS_ID }],
             next: { first: PAGE_SIZE },

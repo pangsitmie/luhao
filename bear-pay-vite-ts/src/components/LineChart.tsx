@@ -1,9 +1,12 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-// import { mockLineData as data } from "../data/mockData";
 
-const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) => {
+type Props = {
+  isDashboard?: boolean;
+  data: any;
+}
+const LineChart = ({ isDashboard = false, data }: Props) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -54,12 +57,10 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) =>
         reverse: false,
       }}
       yFormat=" >-.2f"
-      // curve="catmullRom"
       curve="monotoneX"
       axisTop={null}
       axisRight={null}
       axisBottom={{
-        orient: "bottom",
         tickSize: 0,
         tickPadding: 8,
         tickRotation: 0,
@@ -68,7 +69,6 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) =>
         legendPosition: "middle",
       }}
       axisLeft={{
-        orient: "left",
         tickValues: 5, // added
         tickSize: 3,
         tickPadding: 5,
