@@ -5,6 +5,10 @@ export type StatisticTotal = {
     giftQuantityTotal: number;
     revenueRate: number;
     giftRate: number;
+    exchange100AmountTotal: number;
+    exchange100QuantityTotal: number;
+    exchange50AmountTotal: number;
+    exchange50QuantityTotal: number;
 };
 
 export type StatisticPeriod = {

@@ -222,10 +222,10 @@ const App = () => {
                         path="/brand-coins"
                         element={<BrandCoinManagement />}
                       />  */}
-                      {/* <Route
+                      <Route
                         path="/gift-code"
                         element={<GiftCodeManagement />}
-                      /> */}
+                      />
 
                       {/* STATISTIC */}
                       <Route path="/statistic" element={<StatisticList />} />
@@ -286,9 +286,6 @@ const App = () => {
                         path="/statistic-management/machine"
                         element={<MachineStatisticPeriod />}
                       />
-
-                      {/* REVIEW */}
-                      {/* <Route path="/review" element={<ReviewManagement />} /> */}
                     </>
                   ) : (
                     <Navigate to="/404" />

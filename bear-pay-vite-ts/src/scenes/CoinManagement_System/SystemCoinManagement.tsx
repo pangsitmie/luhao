@@ -26,6 +26,11 @@ const SystemCoinManagement = () => {
     //REF
     const searchValueRef = useRef('');
 
+    // LOADING STATE
+    const [loadingState, setLoadingState] = useState(false);
+    const handleLoadingState = (loading: boolean) => {
+        setLoadingState(loading);
+    }
 
 
     //GRAPHQL
@@ -43,10 +48,14 @@ const SystemCoinManagement = () => {
             // setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
             setNotifications(data.managerGetAllNotificationSchedules); //datas for display
         }
+
+        handleLoadingState(loading ? true : false);
+
+        if (error) {
+            console.log(error);
+        }
     }, [data]);
 
-    if (loading) return <Loader />;
-    if (error) return <Error />;
 
     return (
         <Box p={2} display="flex" flexDirection={"column"}>
@@ -181,69 +190,76 @@ const SystemCoinManagement = () => {
                     overflow={"auto"}
                 >
                     {/* MAP DATA */}
-                    {notifications.map((item, i) => {
-                        // Check if the item is type systemFree
-                        if (item.notification.reward.content.currency.type === "systemFree") {
-                            // Keep track of the index of the last systemFree item
-                            const lastSystemFreeIndex = notifications.reduce(
-                                (lastIndex, currentItem, currentIndex) =>
-                                    currentItem.notification.reward.content.currency.type === "systemFree"
-                                        ? currentIndex : lastIndex, -1
-                            );
-                            return (
-                                <Box
-                                    key={`${item.id}-${i}`}
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    borderBottom={
-                                        i === lastSystemFreeIndex ? "none" : `3px solid ${colors.primary[500]}`
-                                    }
-                                    p="10px"
-                                >
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                    {loadingState ?
+                        (
+                            <Box p={"1rem"}>
+                                <Loader />
+                            </Box>
+                        )
+                        :
+                        notifications.map((item, i) => {
+                            // Check if the item is type systemFree
+                            if (item.notification.reward.content.currency.type === "systemFree") {
+                                // Keep track of the index of the last systemFree item
+                                const lastSystemFreeIndex = notifications.reduce(
+                                    (lastIndex, currentItem, currentIndex) =>
+                                        currentItem.notification.reward.content.currency.type === "systemFree"
+                                            ? currentIndex : lastIndex, -1
+                                );
+                                return (
+                                    <Box
+                                        key={`${item.id}-${i}`}
+                                        display="flex"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                        borderBottom={
+                                            i === lastSystemFreeIndex ? "none" : `3px solid ${colors.primary[500]}`
+                                        }
+                                        p="10px"
+                                    >
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
 
-                                    <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {(() => {
-                                            if (item.notification.expireAt === null) {
-                                                return t('none')
-                                            }
-                                            else {
-                                                return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
-                                            }
-                                        })()}
-                                    </Box>
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {(() => {
-                                            if (item.notification.status === "done") {
-                                                return (
-                                                    <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                        {t('done')}
-                                                    </Typography>)
-                                            }
-                                            else if (item.notification.status === "failed") {
-                                                return (
-                                                    <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                        {t('failed')}
-                                                    </Typography>)
-                                            }
-                                            else {
-                                                return (
-                                                    <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                        {t('normal')}
-                                                    </Typography>)
-                                            }
-                                        })()}
-                                    </Box>
+                                        <Box width={"15%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                            {(() => {
+                                                if (item.notification.expireAt === null) {
+                                                    return t('none')
+                                                }
+                                                else {
+                                                    return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
+                                                }
+                                            })()}
+                                        </Box>
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                            {(() => {
+                                                if (item.notification.status === "done") {
+                                                    return (
+                                                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                            {t('done')}
+                                                        </Typography>)
+                                                }
+                                                else if (item.notification.status === "failed") {
+                                                    return (
+                                                        <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                            {t('failed')}
+                                                        </Typography>)
+                                                }
+                                                else {
+                                                    return (
+                                                        <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                            {t('normal')}
+                                                        </Typography>)
+                                                }
+                                            })()}
+                                        </Box>
 
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        <SystemCoinListModal props={item} />
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                            <SystemCoinListModal props={item} />
+                                        </Box>
                                     </Box>
-                                </Box>
-                            )
-                        }
-                    })}
+                                )
+                            }
+                        })}
                 </Box>
             </Box>
         </Box >

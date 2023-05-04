@@ -5,10 +5,12 @@ import { format } from 'date-fns';
 // QUERIES
 import { GetSentFreeCoinsList } from '../../graphQL/Queries'
 // THEME
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 // ICONS
+import SearchIcon from "@mui/icons-material/Search";
+
 import InputBase from "@mui/material/InputBase";
 import CreateBrandCoinModal from './CreateBrandCoinModal';
 import BrandCoinListModal from './BrandCoinListModal';
@@ -30,40 +32,17 @@ const BrandCoinManagement = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // STATES
-    // const [filter, setFilter] = useState('品牌名');
-    const [status, setStatus] = useState('');
-    const [review, setReview] = useState('');
 
     //REF
     const searchValueRef = useRef('');
-    const filterRef = useRef('品牌名');
-
-    // PAGINATION
 
 
-    // const submitSearch = () => {
-    //     // LOG SEARCH STATES
-    //     console.log("search: " + searchValueRef.current.value + " " + status + " " + review);
+    // LOADING STATE
+    const [loadingState, setLoadingState] = useState(false);
+    const handleLoadingState = (loading: boolean) => {
+        setLoadingState(loading);
+    }
 
-    //     //CALL SEARCH FUNCTION
-    //     let value = searchValueRef.current.value;
-    //     if (value.length > 2) {
-    //         let search = arraySearch(notifications, value);
-    //         setNotifications(search)
-    //     } else { //IF SEARCH VALUE IS LESS THAN 3 CHARACTERS, RESET BRANDS TO INIT BRANDS
-    //         setNotifications(initNotifications)
-    //     }
-    // };
-    // //SEARCH FUNCTION
-    // const arraySearch = (array, keyword) => {
-    //     const searchTerm = keyword
-
-    //     return array.filter(value => {
-    //         return value.name.match(new RegExp(searchTerm, 'g')) ||
-    //             value.principal.name.match(new RegExp(searchTerm, 'g'))
-    //     })
-    // }
 
     //GRAPHQL
     let GET_FREE_COIN_SENT_QUERY: DocumentNode = GetSentFreeCoinsList;
@@ -103,10 +82,13 @@ const BrandCoinManagement = () => {
             }
             // console.log(data);
         }
+        handleLoadingState(loading ? true : false);
+
+        if (error) {
+            console.log(error);
+        }
     }, [data]);
 
-    if (loading) return <Loader />;
-    if (error) return <Error />;
 
     return (
         <Box p={2} display="flex" flexDirection={"column"}>
@@ -136,24 +118,9 @@ const BrandCoinManagement = () => {
                     }}>
                     <InputBase sx={{ ml: 2, pr: 2, flex: 1, minWidth: "200px" }} placeholder={t('end_time') || ''} inputRef={searchValueRef} />
                 </Box>
-                {/* <FormControl sx={{ minWidth: 100 }} >
-                    <InputLabel id="demo-simple-select-label" >審核</InputLabel>
-                    <Select
-                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={review}
-                        label="Review"
-                        onChange={handleReviewChange}
-                    >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"通過"}>通過</MenuItem>
-                        <MenuItem value={"待審核"}>待審核</MenuItem>
-                        <MenuItem value={"封鎖"}>封鎖</MenuItem>
-                    </Select>
-                </FormControl> */}
+
                 {/* SEARCH BTN */}
-                {/* <Button sx={{
+                <Button sx={{
                     backgroundColor: colors.primary[300],
                     color: colors.grey[100],
                     minWidth: "120px",
@@ -164,12 +131,12 @@ const BrandCoinManagement = () => {
                         border: '1px solid white',
                     }
                 }}
-                    onClick={submitSearch}>
+                    onClick={() => { }}>
                     <SearchIcon sx={{ mr: "10px", fontsize: ".8rem", color: "white" }} />
                     <Typography color={"white"} variant="h5" fontWeight="500">
                         查詢
                     </Typography>
-                </Button> */}
+                </Button>
                 <Box
                     display="flex"
                     borderRadius="10px"
@@ -180,7 +147,7 @@ const BrandCoinManagement = () => {
                         backgroundColor: colors.primary[400],
                     }}
                 >
-                    {/* <CreateBrandCoinModal /> */}
+                    <CreateBrandCoinModal />
                 </Box>
             </Box>
 
@@ -235,66 +202,73 @@ const BrandCoinManagement = () => {
                     overflow={"auto"}
                 >
                     {/* MAP DATA */}
-                    {notifications.map((item, i) => {
-                        if (item.notification.reward.content.currency.type === "brand") {
-                            // Keep track of the index of the last systemFree item
-                            const lastBrandCoinIndex = notifications.reduce(
-                                (lastIndex, currentItem, currentIndex) =>
-                                    currentItem.notification.reward.content.currency.type === "brand"
-                                        ? currentIndex : lastIndex, -1
-                            );
-                            return (
-                                <Box
-                                    key={`${item.id}-${i}`}
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    borderBottom={i === lastBrandCoinIndex ? "none" : `3px solid ${colors.primary[500]}`}
-                                    p="10px"
-                                >
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {(() => {
-                                            if (item.notification.expireAt === null) {
-                                                return t("none")
-                                            }
-                                            else {
-                                                return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
-                                            }
-                                        })()}
-                                    </Box>
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {(() => {
-                                            if (item.notification.status === "done") {
-                                                return (
-                                                    <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                        {t('done')}
-                                                    </Typography>)
-                                            }
-                                            else if (item.notification.status === "failed") {
-                                                return (
-                                                    <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                        {t('failed')}
-                                                    </Typography>)
-                                            }
-                                            else {
-                                                return (
-                                                    <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                        {t('normal')}
+                    {loadingState ?
+                        (
+                            <Box p={"1rem"}>
+                                <Loader />
+                            </Box>
+                        )
+                        :
+                        notifications.map((item, i) => {
+                            if (item.notification.reward.content.currency.type === "brand") {
+                                // Keep track of the index of the last systemFree item
+                                const lastBrandCoinIndex = notifications.reduce(
+                                    (lastIndex, currentItem, currentIndex) =>
+                                        currentItem.notification.reward.content.currency.type === "brand"
+                                            ? currentIndex : lastIndex, -1
+                                );
+                                return (
+                                    <Box
+                                        key={`${item.id}-${i}`}
+                                        display="flex"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                        borderBottom={i === lastBrandCoinIndex ? "none" : `3px solid ${colors.primary[500]}`}
+                                        p="10px"
+                                    >
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.notification.title}</Box>
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{format(new Date(item.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss')}</Box>
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                            {(() => {
+                                                if (item.notification.expireAt === null) {
+                                                    return t("none")
+                                                }
+                                                else {
+                                                    return format(new Date(item.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss')
+                                                }
+                                            })()}
+                                        </Box>
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                            {(() => {
+                                                if (item.notification.status === "done") {
+                                                    return (
+                                                        <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                            {t('done')}
+                                                        </Typography>)
+                                                }
+                                                else if (item.notification.status === "failed") {
+                                                    return (
+                                                        <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                            {t('failed')}
+                                                        </Typography>)
+                                                }
+                                                else {
+                                                    return (
+                                                        <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                            {t('normal')}
 
-                                                    </Typography>)
-                                            }
-                                        })()}
-                                    </Box>
+                                                        </Typography>)
+                                                }
+                                            })()}
+                                        </Box>
 
-                                    <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                        {/* <BrandCoinListModal props={item} /> */}
+                                        <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                            <BrandCoinListModal props={item} />
+                                        </Box>
                                     </Box>
-                                </Box>
-                            )
-                        }
-                    })}
+                                )
+                            }
+                        })}
                 </Box>
             </Box>
         </Box >

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
-import { useLazyQuery } from '@apollo/client'
+import { Box, Button, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { DocumentNode, useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
@@ -24,7 +24,7 @@ type Props = {
   props: NotificationSchedulesType;
 };
 
-export default function BrandCoinListModal({ props: Props }) {
+export default function BrandCoinListModal({ props }: Props) {
   const { t } = useTranslation();
   const { entityName } = useSelector((state: RootState) => state.entity);
 
@@ -40,16 +40,16 @@ export default function BrandCoinListModal({ props: Props }) {
   };
 
   const [notifType, setNotifType] = useState('system');
-  const handleNotifTypeChange = (event) => {
+  const handleNotifTypeChange = (event: SelectChangeEvent<string>) => {
     setNotifType(event.target.value);
   };
   const [triggerAtDate, setTriggerAtDate] = useState('');
-  function handleTriggerAtDateChange(event) {
+  function handleTriggerAtDateChange(event: SelectChangeEvent<string>) {
     setTriggerAtDate(event.target.value);
   }
 
   const [expireAtDate, setExpireAtDate] = useState('');
-  function handleExpireAtDateChange(event) {
+  function handleExpireAtDateChange(event: SelectChangeEvent<string>) {
     setExpireAtDate(event.target.value);
   }
 
@@ -78,17 +78,17 @@ export default function BrandCoinListModal({ props: Props }) {
         title: props.notification.title,
         content: props.notification.content,
         comment: props.comment,
-        rewardId: props.rewardId,
+        rewardId: props.notification.reward.id,
         triggerAtDate: format(new Date(props.triggerAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         expireAtDate: props.notification.expireAt === null ? "無" : format(new Date(props.notification.expireAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         belongToId: props.notification.reward.belongToId,
         currencyID: props.notification.reward.content.currency.id,
         currencyName: props.notification.reward.content.currency.name,
-        currencyAmount: props.notification.reward.content.amount,
-        receiveDaysOverdue: props.notification.reward.receiveDaysOverdue === null ? "無" : props.notification.reward.receiveDaysOverdue,
-        rewardLimit: props.notification.reward.limit === null ? "無" : props.notification.reward.limit,
+        currencyAmount: props.notification.reward.content.amount.toString(),
+        receiveDaysOverdue: props.notification.reward.receiveDaysOverdue === null ? t("none") : props.notification.reward.receiveDaysOverdue.toString(),
+        rewardLimit: props.notification.reward.limit === null ? t("none") : props.notification.reward.limit.toString(),
         rewardDescription: props.notification.reward.description === null ? "無" : props.notification.reward.description,
-        rewardStatus: props.notification.reward.status.name,
+        rewardStatus: props.notification.reward.status,
         startAt: props.notification.reward.startAt === null ? "無" : format(new Date(props.notification.reward.startAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
         endAt: props.notification.reward.endAt === null ? "無" : format(new Date(props.notification.reward.endAt * 1000), 'MM/dd/yyyy - HH:mm:ss'),
       });
@@ -97,7 +97,7 @@ export default function BrandCoinListModal({ props: Props }) {
 
   //========================== GRAPHQL ==========================
 
-  let DELETE_NOTIFICATION_QUERY;
+  let DELETE_NOTIFICATION_QUERY: DocumentNode = DeleteNotification;
   switch (entityName) {
     case 'company':
       DELETE_NOTIFICATION_QUERY = DeleteNotification;
@@ -138,7 +138,7 @@ export default function BrandCoinListModal({ props: Props }) {
 
 
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = () => {
   };
 
 
@@ -158,7 +158,10 @@ export default function BrandCoinListModal({ props: Props }) {
       {modal && (
         <Box className="modal">
           <Box onClick={toggleModal} className="overlay"></Box>
-          <Box className="modal-content" backgroundColor={colors.primary[500]}>
+          <Box className="modal-content"
+            sx={{
+              backgroundColor: colors.primary[500],
+            }}>
             <Box m="20px">
               <Typography variant="h2" sx={{ mb: "2rem", textAlign: "center", fontSize: "1.4rem", fontWeight: "600", color: "white" }}>
                 {modalTitle}

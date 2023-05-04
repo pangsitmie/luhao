@@ -16,7 +16,7 @@ import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useTranslation } from 'react-i18next';
-import Brand from "../../types/Brand";
+import BrandType from "../../types/Brand";
 import { toast } from "react-toastify";
 
 
@@ -154,7 +154,7 @@ export default function CreateStoreModal() {
     // =================== BRAND LIST ===================
     const { loading: loading1, error: error1, data: data1 } = useQuery(GetBrandList);
     const [brandListFilter, setBrandListFilter] = useState('');
-    const [brandList, setBrandList] = useState<Brand[]>([]);
+    const [brandList, setBrandList] = useState<BrandType[]>([]);
     useEffect(() => {
         if (data1) {
             setBrandList(data1.managerGetBrands);

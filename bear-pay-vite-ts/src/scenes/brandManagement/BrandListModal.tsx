@@ -15,14 +15,14 @@ import { useTranslation } from 'react-i18next';
 import { PatchBrand } from "../../graphQL/Mutations";
 import { BRAND_UpdateBrand } from "../../graphQL/BrandPrincipalQueries";
 import { toast } from "react-toastify";
-import Brand from "../../types/Brand";
+import BrandType from "../../types/Brand";
 import { RootState } from "../../redux/store";
 
 
 
 
 type Props = {
-  props: Brand
+  props: BrandType
   onUpdate: () => void
 }
 

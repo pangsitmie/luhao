@@ -16,12 +16,12 @@ import Error from '../../components/error/Error';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { RootState } from '../../redux/store';
-import Brand from '../../types/Brand';
+import BrandType from '../../types/Brand';
 import Store from '../../types/Store';
 
 
 interface BrandNode {
-    node: Brand;
+    node: BrandType;
 }
 interface StoreNode {
     node: Store;

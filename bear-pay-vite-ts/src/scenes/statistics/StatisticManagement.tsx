@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useQuery, gql, useLazyQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 
 
 // THEME
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, SelectChangeEvent } from "@mui/material";
-import { ColorModeContext, tokens } from "../../theme";
+import { tokens } from "../../theme";
 
 import { GetBrandStatistic, GetStoreListByBrand, GetStoreStatistic } from '../../graphQL/Queries'
 
@@ -122,7 +122,11 @@ const StatisticManagement = () => {
         giftAmountTotal: 0,
         giftQuantityTotal: 0,
         revenueRate: 0,
-        giftRate: 0
+        giftRate: 0,
+        exchange100AmountTotal: 0,
+        exchange100QuantityTotal: 0,
+        exchange50AmountTotal: 0,
+        exchange50QuantityTotal: 0,
     });
     const [storeList, setStoreList] = useState<Store[]>([]);
     const [storeListFilter, setStoreListFilter] = useState<string>('');
@@ -187,9 +191,11 @@ const StatisticManagement = () => {
 
     useEffect(() => {
         if (dataBrand) {
+            console.log(dataBrand);
             setDisplayStatistic(dataBrand.getBrand[0].getStatisticsTotal);
         }
         if (dataStore) {
+            console.log(dataStore);
             setDisplayStatistic(dataStore.getStore[0].getStatisticsTotal);
         }
     }, [dataBrand, dataStore]);
@@ -503,69 +509,50 @@ const StatisticManagement = () => {
                             progress={(displayStatistic.giftRate / 100).toFixed(2)}
                         />
                     </Box>
-
-
-
-                    {/* ROW3
                     <Box
-                        className='span4'
+                        // formula: (gift count) / total coin inserted
+                        className='span6'
                         sx={{
                             backgroundColor: colors.primary[400],
                             border: "1px solid " + colors.grey[300],
-                            webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
-                        <StatBox
-                            title={currencyFormatter(10000)}
-                            subtitle="已發送的總免費幣"
+                        <StatBoxSplit
+                            title={t('exchange_100')}
+                            subtitle1={t('amount')}
+                            val1={numberFormatter(displayStatistic.exchange100AmountTotal)}
+                            subtitle2={t('quantity')}
+                            val2={numberFormatter(displayStatistic.exchange100QuantityTotal)}
                             icon={
                                 <MonetizationOnIcon
-                                    sx={{ color: colors.redAccent[300], fontSize: "45px" }}
+                                    sx={{ color: colors.redAccent[600], fontSize: "45px" }}
                                 />
                             }
                         />
                     </Box>
-
                     <Box
-                        className='span4'
+                        // formula: (gift count) / total coin inserted
+                        className='span6'
                         sx={{
                             backgroundColor: colors.primary[400],
                             border: "1px solid " + colors.grey[300],
-                            webkitBackdropFilter: "blur(20px)",
                             backdropFilter: "blur(20px)",
                         }}
                     >
-                        <StatBox
-                            title={currencyFormatter(7000)}
-                            subtitle="用戶已領取的總免費幣"
+                        <StatBoxSplit
+                            title={t('exchange_50')}
+                            subtitle1={t('amount')}
+                            val1={numberFormatter(displayStatistic.exchange50AmountTotal)}
+                            subtitle2={t('quantity')}
+                            val2={numberFormatter(displayStatistic.exchange50QuantityTotal)}
                             icon={
                                 <MonetizationOnIcon
-                                    sx={{ color: colors.blueAccent[300], fontSize: "45px" }}
+                                    sx={{ color: colors.blueAccent[600], fontSize: "45px" }}
                                 />
                             }
                         />
                     </Box>
-
-                    <Box
-                        className='span4'
-                        sx={{
-                            backgroundColor: colors.primary[400],
-                            border: "1px solid " + colors.grey[300],
-                            webkitBackdropFilter: "blur(20px)",
-                            backdropFilter: "blur(20px)",
-                        }}
-                    >
-                        <StatBox
-                            title={currencyFormatter(5000)}
-                            subtitle="已使用的總免費幣"
-                            icon={
-                                <MonetizationOnIcon
-                                    sx={{ color: colors.greenAccent[300], fontSize: "45px" }}
-                                />
-                            }
-                        />
-                    </Box> */}
                 </Box>
             </Box>
 
@@ -573,7 +560,7 @@ const StatisticManagement = () => {
 
 
             {/* USERS CHARTS */}
-            <Box
+            {/* <Box
                 mt={"2rem"}
                 padding={"1rem"}
                 borderRadius={"12px"}
@@ -587,26 +574,12 @@ const StatisticManagement = () => {
                     <Typography variant="h4" sx={{ color: colors.grey[100], fontWeight: "bold", m: "0 0 0 10px" }}>
                         {t('users')}
                     </Typography>
-                    {/* <Link
-                        to={"/statistic-management/user"}
-                        state={{
-                            data: displayStatistic,
-                        }}
-                    >
-                        <IconButton>
-                            <NavigateNextIcon />
-                        </IconButton>
-                    </Link> */}
                 </Box>
-
-
-                {/* GRID & CHARTS */}
                 <Box
                     display="grid"
                     gridTemplateColumns="repeat(12, 1fr)"
                     gap="20px"
                 >
-                    {/* ROW 1 */}
                     <Box
                         className='span4'
                         sx={{
@@ -668,9 +641,8 @@ const StatisticManagement = () => {
                         />
                     </Box>
                 </Box>
+            </Box> */}
 
-
-            </Box>
             {/* MACHINE TABLE */}
             {selectedItem.id !== -1 && (
                 <Box

@@ -11,7 +11,6 @@ import { tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
 import { useTranslation } from 'react-i18next';
 import UserListModal from './UserListModal';
 import Member from '../../types/member';
@@ -24,14 +23,14 @@ const UserManagement = (props: Props) => {
     const { t } = useTranslation();
 
     // STATES
-    const [status, setStatus] = useState('');
+    // LOADING STATE
+    const [loadingState, setLoadingState] = useState(false);
+    const handleLoadingState = (loading: boolean) => {
+        setLoadingState(loading);
+    }
 
     //REF
-    // const searchValueRef = useRef('');
     const searchValueRef = useRef<HTMLInputElement>(null);
-
-
-    //FUNCTIONS
 
 
 
@@ -42,6 +41,12 @@ const UserManagement = (props: Props) => {
         if (data) {
             setInitMember(data.getAllMember);
             setMembers(data.getAllMember);
+        }
+
+        handleLoadingState(loading ? true : false);
+
+        if (error) {
+            console.log(error);
         }
     }, [data]);
 
@@ -73,8 +78,6 @@ const UserManagement = (props: Props) => {
     };
 
 
-    if (loading) return <Loader />;
-    if (error) return <Error />;
     return (
         <Box p={2} display={"flex"} flexDirection={"column"}>
             <Box height={"10%"}>
@@ -130,12 +133,7 @@ const UserManagement = (props: Props) => {
                     display="flex"
                     justifyContent="center"
                     p="15px"
-                    sx={{
-                        color: colors.grey[100],
-                    }}
                 >
-
-
                 </Box>
                 <Box
                     display="flex"
@@ -169,50 +167,57 @@ const UserManagement = (props: Props) => {
                         backgroundColor: colors.primary[400],
                     }}
                 >
-                    {members.map((member, i) => (
-                        <Box
-                            key={`${member.id}-${i}`}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            borderBottom={i === members.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
-                            p="10px"
-                        >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.profile?.nickname}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.phone?.number}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                {(() => {
-                                    if (member.status === "disable") {
-                                        return (
-                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t('disabled')}
-                                            </Typography>)
-                                    }
-                                    else if (member.status === "banned") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t('banned')}
-                                            </Typography>)
-                                    }
-                                    else if (member.status === "removed") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t('removed')}
-                                            </Typography>)
-                                    }
-                                    else {
-                                        return (
-                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t('normal')}
-                                            </Typography>)
-                                    }
-                                })()}
+                    {loadingState ?
+                        (
+                            <Box p={"1rem"}>
+                                <Loader />
                             </Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                <UserListModal props={member} />
+                        )
+                        :
+                        members.map((member, i) => (
+                            <Box
+                                key={`${member.id}-${i}`}
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                borderBottom={i === members.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                p="10px"
+                            >
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.profile?.nickname}</Box>
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{member.phone?.number}</Box>
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    {(() => {
+                                        if (member.status === "disable") {
+                                            return (
+                                                <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t('disabled')}
+                                                </Typography>)
+                                        }
+                                        else if (member.status === "banned") {
+                                            return (
+                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t('banned')}
+                                                </Typography>)
+                                        }
+                                        else if (member.status === "removed") {
+                                            return (
+                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t('removed')}
+                                                </Typography>)
+                                        }
+                                        else {
+                                            return (
+                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t('normal')}
+                                                </Typography>)
+                                        }
+                                    })()}
+                                </Box>
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    <UserListModal props={member} />
+                                </Box>
                             </Box>
-                        </Box>
-                    ))}
+                        ))}
                 </Box>
             </Box>
         </Box >

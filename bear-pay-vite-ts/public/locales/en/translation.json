@@ -167,6 +167,7 @@
     "================freecoin================": "================freecoin================",
     "currency_name": "Currency Name",
     "amount": "Amount",
+    "quantity": "Quantity",
     "reward": "Reward",
     "currency_limit": "Currency Limit",
     "currency_days_limit": "Currency Days Limit",
@@ -229,6 +230,8 @@
     "now_currency_amount": "Now Current Amount",
     "earning": "Earning",
     "no_deposit_history": "No Deposit History",
-    "expired": "Expired"
+    "expired": "Expired",
+    "exchange_100": "Exchange 100",
+    "exchange_50": "Exchange 50"
 
 }

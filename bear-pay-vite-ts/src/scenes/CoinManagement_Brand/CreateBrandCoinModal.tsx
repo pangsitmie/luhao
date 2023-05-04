@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { useQuery, useMutation, DocumentNode } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -12,7 +12,25 @@ import { useSelector } from "react-redux";
 import { BRAND_GetBrandCurrencyList } from "../../graphQL/BrandPrincipalQueries";
 import { useTranslation } from 'react-i18next';
 import { RootState } from "../../redux/store";
+import BrandType from "../../types/Brand";
 
+interface FormValues {
+  title: string;
+  content: string;
+  comment: string;
+  rewardId: string;
+  triggerAtDate: string;
+  expireAtDate: string;
+  currencyID: string;
+  currencyName: string;
+  currencyAmount: string;
+  receiveDaysOverdue: string;
+  rewardLimit: string;
+  rewardDescription: string;
+  rewardStatus: string;
+  startAt: string;
+  endAt: string;
+}
 
 
 const checkoutSchema = yup.object().shape({
@@ -48,10 +66,6 @@ export default function CreateBrandCoinModal() {
     setModal(!modal);
   };
 
-  const [notifType, setNotifType] = useState('system');
-  const handleNotifTypeChange = (event) => {
-    setNotifType(event.target.value);
-  };
 
   const [triggerAtDate, setTriggerAtDate] = useState('');
   function handleTriggerAtDateChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -74,7 +88,7 @@ export default function CreateBrandCoinModal() {
   }
 
   //========================== INITIAL VALUES ==========================
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues, setInitialValues] = useState<FormValues>({
     title: "",
     content: "",
     comment: "",
@@ -141,9 +155,9 @@ export default function CreateBrandCoinModal() {
     brandCoinName: "null",
   });
   const [brandListFilter, setBrandListFilter] = useState('');
-  const [brandList, setBrandList] = useState([]);
+  const [brandList, setBrandList] = useState<BrandType[]>([]);
 
-  const handleBrandListChange = (e) => {
+  const handleBrandListChange = (e: SelectChangeEvent<string>) => {
     const targetId = e.target.value;
     console.log(targetId);
 
@@ -155,7 +169,7 @@ export default function CreateBrandCoinModal() {
       setBrandInfo({
         brandId: targetId,
         brandName: brand.name,
-        brandCoinId: brand.currency.id,
+        brandCoinId: (brand.currency.id).toString(),
         brandCoinName: brand.currency.name,
       });
       console.log(brand);
@@ -164,11 +178,7 @@ export default function CreateBrandCoinModal() {
 
 
 
-
-
-
-
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = (values: FormValues) => {
     const triggerAtDateObj = new Date(triggerAtDate);
     const expireAtDateObj = new Date(expireAtDate);
     const startAtDateObj = new Date(startAtDate);
@@ -182,7 +192,7 @@ export default function CreateBrandCoinModal() {
     let nowUnix = Math.floor(Date.now() / 1000);
 
 
-    const variables = {
+    const variables: any = {
       receiveDaysOverdue: parseInt(values.receiveDaysOverdue),
       belongToRole: "brand",
       belongToId: brandId,

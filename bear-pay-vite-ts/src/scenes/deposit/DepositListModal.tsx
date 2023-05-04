@@ -37,9 +37,6 @@ export default function DepositListModal({ props }: Props) {
 
 
     const [purchaseRecords, setPurchaseRecords] = useState<DepositItemType[]>([]);
-    useEffect(() => {
-        console.log(purchaseRecords);
-    }, [purchaseRecords]);
 
     const [typeId, setTypeId] = useState(0);
 
@@ -513,10 +510,8 @@ export default function DepositListModal({ props }: Props) {
                                             ))}
                                         </Box>
                                 }
-
-
                             </Box>
-                        </Box >
+                        </Box>
                     </Box>
                 </Box>
             )

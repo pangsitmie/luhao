@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { useQuery, useMutation, DocumentNode } from '@apollo/client'
 import { tokens } from "../../../theme";
 import { GetCommodity } from "../../../graphQL/Queries";
-import { replaceNullWithEmptyString } from "../../../utils/Utils";
+import { replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../../utils/Utils";
 import { useTranslation } from 'react-i18next';
 import { useSelector } from "react-redux";
 import { PatchCommodity } from "../../../graphQL/Mutations";
@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import Commodity from "../../../types/Commodity";
 import { RootState } from "../../../redux/store";
 import "../../../components/Modal/modal.css";
+import { DepositItemType } from "../../../types/Deposit";
 
 
 const checkoutSchema = yup.object().shape({
@@ -57,6 +58,7 @@ export default function CommodityListModal({ props, onUpdate }: Props) {
     });
 
 
+    const [purchaseRecords, setPurchaseRecords] = useState<DepositItemType[]>([]);
 
 
 
@@ -261,6 +263,48 @@ export default function CommodityListModal({ props, onUpdate }: Props) {
                                     </form>
                                 )}
                             </Formik>
+                            <Box mt={"1rem"}>
+                                {
+                                    purchaseRecords.length === 0 ?
+                                        <Box display="flex" justifyContent="center" alignItems="center" height={"200px"}>
+                                            <Typography variant="h4" sx={{ textAlign: "center", fontWeight: "600", color: colors.grey[200] }}>
+                                                {t('no_deposit_history')}
+                                            </Typography>
+                                        </Box>
+                                        :
+                                        <Box
+                                            borderRadius="8px"
+                                            height={"200px"}
+                                            overflow={"auto"}
+                                            sx={{
+                                                backgroundColor: colors.primary[400],
+                                            }}
+                                        >
+                                            <Box>
+                                                <Typography variant="h4" sx={{ textAlign: "center", mb: "1rem", fontWeight: "600", color: colors.grey[200] }}>
+                                                    {t('deposit_history')}
+                                                </Typography>
+                                            </Box>
+
+                                            {/* MAP DATA */}
+                                            {purchaseRecords.map((item, i) => (
+                                                <Box
+                                                    key={`${item.id}-${i}`}
+                                                    display="flex"
+                                                    justifyContent="space-between"
+                                                    alignItems="center"
+                                                    borderBottom={i === purchaseRecords.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                                    p="10px"
+                                                >
+                                                    <Box width={"10%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.id}</Box>
+                                                    <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{unixTimestampToDatetimeLocal(item.createdAt)}</Box>
+                                                    <Box width={"40%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.purchaseId}</Box>
+                                                    <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.status}</Box>
+                                                </Box>
+                                            ))}
+                                        </Box>
+                                }
+                            </Box>
                         </Box >
                     </Box>
                 </Box >

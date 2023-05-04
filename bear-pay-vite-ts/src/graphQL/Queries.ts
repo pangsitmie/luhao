@@ -771,33 +771,60 @@ query GetBrand($args: [BrandArgs!]!) {
 }
 `
 export const GetBrandStatistic = gql`
-query GetBrandStatistic($args: [BrandArgs!]!, $startAt: Int, $endAt: Int, $timeGranularity: EStatisticsTotalTimeGranularity) {
+query GetBrandStatistic(
+  $args: [BrandArgs!]!
+  $startAt: Int
+  $endAt: Int
+  $timeGranularity: EStatisticsTotalTimeGranularity
+) {
   getBrand(args: $args) {
-    getStatisticsTotal(startAt: $startAt, endAt: $endAt, timeGranularity: $timeGranularity) {
+    getStatisticsTotal(
+      startAt: $startAt
+      endAt: $endAt
+      timeGranularity: $timeGranularity
+    ) {
       coinAmountTotal
       coinQuantityTotal
       giftAmountTotal
       giftQuantityTotal
       revenueRate
       giftRate
+      exchange100AmountTotal
+      exchange100QuantityTotal
+      exchange50QuantityTotal
+      exchange50AmountTotal
     }
   }
 }
 `
 
 export const GetStoreStatistic = gql`
-query GetStore($args: [StoreArgs!]!, $startAt: Int, $endAt: Int, $timeGranularity: EStatisticsTotalTimeGranularity) {
+query GetStore(
+  $args: [StoreArgs!]!
+  $startAt: Int
+  $endAt: Int
+  $timeGranularity: EStatisticsTotalTimeGranularity
+) {
   getStore(args: $args) {
-    getStatisticsTotal(startAt: $startAt, endAt: $endAt, timeGranularity: $timeGranularity) {
+    getStatisticsTotal(
+      startAt: $startAt
+      endAt: $endAt
+      timeGranularity: $timeGranularity
+    ) {
       coinAmountTotal
       coinQuantityTotal
       giftAmountTotal
       giftQuantityTotal
       revenueRate
       giftRate
+      exchange100AmountTotal
+      exchange100QuantityTotal
+      exchange50AmountTotal
+      exchange50QuantityTotal
     }
   }
 }
+
 `
 export const GetBrandStatisticPeriod = gql`
 query GetBrand(

@@ -212,9 +212,6 @@ const CommodityManagement = () => {
             <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('stock')}</Typography>
           </Box>
           <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('add_transaction')}</Typography>
-          </Box>
-          <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"}>
             <Typography color={colors.grey[100]} variant="h5" fontWeight="500">{t('details')}</Typography>
           </Box>
         </Box>
@@ -244,13 +241,6 @@ const CommodityManagement = () => {
                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.price}</Box>
                 <Box width={"25%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.stock}</Box>
-                <Box
-                  width={"25%"}
-                  display={"flex"}
-                  alignItems={"center"} justifyContent={"center"}
-                  borderRadius="4px">
-                  <CommodityListModal props={item} onUpdate={triggerRefetch} />
-                </Box>
                 <Box
                   width={"25%"}
                   display={"flex"}

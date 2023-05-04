@@ -15,12 +15,13 @@ import SearchIcon from "@mui/icons-material/Search";
 
 // COMPONENETS
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import CreateBonusGameModal from './CreateGiftCodeModal';
 import GiftCodeListModal from './GiftCodeListModal';
 import { RootState } from '../../redux/store';
 import { GiftCodeType } from '../../types/GiftCode';
+import Loader from '../../components/loader/Loader';
 
 const GiftCodeManagement = () => {
     const { entityName } = useSelector((state: RootState) => state.entity);
@@ -32,11 +33,11 @@ const GiftCodeManagement = () => {
     const colors = tokens(theme.palette.mode);
 
     // ========================== STATES AND HANDLERS ==========================
-
-    // const [filter, setFilter] = useState('品牌名');
-    // const handleFilterChange = (e) => {
-    //     setFilter(e.target.value);
-    // };
+    // LOADING STATE
+    const [loadingState, setLoadingState] = useState(false);
+    const handleLoadingState = (loading: boolean) => {
+        setLoadingState(loading);
+    }
 
     const [status, setStatus] = useState('');
     const handleStatusChange = (e: SelectChangeEvent<string>) => {
@@ -81,7 +82,13 @@ const GiftCodeManagement = () => {
             setInitItems(data[PATH]); //all brand datas
             setItems(data[PATH]); //datas for display
         }
-    }, [data]);
+
+        handleLoadingState(loading ? true : false);
+
+        if (error) {
+            console.log(error);
+        }
+    }, [data, loading]);
 
     const [refetchCount, setRefetchCount] = useState(0);
     const triggerRefetch = () => {
@@ -250,53 +257,60 @@ const GiftCodeManagement = () => {
                     overflow={"auto"}
                 >
                     {/* MAP DATA */}
-                    {items.map((item, i) => (
-                        <Box
-                            key={`${item.id}-${i}`}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            borderBottom={i === items.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
-                            p="10px"
-                        >
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.code}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.reward.content.amount}</Box>
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                {(() => {
-                                    if (status === "disable") {
-                                        return (
-                                            <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("disable")}
-                                            </Typography>)
-                                    }
-                                    else if (status === "banned") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("banned")}
-                                            </Typography>)
-                                    }
-                                    else if (status === "removed") {
-                                        return (
-                                            <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("deleted")}
-                                            </Typography>)
-                                    }
-                                    else {
-                                        return (
-                                            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
-                                                {t("normal")}
-                                            </Typography>)
-                                    }
-                                })()}
+                    {loadingState ?
+                        (
+                            <Box p={"1rem"}>
+                                <Loader />
                             </Box>
+                        )
+                        :
+                        items.map((item, i) => (
+                            <Box
+                                key={`${item.id}-${i}`}
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                borderBottom={i === items.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                p="10px"
+                            >
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.code}</Box>
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.reward.content.amount}</Box>
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    {(() => {
+                                        if (status === "disable") {
+                                            return (
+                                                <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("disable")}
+                                                </Typography>)
+                                        }
+                                        else if (status === "banned") {
+                                            return (
+                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("banned")}
+                                                </Typography>)
+                                        }
+                                        else if (status === "removed") {
+                                            return (
+                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("deleted")}
+                                                </Typography>)
+                                        }
+                                        else {
+                                            return (
+                                                <Typography variant="h5" color={colors.greenAccent[500]} sx={{ margin: ".5rem .5rem" }}>
+                                                    {t("normal")}
+                                                </Typography>)
+                                        }
+                                    })()}
+                                </Box>
 
 
-                            <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                <GiftCodeListModal props={item} onUpdate={triggerRefetch} />
+                                <Box width={"20%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                    <GiftCodeListModal props={item} onUpdate={triggerRefetch} />
+                                </Box>
                             </Box>
-                        </Box>
-                    ))}
+                        ))}
 
                 </Box>
 

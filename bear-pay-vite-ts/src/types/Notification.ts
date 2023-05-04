@@ -24,6 +24,8 @@ export type RewardType = {
     status: string,
     startAt: number,
     endAt: number,
+    belongToId: string,
+    belongToRole: string,
     content: {
         id: string,
         currency: CurrencyType,

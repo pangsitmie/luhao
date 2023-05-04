@@ -23,11 +23,11 @@ import Loader from '../../components/loader/Loader';
 import { useLazyQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { RootState } from '../../redux/store';
-import Brand from '../../types/Brand';
+import BrandType from '../../types/Brand';
 import CreateBrandModal from './CreateBrandModal';
 
 interface BrandNode {
-    node: Brand;
+    node: BrandType;
 }
 
 

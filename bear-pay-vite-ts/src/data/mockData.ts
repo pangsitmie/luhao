@@ -684,3 +684,29 @@ export const mockBarData = [
   }
 ];
 
+export const mockCommodityRecords = [
+  {
+    id: 1,
+    name: "蘋果",
+    price: 100,
+    quantity: 10,
+    total: 1000,
+    date: "2021-09-01",
+  },
+  {
+    id: 2,
+    name: "香蕉",
+    price: 50,
+    quantity: 20,
+    total: 1000,
+    date: "2021-09-01",
+  },
+  {
+    id: 3,
+    name: "橘子",
+    price: 30,
+    quantity: 30,
+    total: 1000,
+    date: "2021-09-01",
+  }
+]

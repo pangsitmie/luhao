@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from 'react'
+import { useState, useContext, useRef, useEffect } from 'react'
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, IconButton, useTheme, InputBase, TextField, InputAdornment, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Collapse, SelectChangeEvent } from "@mui/material";
 import { ColorModeContext, tokens } from "../../theme";
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,10 @@ import { toast } from 'react-toastify';
 import { useQuery } from '@apollo/client';
 import { HealthCheck } from '../../graphQL/Queries';
 import { MachineStatisticTotal } from '../../types/Statistic';
+import MachineStatisticCommodityList from './MachineStatisticCommodityList';
+import { mockCommodityRecords } from '../../data/mockData';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 type Props = {
     STORE_ID: string,
@@ -32,21 +36,21 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
 
-    const [initMachineDatas, setInitMachineDatas] = useState<MachineStatisticTotal[]>([]);
+    // const [initMachineDatas, setInitMachineDatas] = useState<MachineStatisticTotal[]>([]);
     const [machineDatas, setMachineDatas] = useState<MachineStatisticTotal[]>([]);
 
 
     const [filter, setFilter] = useState('name');
     const handleFilterChange = (e: SelectChangeEvent<string>) => {
         setMachineDatas([]);
-        setInitMachineDatas([]);
+        // setInitMachineDatas([]);
         setFilter(e.target.value);
     };
 
     const [orderMethod, setOrderMethod] = useState('asc');
     useEffect(() => {
         setMachineDatas([]);
-        setInitMachineDatas([]);
+        // setInitMachineDatas([]);
     }, [orderMethod]);
 
 
@@ -71,6 +75,15 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
     const handleOfflineCoinToggle = () => {
         setIsOfflineCoinCollapsed(!isOfflineCoinCollapsed);
     };
+
+    const [commodityRecordsCollapsed, setCommodityRecordsCollapsed] = useState(-1);
+    const handleCommodityRecordsToggle = (index: number) => {
+        setCommodityRecordsCollapsed((prevCollapsed) =>
+            prevCollapsed === index ? -1 : index
+        );
+    };
+
+
 
     const { loading: loadingHealthCheck, error: errorHealthCheck, data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
     const REST_FetchMachineStatistics = async () => {
@@ -107,7 +120,7 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
                 if (response.data && response.data.data) {
                     console.log(response.data.data);
                     setMachineDatas(response.data.data);
-                    setInitMachineDatas(response.data.data);
+                    // setInitMachineDatas(response.data.data);
                     break; // exit the loop if the API call was successful
                 } else {
                     refetchHealthCheck();
@@ -168,10 +181,7 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
             });
         }
         setMachineDatas(filterMachineData);
-
     }
-
-
 
 
 
@@ -331,7 +341,7 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
                                 </Typography>
 
                                 <IconButton sx={{ marginLeft: "5px", }} onClick={handleOfflineCoinToggle}>
-                                    {isOfflineCoinCollapsed ? <ChevronRightIcon sx={{ color: colors.primary[800] }} /> : <ChevronLeftIcon sx={{ color: colors.primary[800] }} />}
+                                    {isOfflineCoinCollapsed ? <ChevronRightIcon sx={{ color: colors.grey[500] }} /> : <ChevronLeftIcon sx={{ color: colors.grey[500] }} />}
                                 </IconButton>
                             </Box>
                         </Box>
@@ -375,7 +385,7 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
                                 </Typography>
 
                                 <IconButton sx={{ marginLeft: "5px" }} onClick={handleOnlineCoinToggle}>
-                                    {isOnlineCoinCollapsed ? <ChevronRightIcon sx={{ color: colors.primary[800] }} /> : <ChevronLeftIcon sx={{ color: colors.primary[800] }} />}
+                                    {isOnlineCoinCollapsed ? <ChevronRightIcon sx={{ color: colors.grey[500] }} /> : <ChevronLeftIcon sx={{ color: colors.grey[500] }} />}
                                 </IconButton>
                             </Box>
                         </Box>
@@ -428,7 +438,7 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
                                     {t('gift')}
                                 </Typography>
                                 <IconButton sx={{ marginLeft: "5px" }} onClick={handleGiftToggle}>
-                                    {isGiftCollapsed ? <ChevronRightIcon sx={{ color: colors.primary[800] }} /> : <ChevronLeftIcon sx={{ color: colors.primary[800] }} />}
+                                    {isGiftCollapsed ? <ChevronRightIcon sx={{ color: colors.grey[500] }} /> : <ChevronLeftIcon sx={{ color: colors.grey[500] }} />}
                                 </IconButton>
                             </Box>
                         </Box>
@@ -464,7 +474,7 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        minWidth: "150px",
+                        minWidth: commodityRecordsCollapsed ? "150px" : "750px",
                         backgroundColor: colors.primary[400]
                     }}>
                         <Typography variant="h5" color={colors.primary[100]} sx={{ fontSize: "1rem", fontWeight: "500" }} >
@@ -530,10 +540,10 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
                             </Box>
                         )
                         : (
-                            machineDatas.map((item, i) => {
+                            machineDatas.map((item, index) => {
                                 return (
                                     <Box
-                                        key={`${item.id}-${i}`}
+                                        key={`${item.id}-${index}`}
                                         display={"flex"}
                                         sx={{
                                             backgroundColor: item.isBlueHighlighted
@@ -743,7 +753,7 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
                                                     align="center"
                                                     sx={{
                                                         minWidth: "150px",
-                                                        padding: ".25rem 1.5rem",
+                                                        padding: ".3rem 1.5rem",
                                                     }}>
                                                     <Typography variant="h6" color={colors.primary[100]} sx={{}} >
                                                         {numberFormatter(item.giftDetail.offlineQuantity)}
@@ -772,15 +782,34 @@ const MachineStatistic = ({ STORE_ID, START_AT_DATE_EPOCH, END_AT_DATE_EPOCH }: 
                                             </Collapse>
                                         </Box>
 
+                                        {/* expense */}
                                         <TableCell align="center"
                                             sx={{
-                                                minWidth: "150px",
+                                                minWidth: commodityRecordsCollapsed ? "150px" : "750px",
                                                 padding: ".25rem 1.5rem",
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                justifyContent: "center",
+                                                alignItems: "space-between"
                                             }}>
-                                            <Typography variant="h6" color={colors.primary[100]} sx={{}} >
-                                                {currencyFormatter(item.giftAmountTotal)}
-                                            </Typography>
+
+                                            <Box display={"flex"} alignItems={"center"} justifyContent={"center"} gap={"5px"}>
+                                                <Typography variant="h6" color={colors.primary[100]}>
+                                                    {currencyFormatter(item.giftAmountTotal)}
+                                                </Typography>
+                                                <Button onClick={() => handleCommodityRecordsToggle(index)} sx={{ padding: "4px", minWidth: "14px" }}>
+                                                    {commodityRecordsCollapsed === index ? (
+                                                        <ArrowDropUpIcon sx={{ color: colors.grey[500], fontSize: "16px" }} />
+                                                    ) : (
+                                                        <ArrowDropDownIcon sx={{ color: colors.grey[500], fontSize: "16px" }} />
+                                                    )}
+                                                </Button>
+
+                                            </Box>
+                                            <MachineStatisticCommodityList commodityRecords={mockCommodityRecords} collapsed={commodityRecordsCollapsed !== index}
+                                            />
                                         </TableCell>
+
                                         <TableCell align="center"
                                             sx={{
                                                 minWidth: "150px",

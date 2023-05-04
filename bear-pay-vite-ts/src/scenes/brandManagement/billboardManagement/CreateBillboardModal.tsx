@@ -7,7 +7,7 @@ import { useLazyQuery } from "@apollo/client";
 
 
 import { useTranslation } from 'react-i18next';
-import Brand from "../../../types/Brand";
+import BrandType from "../../../types/Brand";
 import { CreateBillboard } from "../../../graphQL/Queries";
 import LogoUpload from "../../../components/Upload/LogoUpload";
 import { getImgURL } from "../../../utils/Utils";
@@ -15,7 +15,7 @@ import "../../../components/Modal/modal.css";
 
 
 type Props = {
-    props: Brand;
+    props: BrandType;
 }
 
 interface FormValues {

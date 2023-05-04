@@ -1,4 +1,4 @@
-type Brand = {
+type BrandType = {
     id: string;
     status: string;
     name: string;
@@ -21,4 +21,4 @@ type Brand = {
 
 };
 
-export default Brand;
+export default BrandType;

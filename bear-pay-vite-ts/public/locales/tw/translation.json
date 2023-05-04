@@ -167,7 +167,8 @@
     "update_ads": "修改廣告",
     "================freecoin================": "================freecoin================",
     "currency_name": "貨幣名稱",
-    "amount": "數量",
+    "amount": "金額",
+    "quantity": "數量",
     "reward": "獎勵",
     "currency_limit": "最大發送次數",
     "currency_days_limit": "獎勵使用期限",
@@ -230,7 +231,9 @@
     "now_currency_amount": "目前付費幣數量",
     "earning": "收益",
     "no_deposit_history": "沒有儲值紀錄",
-    "expired": "已過期"
+    "expired": "已過期",
+    "exchange_100": "兌換100元金額",
+    "exchange_50": "兌換50元金額"
 
 
 
