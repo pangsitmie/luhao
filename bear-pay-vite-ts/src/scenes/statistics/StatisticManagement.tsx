@@ -17,8 +17,7 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import GroupIcon from '@mui/icons-material/Group';
-
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import StatBox from "../../components/StatBox";
 import StatPercentBox from '../../components/StatPercentBox';
 import Header from '../../components/Header';
@@ -479,7 +478,26 @@ const StatisticManagement = () => {
                     {/* ROW 2 */}
                     <Box
                         // formula: (revenue-expense) / revenue
-                        className='span6'
+                        className='span4'
+                        sx={{
+                            backgroundColor: colors.primary[400],
+                            border: "1px solid " + colors.grey[300],
+                            backdropFilter: "blur(20px)",
+                        }}
+                    >
+                        <StatBox
+                            title={`${currencyFormatter(displayStatistic.coinAmountTotal - displayStatistic.giftAmountTotal)}`}
+                            subtitle={t('earning')}
+                            icon={
+                                <PointOfSaleIcon
+                                    sx={{ color: colors.primary[100], fontSize: "45px" }}
+                                />
+                            }
+                        />
+                    </Box>
+                    <Box
+                        // formula: (revenue-expense) / revenue
+                        className='span4'
                         sx={{
                             backgroundColor: colors.primary[400],
                             border: "1px solid " + colors.grey[300],
@@ -495,7 +513,7 @@ const StatisticManagement = () => {
                     </Box>
                     <Box
                         // formula: (gift count) / total coin inserted
-                        className='span6'
+                        className='span4'
                         sx={{
                             backgroundColor: colors.primary[400],
                             border: "1px solid " + colors.grey[300],
@@ -509,6 +527,8 @@ const StatisticManagement = () => {
                             progress={(displayStatistic.giftRate / 100).toFixed(2)}
                         />
                     </Box>
+
+                    {/* row3 */}
                     <Box
                         // formula: (gift count) / total coin inserted
                         className='span6'

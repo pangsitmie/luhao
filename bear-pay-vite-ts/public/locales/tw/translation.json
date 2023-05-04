@@ -33,7 +33,7 @@
     "total_coin": "總投幣",
     "total_expense": "總支出",
     "total_prize": "總出貨",
-    "expense_rate": "盈收比",
+    "expense_rate": "總盈收比",
     "prize_rate": "出貨比",
     "total_today_earning": "本日總收入",
     "================table================": "================table================",
@@ -229,14 +229,9 @@
     "bonus_game": "輪盤小遊戲",
     "max_currency_amount": "最大付費幣數量",
     "now_currency_amount": "目前付費幣數量",
-    "earning": "收益",
+    "earning": "盈收",
     "no_deposit_history": "沒有儲值紀錄",
     "expired": "已過期",
-    "exchange_100": "兌換100元",
-    "exchange_50": "兌換50元"
-
-
-
-
-
+    "exchange_100": "紙鈔兑幣/100兑幣",
+    "exchange_50": "紙鈔兑幣/50兑幣"
 }
