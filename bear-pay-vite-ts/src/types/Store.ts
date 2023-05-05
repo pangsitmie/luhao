@@ -8,6 +8,7 @@ type Store = {
     createdAt: number;
     startAt: number;
     endAt: number;
+    machineCount: number;
 };
 
 export default Store;

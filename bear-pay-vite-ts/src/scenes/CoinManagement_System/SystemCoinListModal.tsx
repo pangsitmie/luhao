@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
-import IMG from "../../assets/user.png";
 import { tokens } from "../../theme";
 import { DeleteNotification } from "../../graphQL/Queries";
 import { format } from 'date-fns';
-import { replaceNullWithEmptyString } from "../../utils/Utils";
 import { useTranslation } from 'react-i18next';
 import { NotificationSchedulesType } from "../../types/Notification";
 
@@ -45,7 +43,7 @@ export default function SystemCoinListModal({ props }: Props) {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = t("details"), deleteTitle = t("delete");
+  var btnTitle = t("details");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -94,7 +92,7 @@ export default function SystemCoinListModal({ props }: Props) {
   }, [props]);
 
   //========================== GRAPHQL ==========================
-  const [ApolloRemoveNotification, { loading, error, data }] = useLazyQuery(DeleteNotification);
+  const [ApolloRemoveNotification, { data }] = useLazyQuery(DeleteNotification);
   useEffect(() => {
     if (data) {
       console.log(data);

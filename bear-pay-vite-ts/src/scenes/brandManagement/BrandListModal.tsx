@@ -19,8 +19,6 @@ import BrandType from "../../types/Brand";
 import { RootState } from "../../redux/store";
 
 
-
-
 type Props = {
   props: BrandType
   onUpdate: () => void
@@ -57,7 +55,7 @@ const BrandListModal = ({ props, onUpdate }: Props) => {
   const colors = tokens(theme.palette.mode);
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), unbanTitle = t("unban");
 
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
@@ -101,14 +99,14 @@ const BrandListModal = ({ props, onUpdate }: Props) => {
   }
 
   // ============ UPDATE BRAND ============
-  const [ApolloUpdateBrand, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useMutation(UPDATE_BRAND_MUTATION);
+  const [ApolloUpdateBrand, { error: errorUpdate, data: dataUpdate }] = useMutation(UPDATE_BRAND_MUTATION);
   useEffect(() => {
     if (errorUpdate) {
       console.log(errorUpdate);
     }
   }, [errorUpdate]);
   // ============ REMOVE BRAND ============
-  const [ApolloRemoveBrand, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveBrand);
+  const [ApolloRemoveBrand, { data: dataRemove }] = useLazyQuery(RemoveBrand);
   const handleDelete = () => {
     var result = window.confirm("Are you sure you want to delete this brand?");
     if (result) {
@@ -124,7 +122,7 @@ const BrandListModal = ({ props, onUpdate }: Props) => {
     }
   };
   // ============ UNBAN BRAND ============
-  const [ApolloUnBanMachine, { loading: loadingUnBan, error: errorUnBan, data: dataUnBan }] = useLazyQuery(UnbanBrand);
+  const [ApolloUnBanMachine, { data: dataUnBan }] = useLazyQuery(UnbanBrand);
   const handleUnBan = () => {
     var result = window.confirm("Are you sure you want to unban this machine?");
     if (result) {
@@ -183,7 +181,7 @@ const BrandListModal = ({ props, onUpdate }: Props) => {
   };
 
   // INITIAL VALUES FROM GET BRAND QUERY
-  const { loading: loadingInit, error: errorInit, data: dataInit, refetch } = useQuery(GetBrand
+  const { data: dataInit, refetch } = useQuery(GetBrand
     , {
       variables: {
         args: [

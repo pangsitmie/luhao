@@ -232,6 +232,7 @@
     "no_deposit_history": "No Deposit History",
     "expired": "Expired",
     "exchange_100": "Exchange 100",
-    "exchange_50": "Exchange 50"
+    "exchange_50": "Exchange 50",
+    "machine_count": "Machine Count"
 
 }

@@ -109,7 +109,7 @@ const BillboardListModal = ({ props, onUpdate }: Props) => {
     }, [data2]);
 
     // INITIAL VALUES FROM GET BILLBOARD
-    const { loading: loading3, error: error3, data: data3, refetch } = useQuery(GetBillboard
+    const { data: data3, refetch } = useQuery(GetBillboard
         , {
             variables: {
                 args: [
@@ -153,7 +153,7 @@ const BillboardListModal = ({ props, onUpdate }: Props) => {
     }, [data3]);
 
     // UNBAN MUTATION
-    const [ApolloUnBanBillboard, { loading: loading4, error: error4, data: data4 }] = useLazyQuery(UnbanBillboard);
+    const [ApolloUnBanBillboard, { data: data4 }] = useLazyQuery(UnbanBillboard);
     useEffect(() => {
         if (data4) {
             window.location.reload();
@@ -178,7 +178,7 @@ const BillboardListModal = ({ props, onUpdate }: Props) => {
         }
     }
 
-    const [ApolloRemoveBillboard, { loading, error, data }] = useLazyQuery(RemoveBillboard);
+    const [ApolloRemoveBillboard, { data }] = useLazyQuery(RemoveBillboard);
     useEffect(() => {
         if (data) {
             onUpdate();

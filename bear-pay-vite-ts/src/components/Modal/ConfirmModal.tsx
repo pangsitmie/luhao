@@ -85,7 +85,8 @@ export default function ConfirmModal({ props }: any) {
                         expireAt: unixSecond,
                         reason: reasonRef.current?.value
                     }
-                })
+                });
+                break;
             case "store":
                 ApolloBanStore({
                     variables: {
@@ -97,7 +98,8 @@ export default function ConfirmModal({ props }: any) {
                         expireAt: unixSecond,
                         reason: reasonRef.current?.value
                     }
-                })
+                });
+                break;
             case "member":
                 ApolloBanMember({
                     variables: {
@@ -113,7 +115,8 @@ export default function ConfirmModal({ props }: any) {
                         expireAt: unixSecond,
                         reason: reasonRef.current?.value
                     }
-                })
+                });
+                break;
             case "billboard":
                 ApolloBanBillboard({
                     variables: {
@@ -125,7 +128,8 @@ export default function ConfirmModal({ props }: any) {
                         expireAt: unixSecond,
                         reason: reasonRef.current?.value
                     }
-                })
+                });
+                break;
             case "machine":
                 ApolloBanMachine({
                     variables: {
@@ -137,7 +141,8 @@ export default function ConfirmModal({ props }: any) {
                         expireAt: unixSecond,
                         reason: reasonRef.current?.value
                     }
-                })
+                });
+                break;
             case "ads":
                 ApolloBanAds({
                     variables: {
@@ -149,8 +154,10 @@ export default function ConfirmModal({ props }: any) {
                         expireAt: unixSecond,
                         reason: reasonRef.current?.value
                     }
-                })
+                });
+                break;
         }
+
 
     };
 

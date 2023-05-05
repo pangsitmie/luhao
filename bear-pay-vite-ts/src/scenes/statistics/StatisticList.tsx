@@ -1,19 +1,18 @@
-import React, { useEffect, useState, useRef, } from 'react'
+import { useState, } from 'react'
 // QUERIES
-import { GetAllBrands, GetBrandListPagination } from '../../graphQL/Queries'
+import { GetBrandListPagination } from '../../graphQL/Queries'
 import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries'
 import { STORE_GetAllStores } from '../../graphQL/StorePrincipalQueries';
 
 // THEME
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 
 import { Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { RootState } from '../../redux/store';
 import BrandType from '../../types/Brand';
@@ -36,10 +35,10 @@ const StatisticList = () => {
 
 
     // ========================== REF ==========================
-    const searchValueRef = useRef('');
+
 
     //========================== GRAPHQL ==========================
-    const [initBrands, setInitBrands] = useState<BrandNode[] | StoreNode[]>([]);
+    // const [initBrands, setInitBrands] = useState<BrandNode[] | StoreNode[]>([]);
     const [brands, setBrands] = useState<BrandNode[] | StoreNode[]>([]);
 
     // LOADING STATE
@@ -64,6 +63,7 @@ const StatisticList = () => {
         case 'store':
             LIST_QUERY = STORE_GetAllStores;
             PAGINATION_PATH_TYPE = 'GET_STORE_PRINCIPAL_STORE_LIST';
+            break;
         default:
             break;
     }
@@ -72,7 +72,7 @@ const StatisticList = () => {
 
     const handlePageChange = (data: BrandNode[]) => {
         setBrands(data);
-        setInitBrands(data);
+        // setInitBrands(data);
     }
 
     // ========================== FUNCTIONS ==========================

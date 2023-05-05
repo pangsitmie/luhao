@@ -1,19 +1,15 @@
-import React, { useEffect, useState, useContext, useRef, useLayoutEffect } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
 // THEME
-import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../../theme";
+import { Box, Button, Typography, useTheme } from "@mui/material";
+import { tokens } from "../../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-// import CreateCommodityModal from './CreateCommodityModal';
-// import CommodityListModal from './CommodityListModal';
 import { HealthCheck } from '../../../graphQL/Queries';
 
-
-// QRCODE
 import Loader from '../../../components/loader/Loader';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
@@ -32,14 +28,13 @@ const CommodityManagement = () => {
   //THEME
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const colorMode = useContext(ColorModeContext);
 
   // ====================== STATES ======================
   // LOADING STATE
   const [loadingState, setLoadingState] = useState(false);
 
 
-  const [initCommodityDatas, setInitCommodityDatas] = useState<Commodity[]>([]);
+  const [initCommodityDatas] = useState<Commodity[]>([]);
   const [commodityDatas, setCommodityDatas] = useState<Commodity[]>([]);
 
   //REF

@@ -60,7 +60,7 @@ export default function CreateBrandCoinModal() {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+  var btnTitle = t("create"), confirmTitle = t("confirm");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -88,7 +88,7 @@ export default function CreateBrandCoinModal() {
   }
 
   //========================== INITIAL VALUES ==========================
-  const [initialValues, setInitialValues] = useState<FormValues>({
+  const [initialValues] = useState<FormValues>({
     title: "",
     content: "",
     comment: "",
@@ -124,7 +124,7 @@ export default function CreateBrandCoinModal() {
       break;
   }
 
-  const [ApolloCreateBrandFreeCoinNotification, { loading, error, data }] = useMutation(CREATE_FREE_REWARD_MUTATION);
+  const [ApolloCreateBrandFreeCoinNotification, { data }] = useMutation(CREATE_FREE_REWARD_MUTATION);
   useEffect(() => {
     if (data) {
       window.location.reload();
@@ -132,7 +132,7 @@ export default function CreateBrandCoinModal() {
   }, [data]);
 
 
-  const { loading: loading1, error: error1, data: data1 } = useQuery(GET_BRAND_LIST_QUERY);
+  const { data: data1 } = useQuery(GET_BRAND_LIST_QUERY);
   useEffect(() => {
     if (data1) {
       switch (entityName) {
@@ -191,6 +191,7 @@ export default function CreateBrandCoinModal() {
 
     let nowUnix = Math.floor(Date.now() / 1000);
 
+    console.log("BRAND INFO" + brandId + brandName + brandCoinId + brandCoinName)
 
     const variables: any = {
       receiveDaysOverdue: parseInt(values.receiveDaysOverdue),

@@ -540,9 +540,9 @@ const StatisticManagement = () => {
                         <StatBoxSplit
                             title={t('exchange_100')}
                             subtitle1={t('amount')}
-                            val1={numberFormatter(displayStatistic.exchange100AmountTotal)}
+                            val1={numberFormatter(displayStatistic.exchange100AmountTotal || 0)}
                             subtitle2={t('quantity')}
-                            val2={numberFormatter(displayStatistic.exchange100QuantityTotal)}
+                            val2={numberFormatter(displayStatistic.exchange100QuantityTotal || 0)}
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: colors.redAccent[600], fontSize: "45px" }}
@@ -562,9 +562,9 @@ const StatisticManagement = () => {
                         <StatBoxSplit
                             title={t('exchange_50')}
                             subtitle1={t('amount')}
-                            val1={numberFormatter(displayStatistic.exchange50AmountTotal)}
+                            val1={numberFormatter(displayStatistic.exchange50AmountTotal || 0)}
                             subtitle2={t('quantity')}
-                            val2={numberFormatter(displayStatistic.exchange50QuantityTotal)}
+                            val2={numberFormatter(displayStatistic.exchange50QuantityTotal || 0)}
                             icon={
                                 <MonetizationOnIcon
                                     sx={{ color: colors.blueAccent[600], fontSize: "45px" }}

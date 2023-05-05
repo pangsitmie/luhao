@@ -233,5 +233,7 @@
     "no_deposit_history": "沒有儲值紀錄",
     "expired": "已過期",
     "exchange_100": "紙鈔兑幣/100兑幣",
-    "exchange_50": "紙鈔兑幣/50兑幣"
+    "exchange_50": "紙鈔兑幣/50兑幣",
+    "machine_count": "機台總數"
+
 }

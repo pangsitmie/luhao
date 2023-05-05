@@ -72,17 +72,13 @@ const MachineStatisticPeriod = () => {
 
 
 
-
-
-
-
     // ===================== GRAPH DATA =====================
     const [period, setPeriod] = useState<string>('hour');
     const [lineData, setLineData] = useState<MachineStatisticPeriodType[]>([]);
 
     const [connRecordData, setConnRecordData] = useState<ConnRecords[]>([]);
 
-    const { loading: loadingMachine, error: errorMachine, data: dataMachine } = useQuery(GetMachineStatisticPeriod, {
+    const { error: errorMachine, data: dataMachine } = useQuery(GetMachineStatisticPeriod, {
         variables: {
             args: [
                 {
@@ -96,7 +92,7 @@ const MachineStatisticPeriod = () => {
         // skip: selectedItem.id !== -1 || entityName === "store" //skip if store is selected
     });
 
-    const { loading: loadingCon, error: errorCon, data: dataCon } = useQuery(GetMachineConnectionRecord, {
+    const { error: errorCon, data: dataCon } = useQuery(GetMachineConnectionRecord, {
         variables: {
             args: [
                 {
@@ -118,14 +114,20 @@ const MachineStatisticPeriod = () => {
             // console.log(dataMachine);
             setLineData(dataMachine.getMachine[0].statisticsPeriod);
         }
-    }, [dataMachine]);
+        if (errorMachine) {
+            console.log(errorMachine);
+        }
+    }, [dataMachine, errorMachine]);
 
     useEffect(() => {
         if (dataCon) {
             console.log(dataCon.getMachine[0].connRecord.connRecords);
             setConnRecordData(dataCon.getMachine[0].connRecord.connRecords);
         }
-    }, [dataCon]);
+        if (errorCon) {
+            console.log(errorCon);
+        }
+    }, [dataCon, errorCon]);
 
     const setToday = () => {
         setStartAtDate(getCurrentDate());

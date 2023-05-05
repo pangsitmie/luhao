@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useQuery } from '@apollo/client'
 import { format } from 'date-fns';
 
@@ -13,7 +13,6 @@ import InputBase from "@mui/material/InputBase";
 import CreateSystemCoinModal from './CreateSystemCoinModal';
 import SystemCoinListModal from './SystemCoinListModal';
 import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
 import { useTranslation } from 'react-i18next';
 import { NotificationSchedulesType } from '../../types/Notification';
 

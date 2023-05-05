@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -24,7 +24,9 @@ type Props = {
     showButtons: boolean;
 };
 
-const checkoutSchema = yup.object().shape({});
+const checkoutSchema = yup.object().shape({
+
+});
 
 
 export default function ReviewStoreListModal({ props, onUpdate, showButtons }: Props) {
@@ -57,13 +59,8 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }: P
 
 
 
-    const [inputAddress, setInputAddress] = useState(""); // FOR DISPLAYING WHAT USER TYPE IN ADDRESS SEARCH BAR
-    const [{ address, coordinates }, setLocation] = useState({
+    const [{ address }, setLocation] = useState({
         address: "",
-        coordinates: {
-            lat: 0,
-            lng: 120,
-        }
     });
 
 
@@ -284,8 +281,8 @@ export default function ReviewStoreListModal({ props, onUpdate, showButtons }: P
                                                         onChange={handleAreaChange}
                                                         required // add the required prop
                                                     >
-                                                        {areaFilter.map((area, i) => (
-                                                            <MenuItem value={area} key={area}>
+                                                        {areaFilter.map((area, index) => (
+                                                            <MenuItem value={area} key={index}>
                                                                 {area}
                                                             </MenuItem>
                                                         ))}

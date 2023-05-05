@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, Checkbox, FilledInput, FormControl, FormControlLabel, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
-import { useLazyQuery, useMutation } from '@apollo/client'
+import React, { useState, useEffect, } from "react";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
+import { useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { CreateDepositItem } from "../../graphQL/Mutations";
-
 import { useTranslation } from 'react-i18next';
-
-
 
 interface FormValues {
     name: string;
@@ -38,7 +35,7 @@ export default function CreateDepositModal() {
     };
 
     //========================== INITIAL VALUES ==========================
-    const [initialValues, setInitialValues] = useState<FormValues>({
+    const [initialValues] = useState<FormValues>({
         name: "",
         price: "",
         walletValue: "",
@@ -74,7 +71,7 @@ export default function CreateDepositModal() {
 
 
     //========================== GRAPHQL ==========================
-    const [ApolloCreateDepositItem, { loading, error, data }] = useMutation(CreateDepositItem);
+    const [ApolloCreateDepositItem, { data }] = useMutation(CreateDepositItem);
     useEffect(() => {
         if (data) {
             window.location.reload();

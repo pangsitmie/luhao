@@ -26,18 +26,9 @@ const BonusGameManagement = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    // ========================== STATES AND HANDLERS ==========================
-
-    const [filter, setFilter] = useState('品牌名');
-
-    const [status, setStatus] = useState('');
-
-    const [review, setReview] = useState('');
-
 
     // ========================== REF ==========================
     const searchValueRef = useRef<HTMLInputElement>(null);
-    const filterRef = useRef('品牌名');
 
     //========================== GRAPHQL ==========================
 
@@ -67,9 +58,6 @@ const BonusGameManagement = () => {
 
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
-        // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current?.value + " " + status + " " + review);
-
         //CALL SEARCH FUNCTION
         let value = searchValueRef.current?.value || '';
         if (value.length > 2) {

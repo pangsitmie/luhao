@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { useLazyQuery, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { replaceNullWithEmptyString } from "../../utils/Utils";
-
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from "react-redux";
 import { GetGiftCode, RemoveGiftCode, UpdateGiftCode } from "../../graphQL/Queries";
 import { format } from 'date-fns';
 import { toast } from "react-toastify";
 import { GiftCodeType } from "../../types/GiftCode";
-import { RootState } from "../../redux/store";
 
 
 
@@ -40,7 +37,6 @@ const checkoutSchema = yup.object().shape({
 
 
 export default function GiftCodeListModal({ props, onUpdate }: Props) {
-    const { entityName } = useSelector((state: RootState) => state.entity);
 
     const { t } = useTranslation();
     //THEME
@@ -68,7 +64,7 @@ export default function GiftCodeListModal({ props, onUpdate }: Props) {
 
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("view"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), confirmTitle = t("confirm"), deleteTitle = t("delete");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -83,7 +79,7 @@ export default function GiftCodeListModal({ props, onUpdate }: Props) {
 
 
     // INITIAL VALUES FROM GET BRAND QUERY
-    const { loading: loadingInit, error: errorInit, data: dataInit } = useQuery(GetGiftCode
+    const { data: dataInit } = useQuery(GetGiftCode
         , {
             variables: {
                 args: [
@@ -117,22 +113,10 @@ export default function GiftCodeListModal({ props, onUpdate }: Props) {
         }
     }, [dataInit]);
 
-    // let UPDATE_GIFT_CODE_MUTATION;
-    // switch (entityName) {
-    //     case 'company':
-    //         UPDATE_GIFT_CODE_MUTATION = UpdateGiftCode;
-    //         break;
-    //     case 'brand':
-    //         UPDATE_GIFT_CODE_MUTATION = UpdateGiftCode;
-    //         break;
-    //     default:
-    //         break;
-    // }
-
     //========================== GRAPHQL ==========================
-    const [ApolloUpdateGiftCode, { loading, error, data }] = useLazyQuery(UpdateGiftCode);
+    const [ApolloUpdateGiftCode, { data }] = useLazyQuery(UpdateGiftCode);
 
-    const [ApolloRemoveGiftCode, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveGiftCode);
+    const [ApolloRemoveGiftCode, { data: dataRemove }] = useLazyQuery(RemoveGiftCode);
 
     // ========================== FUNCTIONS ==========================
     const handleFormSubmit = (values: FormValues) => {

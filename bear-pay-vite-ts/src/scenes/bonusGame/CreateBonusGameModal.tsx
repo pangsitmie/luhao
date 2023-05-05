@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, TextField, Typography, useTheme } from "@mui/material";
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import React, { useState, useEffect } from "react";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { useMutation, useQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { STORE_CreateBonusGame } from "../../graphQL/StorePrincipalMutation";
 import { STORE_GetStoreCurrency } from "../../graphQL/StorePrincipalQueries";
-import { RootState } from "../../redux/store";
 
 
 
@@ -35,7 +33,6 @@ const checkoutSchema = yup.object().shape({
 });
 
 export default function CreateGiftCodeModal({ onUpdate }: Props) {
-    const { entityName } = useSelector((state: RootState) => state.entity);
 
     const { t } = useTranslation();
     //THEME
@@ -72,7 +69,7 @@ export default function CreateGiftCodeModal({ onUpdate }: Props) {
 
     let CREATE_BONUS_GAME_MUTATION = STORE_CreateBonusGame;
 
-    const { error: errorCurrency, loading: loadingCurrency, data: dataCurrency } = useQuery(STORE_GetStoreCurrency);
+    const { data: dataCurrency } = useQuery(STORE_GetStoreCurrency);
 
     useEffect(() => {
         if (dataCurrency) {
@@ -92,13 +89,12 @@ export default function CreateGiftCodeModal({ onUpdate }: Props) {
     }, [dataCurrency]);
 
     //========================== GRAPHQL ==========================
-    const [ApolloCreateBonusGame, { loading, error, data }] = useMutation(CREATE_BONUS_GAME_MUTATION);
+    const [ApolloCreateBonusGame, { data }] = useMutation(CREATE_BONUS_GAME_MUTATION);
     useEffect(() => {
         if (data) {
             onUpdate();
             toast.success(t('create_success'));
             setModal(false);
-            // window.location.reload();
         }
     }, [data]);
 

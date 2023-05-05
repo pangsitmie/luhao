@@ -87,7 +87,7 @@ export default function CreateMachineModal({ props }: Props) {
 
     var btnTitle = t("add_new"), confirmTitle = t("confirm");
 
-    const [initialValues, setInitialValues] = useState<FormValues>({
+    const [initialValues] = useState<FormValues>({
         storeId: "",
         storeName: "",
         name: "",

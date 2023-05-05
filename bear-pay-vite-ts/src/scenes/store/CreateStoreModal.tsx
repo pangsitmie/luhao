@@ -75,7 +75,7 @@ export default function CreateStoreModal() {
         brandId: "null",
         brandName: "null",
     });
-    var btnTitle = t("create_store"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("create_store"), confirmTitle = t("create");
 
 
 
@@ -135,7 +135,7 @@ export default function CreateStoreModal() {
         //this.props.onAddressSelected();
     };
 
-    const [initialValues, setInitialValues] = useState<FormValues>({
+    const [initialValues] = useState<FormValues>({
         id: "",
         brandId: "",
         brandName: "",
@@ -152,7 +152,7 @@ export default function CreateStoreModal() {
     });
 
     // =================== BRAND LIST ===================
-    const { loading: loading1, error: error1, data: data1 } = useQuery(GetBrandList);
+    const { data: data1 } = useQuery(GetBrandList);
     const [brandListFilter, setBrandListFilter] = useState('');
     const [brandList, setBrandList] = useState<BrandType[]>([]);
     useEffect(() => {
@@ -455,8 +455,8 @@ export default function CreateStoreModal() {
                                                         onChange={handleAreaChange}
                                                         required // add the required prop
                                                     >
-                                                        {areaFilter.map((area, i) => (
-                                                            <MenuItem value={area} key={area}>
+                                                        {areaFilter.map((area, index) => (
+                                                            <MenuItem value={area} key={index}>
                                                                 {area}
                                                             </MenuItem>
                                                         ))}

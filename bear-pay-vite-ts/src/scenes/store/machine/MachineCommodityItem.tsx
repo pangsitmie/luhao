@@ -49,19 +49,16 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    var btnTitle = t('link_product'), confirmTitle = t('update'), deleteTitle = "移除", banTitle = "封鎖", unbanTitle = "解封";
+    var btnTitle = t('link_product'), confirmTitle = t('update');
 
 
     const [modal, setModal] = useState(false);
     //REF
-    const [status, setStatus] = useState('disable');
-    const handleStatusChange = (event: SelectChangeEvent<string>) => {
-        setStatus(event.target.value);
-    };
 
 
 
-    const [initialValues, setInitialValues] = useState<FormValues>({
+
+    const [initialValues] = useState<FormValues>({
         id: "",
         uuid: "",
         name: "",
@@ -77,11 +74,11 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
         stock: 0,
     });
 
-    const [commodityListFilter, setCommodityListFilter] = useState<string>('');
+    // const [commodityListFilter, setCommodityListFilter] = useState<string>('');
     const [commodityList, setCommodityList] = useState<Commodity[]>([]);
 
 
-    const { loading: loadingHealthCheck, error: errorHealthCheck, data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
+    const { refetch: refetchHealthCheck } = useQuery(HealthCheck);
     const REST_FetchCommodityList = async () => {
         const MAX_RETRY_ATTEMPTS = 3;
         let retryCount = 0;
@@ -149,7 +146,7 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
         const item = commodityList.find(item => item.id === targetId);
 
         if (item) {
-            setCommodityListFilter(targetId);
+            // setCommodityListFilter(targetId);
             setSelectedCommodity({
                 id: targetId,
                 name: item.name,
@@ -161,7 +158,7 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
 
 
     // ===================== INITIAL VALUES FROM GETMACHINE =====================
-    const { loading: loading3, error: error3, data: data3, refetch } = useQuery(GetMachineCommodity
+    const { data: data3, refetch } = useQuery(GetMachineCommodity
         , {
             variables: {
                 args: [
@@ -176,6 +173,7 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
     useEffect(() => {
         if (data3) {
             console.log("RETRIEVED DATA FROM GetMachineCommodity");
+            console.log(data3);
             const nonNullData = replaceNullWithEmptyString(data3.getMachine[0].commodity);
             setSelectedCommodity({
                 id: nonNullData.id,
@@ -213,11 +211,17 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
             toast.success(t('update_success'));
             // window.location.reload();
         }
-    }, [data4]);
+        if (loading4) {
+            console.log(t('loading'));
+        }
+        if (error4) {
+            console.log(error4);
+        }
+    }, [data4, loading4, error4]);
 
 
 
-    const handleFormSubmit = (values: FormValues) => {
+    const handleFormSubmit = () => {
         const variables = {
             machineId: props.id,
             commodityId: selectedCommodity.id,
@@ -258,7 +262,6 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
                                 enableReinitialize={true}
                             >
                                 {({
-                                    values,
                                     errors,
                                     touched,
                                     handleBlur,
@@ -268,38 +271,10 @@ export default function MachineCommodityListModal({ props, storeData, onUpdate }
                                     <form onSubmit={handleSubmit}>
                                         <Box color={"black"} >
 
-                                            <Box display={"flex"} >
-                                                <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-                                                    <Typography variant="h2" sx={{ fontSize: "2rem", fontWeight: "600", color: colors.grey[200] }}>
-                                                        {btnTitle}
-                                                    </Typography>
-                                                    {(() => {
-                                                        if (status === "disable") {
-                                                            return (
-                                                                <Typography variant="h5" color={colors.primary[100]} sx={{ margin: ".5rem 0" }}>
-                                                                    {t('disable')}
-                                                                </Typography>)
-                                                        }
-                                                        else if (status === "banned") {
-                                                            return (
-                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    {t('banned')}
-                                                                </Typography>)
-                                                        }
-                                                        else if (status === "removed") {
-                                                            return (
-                                                                <Typography variant="h5" color={colors.redAccent[500]} sx={{ margin: ".5rem 0" }}>
-                                                                    {t('deleted')}
-                                                                </Typography>)
-                                                        }
-                                                        else {
-                                                            return (
-                                                                <Typography variant="h5" color={colors.greenAccent[300]} sx={{ margin: ".5rem 0" }}>
-                                                                    {t('normal')}
-                                                                </Typography>)
-                                                        }
-                                                    })()}
-                                                </Box>
+                                            <Box  >
+                                                <Typography variant="h2" sx={{ fontSize: "2rem", fontWeight: "600", color: colors.grey[200], mb: "1rem" }}>
+                                                    {btnTitle}
+                                                </Typography>
                                             </Box>
 
 

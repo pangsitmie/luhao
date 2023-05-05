@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useLazyQuery } from '@apollo/client'
 import { format } from 'date-fns';
 
 // THEME
 import { Box, Button, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../../theme";
+import { tokens } from "../../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
@@ -29,7 +29,6 @@ const BillboardManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     // ====================== PAGINATION ======================
     const [initData, setInitData] = useState<BillboardNode[]>([]);
@@ -55,7 +54,7 @@ const BillboardManagement = () => {
     // ========================== SEARCH ==========================
     const searchValueRef = useRef<HTMLInputElement>(null);
 
-    const [ApolloSearchBillboardByTitle, { loading, error, data }] = useLazyQuery(SearchBillboardByTitle);
+    const [ApolloSearchBillboardByTitle, { error, data }] = useLazyQuery(SearchBillboardByTitle);
     useEffect(() => {
         if (data) {
             console.log(data);

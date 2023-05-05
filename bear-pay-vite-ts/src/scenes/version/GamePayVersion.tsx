@@ -19,8 +19,6 @@ interface FormValues {
 
 
 const checkoutSchema = yup.object().shape({
-    // android: yup.string().required("請輸入版本號"),
-    // ios: yup.string().required("請輸入版本號"),
 });
 
 const GamePayVersion = () => {
@@ -51,7 +49,7 @@ const GamePayVersion = () => {
         }
     }, [data]);
 
-    const [ApolloUpdateVersion, { loading: versionLoading, error: versionError, data: versionData }] = useMutation(UpdateGamePayVersion);
+    const [ApolloUpdateVersion, { data: versionData }] = useMutation(UpdateGamePayVersion);
     useEffect(() => {
         if (versionData) {
             window.location.reload();

@@ -125,7 +125,7 @@ const FinanceStatistic = () => {
     const [period, setPeriod] = useState<string>('hour');
     const [lineData, setLineData] = useState<StatisticPeriod[]>([]);
 
-    const { loading: loadingBrand, error: errorBrand, data: dataBrand } = useQuery(GetBrandStatisticPeriod, {
+    const { data: dataBrand } = useQuery(GetBrandStatisticPeriod, {
         variables: {
             args: [
                 {
@@ -140,7 +140,7 @@ const FinanceStatistic = () => {
     });
 
 
-    const { loading: loadingStore, error: errorStore, data: dataStore } = useQuery(GetStoreStatisticPeriod, {
+    const { data: dataStore } = useQuery(GetStoreStatisticPeriod, {
         variables: {
             args: [
                 {

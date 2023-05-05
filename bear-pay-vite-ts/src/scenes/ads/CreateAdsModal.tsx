@@ -7,7 +7,7 @@ import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { CreateAdvertisement } from "../../graphQL/Mutations";
 import { getImgURL } from "../../utils/Utils";
-import CoverUpload from "../../components/Upload/CoverUpload";
+import CoverUpload, { CoverImageType } from "../../components/Upload/CoverUpload";
 import { useTranslation } from 'react-i18next';
 
 const checkoutSchema = yup.object().shape({
@@ -31,9 +31,12 @@ export default function CreateAdsModal() {
 
 
     // ========================== STATES AND HANDLERS ==========================
-    const [typeId, setTypeId] = useState<string>('banner');
+    const [typeId, setTypeId] = useState<CoverImageType>('banner');
     const handleTypeIdChange = (event: SelectChangeEvent<string>) => {
-        setTypeId(event.target.value);
+        const newValue = event.target.value;
+        if (newValue === 'banner' || newValue === 'placement') {
+            setTypeId(newValue);
+        }
     };
 
     const [startAtDate, setStartAtDate] = useState('');
@@ -46,7 +49,7 @@ export default function CreateAdsModal() {
         setEndAtDate(event.target.value);
     }
 
-    const [initialValues, setInitialValues] = useState({
+    const [initialValues] = useState({
         url: "https://",
         description: "",
         startAtDate: "",
@@ -61,7 +64,7 @@ export default function CreateAdsModal() {
 
 
     //========================== GRAPHQL ==========================
-    const [ApolloCreateAds, { loading, error, data }] = useMutation(CreateAdvertisement);
+    const [ApolloCreateAds, { data }] = useMutation(CreateAdvertisement);
     useEffect(() => {
         if (data) {
             console.log(data);
@@ -72,7 +75,9 @@ export default function CreateAdsModal() {
 
     // IMAGE UPLOAD
     const [imageFileName, setImageFileName] = useState('');
-
+    const handleUploadImageSucess = (name: string) => {
+        setImageFileName(name);
+    };
 
     const handleFormSubmit = (values: FormValues) => {
         const startAtDateObj = new Date(startAtDate);
@@ -161,7 +166,7 @@ export default function CreateAdsModal() {
                                                 </Box>
                                                 <Box width={"65%"}>
                                                     {/* UPLOAD COVER COMPONENET */}
-                                                    <CoverUpload handleSuccess={() => { }} imagePlaceHolder={getImgURL(imageFileName, "ads") || ''} type={typeId} />
+                                                    <CoverUpload handleSuccess={handleUploadImageSucess} imagePlaceHolder={getImgURL(imageFileName, "ads") || ''} type={typeId} />
                                                 </Box>
                                             </Box>
 

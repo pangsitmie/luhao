@@ -82,12 +82,12 @@ export default function DepositListModal({ props }: Props) {
     };
 
 
-    //========================== GRAPHQL ==========================
 
     // ============ UPDATE BRAND ============
-    const [ApolloUpdateDepositItem, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useLazyQuery(UpdateDepositItem);
+    const [ApolloUpdateDepositItem, { data: dataUpdate }] = useLazyQuery(UpdateDepositItem);
+
     // ============ REMOVE BRAND ============
-    const [ApolloRemoveDepositItem, { loading: loadingRemove, error: errorRemove, data: dataRemove }] = useLazyQuery(RemoveDepositItem);
+    const [ApolloRemoveDepositItem, { data: dataRemove }] = useLazyQuery(RemoveDepositItem);
     const handleDelete = () => {
         var result = window.confirm("Are you sure you want to delete this item?");
         if (result) {
@@ -127,7 +127,7 @@ export default function DepositListModal({ props }: Props) {
     };
 
     // INITIAL VALUES FROM GET BRAND QUERY
-    const { loading: loadingInit, error: errorInit, data: dataInit } = useQuery(GetDepositItem
+    const { data: dataInit } = useQuery(GetDepositItem
         , {
             variables: {
                 args: [

@@ -90,10 +90,8 @@ export default function BonusGameListModal({ props, onUpdate }: Props) {
 
     useEffect(() => {
         if (dataInit) {
-            // console.log(dataInit);
             const nonNullData = replaceNullWithEmptyString(dataInit.getBonusGameForStorePrincipal);
             console.log(nonNullData);
-            // console.log(nonNullData.reward.receiveDaysOverdue.length === 0)
 
             setInitialValues({
                 id: nonNullData.id,

@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 // THEME
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { ColorModeContext, tokens } from "../../../theme";
+import { tokens } from "../../../theme";
 // ICONS
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
@@ -41,7 +41,6 @@ const MachineManagement = () => {
     //THEME
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
 
     // ========================== SEARCH ==========================
     const searchValueRef = useRef<HTMLInputElement>(null);
@@ -60,10 +59,13 @@ const MachineManagement = () => {
                 toast.error(t('cant_find'));
             }
         }
+        if (loading) {
+            console.log("loading");
+        }
         if (error) {
             toast.error(error.message);
         }
-    }, [data])
+    }, [data, loading, error])
 
     const submitSearch = () => {
         // LOG SEARCH STATES
@@ -90,16 +92,9 @@ const MachineManagement = () => {
     const [initMachineDatas, setInitMachineDatas] = useState<Machine[]>([]);
     const [machineDatas, setMachineDatas] = useState<Machine[]>([]);
 
-    const handlePageChange = (data: Machine[]) => {
-        setMachineDatas(data);
-        setInitMachineDatas(data);
-    }
-
     // LOADING STATE
     const [loadingState, setLoadingState] = useState(false);
-    const handleLoadingState = (loading: boolean) => {
-        setLoadingState(loading);
-    }
+
 
     const [refetchCount, setRefetchCount] = useState(0);
     const triggerRefetch = () => {
@@ -109,7 +104,7 @@ const MachineManagement = () => {
 
 
     // ====================== GET MACHINE LIST REST ======================
-    const { loading: loadingHealthCheck, error: errorHealthCheck, data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
+    const { refetch: refetchHealthCheck } = useQuery(HealthCheck);
 
     const REST_FetchMachineList = async () => {
         console.log("REST_FetchMachineList");
@@ -172,7 +167,10 @@ const MachineManagement = () => {
         if (errorPatch) {
             toast.error(errorPatch.message);
         }
-    }, [dataPatch])
+        if (loadingPatch) {
+            console.log(loadingPatch);
+        }
+    }, [dataPatch, errorPatch, loadingPatch])
     const handlePatchMachineFavorite = (selectedId: string, favoriteBool: boolean) => {
         console.log("machineId: " + selectedId);
         console.log("set Favorite to: " + !favoriteBool);
@@ -257,15 +255,10 @@ const MachineManagement = () => {
     function downloadPdf() {
         const keys = Object.keys(imgUrls);
         const images: string[] = Object.values(imgUrls);
-        // const keys = Object.keys(imgUrls).slice(startIndex, endIndex);
-        // const images = Object.values(imgUrls).slice(startIndex, endIndex);
 
         const doc = createPdfWithImages(images, keys);
         doc.save(`${state.data.name}_機台 QRCODE.pdf`);
     }
-    // ====================== QRCODE END ======================
-
-    // if (error) return <Error />;
 
     return (
         <Box p={2} display="flex" flexDirection={"column"}>

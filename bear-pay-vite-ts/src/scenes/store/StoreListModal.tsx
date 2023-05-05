@@ -162,7 +162,7 @@ export default function StoreListModal({ props, onUpdate }: Props) {
     useEffect(() => {
         if (data) {
             onUpdate();
-            toast.success(t("delete_success"));
+            toast.error(t("delete_success"));
         }
     }, [data]);
 

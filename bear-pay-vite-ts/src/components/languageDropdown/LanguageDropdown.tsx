@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
+import { Box, IconButton, Typography } from "@mui/material";
 
 import PublicIcon from '@mui/icons-material/Public';
 import i18next from 'i18next';
@@ -9,8 +8,6 @@ import i18next from 'i18next';
 import './languageDropdown.css'
 const LanguageDropdown = () => {
     //THEME
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
 
     const [isMenuSubMenu4, setMenuSubMenu4] = useState(false);
     const toggleSubmenu4 = () => {
@@ -26,8 +23,6 @@ const LanguageDropdown = () => {
 
     const handleLanguageChange = (newLanguage: string) => {
         i18next.changeLanguage(newLanguage);
-
-        // window.location.reload();
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -52,7 +52,7 @@ export default function CreateBillboardModal({ props }: Props) {
 
     var btnTitle = t("create"), confirmTitle = t("create");
 
-    const [initialValues, setInitialValues] = useState<FormValues>({
+    const [initialValues] = useState<FormValues>({
         title: "",
         content: "",
         description: "",
@@ -60,7 +60,7 @@ export default function CreateBillboardModal({ props }: Props) {
     });
 
     // GQL
-    const [ApolloCreateBillboard, { loading, error, data }] = useLazyQuery(CreateBillboard);
+    const [ApolloCreateBillboard, { data }] = useLazyQuery(CreateBillboard);
     useEffect(() => {
         if (data) {
             console.log(data.getBrand);

@@ -43,7 +43,7 @@ export default function CreateBonusGameModal({ onUpdate }: Props) {
     const colors = tokens(theme.palette.mode);
 
     //========================== INITIAL VALUES ==========================
-    const [initialValues, setInitialValues] = useState<FormValues>({
+    const [initialValues] = useState<FormValues>({
         name: "",
         code: "",
         description: "",
@@ -53,7 +53,7 @@ export default function CreateBonusGameModal({ onUpdate }: Props) {
     });
 
     // ========================== STATES AND HANDLERS ==========================
-    var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("create"), confirmTitle = t("confirm");
 
     const [modal, setModal] = useState(false); //open or close modal
     const toggleModal = () => {
@@ -83,7 +83,7 @@ export default function CreateBonusGameModal({ onUpdate }: Props) {
     }
 
     //========================== GRAPHQL ==========================
-    const [ApolloCreateGiftCode, { loading, error, data }] = useMutation(CREATE_GIFT_CODE_MUTATION);
+    const [ApolloCreateGiftCode, { data }] = useMutation(CREATE_GIFT_CODE_MUTATION);
     useEffect(() => {
         if (data) {
             onUpdate();

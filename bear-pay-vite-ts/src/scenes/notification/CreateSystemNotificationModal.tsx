@@ -28,7 +28,7 @@ export default function CreateSystemNotificationModal() {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  const [initialValues, setInitialValues] = useState<FormValues>({
+  const [initialValues] = useState<FormValues>({
     title: "",
     content: "",
     comments: "",
@@ -97,7 +97,7 @@ export default function CreateSystemNotificationModal() {
   };
 
   //========================== GRAPHQL ==========================
-  const [ApolloCreateNotification, { loading, error, data }] = useMutation(CreateSystemNotification);
+  const [ApolloCreateNotification, { data }] = useMutation(CreateSystemNotification);
   useEffect(() => {
     if (data) {
       window.location.reload();

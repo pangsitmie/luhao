@@ -58,7 +58,7 @@ export default function CreateSystemCoinModal() {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = t("create"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+  var btnTitle = t("create"), confirmTitle = t("confirm");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
@@ -86,7 +86,7 @@ export default function CreateSystemCoinModal() {
   }
 
   //========================== INITIAL VALUES ==========================
-  const [initialValues, setInitialValues] = useState<FormValues>({
+  const [initialValues] = useState<FormValues>({
     title: "",
     content: "",
     comment: "",
@@ -103,7 +103,7 @@ export default function CreateSystemCoinModal() {
 
 
   //========================== GRAPHQL ==========================
-  const [ApolloCreateSystemFreeCoinNotification, { loading, error, data }] = useMutation(ManagerCreateCurrencyReward);
+  const [ApolloCreateSystemFreeCoinNotification, { error, data }] = useMutation(ManagerCreateCurrencyReward);
   useEffect(() => {
     if (data) {
       console.log(data);
@@ -121,13 +121,9 @@ export default function CreateSystemCoinModal() {
 
 
   const handleFormSubmit = (values: FormValues) => {
-    const triggerAtDateObj = new Date(triggerAtDate);
-    const expireAtDateObj = new Date(expireAtDate);
     const startAtDateObj = new Date(startAtDate);
     const endAtDateObj = new Date(endAtDate);
 
-    let triggerAtUnix = triggerAtDateObj.getTime() / 1000;
-    let expireAtUnix = expireAtDateObj.getTime() / 1000;
     let startAtUnix = startAtDateObj.getTime() / 1000;
     let endAtUnix = endAtDateObj.getTime() / 1000;
 

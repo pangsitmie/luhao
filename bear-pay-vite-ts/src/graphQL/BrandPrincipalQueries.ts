@@ -134,6 +134,7 @@ query Brands(
   $principal: CreateStorePrincipalArgs!
   $intro: String
   $cover: String
+  $machineCount: Int!
 ) {
   getBrandPrincipal {
     brands {
@@ -143,6 +144,7 @@ query Brands(
         principal: $principal
         intro: $intro
         cover: $cover
+        machineCount: $machineCount
       )
     }
   }

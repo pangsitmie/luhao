@@ -51,12 +51,12 @@ const StoreDashboard = () => {
 
 
     const [name, setName] = useState("");
-    const [startAtDate, setStartAtDate] = useState(getCurrentDate());
+    const [startAtDate] = useState(getCurrentDate());
     useEffect(() => {
         setStartAtDateEpoch((new Date(startAtDate).getTime() / 1000) - 7200);
     }, [startAtDate]);
 
-    const [endAtDate, setEndAtDate] = useState(getCurrentDate());
+    const [endAtDate] = useState(getCurrentDate());
     useEffect(() => {
         if ((new Date(endAtDate).getTime() / 1000) === getTodayEpoch()) {
             setEndAtDateEpoch(getCurrentEpoch());
@@ -77,7 +77,7 @@ const StoreDashboard = () => {
         revenueRate: 0,
         giftRate: 0
     });
-    const { loading: loadingStore, error: errorStore, data: dataStore } = useQuery(GetStoreStatistic, {
+    const { data: dataStore } = useQuery(GetStoreStatistic, {
         variables: {
             args: [
                 {

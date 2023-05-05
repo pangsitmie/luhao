@@ -3,12 +3,12 @@ import { Box } from '@mui/material'
 import { useMutation } from '@apollo/client';
 import { UploadBrandLogo, UploadBillboardImage } from '../../graphQL/Mutations';
 
-type ImageType = 'brand' | 'logo' | 'billboard';
+type LogoImageType = 'brand' | 'logo' | 'billboard';
 
 type Props = {
     handleSuccess: (fileName: string) => void;
     imagePlaceHolder: string;
-    type: ImageType;
+    type: LogoImageType;
 }
 const LogoUpload = ({ handleSuccess, imagePlaceHolder, type }: Props) => {
     const stringPlaceHolder = {

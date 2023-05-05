@@ -29,7 +29,7 @@ import LOGO from "../../assets/logo512.png";
 // import STORE_LOGO from "../../assets/store_logo.png";
 
 // REDUX
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import PaymentsIcon from '@mui/icons-material/Payments';
 import { useApolloClient } from '@apollo/client';
 
@@ -79,20 +79,21 @@ const Sidebar = () => {
   // REDUX STORE
   const { entityName } = useSelector((state: RootState) => state.entity);
 
-  const [name, setName] = useState("COMPANY");
-  const [img, setImg] = useState(LOGO);
+  const [name] = useState(entityName.toUpperCase());
+  const [img] = useState(LOGO);
 
 
 
   // let SIDEBAR_INIT_QUERY;
   // switch (entityName) {
   //   case "company":
-  //     SIDEBAR_INIT_QUERY = null;
+  //     setName("COMPANY");
+  //     break;
   //   case "brand":
-  //     SIDEBAR_INIT_QUERY = BRAND_GetBrandInfo;
+  //     setName("BRAND");
   //     break;
   //   case "store":
-  //     SIDEBAR_INIT_QUERY = STORE_GetStoreInfo;
+  //     setName("STORE");
   //     break;
   //   default:
   //     break;

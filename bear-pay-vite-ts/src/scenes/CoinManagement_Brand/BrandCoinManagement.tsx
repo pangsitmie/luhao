@@ -15,7 +15,6 @@ import InputBase from "@mui/material/InputBase";
 import CreateBrandCoinModal from './CreateBrandCoinModal';
 import BrandCoinListModal from './BrandCoinListModal';
 import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
 import { useSelector } from "react-redux";
 import { BRAND_GetSentFreeCoinList } from '../../graphQL/BrandPrincipalQueries';
 import { useTranslation } from 'react-i18next';
@@ -64,17 +63,17 @@ const BrandCoinManagement = () => {
             }
         }
     );
-    const [initNotifications, setInitNotifications] = useState<NotificationSchedulesType[]>([]);
+    // const [initNotifications, setInitNotifications] = useState<NotificationSchedulesType[]>([]);
     const [notifications, setNotifications] = useState<NotificationSchedulesType[]>([]);
     useEffect(() => {
         if (data) {
             switch (entityName) {
                 case 'company':
-                    setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
+                    // setInitNotifications(data.managerGetAllNotificationSchedules); //all brand datas
                     setNotifications(data.managerGetAllNotificationSchedules); //datas for display
                     break;
                 case 'brand':
-                    setInitNotifications(data.brandGetAllNotificationSchedules); //all brand datas
+                    // setInitNotifications(data.brandGetAllNotificationSchedules); //all brand datas
                     setNotifications(data.brandGetAllNotificationSchedules); //datas for display
                     break;
                 default:
@@ -87,7 +86,7 @@ const BrandCoinManagement = () => {
         if (error) {
             console.log(error);
         }
-    }, [data]);
+    }, [data, error]);
 
 
     return (

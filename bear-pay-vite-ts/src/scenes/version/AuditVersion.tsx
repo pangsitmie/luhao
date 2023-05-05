@@ -51,7 +51,7 @@ const AuditVersion = () => {
         }
     }, [data]);
 
-    const [ApolloUpdateVersion, { loading: versionLoading, error: versionError, data: versionData }] = useMutation(UpdateGamePayVersion);
+    const [ApolloUpdateVersion, { data: versionData }] = useMutation(UpdateGamePayVersion);
     useEffect(() => {
         if (versionData) {
             window.location.reload();

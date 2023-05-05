@@ -8,7 +8,7 @@ import { tokens } from "../../theme";
 import { GetAds, RemoveAds, UnbanAds, UpdateAds } from "../../graphQL/Queries";
 import { getImgURL, replaceNullWithEmptyString, unixTimestampToDatetimeLocal } from "../../utils/Utils";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
-import CoverUpload from "../../components/Upload/CoverUpload";
+import CoverUpload, { CoverImageType } from "../../components/Upload/CoverUpload";
 import { default_ads_image_900x360_filename } from "../../data/strings";
 import { useTranslation } from 'react-i18next';
 import { AdsType } from "../../types/Ads";
@@ -26,7 +26,7 @@ interface FormValues {
     image: string;
     url: string;
     description: string;
-    type: string;
+    type: CoverImageType;
 }
 
 export default function AdsListModal({ props }: Props) {
@@ -35,7 +35,7 @@ export default function AdsListModal({ props }: Props) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), unbanTitle = t("unban");
 
     const [modal, setModal] = useState(false); //open or close modal
 
@@ -46,7 +46,7 @@ export default function AdsListModal({ props }: Props) {
         url: "https://",
         description: "",
         // status is handled in state
-        type: "",
+        type: "banner",
     });
 
     const [status, setStatus] = useState('disable');
@@ -105,10 +105,16 @@ export default function AdsListModal({ props }: Props) {
                 setStatus(nonNullData.status)
             }
         }
-    }, [data]);
+        if (loading) {
+            console.log("loading")
+        }
+        if (error) {
+            console.log(error)
+        }
+    }, [data, loading, error]);
 
     // REMOVE STORE MUTATION
-    const [ApolloRemoveAds, { loading: loading1, error: error1, data: data1 }] = useLazyQuery(RemoveAds);
+    const [ApolloRemoveAds, { data: data1 }] = useLazyQuery(RemoveAds);
     useEffect(() => {
         if (data1) {
             window.location.reload();
@@ -132,7 +138,7 @@ export default function AdsListModal({ props }: Props) {
 
 
     // UNBAN MUTATION
-    const [ApolloUnBanAds, { loading: loading2, error: error2, data: data2 }] = useLazyQuery(UnbanAds);
+    const [ApolloUnBanAds, { data: data2 }] = useLazyQuery(UnbanAds);
     useEffect(() => {
         if (data2) {
             window.location.reload();
@@ -162,7 +168,13 @@ export default function AdsListModal({ props }: Props) {
         if (data3) {
             window.location.reload();
         }
-    }, [data3]);
+        if (loading3) {
+            console.log("loading")
+        }
+        if (error3) {
+            console.log(error3)
+        }
+    }, [data3, loading3, error3]);
 
     const [imageFileName, setImageFileName] = useState(default_ads_image_900x360_filename);
     const handleUploadImageSucess = (name: string) => {

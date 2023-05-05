@@ -4,9 +4,9 @@ import Login from "./scenes/login/Login";
 import { ThemeProvider } from "@mui/material";
 
 
-type Props = {}
-const LoginProvider = (props: Props) => {
-  const [theme, colorMode] = useMode();
+
+const LoginProvider = () => {
+  const [theme] = useMode();
 
   const clearLocalStorage = (): void => {
     console.log("LOGINPAGE___localStorage Items:")

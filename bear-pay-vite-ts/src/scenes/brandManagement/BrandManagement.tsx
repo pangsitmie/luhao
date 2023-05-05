@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom';
 
 // QUERIES
@@ -16,7 +16,7 @@ import BrandListModal from './BrandListModal';
 
 // COMPONENETS
 // import CreateBrandModal from './CreateBrandModal';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/loader/Loader';
@@ -31,8 +31,8 @@ interface BrandNode {
 }
 
 
-type Props = {}
-const BrandManagement = (props: Props) => {
+
+const BrandManagement = () => {
     const { entityName } = useSelector((state: RootState) => state.entity);
     const { t } = useTranslation();
 
@@ -102,6 +102,9 @@ const BrandManagement = (props: Props) => {
         }
         if (error) {
             toast.error(error.message);
+        }
+        if (loading) {
+            console.log("loading");
         }
     }, [data])
 
@@ -194,7 +197,7 @@ const BrandManagement = (props: Props) => {
                         marginLeft={"auto"}
                         height={"52px"}
                     >
-                        <CreateBrandModal />
+                        <CreateBrandModal onUpdate={() => triggerRefetch()} />
                     </Box>
                 ) : null}
 

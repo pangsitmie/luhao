@@ -13,14 +13,11 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
 // COMPONENETS
-// import StoreListModal from './StoreListModal';
-// import CreateStoreModal from './CreateStoreModal'
+
 import Pagination from '../../components/Pagination';
 import Loader from '../../components/loader/Loader';
 
 import { useSelector } from "react-redux";
-// import { BRAND_GetAllStores } from 'src/graphQL/BrandPrincipalQueries';
-// import CreateStoreModal_B from './CreateStoreModal_B';
 import { useTranslation } from 'react-i18next';
 import { useLazyQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
@@ -350,9 +347,6 @@ const StoreManagement = () => {
                                     borderRadius="4px">
                                     <StoreListModal props={store.node} onUpdate={() => triggerRefetch()} />
                                 </Box>
-                                {/* <Box>
-                                {store.node.id}
-                            </Box> */}
                             </Box>
                         ))}
                 </Box>

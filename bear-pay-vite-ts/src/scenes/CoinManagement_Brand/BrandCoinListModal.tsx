@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { DocumentNode, useLazyQuery } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -20,6 +20,7 @@ const checkoutSchema = yup.object().shape({
   comments: yup.string().required("required"),
   rewardId: yup.string().required("required"),
 });
+
 type Props = {
   props: NotificationSchedulesType;
 };
@@ -33,25 +34,11 @@ export default function BrandCoinListModal({ props }: Props) {
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+  var btnTitle = t("view"), modalTitle = t("details");
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
     setModal(!modal);
   };
-
-  const [notifType, setNotifType] = useState('system');
-  const handleNotifTypeChange = (event: SelectChangeEvent<string>) => {
-    setNotifType(event.target.value);
-  };
-  const [triggerAtDate, setTriggerAtDate] = useState('');
-  function handleTriggerAtDateChange(event: SelectChangeEvent<string>) {
-    setTriggerAtDate(event.target.value);
-  }
-
-  const [expireAtDate, setExpireAtDate] = useState('');
-  function handleExpireAtDateChange(event: SelectChangeEvent<string>) {
-    setExpireAtDate(event.target.value);
-  }
 
   //========================== INITIAL VALUES ==========================
   const [initialValues, setInitialValues] = useState({
@@ -109,7 +96,7 @@ export default function BrandCoinListModal({ props }: Props) {
       break;
   }
 
-  const [ApolloRemoveNotification, { loading, error, data }] = useLazyQuery(DELETE_NOTIFICATION_QUERY);
+  const [ApolloRemoveNotification, { data }] = useLazyQuery(DELETE_NOTIFICATION_QUERY);
   useEffect(() => {
     if (data) {
       console.log(data);

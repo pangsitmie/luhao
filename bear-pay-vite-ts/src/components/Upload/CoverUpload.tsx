@@ -2,16 +2,14 @@ import React, { useState, useRef } from 'react'
 import { Box } from '@mui/material'
 import { useMutation } from '@apollo/client';
 import { UploadAdsImage, UploadBrandCover, UploadStoreCover } from '../../graphQL/Mutations';
-// import { defaultCoverURL } from '../../data/strings';
 
-
-type ImageType = 'brand' | 'store' | 'banner' | 'placement';
+export type CoverImageType = 'brand' | 'store' | 'banner' | 'placement';
 
 
 type Props = {
     handleSuccess: (fileName: string) => void;
     imagePlaceHolder: string;
-    type: ImageType;
+    type: CoverImageType;
 }
 
 

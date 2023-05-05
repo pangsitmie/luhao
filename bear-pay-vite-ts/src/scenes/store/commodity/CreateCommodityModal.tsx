@@ -38,7 +38,7 @@ export default function CreateCommodityModal({ props }: Props) {
 
     var btnTitle = t("create"), confirmTitle = t("create");
 
-    const [initialValues, setInitialValues] = useState<FormValues>({
+    const [initialValues] = useState<FormValues>({
         storeId: props.id,
         storeName: props.name,
         name: "",

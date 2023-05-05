@@ -1,20 +1,14 @@
 import { useEffect, useState, useRef } from 'react'
-
 // QUERIES
 import { useQuery } from '@apollo/client'
 import { GetDepositList } from '../../graphQL/Queries'
-// import { BRAND_GetAllBrands } from '../../graphQL/BrandPrincipalQueries';
-
 // THEME
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-
 // ICONS
 import InputBase from "@mui/material/InputBase";
-
 // COMPONENETS
 import Loader from '../../components/loader/Loader';
-import Error from '../../components/error/Error';
 import { useTranslation } from 'react-i18next';
 import DepositListModal from './DepositListModal';
 import CreateDepositModal from './CreateDepositModal';
@@ -33,10 +27,18 @@ const DepositManagement = () => {
 
     const [standingItems, setStandingItems] = useState<DepositItemType[]>([]);
     const [limitedItems, setLimitedItems] = useState<DepositItemType[]>([]);
-    useEffect(() => {
-        console.log(standingItems);
-    }, [standingItems])
 
+
+
+    const [standingLoadingState, setStandingLoadingState] = useState(false);
+    const handleStandingLoadingState = (loading: boolean) => {
+        setStandingLoadingState(loading);
+    }
+
+    const [limitedLoadingState, setLimitedLoadingState] = useState(false);
+    const handleLimitedLoadingState = (loading: boolean) => {
+        setLimitedLoadingState(loading);
+    }
 
     const { loading: loadingStanding, error: errorStanding, data: dataStanding } = useQuery(GetDepositList, {
         variables: {
@@ -47,7 +49,16 @@ const DepositManagement = () => {
         if (dataStanding) {
             setStandingItems(dataStanding.managerGetDepositItems || []); //datas for display   
         }
-    }, [dataStanding]);
+        if (errorStanding) {
+            console.log(errorStanding);
+        }
+        if (loadingStanding) {
+            handleStandingLoadingState(true);
+        }
+        if (!loadingStanding) {
+            handleStandingLoadingState(false);
+        }
+    }, [dataStanding, errorStanding, loadingStanding]);
 
 
     const { loading: loadingLimited, error: errorLimited, data: dataLimited } = useQuery(GetDepositList, {
@@ -59,13 +70,21 @@ const DepositManagement = () => {
         if (dataLimited) {
             setLimitedItems(dataLimited.managerGetDepositItems); //datas for display         
         }
+        if (errorLimited) {
+            console.log(errorLimited);
+        }
+        if (loadingLimited) {
+            handleLimitedLoadingState(true);
+        }
+        if (!loadingLimited) {
+            handleLimitedLoadingState(false);
+        }
     }, [dataLimited]);
 
     // ========================== FUNCTIONS ==========================
 
 
-    if (errorLimited) return <Loader />;
-    if (errorLimited) return <Error />;
+    // if (errorLimited) return <Loader />;
     // ========================== RETURN ==========================
     return (
         // here
@@ -148,22 +167,29 @@ const DepositManagement = () => {
                         }}
                     >
                         {/* MAP DATA */}
-                        {standingItems.map((item, i) => (
-                            <Box
-                                key={`${item.id}-${i}`}
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                borderBottom={i === standingItems.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
-                                p="10px"
-                            >
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.walletValue}</Box>
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                    <DepositListModal props={item} />
+                        {standingLoadingState ?
+                            (
+                                <Box p={"1rem"}>
+                                    <Loader />
                                 </Box>
-                            </Box>
-                        ))}
+                            )
+                            :
+                            standingItems.map((item, i) => (
+                                <Box
+                                    key={`${item.id}-${i}`}
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                    borderBottom={i === standingItems.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                    p="10px"
+                                >
+                                    <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
+                                    <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.walletValue}</Box>
+                                    <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                        <DepositListModal props={item} />
+                                    </Box>
+                                </Box>
+                            ))}
                     </Box>
                 </Box>
                 <Box
@@ -207,22 +233,29 @@ const DepositManagement = () => {
                         overflow={"auto"}
                     >
                         {/* MAP DATA */}
-                        {limitedItems.map((item, i) => (
-                            <Box
-                                key={`${item.id}-${i}`}
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                borderBottom={i === limitedItems.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
-                                p="10px"
-                            >
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.walletValue}</Box>
-                                <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
-                                    <DepositListModal props={item} />
+                        {limitedLoadingState ?
+                            (
+                                <Box p={"1rem"}>
+                                    <Loader />
                                 </Box>
-                            </Box>
-                        ))}
+                            )
+                            :
+                            limitedItems.map((item, i) => (
+                                <Box
+                                    key={`${item.id}-${i}`}
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                    borderBottom={i === limitedItems.length - 1 ? "none" : `3px solid ${colors.primary[500]}`}
+                                    p="10px"
+                                >
+                                    <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.name}</Box>
+                                    <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>{item.walletValue}</Box>
+                                    <Box width={"33%"} display="flex" alignItems={"center"} justifyContent={"center"} textAlign={"center"}>
+                                        <DepositListModal props={item} />
+                                    </Box>
+                                </Box>
+                            ))}
                     </Box>
                 </Box>
 

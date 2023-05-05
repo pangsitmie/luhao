@@ -44,14 +44,10 @@ const GiftCodeManagement = () => {
         setStatus(e.target.value);
     };
 
-    const [review, setReview] = useState('');
-    const handleReviewChange = (e: SelectChangeEvent<string>) => {
-        setReview(e.target.value);
-    };
+
 
     // ========================== REF ==========================
     const searchValueRef = useRef<HTMLInputElement>(null);
-    const filterRef = useRef('品牌名');
 
     //========================== GRAPHQL ==========================
 
@@ -103,7 +99,6 @@ const GiftCodeManagement = () => {
     // ========================== FUNCTIONS ==========================
     const submitSearch = () => {
         // LOG SEARCH STATES
-        console.log("search: " + searchValueRef.current?.value + " " + status + " " + review);
 
         //CALL SEARCH FUNCTION
         let value = searchValueRef.current?.value;
@@ -160,22 +155,7 @@ const GiftCodeManagement = () => {
                         <MenuItem value={"停用"}>{t('disable')}</MenuItem>
                     </Select>
                 </FormControl>
-                {/* <FormControl sx={{ minWidth: 100 }} >
-                    <InputLabel id="demo-simple-select-label" >審核</InputLabel>
-                    <Select
-                        sx={{ borderRadius: "10px", background: colors.primary[400] }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={review}
-                        label="Review"
-                        onChange={handleReviewChange}
-                    >
-                        <MenuItem value={"無"}>無</MenuItem>
-                        <MenuItem value={"通過"}>通過</MenuItem>
-                        <MenuItem value={"待審核"}>待審核</MenuItem>
-                        <MenuItem value={"封鎖"}>封鎖</MenuItem>
-                    </Select>
-                </FormControl> */}
+
 
                 {/* SEARCH BTN */}
                 <Button sx={{

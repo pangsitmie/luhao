@@ -66,7 +66,7 @@ export default function SystemNotificationListModal({ props }: Props) {
 
 
   //========================== GRAPHQL ==========================
-  const [ApolloRemoveNotification, { loading, error, data }] = useLazyQuery(DeleteNotification);
+  const [ApolloRemoveNotification, { error, data }] = useLazyQuery(DeleteNotification);
   useEffect(() => {
     if (data) {
       window.location.reload();

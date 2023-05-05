@@ -58,7 +58,7 @@ export default function CommodityListModal({ props, onUpdate }: Props) {
     });
 
 
-    const [purchaseRecords, setPurchaseRecords] = useState<DepositItemType[]>([]);
+    const [purchaseRecords] = useState<DepositItemType[]>([]);
 
 
 

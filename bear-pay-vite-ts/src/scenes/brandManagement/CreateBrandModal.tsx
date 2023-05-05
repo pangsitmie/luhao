@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, TextField, Typography, useTheme } from "@mui/material";
-import { useLazyQuery, useMutation } from '@apollo/client'
 import { Formik } from "formik";
 import * as yup from "yup";
 import "../../components/Modal/modal.css";
 import { tokens } from "../../theme";
 import { CreateBrand } from "../../graphQL/Mutations";
-// import { defaultCoverURL, defaultLogoURL, default_cover_900x300_filename, default_logo_360x360_filename } from "../../data/strings";
 import LogoUpload from "../../components/Upload/LogoUpload";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
+import { useMutation } from "@apollo/client";
 
 
-type Props = {}
-
+type Props = {
+  onUpdate: () => void
+}
 interface FormValues {
   name: string;
   intro: string;
@@ -41,14 +41,14 @@ const checkoutSchema = yup.object().shape({
   brandCoinName: yup.string().required("required"),
 });
 
-const CreateBrandModal = (props: Props) => {
+const CreateBrandModal = ({ onUpdate }: Props) => {
   const { t } = useTranslation();
   //THEME
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   //========================== INITIAL VALUES ==========================
-  const [initialValues, setInitialValues] = useState<FormValues>({
+  const [initialValues] = useState<FormValues>({
     name: "",
     intro: "",
     vatNumber: "",
@@ -62,7 +62,7 @@ const CreateBrandModal = (props: Props) => {
   });
 
   // ========================== STATES AND HANDLERS ==========================
-  var btnTitle = t("create_brand"), confirmTitle = t("confirm"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+  var btnTitle = t("create_brand"), confirmTitle = t("confirm");
 
   const [modal, setModal] = useState(false); //open or close modal
   const toggleModal = () => {
@@ -97,9 +97,15 @@ const CreateBrandModal = (props: Props) => {
   useEffect(() => {
     if (brandData) {
       console.log(brandData.createBrand.id);
-      window.location.reload();
+      onUpdate();
     }
-  }, [brandData]);
+    if (error) {
+      console.log(error);
+    }
+    if (loading) {
+      console.log(loading);
+    }
+  }, [brandData, error, loading]);
 
 
 

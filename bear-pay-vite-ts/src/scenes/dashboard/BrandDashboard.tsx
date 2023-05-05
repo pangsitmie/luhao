@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 
 import { GetBrandStatistic, GetBrandStatisticPeriod } from '../../graphQL/Queries'
@@ -55,13 +55,13 @@ const BrandDashboard = () => {
 
 
     const [name, setName] = useState("");
-    const [startAtDate, setStartAtDate] = useState(getCurrentDate());
+    const [startAtDate] = useState(getCurrentDate());
     useEffect(() => {
         setStartAtDateEpoch((new Date(startAtDate).getTime() / 1000) - 7200);
     }, [startAtDate]);
 
 
-    const [endAtDate, setEndAtDate] = useState(getCurrentDate());
+    const [endAtDate] = useState(getCurrentDate());
     useEffect(() => {
         if ((new Date(endAtDate).getTime() / 1000) === getTodayEpoch()) {
             setEndAtDateEpoch(getCurrentEpoch());

@@ -34,7 +34,6 @@ interface FormValues {
     code: string;
     price: string;
     qrCode: string;
-    // status: string;
     connStatus: string;
     desc: string;
     coin: string;
@@ -56,7 +55,7 @@ export default function MachineListModal({ props, storeData, onUpdate }: Props) 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), banTitle = t("ban"), unbanTitle = t("unban");
+    var btnTitle = t("view"), modalTitle = t("details"), confirmTitle = t("update"), deleteTitle = t("delete"), unbanTitle = t("unban");
 
 
 
@@ -156,7 +155,7 @@ export default function MachineListModal({ props, storeData, onUpdate }: Props) 
     }, [data4]);
 
     // ===================== REMOVE MACHINE QUERY =====================
-    const [ApolloUnbindMachine, { loading, error, data }] = useLazyQuery(UnbindMachine);
+    const [ApolloUnbindMachine, { data }] = useLazyQuery(UnbindMachine);
     useEffect(() => {
         if (data) {
             window.location.reload();
@@ -180,7 +179,7 @@ export default function MachineListModal({ props, storeData, onUpdate }: Props) 
     };
 
     // ===================== INITIAL VALUES FROM GETMACHINE =====================
-    const { loading: loadingInit, error: errorInit, data: dataInit, refetch } = useQuery(GetMachine
+    const { data: dataInit, refetch } = useQuery(GetMachine
         , {
             variables: {
                 args: [
@@ -279,7 +278,7 @@ export default function MachineListModal({ props, storeData, onUpdate }: Props) 
         }
     };
 
-    const { data: dataHealthCheck, refetch: refetchHealthCheck } = useQuery(HealthCheck);
+    const { refetch: refetchHealthCheck } = useQuery(HealthCheck);
     const REST_FetchBonusGameList = async () => {
         console.log("REST_FetchBonusGameList Called!")
         const MAX_RETRY_ATTEMPTS = 3;
@@ -347,7 +346,7 @@ export default function MachineListModal({ props, storeData, onUpdate }: Props) 
     // 2. counters
     // 3. NFC
     // 4. statusId
-    const [STORE_ApolloPatcheMachine, { loading: STORE_loadingPatch, error: STORE_errorPatch, data: STORE_dataPatch }] = useMutation(STORE_PatchMachine);
+    const [STORE_ApolloPatcheMachine, { error: STORE_errorPatch, data: STORE_dataPatch }] = useMutation(STORE_PatchMachine);
     useEffect(() => {
         if (STORE_dataPatch) {
             console.log("MACHINE PATCHED (STORE)");
@@ -364,10 +363,10 @@ export default function MachineListModal({ props, storeData, onUpdate }: Props) 
 
 
     // UNBAN MUTATION
-    const [ApolloUnBanMachine, { loading: loading5, error: error5, data: data5 }] = useLazyQuery(UnBanMachine);
+    const [ApolloUnBanMachine, { data: data5 }] = useLazyQuery(UnBanMachine);
     useEffect(() => {
         if (data5) {
-            window.location.reload();
+            onUpdate();
         }
     }, [data5]);
 

@@ -13,7 +13,6 @@ import { areaData } from "../../data/cityData";
 import CoverUpload from "../../components/Upload/CoverUpload";
 import { getImgURL } from "../../utils/Utils";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { BRAND_CreateStore, } from "../../graphQL/BrandPrincipalQueries";
 import { useTranslation } from 'react-i18next';
 
@@ -29,6 +28,7 @@ interface FormValues {
     principalPassword: string;
     principalLineUrl: string;
     principalEmail: string;
+    machineCount: string;
 }
 
 
@@ -62,12 +62,12 @@ export default function CreateStoreModal_B() {
         event.preventDefault();
     };
 
-    const [{ brandId, brandName }, setBrandInfo] = useState({
-        brandId: "null",
-        brandName: "null",
-    });
+    // const [{ brandId, brandName }, setBrandInfo] = useState({
+    //     brandId: "null",
+    //     brandName: "null",
+    // });
 
-    var btnTitle = t("create_store"), confirmTitle = t("create"), deleteTitle = t("delete"), banTitle = t("remove"), unbanTitle = t("ban");
+    var btnTitle = t("create_store"), confirmTitle = t("create");
 
 
     // ========================== CITY ==========================
@@ -122,7 +122,7 @@ export default function CreateStoreModal_B() {
         //this.props.onAddressSelected();
     };
 
-    const [initialValues, setInitialValues] = useState<FormValues>({
+    const [initialValues] = useState<FormValues>({
         id: "",
         brandId: "",
         brandName: "",
@@ -136,13 +136,14 @@ export default function CreateStoreModal_B() {
         principalPassword: "",
         principalLineUrl: "https://lin.ee/",
         principalEmail: "",
+        machineCount: "",
     });
 
     // =================== BRAND LIST ===================
 
     //============================================ GQL ==================================================
     //create store
-    const [ApolloCreateStore, { loading, error, data }] = useLazyQuery(BRAND_CreateStore);
+    const [ApolloCreateStore, { data }] = useLazyQuery(BRAND_CreateStore);
     useEffect(() => {
         if (data) {
             window.location.reload();
@@ -157,14 +158,7 @@ export default function CreateStoreModal_B() {
 
     const handleFormSubmit = (values: FormValues) => {
         const variables: any = {
-            args: [
-                {
-                    id: brandId
-                }
-            ],
-            brandId: brandId,
             name: values.name,
-            // cover: coverFileName,
             location: {
                 city: cityFilter,
                 district: selectedArea,
@@ -173,7 +167,6 @@ export default function CreateStoreModal_B() {
                     latitude: coordinates.lat,
                     longitude: coordinates.lng
                 },
-                // description: "location description"
             },
             principal: {
                 name: values.principalName,
@@ -249,10 +242,6 @@ export default function CreateStoreModal_B() {
                                                 </Box>
                                             </Box>
 
-
-
-
-
                                             <TextField className="modal_input_textfield"
                                                 fullWidth
                                                 variant="filled"
@@ -267,20 +256,35 @@ export default function CreateStoreModal_B() {
                                                 helperText={touched.name && errors.name}
                                                 sx={{ margin: "0 1rem 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
                                             />
-                                            <TextField className="modal_input_textfield"
-                                                fullWidth
-                                                variant="filled"
-                                                type="text"
-                                                label={`${t('intro')} ${t('optional')} `}
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.intro}
-                                                name="intro"
-                                                error={!!touched.intro && !!errors.intro}
-                                                helperText={touched.intro && errors.intro}
-                                                sx={{ margin: "0 1rem 0rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
-                                            />
-
+                                            <Box display={"flex"} gap={"1rem"}>
+                                                <TextField className="modal_input_textfield"
+                                                    fullWidth
+                                                    variant="filled"
+                                                    type="text"
+                                                    label={`${t('intro')} ${t('optional')} `}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.intro}
+                                                    name="intro"
+                                                    error={!!touched.intro && !!errors.intro}
+                                                    helperText={touched.intro && errors.intro}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                />
+                                                <TextField className="modal_input_textfield"
+                                                    fullWidth
+                                                    required
+                                                    variant="filled"
+                                                    type="text"
+                                                    label={`${t('machine_count')}`}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    value={values.machineCount}
+                                                    name="machineCount"
+                                                    error={!!touched.machineCount && !!errors.machineCount}
+                                                    helperText={touched.machineCount && errors.machineCount}
+                                                    sx={{ margin: "0 0 1rem 0", backgroundColor: colors.primary[400], borderRadius: "5px", color: "black" }}
+                                                />
+                                            </Box>
                                             {/* Search Store location */}
                                             <PlacesAutocomplete
                                                 // className="places_autocomplete"
@@ -363,8 +367,8 @@ export default function CreateStoreModal_B() {
                                                         onChange={handleAreaChange}
                                                         required // add the required prop
                                                     >
-                                                        {areaFilter.map((area, i) => (
-                                                            <MenuItem value={area} key={area}>
+                                                        {areaFilter.map((area, index) => (
+                                                            <MenuItem key={index} value={area} >
                                                                 {area}
                                                             </MenuItem>
                                                         ))}

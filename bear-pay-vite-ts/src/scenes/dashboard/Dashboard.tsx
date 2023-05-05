@@ -1,12 +1,11 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 
 import "../../index.css";
 import { GetDashboardInit } from '../../graphQL/Queries'
 // THEME
-import { ColorModeContext, tokens } from "../../theme";
-import { Box, useTheme } from "@mui/material";
-import * as yup from "yup";
+import { Box } from "@mui/material";
+
 
 
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -18,9 +17,6 @@ import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 
 import { useTranslation } from 'react-i18next';
-// const { t } = useTranslation();
-
-
 
 
 const Dashboard = () => {
