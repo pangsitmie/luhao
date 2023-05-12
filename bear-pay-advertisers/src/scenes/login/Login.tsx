@@ -207,7 +207,7 @@ const Login = () => {
                     <Typography variant="h5" sx={{
                         color: "#111", fontSize: "13px", fontWeight: "300", ml: "2px", mb: "5px"
                     }}>
-                        ADMIN
+                        ADVERTISERS
                     </Typography>
                     <span className="title">BEAR PAY</span>
                     <div>

@@ -35,7 +35,7 @@ import { useApolloClient } from '@apollo/client';
 // translate
 import { useTranslation } from 'react-i18next';
 import { RootState } from "../../redux/store";
-import Copy from "../../components/copy/Copy";
+// import Copy from "../../components/copy/Copy";
 
 interface ItemProps {
   title: string;
@@ -221,7 +221,7 @@ const SidebarMenu = () => {
                         {t('finance')}
                       </Typography>
                       <Item
-                        title={t('statistic')}
+                        title={t('Image')}
                         to="/statistic"
                         icon={<BarChartIcon />}
                         selected={selected}
@@ -229,20 +229,14 @@ const SidebarMenu = () => {
                         isCollapsed={isCollapsed}
                       />
                       <Item
-                        title={t('deposit')}
+                        title={t('Video')}
                         to="/deposit-management"
                         icon={<PaymentsIcon />}
                         selected={selected}
                         setSelected={setSelected}
                         isCollapsed={isCollapsed}
                       />
-                      {/* <Item
-                          title={t('rewards')}
-                          to="/reward-management"
-                          icon={<CardGiftcardIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        /> */}
+
                       <Item
                         title={t('gift_code')}
                         to="/gift-code"
@@ -251,20 +245,7 @@ const SidebarMenu = () => {
                         setSelected={setSelected}
                         isCollapsed={isCollapsed}
                       />
-                      {/* <Item
-                        title={t('system_free_coin')}
-                        to="/system-coins"
-                        icon={<AttachMoneyIcon />}
-                        selected={selected}
-                        setSelected={setSelected}
-                      />
-                      <Item
-                        title={t('brand_free_coin')}
-                        to="/brand-coins"
-                        icon={<MonetizationOnIcon />}
-                        selected={selected}
-                        setSelected={setSelected}
-                      /> */}
+
                       <Typography
                         variant="h6"
                         color={colors.grey[300]}
@@ -288,13 +269,7 @@ const SidebarMenu = () => {
                         setSelected={setSelected}
                         isCollapsed={isCollapsed}
                       />
-                      {/* <Item
-                          title={t('partner_ads')}
-                          to="/partner"
-                          icon={<BusinessIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        /> */}
+
                       <Typography
                         variant="h6"
                         color={colors.grey[300]}
@@ -386,20 +361,7 @@ const SidebarMenu = () => {
                       >
                         {t('finance')}
                       </Typography>
-                      {/* <Item
-                          title="獎勵"
-                          to="/reward-management"
-                          icon={<CardGiftcardIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        /> */}
-                      {/* <Item
-                          title={t('brand_free_coin')}
-                          to="/brand-coins"
-                          icon={<MonetizationOnIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        /> */}
+
                       <Item
                         title={t('statistic')}
                         to="/statistic"
@@ -408,13 +370,7 @@ const SidebarMenu = () => {
                         setSelected={setSelected}
                         isCollapsed={isCollapsed}
                       />
-                      {/* <Item
-                          title={t('gift_code')}
-                          to="/gift-code"
-                          icon={<CardGiftcardIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        /> */}
+
                       <Typography
                         variant="h6"
                         color={colors.grey[300]}
@@ -482,13 +438,7 @@ const SidebarMenu = () => {
                       >
                         {t('finance')}
                       </Typography>
-                      {/* <Item
-                          title="獎勵"
-                          to="/reward-management"
-                          icon={<CardGiftcardIcon />}
-                          selected={selected}
-                          setSelected={setSelected}
-                        /> */}
+
                       <Item
                         title={t('statistic')}
                         to="/statistic"
@@ -553,7 +503,7 @@ const SidebarMenu = () => {
           }
         </Box>
       </Menu>
-      <Copy />
+      {/* <Copy /> */}
     </Sidebar >
   );
 }
