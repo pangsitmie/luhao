@@ -12,12 +12,9 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import StoreIcon from '@mui/icons-material/Store';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
-// import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-// import BusinessIcon from '@mui/icons-material/Business';
-// import FeedIcon from '@mui/icons-material/Feed';
+
 import NotificationsIcon from '@mui/icons-material/Notifications';
-// import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-// import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+
 import BarChartIcon from '@mui/icons-material/BarChart';
 import UpdateIcon from '@mui/icons-material/Update';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";

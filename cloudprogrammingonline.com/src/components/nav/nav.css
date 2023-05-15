@@ -11,6 +11,13 @@
     color: var(--color-white) !important;
 }
 
+.nav_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+}
+
 .navBar .col-md-3 {
     z-index: 7;
 }
@@ -51,14 +58,11 @@ li {
 .header__middle__logo {
     width: 20%;
     display: inline-block;
-    margin-top: 1rem;
-    float: left;
 }
 
 .header__middle__menus {
     width: 60%;
     display: inline-block;
-    float: right;
 }
 
 .menu-item.menu__qqqitem a {
