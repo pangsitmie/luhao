@@ -1,22 +1,10 @@
 import { Suspense } from 'react'
-// import About from './components/about/About'
-// import Footer from './components/footer/Footer'
-// import Home from './components/home/Home'
-// import Nav from './components/nav/Nav'
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Nav from './components/nav/Nav';
 import Home from './pages/home/Home';
 import Footer from './components/footer/Footer';
-// import Line from './components/linePage/Line'
-// import SearchSystem from './components/searchSystemPage/SearchSystem'
-// import MarketingSystem from './components/marketingSystemPage/MarketingSystem'
-// import Ipickpro from './components/ipickproPage/Ipickpro'
-// import Xiaodi from './components/xiaodiPage/Xiaodi'
-// import GalaxyCity from './components/galaxyCityPage/GalaxyCity'
-// import BlockStore from './components/blockStore/BlockStore'
-// import MediaDesign from './components/mediaDesign/MediaDesign'
-// import Maintenance from './components/maintenance/Maintenance'
+import Xiaodi from './pages/xiaodiPage/Xiaodi';
+
 
 
 function App() {
@@ -51,7 +39,7 @@ function App() {
 
             {/* 服務平台 */}
             {/* <Route path='/marketing-system' element={<MarketingSystem />} /> */}
-            {/* <Route path='/xiaodi' element={<Xiaodi />} /> */}
+            <Route path='/xiaodi' element={<Xiaodi />} />
 
             {/* 遊戲娛樂 */}
             {/* <Route path='/ipickpro' element={<Ipickpro />} /> */}

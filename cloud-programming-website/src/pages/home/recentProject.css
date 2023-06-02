@@ -1,0 +1,130 @@
+.about__container {
+    margin-top: 10rem;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 10%;
+}
+
+
+.project_card {
+    width: 100%;
+    aspect-ratio: 1/0.55;
+    background-size: 100%;
+    min-height: 15rem;
+    border-radius: 2rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: .5rem 2rem;
+    justify-content: baseline;
+    display: flex;
+    height: auto;
+}
+
+
+.project_btn_container h3 {
+    font-size: 1.7rem;
+    color: var(--color-white);
+    margin: 0 1rem;
+}
+
+
+
+.recet_project_content {
+    padding-right: 15rem;
+    align-items: center;
+    margin: auto;
+}
+
+.project_desc {
+    margin: auto;
+}
+
+.project_desc h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.project_desc p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.recet_project_content h2 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.about__me-image:hover {
+    transform: rotate(-10deg);
+    transition: var(--transition);
+}
+
+
+
+.description em {
+    font-style: normal;
+    color: var(--color-primary);
+}
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {
+    .about__container {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .about__me {
+        width: 50%;
+        margin: 2rem auto 4rem;
+    }
+
+    .recet_project_content p {
+        margin: 1rem 0 1rem;
+    }
+}
+
+
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {
+    .header__container {
+        width: var(--container-width-md);
+    }
+
+    section {
+        margin-top: 6rem;
+    }
+}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .recet_project_content {
+        padding: 0rem;
+    }
+
+    .recet_project_content h2 {
+        font-size: 3rem;
+    }
+
+    .about__container {
+        width: var(--container-width-sm);
+        margin-bottom: 1rem;
+        padding: 0;
+    }
+
+    .project_card {
+        width: 100%;
+        aspect-ratio: 1/0.55;
+        background-size: 100%;
+        min-height: auto;
+        border-radius: 2rem;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 1rem 0;
+        justify-content: baseline;
+        display: flex;
+        height: auto;
+    }
+}

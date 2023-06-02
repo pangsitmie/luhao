@@ -1,4 +1,3 @@
-import React from 'react'
 import { SiAppstore } from 'react-icons/si'
 import { IoLogoGooglePlaystore } from 'react-icons/io5'
 import './xiaodi.css'
@@ -27,6 +26,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTranslation } from 'react-i18next';
+import { StyledButtonFill } from '../../components/styles/ButtonFill.styled';
+import ButtonFill from '../../components/button/ButtonFill';
 
 const Xiaodi = () => {
     const { t } = useTranslation();
@@ -57,35 +58,32 @@ const Xiaodi = () => {
 
     };
 
-    const { ref: visibleRef, inView: elementIsVisible } = useInView();
 
     return (
         <div className="container">
             <img className='xiaodi_blob' src={XIAODI_BLOB_ANIM} alt="" />
             {/* HERO SECTION */}
-            <div className='xiaodi_header_container'>
+            <div className='xiaodi_header_container pt-[15%]'>
 
                 <h1 className='xiaodi_hero-title'>{t('xiaodi_hero_title')}</h1>
                 <h3 className='xiaodi_description'>
                     {t('xiaodi_description_1')}<br />{t('xiaodi_description_2')}
                 </h3>
-                <div className='xiaodi_button_container'>
-                    <button className={`btn glow-on-hover xiaodi_btn hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                        <a href="https://play.google.com/store/apps/details?id=com.winpro.winproeat.consumer">
-                            <li><IoLogoGooglePlaystore className='button_icon' /></li>Play Store
-                        </a>
-                    </button>
-                    <button className={`btn btn-fill-white xiaodi_btn glow-on-hover hidden ${elementIsVisible ? 'show' : ''}`} ref={visibleRef}>
-                        <a href="https://apps.apple.com/tw/app/%E5%B0%8F%E5%BC%9F%E5%A4%96%E9%80%81/id1513518654?l=en">
-                            <SiAppstore className='button_icon' />App Store
-                        </a>
-                    </button>
+                <div className='flex gap-10 items-center justify-center'>
+                    <ButtonFill
+                        text='Play Store'
+                        link='https://play.google.com/store/apps/details?id=com.winpro.winproeat.consumer'
+                    />
+                    <ButtonFill
+                        text='App Store'
+                        link='https://apps.apple.com/tw/app/%E5%B0%8F%E5%BC%9F%E5%A4%96%E9%80%81/id1513518654?l=en'
+                    />
                 </div>
             </div>
             {/* DIVVVV */}
 
             {/* DIV 1 */}
-            <div className='xiaodi_order_container'>
+            <div className='xiaodi_order_container mt-[20%]'>
                 <h3 className='carousel_title'>{t('carousel_title')}</h3>
                 <p className='carousel_desc'>{t('carousel_desc')}</p>
 

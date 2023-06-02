@@ -19,6 +19,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "typings", "i18n.ts",
+    // other directories where your JSON and declaration files are located
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
