@@ -129,7 +129,7 @@ const Nav = () => {
 
                             <li onClick={toggleSubmenu4} className="menu-item sub__menus__arrows" > <Link to="#"><TbWorld /><br /><FiChevronDown /> </Link>
                                 <ul className={boxClassSubMenu4.join(' ')} >
-                                    <li> <NavLink onClick={() => i18next.changeLanguage('en')} activeClassName='is-active'>EN</NavLink> </li>
+                                    <li><NavLink onClick={() => i18next.changeLanguage('en')} activeClassName='is-active'>EN</NavLink> </li>
                                     <li><NavLink onClick={() => i18next.changeLanguage('tw')} activeClassName='is-active'>中文</NavLink> </li>
                                 </ul>
                             </li>
