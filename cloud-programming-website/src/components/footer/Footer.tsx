@@ -53,33 +53,35 @@
 
 import React from 'react'
 import LOGOFULL from '../../assets/logo_full.png'
-import { H3 } from '../styles/H3.styled'
-import { P } from '../styles/P.styled'
-import { MdAlternateEmail } from 'react-icons/md'
-import { BsFillChatTextFill } from 'react-icons/bs'
+import { BsFillChatTextFill, BsFacebook } from 'react-icons/bs'
+import { IconButtonStyled } from '../styles/IconButton.styled'
+import { HiOutlineMail } from 'react-icons/hi'
+import Copy from '../copy/Copy'
+
 type Props = {}
 
 const Footer = (props: Props) => {
   return (
     <footer>
-      <div className="px-[10%] py-20 bg-[#FFA45A]">
-
+      <div className="px-[10%] py-10 bg-[#FFA45A]">
         {/* row1 */}
         <div className='flex justify-between'>
           <div>
             {/* logo */}
             <img src={LOGOFULL} className='h-[50px] w-auto' alt="" />
           </div>
-          <div className='flex gap-10 items-center'>
-            <a>
-              <span>Bear Pay</span>
-            </a>
-            <a>
-              <span>About</span>
-            </a>
-            <a>
-              <span>Contact Us</span>
-            </a>
+          <div className='flex gap-20 items-center'>
+            <div className='flex gap-10 items-center'>
+              <a>
+                <span>Bear Pay</span>
+              </a>
+              <a>
+                <span>About</span>
+              </a>
+              <a>
+                <span>Contact Us</span>
+              </a>
+            </div>
             <div className='flex items-center gap-2'>
               <BsFillChatTextFill />
               Got Questions
@@ -87,15 +89,39 @@ const Footer = (props: Props) => {
             </div>
           </div>
         </div>
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white to-transparent my-10"></div>
+
+
+        {/* row2 */}
+        <div className='flex justify-between items-center'>
+          <div>
+            <span className='text-[12px]'>All rights reserved. View our Privacy Policy and Terms of Cloudprogrammingonline.com</span>
+          </div>
+
+          <div className='flex gap-4 items-center'>
+            <span >Our Socials</span>
+            <IconButtonStyled>
+              <HiOutlineMail
+                className='text-lg' />
+            </IconButtonStyled>
+            {/* <IconButtonStyled>
+              <HiOutlineMail
+                className='text-lg' />
+            </IconButtonStyled> */}
+            <IconButtonStyled>
+              <BsFacebook
+                className='text-lg' />
+            </IconButtonStyled>
+          </div>
+        </div>
       </div>
+      <Copy />
 
-      <hr className='bg-white' />
-      {/* row2 */}
-      <div>
 
-      </div>
 
-    </footer>
+
+    </footer >
   )
 }
 

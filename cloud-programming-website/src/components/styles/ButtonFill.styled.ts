@@ -7,10 +7,10 @@ export const StyledButtonFill = styled.button`
     font-weight: 600;
     padding: .8rem 2.5rem;
     transition: all 0.3s ease-in-out;
-    background: #FFFFFF;
+    background: #7966FA;
+    color: #fff;
 
     & a{
-        color: #111;
         text-decoration: none;
     }
 

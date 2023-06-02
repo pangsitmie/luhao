@@ -2,13 +2,13 @@ import styled from "styled-components";
 
 export const StyledButtonStroke = styled.button`
     border-radius: 50px;
-    border: 2px solid #111;
+    border: 2px solid #FFF;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 600;
-    padding: .5rem 2.4rem;
+    padding: 1rem 2.5rem;
     background-color: transparent;
-    color: ${({ color }) => color || "#111"};
+    color: ${({ color }) => color || "#FFF"};
     transition: all 0.3s ease-in-out;
 
     & a{
@@ -18,7 +18,7 @@ export const StyledButtonStroke = styled.button`
 
     &:hover {
         transform: scale(1.05);
-        border-color: #111;
-        box-shadow: 0 0 10px #111;
+        border-color: #FFF;
+        box-shadow: 0 0 10px #FFF;
     }
 `

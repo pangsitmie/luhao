@@ -4,6 +4,7 @@ import Nav from './components/nav/Nav';
 import Home from './pages/home/Home';
 import Footer from './components/footer/Footer';
 import Xiaodi from './pages/xiaodiPage/Xiaodi';
+import BearPay from './pages/bearPay/BearPay';
 
 
 
@@ -40,6 +41,7 @@ function App() {
             {/* 服務平台 */}
             {/* <Route path='/marketing-system' element={<MarketingSystem />} /> */}
             <Route path='/xiaodi' element={<Xiaodi />} />
+            <Route path='/bearpay' element={<BearPay />} />
 
             {/* 遊戲娛樂 */}
             {/* <Route path='/ipickpro' element={<Ipickpro />} /> */}

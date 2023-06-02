@@ -37,6 +37,9 @@
     --color-light: rgba(255, 255, 255, 0.6);
     --color-dark: rgba(0, 0, 0, 0.7);
 
+
+
+
     --transition: all 400ms ease;
     --speed: 500ms;
 
@@ -61,8 +64,7 @@ html {
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
-    background: var(--color-bg);
-    color: var(--color-white);
+    color: #272D4D;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
@@ -73,6 +75,15 @@ body {
 .container {
     width: var(--container-width-lg);
     margin: 0 auto;
+}
+
+/* a,
+a:link {
+    color: #272D4D;
+} */
+
+span {
+    color: #9485FB;
 }
 
 h1,
@@ -88,6 +99,7 @@ h1 {
 }
 
 p {
+    color: #898DA2;
     font-size: 1.2rem;
 }
 
@@ -187,7 +199,6 @@ a:visited,
 a:focus,
 a:hover,
 a:active {
-    color: var(--color-white);
     text-decoration: none;
     cursor: pointer;
 }
