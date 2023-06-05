@@ -1,5 +1,5 @@
 .service_container {
-    margin: 15rem 0rem;
+    margin: 15rem 0rem 0;
 }
 
 .service-title {
@@ -10,7 +10,7 @@
 
 .service-desc {
     font-size: 1.2rem;
-    margin-bottom: 5rem;
+    margin-bottom: 8rem;
 }
 
 .service-block-container {
@@ -37,7 +37,7 @@
     bottom: -9rem;
     align-content: center;
     text-align: center;
-    background: var(--color-bg);
+    background: #272D4D;
     min-height: 9rem;
     cursor: pointer;
 }

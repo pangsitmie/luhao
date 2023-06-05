@@ -3,8 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Nav from './components/nav/Nav';
 import Home from './pages/home/Home';
 import Footer from './components/footer/Footer';
-import Xiaodi from './pages/xiaodiPage/Xiaodi';
+import Xiaodi from './pages/xiaodi/Xiaodi';
 import BearPay from './pages/bearPay/BearPay';
+import About from './pages/about/About';
+import Line from './pages/line/Line';
+import SearchSystem from './pages/searchSystem/SearchSystem';
+import IPickPro from './pages/ipickpro/Ipickpro';
+import GalaxyCity from './pages/galaxyCity/GalaxyCity';
 
 
 
@@ -32,11 +37,11 @@ function App() {
           <Nav />
           <Routes>
             <Route path='/' element={<Home />} />
-            {/* <Route path='/About' element={<About />} /> */}
+            <Route path='/About' element={<About />} />
 
             {/* 商務合作 */}
-            {/* <Route path='/line' element={<Line />} /> */}
-            {/* <Route path='/search-system' element={<SearchSystem />} /> */}
+            <Route path='/line' element={<Line />} />
+            <Route path='/search-system' element={<SearchSystem />} />
 
             {/* 服務平台 */}
             {/* <Route path='/marketing-system' element={<MarketingSystem />} /> */}
@@ -44,8 +49,8 @@ function App() {
             <Route path='/bearpay' element={<BearPay />} />
 
             {/* 遊戲娛樂 */}
-            {/* <Route path='/ipickpro' element={<Ipickpro />} /> */}
-            {/* <Route path='/galaxy-city' element={<GalaxyCity />} /> */}
+            <Route path='/ipickpro' element={<IPickPro />} />
+            <Route path='/galaxy-city' element={<GalaxyCity />} />
 
             {/* <Route path='/media-design' element={<MediaDesign />} /> */}
 

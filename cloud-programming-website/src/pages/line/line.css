@@ -1,0 +1,287 @@
+.line_hero_img {
+    position: absolute;
+    z-index: -1;
+    top: 6rem;
+    left: 35rem;
+    width: 60%;
+}
+
+.line_header_container {
+    align-items: center;
+    justify-content: center;
+}
+
+.line_hero_container {
+    padding: 20rem 0;
+}
+
+
+.line_span {
+    background: -webkit-linear-gradient(#FFFFFF, #20C92F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.line_hero_title {
+    font-size: 4.5rem;
+    font-weight: bold;
+    text-align: left;
+    letter-spacing: 0;
+    line-height: 6rem;
+}
+
+.line_hero_title2 {
+    font-size: 4.5rem;
+    font-weight: bold;
+    text-align: left;
+    letter-spacing: 0;
+    line-height: 6rem;
+    color: #20C92F;
+}
+
+
+.line_hero_description {
+    margin-top: 3rem;
+    font-size: 1.6rem;
+    text-align: left;
+}
+
+.line_intro_container {
+    margin-top: 5rem;
+    padding-bottom: 10rem;
+}
+
+.line_title {
+    font-size: 3.5rem;
+    font-weight: bold;
+
+    text-align: center;
+}
+
+.line_container_3 {
+    padding-top: 10rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.line_desc_item h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    background: -webkit-linear-gradient(#FDE18A, #ED8E29);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: .7rem;
+    text-align: justify;
+}
+
+.line_intro_horizontal {
+    display: none;
+}
+
+.line_intro_img_container {
+    display: block;
+    margin: auto;
+}
+
+.line_intro_img {
+    padding-top: 2rem;
+    width: 15vh;
+}
+
+.vertical {
+    font-size: 10rem;
+    writing-mode: tb-rl;
+}
+
+.line_card {
+    padding: 2rem 0;
+}
+
+.line_card_img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+.line_special_img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.line_special_img img {
+    width: 60%;
+}
+
+.line_card h3 {
+    margin: 1rem 0;
+    background: -webkit-linear-gradient(#FFF, #20C92F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.line_card p {
+    font-size: 1.25rem;
+    min-height: 5em;
+}
+
+.line_special {
+    margin-top: 8rem;
+}
+
+.line_special_content {
+    margin-top: 5rem;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 10%;
+}
+
+
+.line_scroll_container {
+    display: flex;
+    justify-content: right;
+}
+
+.line_specialty_img {
+    width: 55%;
+}
+
+.line_service_img {
+    width: 45%;
+}
+
+.line_special_desc {
+    padding-top: 5rem;
+}
+
+.line_special_desc h3 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.line_special_desc p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+    color: #cecece;
+}
+
+/* LINE SERVICE */
+.line_service {
+    margin-top: 8rem;
+}
+
+.line_service h2 {
+    font-size: 7rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.column_2 {
+    margin-top: 5rem;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 10%;
+}
+
+.line_service_card {
+    padding: 1.5rem;
+    border: 1px solid white;
+    border-radius: 15px;
+}
+
+.line_service_card_top {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.line_service_icon {
+    width: 10vh;
+}
+
+.line_service_card h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.line_service_card p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+/* )==============================MEDIA QUERIES (MEDIUM DEVICES)============================== */
+@media screen and (max-width: 1024px) {}
+
+/* )==============================MEDIA QUERIES (SMALL DEVICES)============================== */
+@media screen and (max-width: 600px) {
+    .line_hero_img {
+        display: none;
+    }
+
+    .line_hero_container {
+        padding: 10rem 0;
+    }
+
+    .line_hero_description {
+        font-size: 1.5rem;
+        color: #cecece;
+        font-weight: 500;
+    }
+
+    .line_intro_horizontal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .line_intro_horizontal img {
+        width: 100%;
+    }
+
+    .line_container_3 {
+        display: inline;
+    }
+
+    .line_intro_img_container {
+        display: none;
+    }
+
+    .line_specialty_img {
+        transform: none !important;
+        width: 90%;
+    }
+
+    .line_special_content {
+        margin-top: 1rem;
+        display: inline;
+    }
+
+    .line_special_img img {
+        width: 50%;
+    }
+
+    .line_service_img {
+        transform: none !important;
+        width: 80%;
+        margin-bottom: 2rem;
+    }
+
+    .column_2 {
+        display: inline;
+    }
+
+    .line_service_card {
+        margin-bottom: 3rem;
+    }
+
+    .line_service_icon {
+        padding-right: 2rem;
+    }
+}

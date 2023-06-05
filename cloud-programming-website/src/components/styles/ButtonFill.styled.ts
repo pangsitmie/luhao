@@ -5,7 +5,7 @@ export const StyledButtonFill = styled.button`
     cursor: pointer;
     font-size: 1rem;
     font-weight: 600;
-    padding: .8rem 2.5rem;
+    padding: 1rem 2.5rem;
     transition: all 0.3s ease-in-out;
     background: #7966FA;
     color: #fff;

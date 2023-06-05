@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const IconButtonStyled = styled.button`
-    background-color: transparent;
     border: none;
     border-radius: 50%;
     cursor: pointer;
