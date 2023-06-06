@@ -6,8 +6,8 @@ export const StyledButtonFill = styled.button`
     font-size: 1rem;
     font-weight: 600;
     padding: 1rem 2.5rem;
-    transition: all 0.3s ease-in-out;
-    background: #7966FA;
+    transition: all 0.5s ease-in-out;
+    background: #272D4D;
     color: #fff;
 
     & a{
@@ -15,7 +15,7 @@ export const StyledButtonFill = styled.button`
     }
 
     &:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 10px #111111;
+        transform: scale(1.02);
+        box-shadow: 0 0 10px #cecece;
     }
 `

@@ -64,7 +64,8 @@ const Service = () => {
                 }
             </div>
 
-            <div className="mt-52 flex justify-center p-10 bg-gradient-to-b from-white via-purple-300 to-[#A35AFF]">
+            <div
+                className="mt-52 flex justify-center p-10 bg-gradient-to-b from-[#ffffff] to-[#272D4D]">
                 <img src={
                     localStorage.getItem("i18nextLng") === "en" ? imgEn
                         : localStorage.getItem("i18nextLng") === "tw" ? imgTw : imgEn

@@ -15,12 +15,15 @@ const Footer = (props: Props) => {
   const renderDesktopMenu = () => {
     return (
       <footer>
-        <div className="px-[10%] pt-10 bg-[#A35AFF]">
+        <div className="px-[10%] pt-10 bg-[#272D4D]">
           {/* row1 */}
           <div className='flex justify-between'>
             <div>
               {/* logo */}
-              <img src={LOGOFULL} className='h-[40px] w-auto' alt="" />
+              <a
+                href="/">
+                <img src={LOGOFULL} className='h-[40px] w-auto' alt="" />
+              </a>
             </div>
             <div className='flex gap-20 items-center'>
               <div className='flex gap-10 items-center'>
@@ -69,8 +72,8 @@ const Footer = (props: Props) => {
               </IconButtonStyled>
             </div>
           </div>
+          <Copy />
         </div>
-        <Copy />
       </footer >
     )
   };
@@ -78,11 +81,14 @@ const Footer = (props: Props) => {
   const renderMobileMenu = () => {
     return (
       <footer>
-        <div className="px-5 pt-10 bg-[#A35AFF]">
+        <div className="px-5 pt-10 bg-[#272D4D]">
           {/* row1 */}
           <div className='flex flex-col items-center mb-8'>
             {/* logo */}
-            <img src={LOGOFULL} className='h-10 w-auto' alt="" />
+            <a
+              href="/">
+              <img src={LOGOFULL} className='h-10 w-auto' alt="" />
+            </a>
             <div className='flex mt-4'>
               <a
                 href="/bearpay">
@@ -116,8 +122,8 @@ const Footer = (props: Props) => {
               </IconButtonStyled>
             </div>
           </div>
+          <Copy />
         </div>
-        <Copy />
       </footer>
     )
   };

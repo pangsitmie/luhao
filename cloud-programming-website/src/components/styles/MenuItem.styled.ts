@@ -5,6 +5,7 @@ const StyledMenuItem = styled.li`
     cursor: pointer;
     transition: all 0.2s;
     border-radius: 10px;
+    width: 100%;
 
     &:hover {
         background: rgba(0, 0, 0, 0.1);

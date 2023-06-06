@@ -1,9 +1,3 @@
-
-import { SiAppstore } from 'react-icons/si'
-
-
-// import GALAXY_GRADIENT from '../../assets/galaxy_gradient-min.webp'
-// import IPICKPRO_HERO from '../../assets/ipickpro_hero.png'
 import IPICK_FEATURE1 from '../../assets/ipick_feature1.png'
 import IPICK_FEATURE2 from '../../assets/IPICK_FEATURE2.png'
 import IPICK_FEATURE3 from '../../assets/IPICK_FEATURE3.png'
@@ -14,26 +8,33 @@ import './ipickpro.css'
 import { useTranslation } from 'react-i18next'
 import YoutubeEmbed from '../../components/youtubeEmbed/YoutubeEmbed'
 import { StyledButtonFill } from '../../components/styles/ButtonFill.styled'
+import { H0 } from '../../components/styles/Typography.styled'
+import { useMediaQuery } from 'react-responsive'
+import { StyledButtonStroke } from '../../components/styles/ButtonStroke.styled'
 
 const IPickPro = () => {
     const { t } = useTranslation();
+    const isMobile = useMediaQuery({ maxWidth: 767 });
+
+
+
     return (
-        <div className='relative bg-black px-[10%] text-white pb-20'>
+        <div className='relative bg-black text-white px-[10%] pb-20'>
             {/* HERO IPICKPRO */}
             <div className='hero_ipickpro'>
-                <h1>iPick Pro</h1>
+                <H0>iPick Pro</H0>
                 <div className='ipick_hero_btn_container'>
 
                     <a href="https://apps.apple.com/tw/app/ipickpro/id1414137182?l=en">
-                        <StyledButtonFill>
+                        <StyledButtonStroke>
                             Download Now
-                        </StyledButtonFill>
+                        </StyledButtonStroke>
                     </a>
                 </div>
             </div>
 
             {/* VIDEO */}
-            <div className='grid grid-cols-2 gap-10'>
+            <div className={`grid  ${isMobile ? 'grid-cols-1 gap-2' : 'grid-cols-2 gap-10'} `}>
                 <div className="App">
                     <YoutubeEmbed embedId="wV-AOqiAuuU" />
                 </div>
@@ -77,7 +78,7 @@ const IPickPro = () => {
             {/* DIV5 */}
             <div className='ipick_advantage'>
                 <h2>{t('ipick_advantage')}</h2>
-                <div className='ipick_advantage_col'>
+                <div className={`grid  gap-4 ${isMobile ? 'grid-cols-1' : 'grid-cols-2'}`}>
                     <div>
                         <div className='ipick_advantage_item'>
                             <h3>{t('ipick_advantage_item_h3_1')}</h3>

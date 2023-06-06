@@ -14,6 +14,7 @@ import LINE_INTRO_HORIZONTAL from '../../assets/line_intro_horizontal.png'
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next'
+import { useMediaQuery } from 'react-responsive'
 
 const Line = () => {
     const { t } = useTranslation();
@@ -29,12 +30,17 @@ const Line = () => {
 
     }, [scrollValue]);
 
+    const isMobile = useMediaQuery({ maxWidth: 767 });
+
 
     return (
-        <div className='relative bg-black px-[10%] text-white pb-20' >
+        <div className='relative bg-[#111] px-[8%] text-white pb-20' >
             {/* HERO SECTION */}
             <div className='line_header_container '>
-                <img className='absolute w-[50%] right-0 top-32' src={LINE_HERO} alt="" />
+                <img
+                    src={LINE_HERO}
+                    className={`absolute w-[50%] right-0 top-32 ${isMobile ? 'hidden' : ''}`}
+                    alt="" />
                 <div className='line_hero_container'>
                     <h1 className='line_hero_title'>{t('line_hero_title')}</h1>
                     <h2 className='line_hero_title2'>{t('line_hero_title_2')}</h2>
@@ -114,7 +120,7 @@ const Line = () => {
                     <div className='line_service_card'>
                         <div className='line_service_card_top'>
                             <h3>{t('line_service_card_top_h3_1')}</h3>
-                            <img className='line_service_icon' src={SEARCH_ICON} alt="" />
+                            <img className='flex-shrink-0' src={SEARCH_ICON} alt="" />
                         </div>
 
                         <p>{t('line_service_card_top_p_1')}
@@ -124,7 +130,9 @@ const Line = () => {
                     <div className='line_service_card'>
                         <div className='line_service_card_top'>
                             <h3>{t('line_service_card_top_h3_2')}</h3>
-                            <img className='line_service_icon' src={VERIFIED_ICON} alt="" />
+                            <div>
+                                <img className='flex-shrink-0' src={VERIFIED_ICON} alt="" />
+                            </div>
                         </div>
                         <p>
                             {t('line_service_card_top_p_2')}

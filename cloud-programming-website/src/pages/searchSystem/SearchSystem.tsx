@@ -19,7 +19,7 @@ const SearchSystem = () => {
     const { ref: ref2, inView: inView2 } = useInView({ trackVisibility: true, delay: 100 });
     const { ref: ref3, inView: inView3 } = useInView({ trackVisibility: true, delay: 100 });
     return (
-        <div className='relative bg-black px-[10%] text-white pb-20'>
+        <div className='relative bg-black px-[8%] text-white pb-20'>
             <div className='search_hero'>
                 <h3 className='search_description'>
                     {t('search_description_h3')}

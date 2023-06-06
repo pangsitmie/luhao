@@ -10,20 +10,20 @@ export const H0 = styled.h1`
 `
 
 export const H1 = styled.h1`
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: 600;
     line-height: 1.5;
     @media screen and (max-width: 768px) {
-        font-size: 2rem;
+        font-size: 3rem;
     }
 `;
 
 export const H2 = styled.h2`
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 600;
     line-height: 1.5;
     @media screen and (max-width: 768px) {
-        font-size: 1.8rem;
+        font-size: 2.5rem;
     }
 `;
 

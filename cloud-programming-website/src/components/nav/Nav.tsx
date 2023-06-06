@@ -68,10 +68,11 @@ const Nav: React.FC = () => {
         );
     };
 
+
     const renderMobileMenu = () => {
         return (
-            <nav className="relative">
-                <div className="flex items-center justify-between p-6 bg-transparent]">
+            <nav className={`relative z-20`}>
+                <div className={`absolute h-[10vh] top-0 left-0 right-0 flex items-center justify-between transition-all duration-500 ease-in-out p-6 ${isOpen ? 'bg-[#111]' : ''}`}>
                     <div>
                         <Link to="/">
                             <img src={LOGOFULL} className='h-[30px] w-auto' alt="" />
@@ -81,50 +82,101 @@ const Nav: React.FC = () => {
                         <FiMenu />
                     </button>
                 </div>
-                <div className={`overflow-hidden max-h-[100vh] transition-all duration-500 ease-in-out transform ${isOpen ? 'opacity-100 h-auto visible' : 'opacity-0 h-0 invisible'}`}>
-                    <div className="flex flex-col bg-transparent text-[#272D4D] px-4 py-10 gap-6">
+                <div className={`absolute h-screen top-[10vh] left-0 right-0 overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'opacity-100 h-auto visible bg-[#111]' : 'opacity-0 h-0 invisible'}`}>
+                    <div className="flex flex-col bg-transparent text-white px-6 py-10 gap-6">
                         <div className="mb-2" onClick={() => setShowSubmenu1(!showSubmenu1)}>
                             <Link to="#" className="flex items-center justify-between">{t('business')} <FiChevronDown /></Link>
                             {showSubmenu1 && (
-                                <div className="mt-2">
-                                    <StyledMenuItem>
-                                        <Link to="/line">
+                                <div className="mt-2 flex flex-col gap-2">
+                                    <Link
+                                        to="/line"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <StyledMenuItem>
                                             {t('line')}
-                                        </Link>
-                                    </StyledMenuItem>
-                                    <StyledMenuItem><Link to="/search-system">{t('search_system')}</Link></StyledMenuItem>
+                                        </StyledMenuItem>
+                                    </Link>
+                                    <Link
+                                        to="/search-system"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <StyledMenuItem>
+                                            {t('search_system')}
+                                        </StyledMenuItem>
+                                    </Link>
                                 </div>
                             )}
                         </div>
                         <div className="mb-2" onClick={() => setShowSubmenu2(!showSubmenu2)}>
                             <Link to="#" className="flex items-center justify-between">{t('service')} <FiChevronDown /></Link>
                             {showSubmenu2 && (
-                                <div className="mt-2">
-                                    <StyledMenuItem><Link to="/bearpay">小熊 Pay</Link></StyledMenuItem>
-                                    <StyledMenuItem><Link to="/xiaodi">{t('xiaodi')}</Link></StyledMenuItem>
+                                <div className="mt-2 flex flex-col gap-2">
+                                    <Link to="/bearpay"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <StyledMenuItem>
+                                            小熊 Pay
+                                        </StyledMenuItem>
+                                    </Link>
+                                    <Link
+                                        to="/xiaodi"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <StyledMenuItem>
+                                            {t('xiaodi')}
+                                        </StyledMenuItem>
+                                    </Link>
                                 </div>
                             )}
                         </div>
                         <div className="mb-2" onClick={() => setShowSubmenu3(!showSubmenu3)}>
                             <Link to="#" className="flex items-center justify-between">{t('entertainment')} <FiChevronDown /></Link>
                             {showSubmenu3 && (
-                                <div className="mt-2">
-                                    <StyledMenuItem><Link to="/ipickpro">iPickPro</Link></StyledMenuItem>
-                                    <StyledMenuItem><Link to="/galaxy-city">{t('app_dev')}</Link></StyledMenuItem>
+                                <div className="mt-2 flex flex-col gap-2">
+                                    <Link
+                                        to="/ipickpro"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <StyledMenuItem>
+                                            iPickPro
+                                        </StyledMenuItem>
+                                    </Link>
+
+                                    <Link
+                                        to="/galaxy-city"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <StyledMenuItem>
+                                            {t('app_dev')}
+                                        </StyledMenuItem>
+                                    </Link>
                                 </div>
                             )}
                         </div>
                         <div>
-                            <Link to="/media-design" className="text-[#272D4D]">{t('design')}</Link>
+                            <Link
+                                to="/media-design"
+                                className="text-white"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                {t('design')}
+                            </Link>
                         </div>
                         <div>
-                            <Link to="/About" className="text-[#272D4D]">{t('about')}</Link>
+                            <Link
+                                to="/About"
+                                className="text-white"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                {t('about')}
+                            </Link>
                         </div>
                     </div>
                 </div>
             </nav>
         );
-    };
+    }
+
 
     return isMobile ? renderMobileMenu() : renderDesktopMenu();
 

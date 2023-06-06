@@ -14,17 +14,37 @@ import { IconButtonStyled } from '../../components/styles/IconButton.styled'
 import { AiOutlineInstagram, AiOutlineTwitter, AiOutlineFacebook } from 'react-icons/ai'
 import QUESTION_ICON from '../../assets/question_icon.jpg'
 import BEARPAY_PRE_FOOTER from '../../assets/bearpay_pre_footer.png'
+import { useMediaQuery } from 'react-responsive';
+import BearPayItems from './BearPayItems'
 
 type Props = {}
 
 const BearPay = (props: Props) => {
 
-    return (
-        <div>
+    const isMobile = useMediaQuery({ maxWidth: 767 });
 
+    //detect if mobile is android or ios
+    const handleDownload = () => {
+        const userAgent = navigator.userAgent;
+
+        // Check if the user is accessing the website from a mobile device
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+
+        // Determine the appropriate store URL based on the mobile device platform
+        const storeURL = isMobile && /iPhone|iPad|iPod/i.test(userAgent)
+            ? 'https://apps.apple.com/tw/app/%E5%B0%8F%E7%86%8A-pay/id1665519760'
+            : 'https://play.google.com/store/apps/details?id=com.cloudprogramming.OnlineMarketingSystem';
+
+        console.log(storeURL);
+        // Redirect the user to the store URL
+        window.location.href = storeURL;
+    };
+
+    return (
+        <div >
             {/* HERO */}
             <div
-                className="h-[95vh] flex items-center justify-center pl-[8%] gap-6 "
+                className={`flex justify-between gap-10 ${isMobile ? 'flex-col pt-32 pb-8' : 'pl-[15vh] h-[95vh] items-center'}`}
                 style={{
                     backgroundImage: `url(${BEARPAY_BACKGROUND1})`,
                     backgroundSize: 'cover',
@@ -32,29 +52,36 @@ const BearPay = (props: Props) => {
                     backgroundRepeat: 'no-repeat',
                 }}
             >
-                <div className=''>
+                <div className={`${isMobile ? 'p-6' : ''}`}>
                     <H1 className='mb-4 text-white'>娃娃機的未來</H1>
-                    <P className='text-white w-[80%]'>告別傳統投幣，讓我們以「Bear Pay」的創新方式體驗抓娃娃機。</P>
+                    <P className='text-white'>
+                        告別傳統投幣，讓我們以「Bear Pay」的創新方式體驗抓娃娃機。
+                    </P>
+
                     <StyledButtonStroke
-                        className='mt-10'>
+                        onClick={handleDownload}
+                        className='mt-10'
+                    >
                         立即下載
                     </StyledButtonStroke>
                 </div>
-                <div className=''>
-                    <div className='h-[50vh]'></div>
-                    <img src={BEARPAY_MOCK1} alt="Bear Pay" className='w-full' />
+                <div className={''}>
+                    {!isMobile && (
+                        <div className='h-[40vh]'></div>
+                    )}
+                    <img src={BEARPAY_MOCK1} alt="Bear Pay" className={`${isMobile ? '' : ''}`} />
                 </div>
             </div>
 
-            {/* SECTION 1 */}
-            <div className="items-center justify-center pt-64 pb-52 px-[8%] ">
+            {/* SECTION 1*/}
+            <div className={`items-center justify-center pb-52 px-[8vw] ${isMobile ? 'pt-16' : 'pt-52'}`}>
                 <div>
-                    <P className='text-[#9485FB]'>最簡單、最快速的遊玩方式</P>
+                    <P className='text-[#FCC945]'>最簡單、最快速的遊玩方式</P>
                     <H2>好處與特點</H2>
                 </div>
 
-                <div className='grid grid-cols-3 gap-10 justify-center mt-16'>
-                    <div className='flex flex-col gap-4 p-4 '>
+                <div className={`grid  gap-10 justify-center mt-16 ${isMobile ? 'grid-cols-1' : 'grid-cols-3'}`}>
+                    <div className='flex flex-col gap-4 '>
                         <img src={BEARPAY_ICON1} alt="" className='w-16' />
                         <H3>即時手機支付</H3>
 
@@ -62,7 +89,7 @@ const BearPay = (props: Props) => {
                             告別對硬幣的翻找或找零的困擾。我們的革命性手機支付解決方案讓您只需在智能手機上輕點幾下，就能無縫支付您的抓娃娃機遊戲。不再有麻煩，只有純粹的便利。
                         </P>
                     </div>
-                    <div className='flex flex-col gap-4 p-4'>
+                    <div className='flex flex-col gap-4'>
                         <img src={BEARPAY_ICON2} alt="" className='w-16' />
 
                         <H3>個性化的遊戲體驗</H3>
@@ -72,7 +99,7 @@ const BearPay = (props: Props) => {
                         </P>
 
                     </div>
-                    <div className='flex flex-col gap-4 p-4'>
+                    <div className='flex flex-col gap-4'>
                         <img src={BEARPAY_ICON3} alt="" className='w-16' />
 
                         <H3>精彩獎勵和紅利</H3>
@@ -84,37 +111,74 @@ const BearPay = (props: Props) => {
                 </div>
             </div>
 
-            {/* section 2 */}
-            <div className=" flex items-center justify-center pl-[45vh] pr-[30vh] h-[100vh] gap-[8vh] mb-10"
-                style={{
-                    backgroundImage: `url(${BEARPAY_BACKGROUND2})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center', // Updated background position
-                }}
-            >
-                <img src={BEARPAY_MOCK2} alt="Bear Pay" className='h-[500px]' />
-                <div>
-                    <P className='text-[#9485FB]'>釋放我們應用程式的力量</P>
-                    <H2
-                        className='mb-6'>
-                        進入無窮可能的
-                        <br />
-                        精彩世界
-                    </H2>
-                    <P>
-                        小熊 Pay 是通往興奮、便利和無窮可能的大門。讓我們先來一探究竟您即將會遇見的：
-                    </P>
-                    <StyledButtonFill
-                        className='mt-6'>
-                        立即下載
-                    </StyledButtonFill>
+
+
+            {/* SECTION 2 DESKTOP */}
+            {!isMobile && (
+                <div className=" flex items-center justify-center pl-[45vh] pr-[30vh] h-[100vh] gap-[8vh] mb-10"
+                    style={{
+                        backgroundImage: `url(${BEARPAY_BACKGROUND2})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center', // Updated background position
+                    }}
+                >
+                    <img src={BEARPAY_MOCK2} alt="Bear Pay" className='h-[500px]' />
+                    <div>
+                        <P className='text-[#FCC945]'>釋放我們應用程式的力量</P>
+                        <H2
+                            className='mb-6'>
+                            進入無窮可能的
+                            <br />
+                            精彩世界
+                        </H2>
+                        <P>
+                            小熊 Pay 是通往興奮、便利和無窮可能的大門。讓我們先來一探究竟您即將會遇見的：
+                        </P>
+                        <StyledButtonFill
+                            onClick={handleDownload}
+                            className='mt-10'
+                        >
+                            立即下載
+                        </StyledButtonFill>
+                    </div>
                 </div>
-            </div>
+            )}
+
+            {/* SECTION 2 MOBILE */}
+            {isMobile && (
+                <div className='px-[8vw]'>
+                    <div >
+                        <img src={BEARPAY_MOCK2} alt="" />
+                    </div>
+                    <div className='mt-12'>
+                        <P className='text-[#FCC945]'>釋放我們應用程式的力量</P>
+                        <H2
+                            className='mb-6'>
+                            進入無窮可能的
+                            <br />
+                            精彩世界
+                        </H2>
+                        <P>
+                            小熊 Pay 是通往興奮、便利和無窮可能的大門。讓我們先來一探究竟您即將會遇見的：
+                        </P>
+                        <StyledButtonFill
+                            onClick={handleDownload}
+                            className='mt-6'>
+                            立即下載
+                        </StyledButtonFill>
+                    </div>
+                </div>
+            )}
 
             {/* section 3 */}
-            <div className='py-20'>
+            <div className='py-20 px-[8vw]'>
+                {isMobile && (
+                    <div className='grid place-content-center pb-10'>
+                        <div className="w-[2px] h-[30vh] bg-gradient-to-b from-transparent rounded-full via-transparent to-[#FFA45A]"></div>
+                    </div>
+                )}
                 <div className='flex flex-col items-center mb-10 justify-center'>
-                    <P className='mb-2 text-[#9485FB]'>每天的新獎勵</P>
+                    <P className='mb-2 text-[#FCC945]'>每天的新獎勵</P>
                     <H2 className='mb-6 text-center'>
                         方便的遊玩和保持
                         <span>最新的訊息</span>
@@ -122,10 +186,43 @@ const BearPay = (props: Props) => {
                         Play and <span>Stay Updated</span> */}
                     </H2>
                 </div>
-                <div>
-                    <img src={BEARPAY_ITEMS} alt="" />
-                </div>
-                <div className='flex items-center justify-center px-24 mt-20 gap-10'>
+
+                {/* desktop */}
+                {!isMobile && (
+                    <div>
+                        <img src={BEARPAY_ITEMS} alt="" />
+                    </div>
+                )}
+
+                {/* mobile */}
+                {isMobile && (
+                    <div className='flex flex-col gap-4'>
+                        <BearPayItems
+                            text={"Birthday gifts"}
+                        />
+                        <BearPayItems
+                            text={"Compete, Win, and Dominate the Leaderboard"}
+                        />
+                        <BearPayItems
+                            text={"Follow Popular Brands and Enjoy Exciting Rewards"}
+                        />
+                        <BearPayItems
+                            text={"Personalized recommendations"}
+                        />
+                        <BearPayItems
+                            text={"Enjoy free online coins from our partners"}
+                        />
+                        <BearPayItems
+                            text={"Recharge credits at our physical store"}
+                        />
+                        <BearPayItems
+                            text={"Pay using Bluetooth or NFC  directly from your phone"}
+                        />
+                    </div>
+                )}
+
+
+                <div className={`flex items-center justify-center mt-20 gap-8 ${isMobile ? 'flex-col text-center' : 'px-24'}`}>
                     <small>
                         以及更多供您在所有通信渠道中分享的內容。
                         <br />
@@ -141,16 +238,15 @@ const BearPay = (props: Props) => {
                         <IconButtonStyled className='ml-4 bg-[#FFF6EF]'>
                             <AiOutlineFacebook style={{ color: '#FFA45A' }} />
                         </IconButtonStyled>
-
                     </div>
                 </div>
             </div>
 
             {/* section 4 */}
-            <div className='grid grid-cols-2 py-40'>
-                <div className='bg-[#FFF6EF] flex flex-col  px-[20%] py-24'>
+            <div className={`grid  py-40 ${isMobile ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                <div className='bg-[#FFF6EF] flex flex-col px-[8vw] py-24'>
                     <div className='mb-10'>
-                        <img src={QUESTION_ICON} alt="" className='w-52' />
+                        <img src={QUESTION_ICON} alt="" className='w-1/2' />
                     </div>
 
                     <span className='text-[#FFA45A]'>有問題嗎？</span>
@@ -160,7 +256,7 @@ const BearPay = (props: Props) => {
                     </H2>
                     <P>以下是一些常見問題，可能對您有所幫助。</P>
                 </div>
-                <div className='px-20 flex flex-col gap-4'>
+                <div className='px-[10vw] py-12 flex flex-col gap-4'>
                     <H2 className='mb-10'>
                         常見問題
                     </H2>
@@ -190,12 +286,13 @@ const BearPay = (props: Props) => {
                     backgroundPosition: 'center', // Updated background position
                 }}
             >
-                <div className='mr-40'>
+                <div className={`${isMobile ? 'text-center' : ''}`}>
                     <H1>
-                        <span>現在加入</span>，
-                        <br /> 並獲得免費新客獎勵！
+                        <span>現在加入</span>
+                        <br />並獲得新客獎勵
                     </H1>
                     <StyledButtonFill
+                        onClick={handleDownload}
                         className='mt-6'>
                         立即下載
                     </StyledButtonFill>

@@ -9,7 +9,7 @@ export const StyledButtonStroke = styled.button`
     padding: 1rem 2.5rem;
     background-color: transparent;
     color: ${({ color }) => color || "#FFF"};
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
 
     & a{
         color: #fff;
@@ -17,8 +17,7 @@ export const StyledButtonStroke = styled.button`
     }
 
     &:hover {
-        transform: scale(1.05);
-        border-color: #FFF;
-        box-shadow: 0 0 10px #FFF;
+        transform: scale(1.02);
+        box-shadow: 0 0 10px #fff;
     }
 `

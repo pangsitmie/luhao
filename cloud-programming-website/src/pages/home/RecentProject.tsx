@@ -32,7 +32,7 @@ const RecentProject = () => {
                 <div className='project_desc w-[100%]'>
                     <H3>{t('project_desc_2_h2')}</H3>
                     <p>{t('project_desc_2_p')}</p>
-                    <a href="/marketing-system">
+                    <a href="/bearpay">
                         <StyledButtonFill className='mt-10'>
                             {t('learn_more')}
                         </StyledButtonFill>
