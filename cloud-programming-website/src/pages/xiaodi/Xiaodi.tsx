@@ -1,8 +1,3 @@
-import { SiAppstore } from 'react-icons/si'
-import { IoLogoGooglePlaystore } from 'react-icons/io5'
-import './xiaodi.css'
-import { useInView } from 'react-intersection-observer';
-
 import XIAODI_BLOB_ANIM from '../../assets/blobanimation.svg'
 import RESTO_IMG from '../../assets/homieatRestaurant.png'
 import HOMIE_SERVICE from '../../assets/homieatService.png'
@@ -21,13 +16,12 @@ import DELIVERY_5 from '../../assets/delivery_5.png'
 import DELIVERY_6 from '../../assets/delivery_6.png'
 
 import Slider from "react-slick";
-
-// Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTranslation } from 'react-i18next';
-import { StyledButtonFill } from '../../components/styles/ButtonFill.styled';
 import ButtonFill from '../../components/button/ButtonFill';
+import './xiaodi.css'
+
 
 const Xiaodi = () => {
     const { t } = useTranslation();

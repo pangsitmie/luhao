@@ -2,13 +2,11 @@ import LOGOFULL from '../../assets/logo_full.png'
 import { BsFillChatTextFill, BsFacebook } from 'react-icons/bs'
 import { IconButtonStyled } from '../styles/IconButton.styled'
 import { HiOutlineMail } from 'react-icons/hi'
-import Copy from '../copy/Copy'
+// import Copy from '../copy/Copy'
 import { Link } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 
-type Props = {}
-
-const Footer = (props: Props) => {
+const Footer = () => {
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -72,7 +70,7 @@ const Footer = (props: Props) => {
               </IconButtonStyled>
             </div>
           </div>
-          <Copy />
+          {/* <Copy /> */}
         </div>
       </footer >
     )
@@ -122,7 +120,7 @@ const Footer = (props: Props) => {
               </IconButtonStyled>
             </div>
           </div>
-          <Copy />
+          {/* <Copy /> */}
         </div>
       </footer>
     )

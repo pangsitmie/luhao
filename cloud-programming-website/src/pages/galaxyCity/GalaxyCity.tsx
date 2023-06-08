@@ -1,4 +1,3 @@
-import React from 'react'
 import GALAXY_HERO from '../../assets/galaxy_hero.png'
 import POLLY_WHITE from '../../assets/polly_white.png'
 import CHAT_ICON from '../../assets/chat_icon.png'

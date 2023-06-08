@@ -1,4 +1,3 @@
-import BEARPAY_BACKGROUND from '../../assets/bearpay_background.png'
 import BEARPAY_BACKGROUND1 from '../../assets/bearpay_background1.png'
 import BEARPAY_BACKGROUND2 from '../../assets/bearpay_background2.png'
 import BEARPAY_MOCK1 from '../../assets/bearpay_mock1.png'
@@ -7,7 +6,7 @@ import { StyledButtonStroke } from '../../components/styles/ButtonStroke.styled'
 import BEARPAY_ICON1 from '../../assets/bearpay_icon1.png'
 import BEARPAY_ICON2 from '../../assets/bearpay_icon2.svg'
 import BEARPAY_ICON3 from '../../assets/bearpay_icon3.svg'
-import { H0, H1, H2, H3, P } from '../../components/styles/Typography.styled'
+import { H1, H2, H3, P } from '../../components/styles/Typography.styled'
 import { StyledButtonFill } from '../../components/styles/ButtonFill.styled'
 import BEARPAY_ITEMS from '../../assets/bearpay_items.png'
 import { IconButtonStyled } from '../../components/styles/IconButton.styled'
@@ -17,9 +16,8 @@ import BEARPAY_PRE_FOOTER from '../../assets/bearpay_pre_footer.png'
 import { useMediaQuery } from 'react-responsive';
 import BearPayItems from './BearPayItems'
 
-type Props = {}
 
-const BearPay = (props: Props) => {
+const BearPay = () => {
 
     const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -55,7 +53,7 @@ const BearPay = (props: Props) => {
                 <div className={`${isMobile ? 'p-6' : ''}`}>
                     <H1 className='mb-4 text-white'>娃娃機的未來</H1>
                     <P className='text-white'>
-                        告別傳統投幣，讓我們以「Bear Pay」的創新方式體驗抓娃娃機。
+                        告別傳統投幣，讓我們以「Bear Pay」體驗夾娃娃機。
                     </P>
 
                     <StyledButtonStroke
@@ -77,7 +75,7 @@ const BearPay = (props: Props) => {
             <div className={`items-center justify-center pb-52 px-[8vw] ${isMobile ? 'pt-16' : 'pt-52'}`}>
                 <div>
                     <P className='text-[#FCC945]'>最簡單、最快速的遊玩方式</P>
-                    <H2>好處與特點</H2>
+                    <H2>優勢與特點</H2>
                 </div>
 
                 <div className={`grid  gap-10 justify-center mt-16 ${isMobile ? 'grid-cols-1' : 'grid-cols-3'}`}>
@@ -86,16 +84,15 @@ const BearPay = (props: Props) => {
                         <H3>即時手機支付</H3>
 
                         <P>
-                            告別對硬幣的翻找或找零的困擾。我們的革命性手機支付解決方案讓您只需在智能手機上輕點幾下，就能無縫支付您的抓娃娃機遊戲。不再有麻煩，只有純粹的便利。
+                            解決找零的困擾。手機支付讓您只需在智慧型手機上輕點幾下，就能輕鬆支付遊玩娃娃機。省下麻煩，更加便利。
                         </P>
                     </div>
                     <div className='flex flex-col gap-4'>
                         <img src={BEARPAY_ICON2} alt="" className='w-16' />
-
-                        <H3>個性化的遊戲體驗</H3>
+                        <H3>客製化的遊戲體驗</H3>
 
                         <P>
-                            透過我們最新的應用程式，您將享有前所未有的個性化遊戲體驗。追蹤您的進度，查看您的遊戲歷史，並在成為抓娃娃機冠軍的過程中解鎖成就。我們的應用程式讓您保持參與，激勵您繼續遊玩並贏得勝利。
+                            透過Bear pay ，您可以體驗前所未有的客製化遊戲。追蹤您的進度，查看您的遊玩歷史，並在成為夾娃娃冠軍的過程中解鎖成就。我們的應用程式讓您擁有參與感，激勵您繼續遊玩並贏得勝利。
                         </P>
 
                     </div>
@@ -105,7 +102,7 @@ const BearPay = (props: Props) => {
                         <H3>精彩獎勵和紅利</H3>
 
                         <P>
-                            作為我們珍貴的玩家，我們樂於為您的技巧和忠誠提供獎勵。我們的應用程式提供獨家獎勵和紅利，增強您的抓娃娃機體驗。賺取忠誠度點數，解鎖特殊折扣，並接收精彩優惠，讓每次遊玩都更加有益。
+                            作為我們珍貴的玩家，我們樂於為您的技巧和黏著度提供獎勵。我們提供獨家獎勵和紅利，增強您的夾娃娃機體驗。賺取點數，解鎖特殊折扣，並獲收划算優惠，讓每次遊玩都更加有益。
                         </P>
                     </div>
                 </div>
@@ -132,7 +129,7 @@ const BearPay = (props: Props) => {
                             精彩世界
                         </H2>
                         <P>
-                            小熊 Pay 是通往興奮、便利和無窮可能的大門。讓我們先來一探究竟您即將會遇見的：
+                            小熊 Pay 是通往愉快、便利和無窮可能的大門。讓我們先來一探究竟您即將會遇到的
                         </P>
                         <StyledButtonFill
                             onClick={handleDownload}
@@ -171,16 +168,16 @@ const BearPay = (props: Props) => {
             )}
 
             {/* section 3 */}
-            <div className='py-20 px-[8vw]'>
+            <div className='py-20 '>
                 {isMobile && (
                     <div className='grid place-content-center pb-10'>
                         <div className="w-[2px] h-[30vh] bg-gradient-to-b from-transparent rounded-full via-transparent to-[#FFA45A]"></div>
                     </div>
                 )}
-                <div className='flex flex-col items-center mb-10 justify-center'>
+                <div className='flex flex-col items-center mb-10 justify-center px-[8vw]'>
                     <P className='mb-2 text-[#FCC945]'>每天的新獎勵</P>
                     <H2 className='mb-6 text-center'>
-                        方便的遊玩和保持
+                        便捷的遊玩以及不錯過任何
                         <span>最新的訊息</span>
                         {/* <br />
                         Play and <span>Stay Updated</span> */}
@@ -196,27 +193,27 @@ const BearPay = (props: Props) => {
 
                 {/* mobile */}
                 {isMobile && (
-                    <div className='flex flex-col gap-4'>
+                    <div className='flex flex-col gap-4 px-[8vw]'>
                         <BearPayItems
-                            text={"Birthday gifts"}
+                            text={"生日禮物"}
                         />
                         <BearPayItems
-                            text={"Compete, Win, and Dominate the Leaderboard"}
+                            text={"贏得勝利，稱霸排行榜"}
                         />
                         <BearPayItems
-                            text={"Follow Popular Brands and Enjoy Exciting Rewards"}
+                            text={"追蹤熱門品牌並領取獎勵"}
                         />
                         <BearPayItems
-                            text={"Personalized recommendations"}
+                            text={"客製化推薦"}
                         />
                         <BearPayItems
-                            text={"Enjoy free online coins from our partners"}
+                            text={"使用線上免費幣"}
                         />
                         <BearPayItems
-                            text={"Recharge credits at our physical store"}
+                            text={"在實體店面儲值"}
                         />
                         <BearPayItems
-                            text={"Pay using Bluetooth or NFC  directly from your phone"}
+                            text={"用Qr Code或是感應NFC支付"}
                         />
                     </div>
                 )}
@@ -262,17 +259,18 @@ const BearPay = (props: Props) => {
                     </H2>
 
                     <div className='border rounded-lg border-[#FFA45A] p-8'>
-                        <H3 className='mb-4'>如何處理付款？</H3>
+                        <H3 className='mb-4'>如何察看獲得的獎勵?</H3>
                         <P>
-                            只需下載我們的應用程式，連結您偏好的支付方式，然後選擇您想要的機台。只需輕點幾下即可付款，無需使用硬幣。盡情享受無麻煩的抓娃娃機樂趣！                        </P>
+                            首頁 - 通知 - 獎勵通知 - 點選有紅點的獎勵
+                        </P>
                     </div>
 
                     <div className='border rounded-lg border-[#FFA45A] p-8'>
                         <H3 className='mb-4'>
-                            我能追蹤我的進度和交易嗎？
+                            哪裡可以使用這個APP?
                         </H3>
                         <P>
-                            透過我們的應用程式，輕鬆追蹤您的進度和獲勝紀錄！只需進入您的個人檔案部分，您將找到完整的遊戲歷史紀錄。其中包括遊玩的次數、勝利次數、最高分數等等。
+                            全台灣任何機台上有貼小熊pay貼紙的皆可使用，貼紙上都有載點以及簡易操作
                         </P>
                     </div>
                 </div>
