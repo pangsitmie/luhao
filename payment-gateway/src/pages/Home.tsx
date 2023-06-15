@@ -3,6 +3,8 @@ import { H3 } from "../components/styles/Typography.styled"
 import { getEndpoint } from "../utils/Utils"
 import axios from "axios";
 import { toast } from "react-toastify";
+import { div } from "three/examples/jsm/nodes/Nodes.js";
+import ItemBox from "../components/ItemBox";
 
 type Items = {
     id: number;
@@ -87,7 +89,11 @@ const Home = () => {
                         <H3>
                             Hi there,<br /> John Doe
                         </H3>
-
+                    </div>
+                    <div>
+                        {itemList.map((item) => (
+                            <ItemBox key={item.id} {...item} />
+                        ))}
                     </div>
                 </div>
             </div>

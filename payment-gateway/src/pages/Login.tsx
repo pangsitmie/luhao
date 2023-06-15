@@ -77,69 +77,71 @@ const Login = () => {
     }
 
     return (
-        <div className="grid grid-cols-2 p-8">
-            <div className="p-20">
-                <div className="pb-12">
-                    <H1>
-                        Recharge Your Balance
-                    </H1>
-                    <p className="mt-2">
-                        Enter your credentials to access your account
-                    </p>
-                </div>
-
-                {/* form */}
+        <div className="grid grid-cols-2 p-8 h-screen">
+            {/* left div */}
+            <div className="p-20 flex items-center ">
                 <div>
-                    <div>
-                        <Formik
-                            onSubmit={handleFormSubmit}
-                            initialValues={initialValues}
-                            validationSchema={checkoutSchema}
-                        >
-                            {({
-                                values,
-                                errors,
-                                touched,
-                                handleBlur,
-                                handleChange,
-                                handleSubmit,
-                            }) => (
-                                <form onSubmit={handleSubmit}>
-                                    <div className="mb-4">
-                                        <TextField
-                                            type="text"
-                                            label="Account"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.account}
-                                            name="account"
-                                            error={!!(touched.account && errors.account)} // Convert to boolean
-                                            helperText={touched.account && errors.account ? errors.account : ""}
-                                        />
-                                        <TextField
-                                            type="password"
-                                            label="Password"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.password}
-                                            name="password"
-                                            error={!!(touched.password && errors.password)} // Convert to boolean
-                                            helperText={touched.password && errors.password ? errors.account : ""}
-                                        />
-                                    </div>
-                                    <StyledButtonFill
-                                        type="submit"
-                                    >
-                                        Login
-                                    </StyledButtonFill>
-                                </form>
-                            )}
-                        </Formik>
+                    <div className="pb-12">
+                        <H1>
+                            Recharge Your Balance
+                        </H1>
+                        <p className="mt-2">
+                            Enter your credentials to access your account
+                        </p>
                     </div>
 
+                    {/* form */}
+                    <div>
+                        <div>
+                            <Formik
+                                onSubmit={handleFormSubmit}
+                                initialValues={initialValues}
+                                validationSchema={checkoutSchema}
+                            >
+                                {({
+                                    values,
+                                    errors,
+                                    touched,
+                                    handleBlur,
+                                    handleChange,
+                                    handleSubmit,
+                                }) => (
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="mb-4">
+                                            <TextField
+                                                type="text"
+                                                label="Account"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.account}
+                                                name="account"
+                                                error={!!(touched.account && errors.account)} // Convert to boolean
+                                                helperText={touched.account && errors.account ? errors.account : ""}
+                                            />
+                                            <TextField
+                                                type="password"
+                                                label="Password"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.password}
+                                                name="password"
+                                                error={!!(touched.password && errors.password)} // Convert to boolean
+                                                helperText={touched.password && errors.password ? errors.account : ""}
+                                            />
+                                        </div>
+                                        <StyledButtonFill
+                                            type="submit"
+                                        >
+                                            Login
+                                        </StyledButtonFill>
+                                    </form>
+                                )}
+                            </Formik>
+                        </div>
 
+
+                    </div>
                 </div>
-
             </div>
 
             {/* right div */}
