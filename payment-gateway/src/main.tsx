@@ -22,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         theme="dark"
       />
       <App />
+
     </Provider>
 
   </React.StrictMode>,

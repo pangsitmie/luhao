@@ -99,7 +99,7 @@ const Login = () => {
     }
 
     return (
-        <div className="relative md:grid grid-cols-2 p-8 h-screen sm:flex justify-center overflow-hidden">
+        <div className="relative md:grid grid-cols-2 p-8 h-[98vh] sm:flex justify-center overflow-hidden">
             {/* left div */}
             <div className={`${isMobile ? 'p-[2%]' : 'p-[10%]'} flex items-center z-10 `}>
                 <div>
