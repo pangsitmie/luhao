@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { StyledButtonFill } from "../styles/ButtonFill.styled";
 
 interface Props {

@@ -15,10 +15,10 @@ export const getEndpoint = () => {
 export const getImageUrl = (filename: string) => {
     switch (viteEnv) {
         case "main":
-            return `https://file.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
+            return `https://playground.cloudprogrammingonline.com/image/${filename}`;
         case "qa":
-            return `https://file-qa.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
+            return `https://playground-qa.cloudprogrammingonline.com/image/${filename}`;
         default:
-            return `https://file-test.cloudprogrammingonline.com/files/${filename}?serverId=1&fileType=IMAGE`;
+            return `https://playground-test.cloudprogrammingonline.com/image/${filename}`;
     }
 };

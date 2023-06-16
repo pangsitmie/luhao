@@ -10,6 +10,10 @@ import { getEndpoint } from "../utils/Utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setMemberId } from "../redux/userSlice";
+
 
 const checkoutSchema = yup.object().shape({
     account: yup.string().required("required"),
@@ -19,7 +23,22 @@ const checkoutSchema = yup.object().shape({
 
 const Login = () => {
     const navigate = useNavigate();
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     //========================== INITIAL VALUES ==========================
     const initialValues = {
         account: "",
@@ -56,7 +75,10 @@ const Login = () => {
                     localStorage.setItem('token', response.data.data.login_token);
                     toast.success("Login Success");
 
-                    navigate("/")
+                    dispatch(setMemberId(response.data.data.member_id));
+
+
+                    navigate("/home")
                     break; // exit the loop if the API call was successful
                 }
             } catch (error) {
@@ -77,9 +99,9 @@ const Login = () => {
     }
 
     return (
-        <div className="grid grid-cols-2 p-8 h-screen">
+        <div className="relative md:grid grid-cols-2 p-8 h-screen sm:flex justify-center overflow-hidden">
             {/* left div */}
-            <div className="p-20 flex items-center ">
+            <div className={`${isMobile ? 'p-[2%]' : 'p-[10%]'} flex items-center z-10 `}>
                 <div>
                     <div className="pb-12">
                         <H1>
@@ -145,13 +167,12 @@ const Login = () => {
             </div>
 
             {/* right div */}
-            <div>
+            <div className={`${isMobile ? 'absolute sm:w-screen sm:h-[90%] sm:top-[-30%]' : ''} `}>
                 <Canvas camera={{ position: [0.0, 0.0, 8.0] }}>
                     <Blob />
                 </Canvas>
             </div>
         </div>
-
     )
 }
 export default Login

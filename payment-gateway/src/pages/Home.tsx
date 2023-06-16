@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react"
-import { H3 } from "../components/styles/Typography.styled"
+import { H1, H3 } from "../components/styles/Typography.styled"
 import { getEndpoint } from "../utils/Utils"
 import axios from "axios";
 import { toast } from "react-toastify";
-import { div } from "three/examples/jsm/nodes/Nodes.js";
 import ItemBox from "../components/ItemBox";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import COIN_ICON from '../assets/coin_icon.png'
 
 type Items = {
     id: number;
@@ -17,9 +20,27 @@ type Items = {
 }
 
 const Home = () => {
-    // check for any token in local storage
-    // if no token, redirect to login
-    // if token, redirect to home
+    const navigate = useNavigate();
+
+    const memberId = useSelector((state: RootState) => state.user.member_id);
+
+
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isTablet, setIsTablet] = useState(window.innerWidth < 1024);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+            setIsTablet(window.innerWidth < 1024);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const token = localStorage.getItem("token")
     useEffect(() => {
@@ -34,7 +55,7 @@ const Home = () => {
 
 
     const [itemList, setItemList] = useState<Items[]>([]);
-
+    const [balance, setBalance] = useState(0);
 
     const getRechargeItemList = async () => {
         console.log("REST_FetchMachineList");
@@ -58,8 +79,7 @@ const Home = () => {
                     break; // Exit the loop if the API call was successful
                 }
             } catch (error) {
-                console.error('Error:', error);
-                toast.error("Error occurred during API call.");
+                toast.error("an Error occurred.");
             }
 
             retryCount++;
@@ -71,26 +91,126 @@ const Home = () => {
         }
 
         if (retryCount === MAX_RETRY_ATTEMPTS) {
-            console.log(`Maximum retry attempts (${MAX_RETRY_ATTEMPTS}) exceeded.`);
-            toast.error("Maximum retry attempts exceeded. Login Failed");
+            toast.error("Please try again later.");
+            navigate("/");
         }
     };
 
+    const getUserDetails = async () => {
+        console.log("REST_FetchMachineList");
+        const MAX_RETRY_ATTEMPTS = 3;
+        let retryCount = 0;
+
+        while (retryCount < MAX_RETRY_ATTEMPTS) {
+            try {
+                const URI = `${getEndpoint()}/recharge/v1/item`;
+
+                const response = await axios.get(URI, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                console.log(response);
+                if (response.data && response.data.data) {
+                    console.log(response.data.data);
+                    setItemList(response.data.data);
+                    break; // Exit the loop if the API call was successful
+                }
+            } catch (error) {
+                toast.error("an Error occurred.");
+            }
+
+            retryCount++;
+            console.log(`Retrying API call (attempt ${retryCount})...`);
+
+            if (retryCount > 0) {
+                await new Promise((resolve) => setTimeout(resolve, 1500)); // Wait for 1 second before retrying
+            }
+        }
+
+        if (retryCount === MAX_RETRY_ATTEMPTS) {
+            toast.error("Please try again later.");
+            navigate("/");
+        }
+    };
+
+    const getUserBalance = async () => {
+        if (memberId) {
+            console.log("REST_FetchMachineList");
+            const MAX_RETRY_ATTEMPTS = 3;
+            let retryCount = 0;
+
+            while (retryCount < MAX_RETRY_ATTEMPTS) {
+                try {
+                    const URI = `${getEndpoint()}/member/${memberId}/v1/balance`;
+
+                    const response = await axios.get(URI, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+                    console.log(response);
+                    if (response.data && response.data.data) {
+                        console.log("BALANCE RESPONSE: ")
+                        console.log(response.data.data);
+                        setBalance(response.data.data.balance);
+                        break; // Exit the loop if the API call was successful
+                    }
+                } catch (error) {
+                    toast.error("an Error occurred.");
+                }
+
+                retryCount++;
+                console.log(`Retrying API call (attempt ${retryCount})...`);
+
+                if (retryCount > 0) {
+                    await new Promise((resolve) => setTimeout(resolve, 1500)); // Wait for 1 second before retrying
+                }
+            }
+
+            if (retryCount === MAX_RETRY_ATTEMPTS) {
+                toast.error("Please try again later.");
+                navigate("/");
+            }
+        }
+    };
+
+
+
+
     useEffect(() => {
         getRechargeItemList();
+        getUserDetails();
+        getUserBalance();;
     }, []);
 
 
     return (
         <div>
-            <div className="grid grid-cols-2 p-8">
-                <div className="p-20">
+            <div className="">
+                <div className="p-[8%]">
                     <div className="pb-12">
-                        <H3>
-                            Hi there,<br /> John Doe
-                        </H3>
+
+                        <div className='absolute top-3 right-2 font-bold text-xl flex items-center justify-center'>
+                            <H3>
+                                Balance: {balance}
+                            </H3>
+                            <img src={COIN_ICON} alt="" className='h-[24px] flex-shrink-0 object-contain' />
+                        </div>
+
                     </div>
-                    <div>
+                    <div className={`${isMobile ? 'py-12' : 'pb-12'}`}>
+                        <H1>
+                            Recharge
+                        </H1>
+                        <p className="mt-2">
+                            Purchase special packs to claim great value and precious rewards
+                        </p>
+                    </div>
+
+                    <div className={`${isMobile ? 'flex flex-col' : (isTablet ? 'grid grid-cols-2' : 'grid grid-cols-4')} gap-4`}>
                         {itemList.map((item) => (
                             <ItemBox key={item.id} {...item} />
                         ))}
