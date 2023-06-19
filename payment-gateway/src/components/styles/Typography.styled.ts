@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const H1 = styled.h1`
     font-size: 3.5rem;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.2;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
@@ -12,6 +12,7 @@ export const H1 = styled.h1`
 
 export const H2 = styled.h2`
     font-size: 2rem;
+    font-weight: 700;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
         font-size: 10vw;
@@ -19,9 +20,9 @@ export const H2 = styled.h2`
 `
 
 export const H3 = styled.h3`
-    font-size: 1.4rem;
+    font-size: 1.3rem;
 
     @media(max-width: ${({ theme }) => theme.mobile}) {
-        font-size: 7vw;
+        font-size: 6vw;
     }
 `

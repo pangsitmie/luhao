@@ -21,7 +21,7 @@ function App() {
               <Route path="/home" element={<Home />} />
             </Routes>
           </Router>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </ThemeProvider>
 

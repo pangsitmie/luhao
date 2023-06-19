@@ -5,13 +5,14 @@ import { getEndpoint, getImageUrl } from '../utils/Utils'
 import axios from 'axios'
 import COIN_ICON from '../assets/coin_icon.png'
 import { H2, H3 } from './styles/Typography.styled'
+import { RiCopperCoinFill } from 'react-icons/ri'
 
 
 const StyledItemBox = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-    border-radius: 12px;
+    border-radius: 25px;
     box-shadow: 0px 0px 10px rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.3);
     cursor: pointer;
@@ -26,7 +27,7 @@ const StyledItemBox = styled.div`
 
 const StyledImage = styled.img`
     object-fit: cover;
-    padding: 20% 12% 12% 12%;
+    padding: 25% 12% 12% 12%;
 `
 
 
@@ -88,14 +89,14 @@ const handleClick = (item_id: number) => {
     createOrder(item_id);
 }
 
-const ItemBox: React.FC<Item> = ({ id, name, amount, coin, describe, image_filename }) => {
+const RechargeItem: React.FC<Item> = ({ id, name, amount, coin, describe, image_filename }) => {
     return (
         <StyledItemBox
             onClick={() => handleClick(id)}
         >
-            <div className='absolute top-3 right-2 font-bold text-xl flex items-center justify-center'>
+            <div className='absolute top-3 right-4 font-bold text-xl flex items-center justify-center gap-1'>
                 {coin}
-                <img src={COIN_ICON} alt="" className='h-[24px] flex-shrink-0 object-contain' />
+                <RiCopperCoinFill className="text-xl text-white" />
             </div>
             <StyledImage
                 src={getImageUrl(image_filename)}
@@ -112,7 +113,7 @@ const ItemBox: React.FC<Item> = ({ id, name, amount, coin, describe, image_filen
     )
 }
 
-export default ItemBox
+export default RechargeItem
 
 // {
 //     "merchant_id": "MS348991020",

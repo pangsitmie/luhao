@@ -10,7 +10,7 @@ module.exports = {
         "white": "#FFF",
         "black": "#111",
         "background": "#111",
-        "primary-100": "#61F8D4",
+        "primary-100": "#7CE978",
         "primary-300": "#EEEEEE",
         "secondary-100": "#1B1B1B",
         "secondary-300": "#FFC132",
@@ -18,11 +18,6 @@ module.exports = {
       borderRadius: {
         'circle': '50%',
       },
-      // backgroundImage: (theme) => ({
-      //   "gradient-yellowred":
-      //     "linear-gradient(90deg, #FF616A 0%, #FFC837 100%)",
-      //   "mobile-home": "url('./assets/HomePageGraphic.png')",
-      // }),
       fontFamily: {
         dmsans: ["DM Sans", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
