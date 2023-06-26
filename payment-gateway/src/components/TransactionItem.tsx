@@ -1,34 +1,10 @@
 import React from 'react'
 import { Item } from '../types/Item.types'
-import styled from 'styled-components'
 
-import { H2, H3 } from './styles/Typography.styled'
+import { H3 } from './styles/Typography.styled'
 import { RiCopperCoinFill } from 'react-icons/ri'
 import { formatTimestamp } from '../utils/Utils'
 
-
-const StyledItemBox = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    box-shadow: 0px 0px 10px rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-    cursor: pointer;
-    transition: all 0.5s ease-in-out;
-
-    &:hover {
-        border: 1px solid rgba(255,255,255,0.5);
-        box-shadow: 0px 0px 10px rgba(255,255,255,0.5);
-        scale: 1.05;
-    }
-`
-
-
-
-const handleClick = (item_id: number) => {
-    console.log("item Id: ", item_id);
-}
 
 type Props = {
     createdAt: string,

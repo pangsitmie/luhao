@@ -1,7 +1,5 @@
 import { ThemeProvider } from "styled-components";
 import { theme } from "./Theme";
-
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -21,7 +19,7 @@ function App() {
               <Route path="/home" element={<Home />} />
             </Routes>
           </Router>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </ThemeProvider>
 

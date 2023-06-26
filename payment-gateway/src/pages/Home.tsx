@@ -100,44 +100,44 @@ const Home = () => {
         }
     };
 
-    const getUserDetails = async () => {
-        console.log("REST_FetchMachineList");
-        const MAX_RETRY_ATTEMPTS = 3;
-        let retryCount = 0;
+    // const getUserDetails = async () => {
+    //     console.log("REST_FetchMachineList");
+    //     const MAX_RETRY_ATTEMPTS = 3;
+    //     let retryCount = 0;
 
-        while (retryCount < MAX_RETRY_ATTEMPTS) {
-            try {
-                const URI = `${getEndpoint()}/recharge/v1/item`;
+    //     while (retryCount < MAX_RETRY_ATTEMPTS) {
+    //         try {
+    //             const URI = `${getEndpoint()}/recharge/v1/item`;
 
-                const response = await axios.get(URI, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                        "Content-Type": "application/json",
-                    },
-                });
-                console.log(response);
-                if (response.data && response.data.data) {
-                    console.log(response.data.data);
-                    setItemList(response.data.data);
-                    break; // Exit the loop if the API call was successful
-                }
-            } catch (error) {
-                toast.error("an Error occurred.");
-            }
+    //             const response = await axios.get(URI, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //                     "Content-Type": "application/json",
+    //                 },
+    //             });
+    //             console.log(response);
+    //             if (response.data && response.data.data) {
+    //                 console.log(response.data.data);
+    //                 setItemList(response.data.data);
+    //                 break; // Exit the loop if the API call was successful
+    //             }
+    //         } catch (error) {
+    //             toast.error("an Error occurred.");
+    //         }
 
-            retryCount++;
-            console.log(`Retrying API call (attempt ${retryCount})...`);
+    //         retryCount++;
+    //         console.log(`Retrying API call (attempt ${retryCount})...`);
 
-            if (retryCount > 0) {
-                await new Promise((resolve) => setTimeout(resolve, 1500)); // Wait for 1 second before retrying
-            }
-        }
+    //         if (retryCount > 0) {
+    //             await new Promise((resolve) => setTimeout(resolve, 1500)); // Wait for 1 second before retrying
+    //         }
+    //     }
 
-        if (retryCount === MAX_RETRY_ATTEMPTS) {
-            toast.error("Please try again later.");
-            navigate("/");
-        }
-    };
+    //     if (retryCount === MAX_RETRY_ATTEMPTS) {
+    //         toast.error("Please try again later.");
+    //         navigate("/");
+    //     }
+    // };
 
     const getUserBalance = async () => {
         if (memberId) {
